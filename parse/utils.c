@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 11:34:57 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/04 11:59:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,16 @@ char	*filter_args_helper(char *str)
 char	**args_filter(char *str)
 {
 	char	*args;
+	char	**tabs;
 
 	args = check_args(str);
 	if (args)
 		args = filter_args_helper(args);
 	else
-		args = str;
-	return (ft_split(args, ' '));
-	return (NULL);
+		args = ft_strdup(str);
+	tabs = ft_split(args, ' ');
+	free(args);
+	if (!tabs)
+		return (NULL);
+	return (tabs);
 }
