@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 11:44:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:02:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,18 @@ void	print_token_list(t_lexer *head)
 	}
 }
 
+void	ft_free(char **tabs)
+{
+	int	index;
+
+	index = 0;
+	while (tabs[index])
+	{
+		free(tabs[index]);
+		index++;
+	}
+	free(tabs);
+}
 
 t_lexer	*lexer(char *args)
 {
@@ -75,6 +87,7 @@ t_lexer	*lexer(char *args)
 		add_token_to_end(&list, new_node);
 		index++;
 	}
+	ft_free(tabs);
 	return (list);
 }
 
