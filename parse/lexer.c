@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 12:02:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:09:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,4 @@ t_lexer	*lexer(char *args)
 	}
 	ft_free(tabs);
 	return (list);
-}
-
-int	main(int ac, char **av)
-{
-	t_lexer	*list;
-
-	if (ac < 2)
-		return (0);
-	list = lexer(av[1]);
-	print_token_list(list);
-	return (0);
 }
