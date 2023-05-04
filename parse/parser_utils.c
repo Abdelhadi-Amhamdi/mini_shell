@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:27:24 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 16:28:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:37:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,19 @@ int	is_builtin(char *cmd)
 	6) || !ft_strncmp(cmd, "unset", 5) || !ft_strncmp(cmd, "exit", 4))
 		return (1);
 	return (0);
+}
+
+void	print_parser_list(t_parser *list)
+{
+	while (list)
+	{
+		printf("string : %s\n", list->str);
+		printf("path : %s\n", list->path);
+		printf("is_builtin : %s\n", list->is_builtin ? "true" : "false");
+		printf("type : %s\n", (list->type == 0) ? "CMD" \
+		: ((list->type == 1)) ? "UNK" \
+		: ((list->type == 2) ? "TOKEN" : "ARGS"));
+		printf("---------------------------\n");
+		list = list->next;
+	}
 }
