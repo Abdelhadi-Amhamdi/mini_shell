@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 13:59:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:29:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**get_path(char **tabs)
 	while (tabs[index])
 	{
 		if (!ft_strncmp(tabs[index], "PATH=", 5))
-			path = tabs[index];
+			path = tabs[index] + 5;
 		index++;
 	}
 	if (path)
@@ -45,34 +45,14 @@ char	*filter_cmd(char *cmd, char **paths)
 		full_path = ft_strjoin(paths[index], command);
 		if (!full_path)
 			return (NULL);
-		if (access(full_path, F_OK))
+		if (!access(full_path, F_OK | X_OK))
 			return (full_path);
 		index++;
 	}
 	return (NULL);
 }
 
-int	is_builtin(char *cmd)
-{	
-	if (ft_strncmp(cmd, "cd", 2) || ft_strncmp(cmd, "pwd", 3 \
-	|| ft_strncmp(cmd, "echo", 4) || ft_strncmp(cmd, "export",\
-	6)|| ft_strncmp(cmd, "unset", 5 || ft_strncmp(cmd, "exit", 4)))
-		return (1);
-	return (0);
-}
-
-t_type check_type(t_lexer *lexer_item, char *p)
-{
-	if (p)
-		return (CMD);
-	else if (lexer_item->is_token)
-		return (TOKEN);
-	else if(lexer_item->str[0] == '-')
-		return (ARGS);
-	return (UNK);
-}
-
-t_parser	*create_parser_node(t_lexer *l_node, char *path, t_boolean is_b)
+t_parser	*create_parser_node(t_lexer *l_node, char *path, int is_b)
 {
 	t_parser	*new_node;
 
@@ -90,37 +70,39 @@ t_parser	*create_parser_node(t_lexer *l_node, char *path, t_boolean is_b)
 
 void	add_node_to_list(t_parser **list, t_parser *item)
 {
+	t_parser	*tmp;
+
+	tmp = *list;
 	if (!*list)
 		*list = item;
 	else
 	{
-		while((*list)->next)
-			(*list) = (*list)->next;
-		(*list)->next = item;
-		item->prev = (*list);
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = item;
+		item->prev = tmp;
 	}
 }
 
-int	parser(t_lexer *lexer_list, char **envp)
+t_parser	*parser(t_lexer *lexer_list, char **envp)
 {
 	char		**paths;
 	char		*path;
-	t_parser	new_node;
-	t_parser	parser_list;
+	t_parser	*new_node;
+	t_parser	*parser_list;
 	t_boolean	is_built;
 
 	paths = get_path(envp);
-	is_built = false;
-	path = NULL;
 	parser_list = NULL;
+	new_node = NULL;
 	while (lexer_list)
 	{
-		if(lexer_list->is_token)
-		{
+		is_built = false;
+		path = NULL;
+		if (!lexer_list->is_token && (!new_node || new_node->type != 0))
 			path = filter_cmd(lexer_list->str, paths);
-			if (path)
-				is_built = is_builtin(lexer_list->str);	
-		}
+		if (path)
+			is_built = is_builtin(lexer_list->str);
 		new_node = create_parser_node(lexer_list, path, is_built);
 		if (!new_node)
 			return (NULL);
