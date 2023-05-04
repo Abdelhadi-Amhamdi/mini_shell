@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:27:24 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 16:37:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/04 17:03:45 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@ t_type	check_type(t_lexer *lexer_item, char *p)
 {
 	if (p)
 		return (CMD);
+	else if (lexer_item->str[0] == '\'')
+		return (SQ);
+	else if (lexer_item->str[0] == '"')
+		return (DQ);
 	else if (lexer_item->is_token)
 		return (TOKEN);
 	else if (lexer_item->str[0] == '-')
@@ -41,7 +45,7 @@ void	print_parser_list(t_parser *list)
 		printf("is_builtin : %s\n", list->is_builtin ? "true" : "false");
 		printf("type : %s\n", (list->type == 0) ? "CMD" \
 		: ((list->type == 1)) ? "UNK" \
-		: ((list->type == 2) ? "TOKEN" : "ARGS"));
+		: ((list->type == 2) ? "TOKEN" : ((list->type == 3) ? "ARGS" : "Q")));
 		printf("---------------------------\n");
 		list = list->next;
 	}
