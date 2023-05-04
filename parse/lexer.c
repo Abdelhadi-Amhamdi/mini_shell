@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 12:09:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:33:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_lexer	*create_token(char *str, int is_token)
 	if (!new_token)
 		return (NULL);
 	new_token->is_token = is_token;
-	new_token->str = str;
+	new_token->str = ft_strdup(str);
 	new_token->next = NULL;
 	new_token->prev = NULL;
 	return (new_token);
