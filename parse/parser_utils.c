@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:27:24 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 17:03:45 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:22:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	print_parser_list(t_parser *list)
 		printf("is_builtin : %s\n", list->is_builtin ? "true" : "false");
 		printf("type : %s\n", (list->type == 0) ? "CMD" \
 		: ((list->type == 1)) ? "UNK" \
-		: ((list->type == 2) ? "TOKEN" : ((list->type == 3) ? "ARGS" : "Q")));
+		: ((list->type == 2) ? "TOKEN" : ((list->type == 3) ? "ARGS" \
+		: ((list->type == 4) ? "VAR" : "Q"))));
 		printf("---------------------------\n");
 		list = list->next;
 	}
