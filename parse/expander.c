@@ -6,27 +6,27 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/05 13:21:21 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:19:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../includes/mini_shell.h"
 
-char	*expand(char *var, char **envp)
+char	*expand(char *var, t_env *envp)
 {
 	int	index;
 
 	index = 0;
-	while (envp[index])
+	while (envp)
 	{
-		if (!ft_strncmp(var, envp[index], ft_strlen(var)))
-			return ((envp[index] + (ft_strlen(var) + 1)));
-		index++;
+		if (!ft_strncmp(var, envp->key, ft_strlen(var)))
+			return (envp->value);
+		envp = envp->next;
 	}
 	return (NULL);
 }
 
-void	ft_expander(t_parser *list, char **envp)
+void	ft_expander(t_parser *list, t_env *envp)
 {
 	t_parser	*tmp;
 	char		*val;
