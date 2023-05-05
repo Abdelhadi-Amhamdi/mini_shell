@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 13:42:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:21:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 
 typedef enum s_boolean {false,true}	t_boolean;
-typedef enum s_type {CMD,UNK,TOKEN,ARGS}	t_type;
+typedef enum s_type {CMD,UNK,TOKEN,ARGS,VAR,SQ,DQ}	t_type;
 
 typedef struct s_lexer
 {
@@ -29,8 +29,8 @@ typedef struct s_lexer
 
 typedef struct s_parser
 {
-	char			**str;
-	char			*type;
+	char			*str;
+	t_type			type;
 	char			*path;
 	t_boolean		is_builtin;
 	struct s_parser	*next;
@@ -38,11 +38,19 @@ typedef struct s_parser
 }	t_parser;
 
 // lexer functions
-char	**args_filter(char *str);
-int		is_token(char c);
+t_lexer		*lexer(char *args);
+char		**args_filter(char *str);
+int			is_token(char c);
 
 
 // parser functions
-void	parser(t_lexer *lexer_list, char **envp);
+t_parser	*parser(t_lexer *list, char **envp);
+int			is_builtin(char *cmd);
+t_type		check_type(t_lexer *lexer_item, char *p);
+void		print_parser_list(t_parser *list);
+
+
+// expander function
+void	ft_expander(t_parser *list, char **envp);
 
 #endif
