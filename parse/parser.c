@@ -6,24 +6,22 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 16:29:53 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:22:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../includes/mini_shell.h"
 
-char	**get_path(char **tabs)
+char	**get_path(t_env *env)
 {
-	int		index;
 	char	*path;
 
-	index = 0;
 	path = NULL;
-	while (tabs[index])
+	while (env)
 	{
-		if (!ft_strncmp(tabs[index], "PATH=", 5))
-			path = tabs[index] + 5;
-		index++;
+		if (!ft_strncmp(env->key, "PATH", 4))
+			path = env->value;
+		env = env->next;
 	}
 	if (path)
 		return (ft_split(path, ':'));
@@ -84,7 +82,7 @@ void	add_node_to_list(t_parser **list, t_parser *item)
 	}
 }
 
-t_parser	*parser(t_lexer *lexer_list, char **envp)
+t_parser	*parser(t_lexer *lexer_list, t_env *envp)
 {
 	char		**paths;
 	char		*path;
