@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/05 13:21:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:58:47 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 
 typedef enum s_boolean {false,true}	t_boolean;
-typedef enum s_type {CMD,UNK,TOKEN,ARGS,VAR,SQ,DQ}	t_type;
+typedef enum s_type {CMD,UNK,TOKEN,ARGS,VAR,FL,SQ,DQ}	t_type;
 
 typedef struct s_lexer
 {
