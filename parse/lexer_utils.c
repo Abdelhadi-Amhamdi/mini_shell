@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/04 16:58:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/07 15:29:27 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,14 @@
 int	is_token(char c)
 {
 	if (c == '|' || c == '<' || c == '>' \
-	|| c == '$' || c  == '\'' || c == '"')
+	|| c  == '\'' || c == '"')
+		return (1);
+	return (0);
+}
+
+int	is_special_tokens(char c)
+{
+	if (c == '<' || c == '>' || c == '|')
 		return (1);
 	return (0);
 }
@@ -27,9 +34,11 @@ char	*check_args(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (is_token(str[i]) && ((str[i - 1] != ' ' \
-		&& !is_token(str[i - 1])) || (str[i + 1] \
-		!= ' ' && !is_token(str[i + 1]) && str[i + 1] != '\0')))
+		if ((is_token(str[i]) && str[i - 1] != ' ') \
+		&& !is_special_tokens(str[i - 1]))
+			return (str);
+		if ((is_token(str[i]) && str[i + 1] != ' ') \
+		&& !is_special_tokens(str[i + 1]))
 			return (str);
 		i++;
 	}
@@ -46,10 +55,10 @@ size_t	count_new_args_size(char *str)
 	while (str[index])
 	{
 		if (is_token(str[index]) && str[index + 1] != ' ' \
-		&& !is_token(str[index + 1]))
+		&& (!is_special_tokens(str[index + 1])))
 			count++;
 		if (is_token(str[index]) && str[index - 1] != ' ' \
-		&& !is_token(str[index - 1]))
+		&& (!is_token(str[index - 1])))
 			count++;
 		index++;
 		count++;
@@ -72,10 +81,12 @@ char	*filter_args_helper(char *str)
 		return (NULL);
 	while (str[++i])
 	{
-		if (is_token(str[i]) && str[i - 1] != ' ' && !is_token(str[i - 1]))
+		if (is_token(str[i]) && str[i - 1] != ' ' \
+		&& (!is_token(str[i - 1])))
 			new_str[j++] = ' ';
 		new_str[j++] = str[i];
-		if (is_token(str[i]) && str[i + 1] != ' ' && !is_token(str[i + 1]))
+		if (is_token(str[i]) && str[i + 1] != ' ' \
+		&& (!is_special_tokens(str[i + 1])))
 			new_str[j++] = ' ';
 	}
 	new_str[j] = '\0';
