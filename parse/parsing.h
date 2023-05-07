@@ -6,14 +6,14 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 14:38:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:15:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef PARSING_H
 # define PARSING_H
-# include "../libft/libft.h"
+# include "../libs/libft/libft.h"
 # include "../env/env.h"
 
 
