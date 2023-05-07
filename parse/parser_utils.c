@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:27:24 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/05 15:00:54 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/07 15:42:59 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_type	check_type(t_lexer *lexer_item, char *p)
 		return (ARGS);
 	else if (is_file(lexer_item->str))
 		return (FL);
+	else if (lexer_item->str[0] == '$')
+		return (VAR);
 	return (UNK);
 }
 
