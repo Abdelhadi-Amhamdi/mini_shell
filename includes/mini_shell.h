@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 16:15:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:12:47 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../builtins/builtins.h"
 # include "../env/env.h"
 # include "../libs/libft/libft.h"
-# include "../libs/ft_printf/ft_printf.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
