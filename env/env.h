@@ -6,13 +6,13 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:20:59 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/05 16:38:15 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/07 16:15:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-# include "../libft/libft.h"
+# include "../libs/libft/libft.h"
 
 typedef struct s_env
 {
