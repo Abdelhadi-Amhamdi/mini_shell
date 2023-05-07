@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/15 13:25:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/06 16:18:55 by aamhamdi         ###   ########.fr       */
+/*   Created: 2023/05/06 16:06:14 by aamhamdi          #+#    #+#             */
+/*   Updated: 2023/05/06 16:44:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/mini_shell.h"
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-void	ft_pwd(void)
-{
-	char	*path;
+void	ft_cd(t_env *env, t_parser *path);
+void	ft_echo(t_parser *node);
+void	ft_env(t_env *env);
+void	ft_unset(char *var_name, t_env **env);
+void	ft_export(char *new_variable, t_env *env);
+void	ft_pwd(void);
 
-	// get the current working directory and print it in stdout
-	path = getcwd(NULL, 0);
-	ft_putendl_fd(path, 1);
-}
+#endif
