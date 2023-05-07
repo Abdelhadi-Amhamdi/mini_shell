@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:16:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/05 22:17:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:04:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@ int main(int ac, char **av, char **envp)
 	{
 		cmd = NULL;
 		cmd = print_prompt();
-		parser_list = formater(cmd, env_list);
-		// print_parser_list(parser_list);
-		executer(parser_list);
+		if (cmd && *cmd)
+		{
+			parser_list = formater(cmd, env_list);
+			// print_parser_list(parser_list);
+			executer(parser_list, env_list);
+			add_history(cmd);
+		}
 	}
 	return (0);
 }
