@@ -3,26 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:03 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/03/15 13:29:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/07 18:29:13 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/mini_shell.h"
 
-void	ft_env(t_list *env)
+void	ft_env(t_env *env)
 {
-	t_list	*tmp;
-	char	*content;
+	t_env	*tmp;
 
 	tmp = env;
 	// print envirenment variables in stdout
 	while (tmp)
 	{
-		content = (char *)(tmp->content);
-		ft_putendl_fd(content, 1);
+		printf("%s=%s\n",tmp->key,tmp->value);
 		tmp = tmp->next;
 	}
 }

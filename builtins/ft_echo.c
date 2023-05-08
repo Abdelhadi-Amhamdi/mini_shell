@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:22:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 13:07:32 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:00:17 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,32 +23,35 @@ t_boolean	check_new_line(t_parser *node)
 
 void	ft_echo(t_parser *node)
 {
-	char	q;
 	t_boolean new_line;
+	char	q;
 
 	q = '\0';
 	new_line = check_new_line(node);
-	if (!node)
+	while(node)
 	{
-		ft_putchar_fd('\n', 1);
-		return ;
-	}
-	if (node->type == SQ || node->type == DQ)
-		q = node->str[0];
-	if (q)
-	{
+		if(node->str && node->type != SQ && node->type != DQ && node->type != ARGS)
+			printf("%s ",node->str);
+		// else if(node->type == SQ)
+		// 	printf("%s ",node->str);
 		node = node->next;
-		while (node->type != TOKEN)
-		{
-			if (node->type != ARGS)
-				ft_putstr_fd(node->str, 1);
-			else if (!ft_strncmp(node->str, "-n", 2))
-				new_line = false;
-			node = node->next;
-		}
 	}
-	else
-		ft_putstr_fd(node->str, 1);
-	if (new_line)
-		ft_putendl_fd("", 1);
+	if(new_line)
+		printf("\n");
+	// if (q)
+	// {
+	// 	node = node->next;
+	// 	while (node->type != TOKEN &&)
+	// 	{
+	// 		if (node->type != ARGS)
+	// 			ft_putstr_fd(node->str, 1);
+	// 		else if (!ft_strncmp(node->str, "-n", 2))
+	// 			new_line = false;
+	// 		node = node->next;
+	// 	}
+	// }
+	// else
+	// 	ft_putstr_fd(node->str, 1);
+	// if (new_line)
+	// 	ft_putendl_fd("", 1);
 }
