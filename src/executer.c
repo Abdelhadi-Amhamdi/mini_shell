@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:55:24 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 16:53:27 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:28:41 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ void	exec_builtins(t_parser *cmd, t_env *env)
 		ft_cd(env, cmd->next);
 	else if (!ft_strncmp(cmd->str, "echo", 4))
 		ft_echo(cmd->next);
+	else if (!ft_strncmp(cmd->str, "echo", 4))
+		ft_echo(cmd->next);
+	else if (!ft_strncmp(cmd->str, "env", 3))
+		ft_env(env);
 }
 
 int ft_calc(t_parser *list)
