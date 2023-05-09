@@ -9,9 +9,9 @@ env_path = env/
 
 header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c
-env_src = v_main.c utils.c
+env_src = env_main.c utils_env.c
 src = main.c executer.c
-b_src = ft_pwd.c ft_cd.c ft_echo.c
+b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c
 
 p_srcs = $(addprefix $(parsing_path), $(p_src))
 env_srcs = $(addprefix $(env_path), $(env_src))
