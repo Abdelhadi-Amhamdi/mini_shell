@@ -40,7 +40,7 @@ int	is_var(t_lexer *node)
 
 t_type	check_type(t_lexer *lexer_item, char *p)
 {
-	if (p)
+	if (p || is_builtin(lexer_item->str))
 		return (CMD);
 	else if (lexer_item->str[0] == '\'')
 		return (SQ);

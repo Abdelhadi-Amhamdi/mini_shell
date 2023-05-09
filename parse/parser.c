@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/09 17:58:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:23:45 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_parser	*parser(t_lexer *lexer_list, t_env *envp)
 		path = NULL;
 		if (!lexer_list->is_token && (!new_node || new_node->type != 0))
 			path = filter_cmd(lexer_list->str, paths);
-		if (path)
+		if (path || !lexer_list->is_token)
 			is_built = is_builtin(lexer_list->str);
 		new_node = create_parser_node(lexer_list, path, is_built);
 		if (!new_node)
