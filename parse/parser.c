@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/08 18:59:30 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:30:17 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*filter_cmd(char *cmd, char **paths)
 		full_path = ft_strjoin(paths[index], command);
 		if (!full_path)
 			return (NULL);
-		printf("%s\n", full_path);
 		if (!access(full_path, F_OK | X_OK))
 			return (full_path);
 		index++;
