@@ -15,12 +15,6 @@ char	*print_prompt(void)
 	return (readline(p));
 }
 
-void test(int sig)
-{
-	if (sig == SIGINT)
-		puts("\0");
-}
-
 int main(int ac, char **av, char **envp)
 {
 	t_env		*env_list;
@@ -29,8 +23,6 @@ int main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	signal(SIGINT, test);
-	signal(SIGABRT, test);
 	env_list = get_env_vars(envp);
 	while (1)
 	{
@@ -41,7 +33,6 @@ int main(int ac, char **av, char **envp)
 		if (cmd && *cmd)
 		{
 			parser_list = formater(cmd, env_list);
-			// print_parser_list(parser_list);
 			executer(parser_list, env_list);
 			add_history(cmd);
 		}
