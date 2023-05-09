@@ -1,0 +1,5 @@
+
+
+
+# fix echo '$var'
+# fix export type;
