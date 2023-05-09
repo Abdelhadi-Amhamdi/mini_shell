@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:03 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 18:29:13 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:17:33 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_env(t_env *env)
 	t_env	*tmp;
 
 	tmp = env;
-	// print envirenment variables in stdout
 	while (tmp)
 	{
 		printf("%s=%s\n",tmp->key,tmp->value);
