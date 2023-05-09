@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:16:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 18:22:58 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:53:57 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int main(int ac, char **av, char **envp)
 		if (cmd && *cmd)
 		{
 			parser_list = formater(cmd, env_list);
-			// print_parser_list(parser_list);
-			executer(parser_list, env_list);
+			print_parser_list(parser_list);
+			// executer(parser_list, env_list);
 			add_history(cmd);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:55:24 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/08 11:28:41 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:51:02 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ int	parser_helper(t_parser *list)
 		return (printf("Error Qutes not closed!\n"), 1);
 	tmp = list;
 	if (tmp->type != CMD && tmp->type != TOKEN)
+	{
+		printf("%s\n", tmp->type == CMD ? "CMD" : "UNK");
 		return (printf("Error %s : not found\n", tmp->str), 1);
+	}
 	return (0);
 }
 
@@ -49,10 +52,12 @@ void	exec_builtins(t_parser *cmd, t_env *env)
 		ft_cd(env, cmd->next);
 	else if (!ft_strncmp(cmd->str, "echo", 4))
 		ft_echo(cmd->next);
-	else if (!ft_strncmp(cmd->str, "echo", 4))
-		ft_echo(cmd->next);
+	else if (!ft_strncmp(cmd->str, "export", 6))
+		ft_export(cmd->next->str, env);
 	else if (!ft_strncmp(cmd->str, "env", 3))
 		ft_env(env);
+	else if (!ft_strncmp(cmd->str, "unset", 5))
+		ft_unset(cmd->next->str ,&env);
 }
 
 int ft_calc(t_parser *list)
