@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:16:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 17:04:58 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/08 23:08:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ char	*print_prompt(void)
 	return (readline(p));
 }
 
+void test(int sig)
+{
+	if (sig == SIGINT)
+		puts("\0");
+}
+
 int main(int ac, char **av, char **envp)
 {
 	t_env		*env_list;
@@ -34,11 +40,15 @@ int main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	signal(SIGINT, test);
+	signal(SIGABRT, test);
 	env_list = get_env_vars(envp);
 	while (1)
 	{
 		cmd = NULL;
 		cmd = print_prompt();
+		if (!cmd)
+			exit (1);
 		if (cmd && *cmd)
 		{
 			parser_list = formater(cmd, env_list);

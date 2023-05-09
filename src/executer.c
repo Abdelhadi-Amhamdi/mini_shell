@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:55:24 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 16:53:27 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:48:56 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,29 @@ void	exec_cmd(t_parser *list, t_env *env)
 		exec_any(tmp, env);
 }
 
+int	calc_pipes(t_parser *list)
+{
+	t_parser	*tmp;
+	int			count;
+
+	tmp = list;
+	count = 0;
+	while (tmp)
+	{
+		if (tmp->type == TOKEN && tmp->str[0] == '|')
+			count++;
+		tmp = tmp->next;
+	}
+	return (count);
+}
+
 int	executer(t_parser *cmds_list, t_env *env_list)
 {
 	t_parser	*tmp;
+	int			pipes;
 
 	tmp = cmds_list;
+	pipes = calc_pipes(tmp);
 	if (parser_helper(cmds_list))
 		return (1);
 	exec_cmd(tmp, env_list);
