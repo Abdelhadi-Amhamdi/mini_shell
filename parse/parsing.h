@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 16:15:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:46:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_parser	*formater(char *cmd, t_env *envp);
 t_lexer		*lexer(char *args);
 char		**args_filter(char *str);
 int			is_token(char c);
+void		ft_free(char **tabs);
 void		print_token_list(t_lexer *head);
 
 // parser functions

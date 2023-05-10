@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/09 18:23:45 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:49:55 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ char	*filter_cmd(char *cmd, char **paths)
 	{
 		full_path = ft_strjoin(paths[index], command);
 		if (!full_path)
-			return (NULL);
+			return (free (command), NULL);
 		if (!access(full_path, F_OK | X_OK))
-			return (full_path);
+			return (free (command), full_path);
+		free(full_path);
 		index++;
 	}
+	free (command);
 	return (NULL);
 }
 
@@ -107,5 +109,6 @@ t_parser	*parser(t_lexer *lexer_list, t_env *envp)
 		add_node_to_list(&parser_list, new_node);
 		lexer_list = lexer_list->next;
 	}
+	ft_free(paths);
 	return (parser_list);
 }
