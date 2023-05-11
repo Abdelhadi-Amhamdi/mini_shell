@@ -33,8 +33,9 @@ int main(int ac, char **av, char **envp)
 		if (cmd && *cmd)
 		{
 			parser_list = formater(cmd, env_list);
-			executer(parser_list, env_list);
+			executer(parser_list, &env_list);
 			add_history(cmd);
+			free(cmd);
 		}
 	}
 	return (0);

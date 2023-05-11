@@ -33,20 +33,24 @@ int	parser_helper(t_parser *list)
 	return (0);
 }
 
-void	exec_builtins(t_parser *cmd, t_env *env)
+void	exec_builtins(t_parser *cmd, t_env **env)
 {
 	if (!ft_strncmp(cmd->str, "pwd", 3))
 		ft_pwd();
 	else if (!ft_strncmp(cmd->str, "cd", 2))
-		ft_cd(env, cmd->next);
+		ft_cd(*env, cmd->next);
 	else if (!ft_strncmp(cmd->str, "echo", 4))
 		ft_echo(cmd->next);
 	else if (!ft_strncmp(cmd->str, "export", 6))
-		ft_export(cmd->next->str, env);
+	{
+		// puts("export");
+		// print_parser_list(cmd);
+		ft_export(cmd, env);
+	}
 	else if (!ft_strncmp(cmd->str, "env", 3))
-		ft_env(env);
+		ft_env(*env);
 	else if (!ft_strncmp(cmd->str, "unset", 5))
-		ft_unset(cmd->next->str ,&env);
+		*env = ft_unset(cmd->next ,*env);
 }
 
 int ft_calc(t_parser *list)
@@ -116,15 +120,18 @@ void	exec_any(t_parser *args_list, t_env *env_list)
 	
 }
 
-void	exec_cmd(t_parser *list, t_env *env)
+void	exec_cmd(t_parser *list, t_env **env)
 {
 	t_parser	*tmp;
 
 	tmp = list;
 	if (tmp->is_builtin)
+	{
+		// puts("builtins");
 		exec_builtins(tmp, env);
+	}
 	else
-		exec_any(tmp, env);
+		exec_any(tmp, *env);
 }
 
 int	calc_pipes(t_parser *list)
@@ -143,7 +150,7 @@ int	calc_pipes(t_parser *list)
 	return (count);
 }
 
-int	executer(t_parser *cmds_list, t_env *env_list)
+int	executer(t_parser *cmds_list, t_env **env_list)
 {
 	t_parser	*tmp;
 	int			pipes;
@@ -152,6 +159,7 @@ int	executer(t_parser *cmds_list, t_env *env_list)
 	pipes = calc_pipes(tmp);
 	if (parser_helper(cmds_list))
 		return (1);
+	// puts("hooo");
 	exec_cmd(tmp, env_list);
 	return (0);
 }
