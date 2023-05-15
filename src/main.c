@@ -34,6 +34,7 @@ int main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env_list = get_env_vars(envp);
+	// signal(SIGINT,act);
 	while (1)
 	{
 		cmd = NULL;
@@ -46,6 +47,8 @@ int main(int ac, char **av, char **envp)
 			if (parser_list)
 				executer(parser_list, env_list);
 			add_history(cmd);
+			rl_on_new_line();
+			// free(cmd);
 		}
 
 	}

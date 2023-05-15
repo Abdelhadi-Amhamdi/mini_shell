@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/15 11:09:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:20:06 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ void	ft_free_lexer_list(t_lexer *list)
 }
 
 t_tree *create_node(t_parser *node)
+
+
+typedef struct s_tree 
+{
+	char				*str;
+	t_type			type;
+	char				*path;
+	t_boolean		is_builtin;
+	struct s_tree	*left;
+	struct s_tree	*right;
+} t_tree;
+
+t_tree *creat_node(t_parser *item)
 {
 	t_tree *new_node;
 
@@ -41,6 +54,11 @@ t_tree *create_node(t_parser *node)
 		return (NULL);
 	new_node->str = node->str;
 	new_node->type = node->type;
+
+	new_node->str = item->str;
+	new_node->type = item->type;
+	new_node->path = item->path;
+	new_node->is_builtin = item->is_builtin;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	return (new_node);
@@ -60,7 +78,7 @@ t_tree *create_token_node(t_parser *node, t_tree *left, t_tree *right)
 	return (new_node);
 }
 
-t_tree *create_three()
+t_tree *create_tree()
 {
 	t_tree *res = term();
 	t_parser *tmp;
@@ -128,6 +146,8 @@ t_parser	*formater(char *cmd, t_env *envp)
 {
 	t_lexer		*lexer_list;
 	t_tree		*AST;
+	t_parser	*parser_list;
+	t_tree		*my_tree;
 
 	lexer_list = lexer(cmd);
 	AST = NULL;
@@ -135,9 +155,14 @@ t_parser	*formater(char *cmd, t_env *envp)
 	parser_list = parser(lexer_list, envp);
 	// print_parser_list(parser_list);
 	ft_free_lexer_list(lexer_list);
-	AST = create_three();
+	AST = create_tree();
 	printTree(AST);
 	// ft_expander(parser_list, envp);
 	// return (parser_list);
 	return (NULL);
+	
+	// ft_expander(parser_list, envp);
+	// my_tree = create_tree(parser_list);
+	
+	// return (parser_list);
 }

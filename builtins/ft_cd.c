@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/15 13:21:50 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/08 14:56:31 by aagouzou         ###   ########.fr       */
+/*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
+/*   Updated: 2023/05/12 11:44:08 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,16 @@ void	ft_cd(t_env *env, t_parser *path)
 	home = ft_search_env(env, "HOME");
 	oldpwd = ft_search_env(env, "OLDPWD");
 	pwd = ft_search_env(env, "PWD");
-	oldpwd->value = getcwd(NULL, 0);
-	if (!home || !oldpwd)
+	if (!home)
 		return ;
+	if (!oldpwd)
+	{
+		oldpwd = ft_new_node("OLDPWD", getcwd(NULL, 0));
+		if(oldpwd)
+			ft_add_back_env(&env, oldpwd);
+	}
+	else
+		oldpwd->value = getcwd(NULL, 0);
 	if (!path)
 		chdir(home->value);
 	else
@@ -54,4 +61,5 @@ void	ft_cd(t_env *env, t_parser *path)
 			perror("cd");
 	}
 	pwd->value = getcwd(NULL, 0);
+	
 }
