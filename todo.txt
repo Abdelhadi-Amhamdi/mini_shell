@@ -7,3 +7,5 @@
     - fix echo "'hello'" cat file
     - [fixed] echo "'$HOME'"
 # [fixed] fix export type;
+
+-  "l"s

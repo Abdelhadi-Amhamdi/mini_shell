@@ -3,16 +3,26 @@
 
 char	*print_prompt(void)
 {
-	char	*p;
+	char	*path;
+	char	*data;
 	int		i;
 
-	p = getcwd(NULL, 0);
-    i = ft_strlen(p) - 1;
-	while (i > 0 && p[i] && p[i - 1] != '/')
+	path = getcwd(NULL, 0);
+    i = ft_strlen(path) - 1;
+	while (i > 0 && path[i] && path[i - 1] != '/')
         i--;
-	p = ft_strjoin("\033[0;36m\e[1m",p + i);
-	p = ft_strjoin(p, " $: \e[m\033[0m");
-	return (readline(p));
+	data = ft_strjoin("\033[0;36m\e[1m",path + i);
+	free (path);
+	path = NULL;
+	path = ft_strjoin(data, " $: \e[m\033[0m");
+	free (data);
+	data = NULL;
+	data = readline(path);
+	// puts("hhh");
+	// printf("%s\n", data);
+	free (path);
+	path = NULL;
+	return (data);
 }
 
 int main(int ac, char **av, char **envp)
@@ -33,9 +43,11 @@ int main(int ac, char **av, char **envp)
 		if (cmd && *cmd)
 		{
 			parser_list = formater(cmd, env_list);
-			executer(parser_list, env_list);
+			if (parser_list)
+				executer(parser_list, env_list);
 			add_history(cmd);
 		}
+
 	}
 	return (0);
 }

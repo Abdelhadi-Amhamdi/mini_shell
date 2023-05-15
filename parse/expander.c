@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/07 15:46:27 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/11 20:39:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*expand(char *var, t_env *envp)
 	index = 0;
 	while (envp)
 	{
-		if (!ft_strncmp(var, envp->key, ft_strlen(var)))
+		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key)))// && ft_strlen(envp->key) == ft_strlen(var)
 			return (envp->value);
 		envp = envp->next;
 	}
