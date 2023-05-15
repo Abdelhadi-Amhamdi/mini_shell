@@ -12,7 +12,13 @@ char	*print_prompt(void)
         i--;
 	p = ft_strjoin("\033[0;36m\e[1m",p + i);
 	p = ft_strjoin(p, " $: \e[m\033[0m");
-	return (readline(p));
+	return (readline(p));	
+}
+
+void act(int signum) 
+{
+	if(signum == SIGINT)
+		print_prompt();
 }
 
 int main(int ac, char **av, char **envp)
@@ -24,6 +30,7 @@ int main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env_list = get_env_vars(envp);
+	// signal(SIGINT,act);
 	while (1)
 	{
 		cmd = NULL;
@@ -35,7 +42,8 @@ int main(int ac, char **av, char **envp)
 			parser_list = formater(cmd, env_list);
 			executer(parser_list, &env_list);
 			add_history(cmd);
-			free(cmd);
+			rl_on_new_line();
+			// free(cmd);
 		}
 	}
 	return (0);

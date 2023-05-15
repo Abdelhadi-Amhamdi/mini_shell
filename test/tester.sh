@@ -1,7 +1,7 @@
 #! /bin/bash
 
-cd ~/Desktop/ds/tree/mini
-if [ -f ~/Desktop/ds/tree/mini/app ]; then
+cd /Users/aagouzou/Desktop/minishell
+if [ -f /Users/aagouzou/Desktop/minishell ]; then
     echo "app founded"
 else
     make

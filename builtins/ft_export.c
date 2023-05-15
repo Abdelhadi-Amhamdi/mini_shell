@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/11 10:48:46 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:56:42 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	print_export(t_env	*env)
 {
 	t_env *cur;
 	t_env *tmp;
-	char *tmp_;
+	char *key;
+	char *value;
 
 	cur = env;
 	while(cur)
@@ -53,26 +54,26 @@ void	print_export(t_env	*env)
 		tmp = cur->next;
 		while(tmp)
 		{
-			if(tmp->key[0] > cur->key[0])
+			if(tmp->key[0] < cur->key[0])
 			{
-				printf("%d %d\n",tmp->key[0],cur->key[0]);
-				tmp_ = tmp->key;
+				key = tmp->key;
+				value = tmp->value;
 				tmp->key = cur->key;
-				cur->key = tmp->key;
+				tmp->value = cur->value;
+				cur->key = key;
+				cur->value = value;
 			}
 			tmp = tmp->next;
 		}
 		cur = cur->next;
 	}
-	while(env)
+	while(env->next)
 	{
-		printf("%s\n",env->key);
+		printf("declare -x %s=\"%s\"\n",env->key, env->value);
 		env = env->next;
 	}
 
 }
-
-
 int check_spaces(char *str)
 {
 	int i;

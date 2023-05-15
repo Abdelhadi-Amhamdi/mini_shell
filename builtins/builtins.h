@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:06:14 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/11 11:04:42 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:17:36 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,7 @@ void	ft_env(t_env *env);
 t_env	*ft_unset(t_parser *node, t_env *env);
 void	ft_export(t_parser *full_cmd, t_env **env);
 void	ft_pwd(void);
+void	ft_exit(void);
+
 
 #endif
