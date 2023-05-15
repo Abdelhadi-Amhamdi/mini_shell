@@ -2,4 +2,15 @@
 
 
 # fix echo '$var'
-# fix export type;
+    - fix echo 'a'$HOME
+    - fix echo "'$HOME'"
+    - fix echo "'hello'" cat file
+    - [fixed] echo "'$HOME'"
+# [fixed] fix export type;
+
+//abdellah
+#Errors
+	-argument should come after the commands directly and anything came after should be counted as UNK
+	ex: echo hello -hello
+	output ==> hello
+	expected ==> hello -hello

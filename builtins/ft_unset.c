@@ -3,38 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/15 13:26:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/08 18:48:45 by aagouzou         ###   ########.fr       */
+/*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
+/*   Updated: 2023/05/15 14:18:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../includes/mini_shell.h"
 
-void	ft_unset(char *var_name, t_env **env)
+t_env	*env_search(t_parser	*node, t_env	*env)
 {
-	(void	)env;
-	printf("%s\n",var_name);
-	// t_list	*tmp;
-	// t_list	*prev;
+	while(env)
+	{
+		if(!ft_strncmp(node->str, env->key, ft_strlen(node->str) + 1))
+			return(env);
+		env = env->next;
+	}
+	return (NULL);
+}
 
-	// tmp = *env;
-	// prev = NULL;
-	// // search for the given variable and delete it from the env list
-	// while (tmp)
-	// {
-	// 	if (!ft_strncmp(var_name, tmp->content, ft_strlen(var_name)))
-	// 	{
-	// 		if (!prev)
-	// 			*env = tmp->next;
-	// 		else
-	// 			prev->next = tmp->next;
-	// 		tmp->content = NULL;
-	// 		free(tmp);
-	// 		return ;
-	// 	}
-	// 	prev = tmp;
-	// 	tmp = tmp->next;
-	// }
+t_env	*ft_unset(t_parser	*node, t_env *env)
+{
+	t_env	*cur;
+	t_env	*prev;
+	
+	if(!node)
+		return env;
+	
+	cur = env_search(node, env);
+	if(!cur)
+		return env;
+	prev = cur->prev;
+	if(!prev)
+	{
+		env = cur->next;
+		env->prev = NULL;
+		free(cur);
+		return (env);
+	}
+	prev->next = cur->next;
+	free(cur);
+	return (env);
 }

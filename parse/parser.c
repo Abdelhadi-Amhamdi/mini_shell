@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/09 13:30:17 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:49:55 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ char	*filter_cmd(char *cmd, char **paths)
 	{
 		full_path = ft_strjoin(paths[index], command);
 		if (!full_path)
-			return (NULL);
+			return (free (command), NULL);
 		if (!access(full_path, F_OK | X_OK))
-			return (full_path);
+			return (free (command), full_path);
+		free(full_path);
 		index++;
 	}
+	free (command);
 	return (NULL);
 }
 
@@ -98,11 +100,8 @@ t_parser	*parser(t_lexer *lexer_list, t_env *envp)
 		is_built = false;
 		path = NULL;
 		if (!lexer_list->is_token && (!new_node || new_node->type != 0))
-		{
 			path = filter_cmd(lexer_list->str, paths);
-			// printf("%s\n", path);
-		}
-		if (path)
+		if (path || !lexer_list->is_token)
 			is_built = is_builtin(lexer_list->str);
 		new_node = create_parser_node(lexer_list, path, is_built);
 		if (!new_node)
@@ -110,5 +109,6 @@ t_parser	*parser(t_lexer *lexer_list, t_env *envp)
 		add_node_to_list(&parser_list, new_node);
 		lexer_list = lexer_list->next;
 	}
+	ft_free(paths);
 	return (parser_list);
 }

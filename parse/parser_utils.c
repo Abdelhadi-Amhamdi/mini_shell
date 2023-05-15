@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/09 18:28:44 by aamhamdi          #+#    #+#             */
+/*   Updated: 2023/05/09 18:28:48 by aamhamdi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "parsing.h"
 
@@ -18,9 +29,29 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
+int	is_var(t_lexer *node)
+{
+	int	s_count;
+	int	d_count;
+
+	s_count = 0;
+	d_count = 0;
+	while (node)
+	{
+		if (node->is_token && node->str[0] == '\'')
+			s_count++;
+		if (node->is_token && node->str[0] == '"')
+			d_count++;
+		node = node->prev;
+	}
+	if ((s_count % 2) && !(d_count % 2))
+		return (0);
+	return (1);
+}
+
 t_type	check_type(t_lexer *lexer_item, char *p)
 {
-	if (p)
+	if (p || is_builtin(lexer_item->str))
 		return (CMD);
 	else if (lexer_item->str[0] == '\'')
 		return (SQ);
@@ -32,7 +63,7 @@ t_type	check_type(t_lexer *lexer_item, char *p)
 		return (ARGS);
 	else if (is_file(lexer_item->str))
 		return (FL);
-	else if (lexer_item->str[0] == '$')
+	else if (lexer_item->str[0] == '$' && is_var(lexer_item->prev))
 		return (VAR);
 	return (UNK);
 }
