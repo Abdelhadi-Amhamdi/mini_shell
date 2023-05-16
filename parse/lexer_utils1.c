@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/16 11:33:59 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:36:58 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,14 @@ t_type	check_type(t_lexer *lexer_item, char *path)
 		return (SQ);
 	else if (lexer_item->str[0] == '"')
 		return (DQ);
+	else if (lexer_item->str[0] == '(')
+		return (OP);
+	else if (lexer_item->str[0] == ')')
+		return (CP);
 	else if (lexer_item->is_token)
 		return (TOKEN);
 	else if (lexer_item->str[0] == '-')
 		return (ARGS);
-	// else if (lexer_item->prev && !ft_strncmp(">" , lexer_item->prev->str, 2))
-	// 	return (FL);
 	else if (is_file(lexer_item->str))
 		return (FL);
 	else if (lexer_item->str[0] == '$' && is_var(lexer_item->prev))

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/16 11:24:53 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:42:56 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,19 @@ void	add_token_to_end(t_lexer **head, t_lexer *new_token)
 
 void	print_token_list(t_lexer *head)
 {
-	t_lexer	*current_token;
+	t_lexer	*cur;
 
-	current_token = head;
-	while (current_token != NULL)
+	cur = head;
+	while (cur != NULL)
 	{
-		printf("String: %s\n", current_token->str);
-		printf("Is token: %s\n", current_token->is_token ? "true" : "false");
-		printf("path	: %s\n",current_token->path);
-		printf("is_builtin	: %s\n",current_token->is_builtin ? "true" : "false");
-		printf("type : %s\n", (current_token->type == 0) ? "CMD" : ((current_token->type == 1)) ? "UNK": ((current_token->type == 2) ? "TOKEN" : ((current_token->type == 3) ? "ARGS" : ((current_token->type == 4) ? "VAR" : ((current_token->type == 5) ? "FILE" : "Q")))));
-		printf("--------\n");
-		current_token = current_token->next;
+		printf("String: %s\n", cur->str);
+		printf("Is token: %s\n", cur->is_token ? "true" : "false");
+		printf("path	: %s\n",cur->path);
+		printf("is_builtin	: %s\n",cur->is_builtin ? "true" : "false");
+		printf("type : %s\n", (cur->type == 0) ? "CMD" : (cur->type == 1) ? "UNK" \
+		 : (cur->type == 2) ? "TOKEN" : (cur->type == 3) ? "ARGS" : (cur->type == 4) ? "VAR" : (cur->type == 5) ? "FILE" : (cur->type == 6) ? "SQ" : (cur->type == 7) ? "DQ": ((cur->type == 8) ? "OP": "CP"));
+		printf("-------------------------\n");
+		cur = cur->next;
 	}
 }
 
