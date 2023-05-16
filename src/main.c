@@ -18,8 +18,6 @@ char	*print_prompt(void)
 	free (data);
 	data = NULL;
 	data = readline(path);
-	// puts("hhh");
-	// printf("%s\n", data);
 	free (path);
 	path = NULL;
 	return (data);
@@ -44,10 +42,10 @@ int main(int ac, char **av, char **envp)
 		if (cmd && *cmd)
 		{
 			parser_list = formater(cmd, env_list);
-			if (parser_list)
-				executer(parser_list, env_list);
+			// if (parser_list)
+			// 	executer(parser_list, &env_list);
 			add_history(cmd);
-			rl_on_new_line();
+			// rl_on_new_line();
 			// free(cmd);
 		}
 

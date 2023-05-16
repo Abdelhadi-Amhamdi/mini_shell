@@ -8,7 +8,7 @@ srcs_path = src/
 env_path = env/
 
 header = parsing.h
-p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c
+p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_utils1.c
 env_src = env_main.c utils_env.c
 src = main.c executer.c
 b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c
