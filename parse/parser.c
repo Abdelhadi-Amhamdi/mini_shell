@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/16 10:35:30 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:20:45 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,35 +115,35 @@
 
 
 
-int check_qoutes(t_lexer *lexer_list)
-{
-	t_lexer		*tmp;
-	int			single_qutes;
-	int			double_qutes;
-	t_type		current;
+// int check_qoutes(t_lexer *lexer_list)
+// {
+// 	t_lexer		*tmp;
+// 	int			single_qutes;
+// 	int			double_qutes;
+// 	t_type		current;
 
-	single_qutes = 0;
-	double_qutes = 0;
-	tmp = lexer_list;
-	while (tmp)
-	{
-		if ((tmp->type == SQ || tmp->type == DQ) \
-		&& (!(single_qutes % 2) && !(double_qutes % 2)))
-			current = tmp->type;
-		if (tmp->type == SQ && tmp->type == current)
-			single_qutes++;
-		else if (tmp->type == DQ && tmp->type == current)
-			double_qutes++;
-		tmp = tmp->next;
-	}
-	if (single_qutes % 2 || double_qutes % 2)
-		return (printf("Error Qutes not closed!\n"), 1);
-	return (0);
-}
+// 	single_qutes = 0;
+// 	double_qutes = 0;
+// 	tmp = lexer_list;
+// 	while (tmp)
+// 	{
+// 		if ((tmp->type == SQ || tmp->type == DQ) \
+// 		&& (!(single_qutes % 2) && !(double_qutes % 2)))
+// 			current = tmp->type;
+// 		if (tmp->type == SQ && tmp->type == current)
+// 			single_qutes++;
+// 		else if (tmp->type == DQ && tmp->type == current)
+// 			double_qutes++;
+// 		tmp = tmp->next;
+// 	}
+// 	if (single_qutes % 2 || double_qutes % 2)
+// 		return (printf("Error Qutes not closed!\n"), 1);
+// 	return (0);
+// }
 
-t_parser  *parser(t_lexer *lexer_list)
-{
-	if (check_qoutes(lexer_list))
-		return (NULL);
+// t_parser  *parser(t_lexer *lexer_list)
+// {
+// 	if (check_qoutes(lexer_list))
+// 		return (NULL);
 
-}
+// }
