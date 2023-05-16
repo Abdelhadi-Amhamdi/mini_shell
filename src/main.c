@@ -18,8 +18,6 @@ char	*print_prompt(void)
 	free (data);
 	data = NULL;
 	data = readline(path);
-	// puts("hhh");
-	// printf("%s\n", data);
 	free (path);
 	path = NULL;
 	return (data);
