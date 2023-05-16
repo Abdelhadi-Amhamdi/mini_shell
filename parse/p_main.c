@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/16 11:24:40 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:28:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,14 +147,14 @@ t_parser	*formater(char *cmd, t_env *envp)
 	// t_tree		*my_tree;
 
 	lexer_list = lexer(cmd, envp);
-	// AST = NULL;
 	print_token_list(lexer_list);
+	ft_expander(lexer_list, envp);
+	// AST = NULL;
 	// parser_list = parser(lexer_list, envp);
 	// print_parser_list(parser_list);
 	// ft_free_lexer_list(lexer_list);
 	// AST = create_tree();
 	// printTree(AST);
-	// ft_expander(parser_list, envp);
 	
 	return (NULL);
 	// return (NULL);

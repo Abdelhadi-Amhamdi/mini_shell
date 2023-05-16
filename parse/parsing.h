@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/16 11:25:36 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:31:22 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ typedef struct s_lexer
 
 typedef struct s_parser
 {
-	char			*str;
+	char			**str;
+	char			*op;
 	struct s_parser	*next;
 	struct s_parser	*prev;
 }					t_parser;
@@ -75,6 +76,6 @@ t_type				check_type(t_lexer *lexer_item, char *path);
 void				print_parser_list(t_parser *list);
 char				*get_path(char *cmd, char **paths);
 // expander function
-void				ft_expander(t_parser *list, t_env *envp);
+t_lexer				*ft_expander(t_lexer *list, t_env *env);
 
 #endif
