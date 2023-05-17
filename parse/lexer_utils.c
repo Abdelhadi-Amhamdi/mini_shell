@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/17 10:29:53 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:09:00 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*filter_args_helper(char *str)
 	while (str[++i])
 	{
 		if (is_operator(str[i]) && str[i - 1] != ' ' \
-		&& (!is_operator(str[i - 1])))
+		&& (!is_special_oper(str[i - 1])))
 			new_str[j++] = ' ';
 		new_str[j++] = str[i];
 		if (is_operator(str[i]) && str[i + 1] != ' ' \
@@ -98,6 +98,7 @@ char	**args_filter(char *str)
 	char	*args;
 	char	**tabs;
 
+	args = NULL;
 	args = check_args(str);
 	if (args)
 		args = filter_args_helper(args);

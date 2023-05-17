@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/17 14:22:41 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:05:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ t_lexer	*lexer(char *args, t_env	*env)
 	index = 0;
 	list = NULL;
 	tabs = args_filter(args);
+	if (!tabs)
+		return (NULL);
 	paths = all_paths(env);
 	while (tabs[index])
 	{
