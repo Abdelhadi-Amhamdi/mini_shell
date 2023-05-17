@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/17 15:53:00 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/17 19:25:56 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,32 +67,49 @@ int check_qoutes(t_lexer *lexer_list)
 	return (0);
 }
 
+void ft_error(char *str)
+{
+	printf("%s `%s'\n", _ERR_MSG, str);
+}
+
 int check_opeators(t_lexer *op)
 {
-	if (!op->next || op->next->type == CP || op->next->type == SQ \
-	|| op->next->type == DQ || (op->next->is_oper && op->next->type != RDIR))
-	{
-		printf("%s `%s'\n", _ERR_MSG, op->str);
-		return (1);
-	}
-	if (op->prev->type == OP || op->prev->type == SQ \
-	|| op->prev->type == DQ || op->prev->is_oper)
-	{
-		printf("%s `%s'\n", _ERR_MSG, op->str);
-		return (1);
-	}
+	if (op->next && (op->next->type == CP || op->next->type == SQ \
+	|| op->next->type == DQ || (op->next->is_oper && op->next->type != RDIR)))
+		return (ft_error(op->str), 1);
+	if (op->prev && (op->prev->type == OP || op->prev->type == SQ \
+	|| op->prev->type == DQ || op->prev->is_oper))
+		return (ft_error(op->str), 1);
 	return (0);
 }
 
 int check_pth(t_lexer *pt)
 {
-	(void)pt;
+	if (pt->type == OP)
+	{
+		if (pt->next->is_oper || pt->next->type == SQ \
+		|| pt->next->type == DQ || pt->next->type == UNK)
+			return (ft_error(pt->str), 1);
+		if (pt->prev->type == CMD || pt->prev->type == RDIR \
+		||  pt->prev->type == UNK)
+			return (ft_error(pt->str), 1);
+	}
+	else
+	{
+		if (pt->next->type == FL || pt->next->type == CMD \
+		|| pt->next->type == ARGS || pt->next->type == UNK)
+			return (ft_error(pt->str), 1);
+		if (pt->prev->type == SQ || pt->prev->type == DQ \
+		||  pt->prev->type == UNK || pt->next->is_oper)
+			return (ft_error(pt->str), 1);
+	}
 	return (0);
 }
 
 int check_redir(t_lexer *rdir)
 {
-	(void)rdir;
+	if (!rdir->next || (rdir->next->type != UNK  && rdir->next->type != FL))
+		return (ft_error(rdir->str), 1);	
 	return (0);
 }
 
@@ -105,7 +122,7 @@ int syntax_analyzer(t_lexer *list)
 	res = 0;
 	while (tmp)
 	{
-		if (tmp->is_oper)
+		if (tmp->is_oper && tmp->type != RDIR)
 			res += check_opeators(tmp);
 		else if (tmp->type == OP || tmp->type == CP)
 			res += check_pth(tmp);
@@ -128,8 +145,8 @@ t_lexer *ft_expander(t_lexer *list, t_env *env)
 		return (NULL);
 
 	// syntax analyzer
-	// if (syntax_analyzer(list))
-	// 	return (NULL);
+	if (syntax_analyzer(list))
+		return (NULL);
 	// create blocks
 	
 	// expand vars
