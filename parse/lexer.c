@@ -6,25 +6,45 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/16 14:42:56 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/17 14:22:41 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
+void	print_token_list(t_lexer *head)
+{
+	t_lexer	*cur;
+
+	cur = head;
+	while (cur != NULL)
+	{
+		printf("String: %s\n", cur->str);
+		printf("Is token: %s\n", cur->is_oper ? "true" : "false");
+		printf("path	: %s\n",cur->path);
+		printf("is_builtin	: %s\n",cur->is_builtin ? "true" : "false");
+		printf("type : %s\n", (cur->type == 0) ? "CMD" : (cur->type == 1) ? "PIPE" \
+		 : (cur->type == 2) ? "RDIR" : (cur->type == 3) ? "APND" : (cur->type == 4) ? "AND" : (cur->type == 5) ? "OR" : (cur->type == 6) ? "ARGS" : (cur->type == 7) ? "VAR": (cur->type == 8) ? "FILE": (cur->type == 9) ? "SQ": (cur->type == 10) ? "DQ": (cur->type == 11) ? "OP": ((cur->type == 12) ? "CP": "UNK"));
+		printf("type index %u\n",cur->type);
+		printf("-------------------------\n");
+		cur = cur->next;
+	}
+}
+
 t_lexer	*create_token(char *str, int is_token, char	**paths)
 {
 	t_lexer	*new;
-
+	(void)paths;
 	new = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!new)
 		return (NULL);
-	new->is_token = is_token;
+	new->is_oper = is_token;
 	new->str = ft_strdup(str);
 	new->path = NULL;
-	if(!is_token)
-		new->path = get_path(new->str ,paths);
-	new->type = check_type(new, new->path);
+	// if two command (error)
+	// if(!is_token) 
+	// 	new->path = get_path(new->str ,paths);
+	// new->type = check_type(new, new->path);
 	new->is_builtin = is_builtin(new->str);
 	new->next = NULL;
 	new->prev = NULL;
@@ -47,23 +67,6 @@ void	add_token_to_end(t_lexer **head, t_lexer *new_token)
 	}
 }
 
-void	print_token_list(t_lexer *head)
-{
-	t_lexer	*cur;
-
-	cur = head;
-	while (cur != NULL)
-	{
-		printf("String: %s\n", cur->str);
-		printf("Is token: %s\n", cur->is_token ? "true" : "false");
-		printf("path	: %s\n",cur->path);
-		printf("is_builtin	: %s\n",cur->is_builtin ? "true" : "false");
-		printf("type : %s\n", (cur->type == 0) ? "CMD" : (cur->type == 1) ? "UNK" \
-		 : (cur->type == 2) ? "TOKEN" : (cur->type == 3) ? "ARGS" : (cur->type == 4) ? "VAR" : (cur->type == 5) ? "FILE" : (cur->type == 6) ? "SQ" : (cur->type == 7) ? "DQ": ((cur->type == 8) ? "OP": "CP"));
-		printf("-------------------------\n");
-		cur = cur->next;
-	}
-}
 
 void	ft_free(char **tabs)
 {
@@ -100,7 +103,8 @@ t_lexer	*lexer(char *args, t_env	*env)
 	int		index;
 	char	**tabs;
 	t_lexer	*list;
-	t_lexer	*new_node;
+	t_lexer	*node;
+	// int	abslt;
 
 	index = 0;
 	list = NULL;
@@ -108,10 +112,14 @@ t_lexer	*lexer(char *args, t_env	*env)
 	paths = all_paths(env);
 	while (tabs[index])
 	{
-		new_node = create_token(tabs[index], is_token(tabs[index][0]), paths);
-		if (!new_node)
+		// abslt = is_absolute_path(tabs[index]);
+		node = create_token(tabs[index], is_operator(tabs[index][0]), paths);
+		if (!node)
 			return (NULL);
-		add_token_to_end(&list, new_node);
+		if(!node->is_oper || !node->prev || node->prev->type != 0)
+			node->path = get_path(node->str ,paths);
+		node->type = check_type(node, node->path);
+		add_token_to_end(&list, node);
 		index++;
 	}
 	ft_free(tabs);
