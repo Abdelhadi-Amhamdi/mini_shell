@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/17 19:25:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:33:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void ft_error(char *str)
 
 int check_opeators(t_lexer *op)
 {
-	if (op->next && (op->next->type == CP || op->next->type == SQ \
+	if (!op->next || (op->next->type == CP || op->next->type == SQ \
 	|| op->next->type == DQ || (op->next->is_oper && op->next->type != RDIR)))
 		return (ft_error(op->str), 1);
 	if (op->prev && (op->prev->type == OP || op->prev->type == SQ \
@@ -87,8 +87,8 @@ int check_pth(t_lexer *pt)
 {
 	if (pt->type == OP)
 	{
-		if (pt->next->is_oper || pt->next->type == SQ \
-		|| pt->next->type == DQ || pt->next->type == UNK)
+		if (!pt->next || (pt->next->is_oper || pt->next->type == SQ \
+		|| pt->next->type == DQ || pt->next->type == UNK))
 			return (ft_error(pt->str), 1);
 		if (pt->prev->type == CMD || pt->prev->type == RDIR \
 		||  pt->prev->type == UNK)
@@ -99,8 +99,8 @@ int check_pth(t_lexer *pt)
 		if (pt->next->type == FL || pt->next->type == CMD \
 		|| pt->next->type == ARGS || pt->next->type == UNK)
 			return (ft_error(pt->str), 1);
-		if (pt->prev->type == SQ || pt->prev->type == DQ \
-		||  pt->prev->type == UNK || pt->next->is_oper)
+		if (!pt->prev || (pt->prev->type == SQ || pt->prev->type == DQ \
+		||  pt->prev->type == UNK || pt->next->is_oper))
 			return (ft_error(pt->str), 1);
 	}
 	return (0);
@@ -137,20 +137,78 @@ int syntax_analyzer(t_lexer *list)
 	return (0);
 }
 
+void handle_quotes(t_lexer **list)
+{
+	t_lexer *tmp;
+	t_lexer *tmp1;
+	
+	tmp = *list;
+	tmp1 = NULL;
+	t_type current;
+	while (tmp)
+	{
+		if (tmp->type == SQ || tmp->type == DQ)
+		{
+			current = tmp->type;
+			tmp1 = tmp->next;
+			while (tmp1)
+			{
+				tmp->str = ft_strjoin(tmp->str, tmp1->str);
+				if (tmp1->type != SQ && tmp1->type != DQ)
+					tmp->type = tmp1->type;
+				if (tmp1->type == current)
+					break ;
+				tmp1 = tmp1->next;	
+			}
+			tmp->next = tmp1->next;
+		}
+		tmp = tmp->next;
+	}
+}
+
+void ft_create_blocks(t_lexer **list)
+{
+	t_lexer *tmp;
+	t_lexer *tmp1;
+
+	tmp = *list;
+	tmp1 = NULL;
+	handle_quotes(list);
+	while (tmp)
+	{
+		if (!tmp->is_oper && tmp->type != CMD)
+		{
+			tmp1 = tmp->next;
+			while (tmp1 && !tmp1->is_oper && tmp1->type != CMD)
+			{
+				tmp->str = ft_strjoin(tmp->str, tmp1->str);
+				tmp1 = tmp1->next;
+			}
+			tmp->next = tmp1;
+		}
+		tmp = tmp->next;
+	}
+}
+
 t_lexer *ft_expander(t_lexer *list, t_env *env)
 {
-	// check quotes;
 	(void) env;
+	// check quotes;
 	if (check_qoutes(list))
 		return (NULL);
 
-	// syntax analyzer
+	//check phts
+	
+	// create blocks
+	ft_create_blocks(&list);
+	
+	// // syntax analyzer
 	if (syntax_analyzer(list))
 		return (NULL);
-	// create blocks
-	
+		
 	// expand vars
 	
-	// clean list;	
+	// clean list;
+	
 	return (list);
 }
