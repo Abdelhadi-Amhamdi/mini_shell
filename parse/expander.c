@@ -6,38 +6,44 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 11:33:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:50:47 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-// char	*expand(char *var, t_env *envp)
-// {
-// 	int	index;
+char	*expand(char *var, t_env *envp)
+{
+	int	index;
 
-// 	index = 0;
-// 	while (envp)
-// 	{
-// 		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key)))// && ft_strlen(envp->key) == ft_strlen(var)
-// 			return (envp->value);
-// 		envp = envp->next;
-// 	}
-// 	return (NULL);
-// }
+	index = 0;
+	while (envp)
+	{
+		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key)))// && ft_strlen(envp->key) == ft_strlen(var)
+			return (envp->value);
+		envp = envp->next;
+	}
+	return (NULL);
+}
 
-// void	ft_expander(t_parser *list, t_env *envp)
-// {
-// 	t_parser	*tmp;
+void	ft_expand_vars(t_lexer **list, t_env *envp)
+{
+	t_lexer	*tmp;
 
-// 	tmp = list;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type == VAR)
-// 			tmp->str = expand(tmp->str+1, envp);
-// 		tmp = tmp->next;
-// 	}
-// }
+	tmp = *list;
+	while (tmp)
+	{
+		if (tmp->type == VAR && tmp->str[0] != '\'')
+		{
+			while (*(tmp->str) != '$')
+				tmp->str = tmp->str+1;
+			
+			tmp->str = expand(tmp->str+1, envp);
+			
+		}
+		tmp = tmp->next;
+	}
+}
 
 #define _ERR_MSG "shell : parse error near"
 
@@ -192,7 +198,6 @@ void ft_create_blocks(t_lexer **list)
 
 t_lexer *ft_expander(t_lexer *list, t_env *env)
 {
-	(void) env;
 	// check quotes;
 	if (check_qoutes(list))
 		return (NULL);
@@ -207,6 +212,7 @@ t_lexer *ft_expander(t_lexer *list, t_env *env)
 		return (NULL);
 		
 	// expand vars
+	ft_expand_vars(&list, env);
 	
 	// clean list;
 	
