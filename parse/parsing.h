@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 11:44:58 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:53:34 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,24 @@ t_parser			*formater(char *cmd, t_env *envp);
 
 // lexer functions
 t_lexer				*lexer(char *args, t_env *env);
-char				**args_filter(char *str);
-int					is_operator(char c);
+char				**all_paths(t_env *env);
 void				ft_free(char **tabs);
-int					is_builtin(char *cmd);
+void				add_token_to_end(t_lexer **head, t_lexer *new_token);
+t_lexer				*create_token(char *str, int is_token, char	**paths);
 void				print_token_list(t_lexer *head);
-int					is_special_oper(char c);
+char				**args_filter(char *str);
+char				*filter_args_helper(char *str);
+size_t				count_new_args_size(char *str);
+char				*check_args(char *str);
+t_type				check_type(t_lexer *lexer_item, char *path);
+int					is_var(t_lexer *node);
+int					is_builtin(char *cmd);
+char				*get_path(char *cmd, char **paths);
+int					check_op_prev(char *str, int i);
+int					check_op_next(char *str, int i);
+int					is_container(char c);
+int					is_operator(char c);
+int					compare(t_lexer	*item, char *oper);
 
 // parser functions
 t_parser			*parser(t_lexer *list, t_env *envp);
@@ -83,6 +95,6 @@ t_type				check_type(t_lexer *lexer_item, char *path);
 void				print_parser_list(t_parser *list);
 char				*get_path(char *cmd, char **paths);
 // expander function
-void				ft_expand_vars(t_lexer **list, t_env *envp);
+t_lexer				*ft_expander(t_lexer *list, t_env *env);
 
 #endif

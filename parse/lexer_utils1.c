@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/17 14:24:07 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:46:01 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,6 @@ int	is_var(t_lexer *node)
 	if ((s_count % 2) && !(d_count % 2))
 		return (0);
 	return (1);
-}
-
-int	compare(t_lexer	*item, char *oper)
-{
-	return(ft_strncmp(item->str, oper, ft_strlen(item->str)));
 }
 
 t_type	check_type(t_lexer *lexer_item, char *path)

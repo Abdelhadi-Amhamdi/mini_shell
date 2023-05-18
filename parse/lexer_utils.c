@@ -6,41 +6,11 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 21:40:30 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:48:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	is_operator(char c)
-{
-	if (c == '|' || c == '<' || c == '>'|| c == '&' || c == '*')
-		return (1);
-	return (0);
-}
-
-int	is_container(char c)
-{
-	if (c == '\'' || c == '"' || c == ')' || c == '(')
-		return (1);
-	return (0);
-}
-
-int check_op_next(char *str, int i)
-{
-	if ((is_operator(str[i]) && str[i + 1] != ' ') \
-	&& !is_container(str[i + 1]) && !is_operator(str[i + 1]))
-		return (1);
-	return (0);
-}
-
-int check_op_prev(char *str, int i)
-{
-	if ((is_operator(str[i]) && str[i - 1] != ' ') \
-	&& !is_container(str[i - 1]) && !is_operator(str[i - 1]))
-		return (1);
-	return (0);
-}
 
 char	*check_args(char *str)
 {
@@ -118,4 +88,23 @@ char	**args_filter(char *str)
 	if (!tabs)
 		return (NULL);
 	return (tabs);
+}
+
+void	print_token_list(t_lexer *head)
+{
+	t_lexer	*cur;
+
+	cur = head;
+	while (cur != NULL)
+	{
+		printf("String: :%s:\n", cur->str);
+		// printf("Is token: %s\n", cur->is_oper ? "true" : "false");
+		// printf("path	: %s\n",cur->path);
+		// printf("is_builtin	: %s\n",cur->is_builtin ? "true" : "false");
+		printf("type : %s\n", (cur->type == 0) ? "CMD" : (cur->type == 1) ? "PIPE" \
+		 : (cur->type == 2) ? "RDIR" : (cur->type == 3) ? "APND" : (cur->type == 4) ? "AND" : (cur->type == 5) ? "OR" : (cur->type == 6) ? "ARGS" : (cur->type == 7) ? "VAR": (cur->type == 8) ? "FILE": (cur->type == 9) ? "SQ": (cur->type == 10) ? "DQ": (cur->type == 11) ? "OP": ((cur->type == 12) ? "CP": "UNK"));
+		// printf("type index %u\n",cur->type);
+		printf("-------------------------\n");
+		cur = cur->next;
+	}
 }
