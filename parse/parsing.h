@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/17 11:01:32 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/18 10:36:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int					is_operator(char c);
 void				ft_free(char **tabs);
 int					is_builtin(char *cmd);
 void				print_token_list(t_lexer *head);
+int					is_special_oper(char c);
 
 // parser functions
 t_parser			*parser(t_lexer *list, t_env *envp);
