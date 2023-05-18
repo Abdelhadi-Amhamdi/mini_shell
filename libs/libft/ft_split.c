@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:31:59 by aamhamdi          #+#    #+#             */
-/*   Updated: 2022/10/26 21:42:00 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 19:58:06 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,32 @@ static char	**ft_free_all(char **tabs, int index)
 	return (0);
 }
 
+int ft_space_len(const char *str, int *len)
+{
+	int		count;
+	char	current;
+	int index = *len;
+
+	count = 0;
+	current = '\0';
+	if (str[0] && (str[0] == '"' || str[0] == '\''))
+	{
+		current = str[0];
+		count++;
+		index++;
+		while (str[index] && current && str[index] != current)
+		{
+			index++;
+			count++;
+		}
+		count++;
+		if (str[index])
+			index++;
+		*len = index;
+	}
+	return (count);
+}
+
 char	**ft_split(const char *src, char c)
 {
 	char	**tabs;
@@ -59,7 +85,11 @@ char	**ft_split(const char *src, char c)
 		while (src[len] && src[len] != c)
 			len++;
 		if (len != 0)
+		{
+			if (c == ' ')
+				ft_space_len(src, &len);
 			tabs[i++] = ft_substr(src, 0, len);
+		}
 		if (len != 0 && !tabs[i - 1])
 			return (ft_free_all(tabs, i - 1));
 		src += len;

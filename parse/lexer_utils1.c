@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/16 11:33:59 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:46:01 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"parsing.h"
+#include "parsing.h"
 
 char	*get_path(char *cmd, char **paths)
 {
@@ -26,13 +26,13 @@ char	*get_path(char *cmd, char **paths)
 	{
 		full_path = ft_strjoin(paths[index], command);
 		if (!full_path)
-			return (free (command), NULL);
+			return (free(command), NULL);
 		if (!access(full_path, F_OK | X_OK))
-			return (free (command), full_path);
+			return (free(command), full_path);
 		free(full_path);
 		index++;
 	}
-	free (command);
+	free(command);
 	return (NULL);
 }
 
@@ -62,9 +62,9 @@ int	is_var(t_lexer *node)
 	d_count = 0;
 	while (node)
 	{
-		if (node->is_token && node->str[0] == '\'')
+		if (node->is_oper && node->str[0] == '\'')
 			s_count++;
-		if (node->is_token && node->str[0] == '"')
+		if (node->is_oper && node->str[0] == '"')
 			d_count++;
 		node = node->prev;
 	}
@@ -72,20 +72,27 @@ int	is_var(t_lexer *node)
 		return (0);
 	return (1);
 }
+
 t_type	check_type(t_lexer *lexer_item, char *path)
 {
 	if (path || is_builtin(lexer_item->str))
 		return (CMD);
-	if (lexer_item->str[0] == '\'')
+	else if (lexer_item->str[0] == '\'')
 		return (SQ);
 	else if (lexer_item->str[0] == '"')
 		return (DQ);
-	else if (lexer_item->is_token)
-		return (TOKEN);
+	else if (lexer_item->str[0] == '(')
+		return (OP);
+	else if (lexer_item->str[0] == ')')
+		return (CP);
+	else if (lexer_item->is_oper && !compare(lexer_item, "|"))
+		return (PIPE);
+	else if (lexer_item->is_oper && !compare(lexer_item, ">"))
+		return (RDIR);
+	else if (lexer_item->is_oper && !compare(lexer_item, ">>"))
+		return (APND);
 	else if (lexer_item->str[0] == '-')
 		return (ARGS);
-	// else if (lexer_item->prev && !ft_strncmp(">" , lexer_item->prev->str, 2))
-	// 	return (FL);
 	else if (is_file(lexer_item->str))
 		return (FL);
 	else if (lexer_item->str[0] == '$' && is_var(lexer_item->prev))

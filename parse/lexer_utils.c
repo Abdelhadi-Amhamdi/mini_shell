@@ -6,26 +6,11 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/16 13:32:36 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:48:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	is_token(char c)
-{
-	if (c == '|' || c == '<' || c == '>' || c  == '\'' \
-	|| c == '"' || c == '&' || c == '(' || c == ')')
-		return (1);
-	return (0);
-}
-
-int	is_special_tokens(char c)
-{
-	if (c == '<' || c == '>' || c == '|' || c == '&')
-		return (1);
-	return (0);
-}
 
 char	*check_args(char *str)
 {
@@ -34,11 +19,9 @@ char	*check_args(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((is_token(str[i]) && str[i - 1] != ' ') \
-		&& !is_special_tokens(str[i - 1]))
+		if (check_op_next(str, i))
 			return (str);
-		if ((is_token(str[i]) && str[i + 1] != ' ') \
-		&& !is_special_tokens(str[i + 1]))
+		if (check_op_prev(str, i))
 			return (str);
 		i++;
 	}
@@ -54,11 +37,9 @@ size_t	count_new_args_size(char *str)
 	index = 0;
 	while (str[index])
 	{
-		if (is_token(str[index]) && str[index + 1] != ' ' \
-		&& (!is_special_tokens(str[index + 1])))
+		if (check_op_next(str, index))
 			count++;
-		if (is_token(str[index]) && str[index - 1] != ' ' \
-		&& (!is_token(str[index - 1])))
+		if (check_op_prev(str, index))
 			count++;
 		index++;
 		count++;
@@ -81,12 +62,10 @@ char	*filter_args_helper(char *str)
 		return (NULL);
 	while (str[++i])
 	{
-		if (is_token(str[i]) && str[i - 1] != ' ' \
-		&& (!is_token(str[i - 1])))
+		if (check_op_prev(str, i))
 			new_str[j++] = ' ';
 		new_str[j++] = str[i];
-		if (is_token(str[i]) && str[i + 1] != ' ' \
-		&& (!is_special_tokens(str[i + 1])))
+		if (check_op_next(str, i))
 			new_str[j++] = ' ';
 	}
 	new_str[j] = '\0';
@@ -98,6 +77,7 @@ char	**args_filter(char *str)
 	char	*args;
 	char	**tabs;
 
+	args = NULL;
 	args = check_args(str);
 	if (args)
 		args = filter_args_helper(args);
@@ -108,4 +88,23 @@ char	**args_filter(char *str)
 	if (!tabs)
 		return (NULL);
 	return (tabs);
+}
+
+void	print_token_list(t_lexer *head)
+{
+	t_lexer	*cur;
+
+	cur = head;
+	while (cur != NULL)
+	{
+		printf("String: :%s:\n", cur->str);
+		// printf("Is token: %s\n", cur->is_oper ? "true" : "false");
+		// printf("path	: %s\n",cur->path);
+		// printf("is_builtin	: %s\n",cur->is_builtin ? "true" : "false");
+		printf("type : %s\n", (cur->type == 0) ? "CMD" : (cur->type == 1) ? "PIPE" \
+		 : (cur->type == 2) ? "RDIR" : (cur->type == 3) ? "APND" : (cur->type == 4) ? "AND" : (cur->type == 5) ? "OR" : (cur->type == 6) ? "ARGS" : (cur->type == 7) ? "VAR": (cur->type == 8) ? "FILE": (cur->type == 9) ? "SQ": (cur->type == 10) ? "DQ": (cur->type == 11) ? "OP": ((cur->type == 12) ? "CP": "UNK"));
+		// printf("type index %u\n",cur->type);
+		printf("-------------------------\n");
+		cur = cur->next;
+	}
 }
