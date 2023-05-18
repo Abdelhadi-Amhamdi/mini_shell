@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 10:36:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 14:08:07 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_token_list(t_lexer *head)
 	cur = head;
 	while (cur != NULL)
 	{
-		printf("String: %s\n", cur->str);
+		printf("String: %s:\n", cur->str);
 		printf("Is token: %s\n", cur->is_oper ? "true" : "false");
 		printf("path	: %s\n",cur->path);
 		printf("is_builtin	: %s\n",cur->is_builtin ? "true" : "false");

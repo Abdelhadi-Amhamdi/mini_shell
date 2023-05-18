@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 10:36:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:44:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ t_type				check_type(t_lexer *lexer_item, char *path);
 void				print_parser_list(t_parser *list);
 char				*get_path(char *cmd, char **paths);
 // expander function
-t_lexer				*ft_expander(t_lexer *list, t_env *env);
+void				ft_expand_vars(t_lexer **list, t_env *envp);
 
 #endif
