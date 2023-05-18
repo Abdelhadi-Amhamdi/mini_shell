@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 13:28:00 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:40:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,30 @@
 
 int	is_operator(char c)
 {
-	if (c == '|' || c == '<' || c == '>'|| c == '&' || c == '(' || c == ')')
+	if (c == '|' || c == '<' || c == '>'|| c == '&' || c == '*')
 		return (1);
 	return (0);
 }
 
-int	is_special_oper(char c)
+int	is_container(char c)
 {
-	if (c == '<' || c == '>' || c == '|' || c == '&')
+	if (c == '\'' || c == '"' || c == ')' || c == '(')
+		return (1);
+	return (0);
+}
+
+int check_op_next(char *str, int i)
+{
+	if ((is_operator(str[i]) && str[i + 1] != ' ') \
+	&& !is_container(str[i + 1]) && !is_operator(str[i + 1]))
+		return (1);
+	return (0);
+}
+
+int check_op_prev(char *str, int i)
+{
+	if ((is_operator(str[i]) && str[i - 1] != ' ') \
+	&& !is_container(str[i - 1]) && !is_operator(str[i - 1]))
 		return (1);
 	return (0);
 }
@@ -33,11 +49,9 @@ char	*check_args(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((is_operator(str[i]) && str[i - 1] != ' ') \
-		&& !is_special_oper(str[i - 1]))
+		if (check_op_next(str, i))
 			return (str);
-		if ((is_operator(str[i]) && str[i + 1] != ' ') \
-		&& !is_special_oper(str[i + 1]))
+		if (check_op_prev(str, i))
 			return (str);
 		i++;
 	}
@@ -53,11 +67,9 @@ size_t	count_new_args_size(char *str)
 	index = 0;
 	while (str[index])
 	{
-		if (is_operator(str[index]) && str[index + 1] != ' ' \
-		&& (!is_special_oper(str[index + 1])))
+		if (check_op_next(str, index))
 			count++;
-		if (is_operator(str[index]) && str[index - 1] != ' ' \
-		&& (!is_special_oper(str[index - 1])))
+		if (check_op_prev(str, index))
 			count++;
 		index++;
 		count++;
@@ -80,12 +92,10 @@ char	*filter_args_helper(char *str)
 		return (NULL);
 	while (str[++i])
 	{
-		if (is_operator(str[i]) && str[i - 1] != ' ' \
-		&& (!is_special_oper(str[i - 1])))
+		if (check_op_prev(str, i))
 			new_str[j++] = ' ';
 		new_str[j++] = str[i];
-		if (is_operator(str[i]) && str[i + 1] != ' ' \
-		&& (!is_special_oper(str[i + 1])))
+		if (check_op_next(str, i))
 			new_str[j++] = ' ';
 	}
 	new_str[j] = '\0';

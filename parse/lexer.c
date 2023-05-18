@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 14:08:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 19:35:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	print_token_list(t_lexer *head)
 	cur = head;
 	while (cur != NULL)
 	{
-		printf("String: %s:\n", cur->str);
-		printf("Is token: %s\n", cur->is_oper ? "true" : "false");
-		printf("path	: %s\n",cur->path);
-		printf("is_builtin	: %s\n",cur->is_builtin ? "true" : "false");
+		printf("String: :%s:\n", cur->str);
+		// printf("Is token: %s\n", cur->is_oper ? "true" : "false");
+		// printf("path	: %s\n",cur->path);
+		// printf("is_builtin	: %s\n",cur->is_builtin ? "true" : "false");
 		printf("type : %s\n", (cur->type == 0) ? "CMD" : (cur->type == 1) ? "PIPE" \
 		 : (cur->type == 2) ? "RDIR" : (cur->type == 3) ? "APND" : (cur->type == 4) ? "AND" : (cur->type == 5) ? "OR" : (cur->type == 6) ? "ARGS" : (cur->type == 7) ? "VAR": (cur->type == 8) ? "FILE": (cur->type == 9) ? "SQ": (cur->type == 10) ? "DQ": (cur->type == 11) ? "OP": ((cur->type == 12) ? "CP": "UNK"));
-		printf("type index %u\n",cur->type);
+		// printf("type index %u\n",cur->type);
 		printf("-------------------------\n");
 		cur = cur->next;
 	}
@@ -115,7 +115,7 @@ t_lexer	*lexer(char *args, t_env	*env)
 	while (tabs[index])
 	{
 		// abslt = is_absolute_path(tabs[index]);
-		node = create_token(tabs[index], is_special_oper(tabs[index][0]), paths);
+		node = create_token(tabs[index], is_operator(tabs[index][0]), paths);
 		if (!node)
 			return (NULL);
 		if(!node->is_oper || !node->prev || node->prev->type != 0)
