@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 11:50:47 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:58:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,22 @@ int syntax_analyzer(t_lexer *list)
 	return (0);
 }
 
+int is_closed(char *str)
+{
+	char current;
+	int index;
+	
+	current = str[0];
+	index = 1;
+	while (str[index])
+	{
+		if (str[index] == current)
+			return (1);
+		index++;
+	}
+	return (0);
+}
+
 void handle_quotes(t_lexer **list)
 {
 	t_lexer *tmp;
@@ -153,7 +169,7 @@ void handle_quotes(t_lexer **list)
 	t_type current;
 	while (tmp)
 	{
-		if (tmp->type == SQ || tmp->type == DQ)
+		if ((tmp->type == SQ || tmp->type == DQ) && !is_closed(tmp->str))
 		{
 			current = tmp->type;
 			tmp1 = tmp->next;
@@ -162,7 +178,7 @@ void handle_quotes(t_lexer **list)
 				tmp->str = ft_strjoin(tmp->str, tmp1->str);
 				if (tmp1->type != SQ && tmp1->type != DQ)
 					tmp->type = tmp1->type;
-				if (tmp1->type == current)
+				if (tmp1->type == current || is_closed(tmp->str))
 					break ;
 				tmp1 = tmp1->next;	
 			}
@@ -172,21 +188,37 @@ void handle_quotes(t_lexer **list)
 	}
 }
 
-void ft_create_blocks(t_lexer **list)
+int is_empty_args(t_lexer *node)
+{
+	int index;
+	char *str;
+
+	index = 1;
+	str = node->str;
+	while (str[index])
+	{
+		if (str[index] != '"')
+			return (1);
+		index++;
+	}
+	return (0);
+}
+
+void create_blocks_helper(t_lexer **list)
 {
 	t_lexer *tmp;
 	t_lexer *tmp1;
-
+	
 	tmp = *list;
 	tmp1 = NULL;
-	handle_quotes(list);
 	while (tmp)
 	{
-		if (!tmp->is_oper && tmp->type != CMD)
+		if (!tmp->is_oper && tmp->type != CMD && is_empty_args(tmp))
 		{
 			tmp1 = tmp->next;
 			while (tmp1 && !tmp1->is_oper && tmp1->type != CMD)
 			{
+				// if (is_empty_args(tmp1))
 				tmp->str = ft_strjoin(tmp->str, tmp1->str);
 				tmp1 = tmp1->next;
 			}
@@ -196,23 +228,35 @@ void ft_create_blocks(t_lexer **list)
 	}
 }
 
+void group_by_qoutes(t_lexer **list)
+{
+	t_lexer *tmp;
+	t_lexer *tmp1;
+
+	tmp = *list;
+	tmp1 = NULL;
+	handle_quotes(list);
+	// create_blocks_helper(list);
+}
+
 t_lexer *ft_expander(t_lexer *list, t_env *env)
 {
+	(void)env;
 	// check quotes;
-	if (check_qoutes(list))
-		return (NULL);
+	// if (check_qoutes(list))
+	// 	return (NULL);
 
 	//check phts
 	
 	// create blocks
-	ft_create_blocks(&list);
+	// group_by_qoutes(&list);
 	
-	// // syntax analyzer
-	if (syntax_analyzer(list))
-		return (NULL);
+	// syntax analyzer
+	// if (syntax_analyzer(list))
+	// 	return (NULL);
 		
 	// expand vars
-	ft_expand_vars(&list, env);
+	// ft_expand_vars(&list, env);
 	
 	// clean list;
 	

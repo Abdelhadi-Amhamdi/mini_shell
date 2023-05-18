@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 21:53:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 22:01:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef enum s_boolean
 	false,
 	true
 }					t_boolean;
+
 typedef enum s_type
 {
 	CMD,
