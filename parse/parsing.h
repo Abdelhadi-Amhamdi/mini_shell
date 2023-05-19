@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/19 18:17:59 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:20:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,15 @@ char				**ft_mini_split(const char *src, char c);
 t_parser			*parser(t_lexer *list);
 void				print_parser_list(t_parser *list);
 t_parser			*create_blocks(t_lexer *lexer_list);
+t_lexer				*ft_nodedup(t_lexer *node);
+void				add_node_to_list(t_parser **list, t_parser *item);
+t_parser			*create_parser_node(t_lexer *l_node);
 
 // expander function
 int					ft_expander(t_lexer *list, t_env *env);
 char				*expand(char *var, t_env *envp);
 void				ft_expand_vars(t_lexer **list, t_env *envp);
+
 // syntax analizer
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);
