@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/16 13:28:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/18 19:23:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,9 @@ t_parser	*formater(char *cmd, t_env *envp)
 	// t_tree		*my_tree;
 
 	lexer_list = lexer(cmd, envp);
+	// if (!ft_expander(lexer_list, envp))
+	// 	return (NULL);
 	print_token_list(lexer_list);
-	ft_expander(lexer_list, envp);
 	// AST = NULL;
 	// parser_list = parser(lexer_list, envp);
 	// print_parser_list(parser_list);

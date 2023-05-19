@@ -7,14 +7,15 @@
     - fix echo "'hello'" cat file
     - [fixed] echo "'$HOME'"
 # [fixed] fix export type;
-    -fix quotes type;
-    - echo ""'hello'"  "'>>|'""
-    - echo "'hello'"  "'>>|'"
+    - [fixed] fix quotes type;
+    - [fixed] echo ""'hello'"  "'>>|'""
+    - [fixed] echo "'hello'"  "'>>|'"
+    - [fixed] echo ""'$HOME'""  
+    - [fixed] echo "'" $HOME "'"
+    - [fixed] echo " " '$HOME' ""
+    - [fixed] echo "'$HOME' """
+    - [fixed] echo "hello" | '"''
     - ls )
-    - echo ""'$HOME'""  
-    - echo "'" $HOME "'"  fix espaces
-    - echo " " '$HOME' ""
-    - echo "'$HOME' """
 
 //abdellah
 #Errors

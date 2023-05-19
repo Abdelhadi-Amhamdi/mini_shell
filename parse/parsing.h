@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 21:53:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/19 14:23:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef enum s_boolean
 	false,
 	true
 }					t_boolean;
+
 typedef enum s_type
 {
 	CMD,
@@ -88,6 +89,7 @@ int					check_op_next(char *str, int i);
 int					is_container(char c);
 int					is_operator(char c);
 int					compare(t_lexer	*item, char *oper);
+char				**ft_mini_split(const char *src, char c);
 
 // parser functions
 t_parser			*parser(t_lexer *list, t_env *envp);
@@ -95,6 +97,6 @@ t_type				check_type(t_lexer *lexer_item, char *path);
 void				print_parser_list(t_parser *list);
 char				*get_path(char *cmd, char **paths);
 // expander function
-t_lexer				*ft_expander(t_lexer *list, t_env *env);
+int					ft_expander(t_lexer *list, t_env *env);
 
 #endif
