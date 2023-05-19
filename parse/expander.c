@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 16:58:39 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/19 14:10:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,31 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 
 #define _ERR_MSG "shell : parse error near"
 
-int check_qoutes(t_lexer *lexer_list)
-{
-	t_lexer		*tmp;
-	int			single_qutes;
-	int			double_qutes;
-	t_type		current;
+// int check_qoutes(t_lexer *lexer_list)
+// {
+// 	t_lexer		*tmp;
+// 	int			single_qutes;
+// 	int			double_qutes;
+// 	t_type		current;
 
-	single_qutes = 0;
-	double_qutes = 0;
-	tmp = lexer_list;
-	while (tmp)
-	{
-		if ((tmp->type == SQ || tmp->type == DQ) \
-		&& (!(single_qutes % 2) && !(double_qutes % 2)))
-			current = tmp->type;
-		if (tmp->type == SQ && tmp->type == current)
-			single_qutes++;
-		else if (tmp->type == DQ && tmp->type == current)
-			double_qutes++;
-		tmp = tmp->next;
-	}
-	if (single_qutes % 2 || double_qutes % 2)
-		return (printf("Error Qutes not closed!\n"), 1);
-	return (0);
-}
+// 	single_qutes = 0;
+// 	double_qutes = 0;
+// 	tmp = lexer_list;
+// 	while (tmp)
+// 	{
+// 		if ((tmp->type == SQ || tmp->type == DQ) \
+// 		&& (!(single_qutes % 2) && !(double_qutes % 2)))
+// 			current = tmp->type;
+// 		if (tmp->type == SQ && tmp->type == current)
+// 			single_qutes++;
+// 		else if (tmp->type == DQ && tmp->type == current)
+// 			double_qutes++;
+// 		tmp = tmp->next;
+// 	}
+// 	if (single_qutes % 2 || double_qutes % 2)
+// 		return (printf("Error Qutes not closed!\n"), 1);
+// 	return (0);
+// }
 
 void ft_error(char *str)
 {
@@ -239,21 +239,49 @@ void group_by_qoutes(t_lexer **list)
 	// create_blocks_helper(list);
 }
 
-t_lexer *ft_expander(t_lexer *list, t_env *env)
+int check_qoutes(t_lexer *list)
+{
+	t_lexer *tmp;
+	char current;
+	char *data;
+	int index;
+
+	tmp = list;
+	// puts(hello);
+	while (tmp)
+	{
+		if (tmp->type == DQ || tmp->type == SQ)
+		{
+			index = 0;
+			data = tmp->str;
+			current = data[index];
+			while (data[++index] && data[index] != current);
+			if (!data[index])
+			{
+				printf("Syntax Error\n");
+				return (1);	
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+t_lexer	*ft_expander(t_lexer *list, t_env *env)
 {
 	(void)env;
 	// check quotes;
-	// if (check_qoutes(list))
-	// 	return (NULL);
+	if (check_qoutes(list))
+		return (NULL);
 
-	//check phts
+	// syntax analyzer
+	// if (syntax_analyzer(list))
+	// 	return (NULL);
 	
 	// create blocks
 	// group_by_qoutes(&list);
 	
-	// syntax analyzer
-	// if (syntax_analyzer(list))
-	// 	return (NULL);
+	//check phts
 		
 	// expand vars
 	// ft_expand_vars(&list, env);
