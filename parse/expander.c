@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/19 14:23:38 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:16:32 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,6 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 		}
 		tmp = tmp->next;
 	}
-}
-
-#define _ERR_MSG "shell : parse error near"
-
-
-void	ft_error(char *str)
-{
-	printf("%s `%s'\n", _ERR_MSG, str);
 }
 
 int	check_opeators(t_lexer *op)
@@ -134,6 +126,8 @@ int	check_qoutes(t_lexer *list)
 			while (data[++index] && data[index] != current);
 			if (!data[index])
 				return (ft_putendl_fd("Syntax Error", 2), 1);
+			tmp->str = ft_strtrim(tmp->str, "\"");
+			tmp->type = ARGS;
 		}
 		tmp = tmp->next;
 	}
