@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 18:28:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/19 18:22:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/19 19:46:05 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 
 void	print_parser_list(t_parser *list)
+
 {
 	while (list)
 	{
