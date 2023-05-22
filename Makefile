@@ -32,19 +32,19 @@ libft = libft.a
 
 #-fsanitize=address 
 CFLAGS = -Wall -Wextra -Werror
-CC = cc
+CC = cc -g
 
 $(build_path)%.o : $(srcs_path)%.c
-	cc -Wall -Wextra -Werror -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
 $(build_path)%.o : $(parsing_path)%.c
-	cc -Wall -Wextra -Werror -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
 $(build_path)%.o : $(env_path)%.c
-	cc -Wall -Wextra -Werror -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
 $(build_path)%.o : $(b_path)%.c
-	cc -Wall -Wextra -Werror -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
 all: $(NAME) 
 
