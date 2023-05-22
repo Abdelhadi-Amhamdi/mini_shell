@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/19 18:16:32 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:38:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,34 @@ int	syntax_analyzer(t_lexer *list)
 			res += check_pth(tmp);
 		else if (tmp->type == RDIR)
 			res += check_redir(tmp);
-		if (!ft_strncmp(tmp->str, ";;", ft_strlen(tmp->str)))
-			res++;
+		else if (tmp->type != EMPTY)
+		{
+			if (!ft_strncmp(tmp->str, ";;", ft_strlen(tmp->str)))
+				res++;
+		}
 		if (res)
 			return (1);
 		tmp = tmp->next;
 	}
 	return (0);
+}
+
+void	ft_trim_quotes(t_lexer *node)
+{
+	t_lexer	*tmp;
+
+	tmp = node;
+	if (tmp->type == SQ)
+		tmp->str = ft_strtrim(tmp->str, "'");
+	else 
+		tmp->str = ft_strtrim(tmp->str, "\"");
+	if (!tmp->str[0])
+	{
+		tmp->str = NULL;
+		tmp->type = EMPTY;
+	}
+	else
+		tmp->type = ARGS;
 }
 
 int	check_qoutes(t_lexer *list)
@@ -126,8 +147,7 @@ int	check_qoutes(t_lexer *list)
 			while (data[++index] && data[index] != current);
 			if (!data[index])
 				return (ft_putendl_fd("Syntax Error", 2), 1);
-			tmp->str = ft_strtrim(tmp->str, "\"");
-			tmp->type = ARGS;
+			ft_trim_quotes(tmp);
 		}
 		tmp = tmp->next;
 	}

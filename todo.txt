@@ -15,7 +15,12 @@
     - [fixed] echo " " '$HOME' ""
     - [fixed] echo "'$HOME' """
     - [fixed] echo "hello" | '"''
-    - ls )
+    - [fixed] ls )
+    - [fixed] ls "" |wc
+    - l's
+    - l's'
+    - (echo "hello" > out) && ls
+    - echo "hello" > file
 
 //abdellah
 #Errors

@@ -198,16 +198,33 @@
 // 	}
 // }
 
-
-
-// int	executer(t_parser *cmds_list, t_env **env_list)
+// int exec_cmd()
 // {
-// 	t_parser	*tmp;
 
-// 	tmp = cmds_list;
-// 	if (parser_helper(cmds_list))
-// 		return (1);
-// 	// puts("hooo");
+// }
+
+// int ecec_subshell()
+// {
+
+// }
+
+// int exec_pipe_line()
+// {
+
+// }
+
+// int exec_redirection()
+// {
+
+// }
+
+
+
+// int	executer(t_app *app)
+// {
+// 	t_tree *ast;
+
+// 	ast = app->ast_tree;
 // 	exec_cmd(tmp, env_list);
 // 	return (0);
 // }

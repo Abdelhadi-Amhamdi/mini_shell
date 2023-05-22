@@ -6,35 +6,89 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/19 18:43:45 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:49:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-void	ft_free_lexer_list(t_lexer *list)
+void ft_free_lexer_list(t_lexer *list)
 {
-	t_lexer	*tmp;
-	t_lexer	*next;
+	t_lexer *tmp;
+	t_lexer *next;
 
 	tmp = list;
 	while (tmp)
 	{
 		next = tmp->next;
-		free (tmp);
+		free(tmp);
 		tmp = next;
 	}
 }
 
+void ft_free_parser_list(t_parser *list)
+{
+	t_parser *tmp;
+	t_parser *next;
+
+	tmp = list;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
+	}
+}
+
+int ft_lst_size(t_lexer *list)
+{
+	int  size;
+
+	size = 0;
+	while (list)
+	{
+		list = list->next;
+		size++;
+	}
+	return (size);
+}
+
+char **get_args(t_parser *node)
+{
+	char	**cmd_args;
+	t_lexer	*tmp;
+	int		size;
+	int		index;
+
+	index = 0;
+	if (node->type != CMD)	
+		return (NULL);
+	tmp = node->args_list;
+	size = ft_lst_size(node->args_list);
+	cmd_args = malloc(sizeof(char *) * (size + 2));
+	cmd_args[index++] = node->path;
+	while (tmp)
+	{
+		cmd_args[index] = ft_strdup(tmp->str);
+		tmp = tmp->next;
+		index++;
+	}
+	cmd_args[index] = NULL;
+	return (cmd_args);
+}
+
 t_tree *create_node(t_parser *item)
 {
-	t_tree *new_node;
+	t_tree	*new_node;
 
 	new_node = malloc(sizeof(t_tree));
 	if (!new_node)
 		return (NULL);
 	new_node->str = item->str;
 	new_node->type = item->type;
+	new_node->is_builtin = item->is_builtin;
+	new_node->cmd_args =  get_args(item);
+	new_node->is_op = false;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	return (new_node);
@@ -42,13 +96,15 @@ t_tree *create_node(t_parser *item)
 
 t_tree *create_token_node(t_parser *node, t_tree *left, t_tree *right)
 {
-	t_tree *new_node;
+	t_tree	*new_node;
 
 	new_node = malloc(sizeof(t_tree));
 	if (!new_node)
 		return (NULL);
 	new_node->str = node->str;
 	new_node->type = node->type;
+	new_node->cmd_args = NULL;
+	new_node->is_op = true;
 	new_node->left = left;
 	new_node->right = right;
 	return (new_node);
@@ -105,11 +161,17 @@ void printTreeHelper(t_tree *root, int depth)
     printTreeHelper(root->right, depth + 1);
     for (int i = 0; i < depth; i++) {
         printf("    ");
-    }
-    if (root->type == 'N')
-        printf("%s\n", root->str);
-    else
-        printf("%s\n", root->str);
+    } 
+    printf("%s\n", root->str);
+	int i = 0;
+	if (root->cmd_args)
+	{
+		for (int i = 0; i < depth + 1; i++)
+			printf("    ");
+		while (root->cmd_args[i])
+			printf("%s ", root->cmd_args[i++]);
+		puts("");
+	}
     printTreeHelper(root->left, depth + 1);
 }
 
@@ -123,23 +185,16 @@ void	ft_error(char *str)
 	printf("%s `%s'\n", _ERR_MSG, str);
 }
 
-t_parser	*formater(char *cmd, t_env *envp)
+t_tree	*formater(t_app *app)
 {
-	t_lexer		*lexer_list;
-	t_parser	*parser_list;
-	t_tree		*ast_tree;
-
-	ast_tree = NULL;
-	lexer_list = lexer(cmd, envp);
-	if (ft_expander(lexer_list, envp))
+	app->lexer_list = lexer(app->cmd, app->env_list);
+	if (ft_expander(app->lexer_list, app->env_list))
 		return (NULL);
-	parser_list = parser(lexer_list);
-	ft_free_lexer_list(lexer_list);
-	if (!parser_list)
+	app->parser_list = parser(app->lexer_list);
+	ft_free_lexer_list(app->lexer_list);
+	if (!app->parser_list)
 		return (NULL);
-	ast_tree = create_tree(&parser_list);
-	printTree(ast_tree);
-	
-	return (NULL);
-	// return (at_tree);
+	app->ast_tree = create_tree(&app->parser_list);
+	ft_free_parser_list(app->parser_list);
+	return (app->ast_tree);
 }

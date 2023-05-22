@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/19 18:43:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:47:27 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,18 @@ typedef enum s_type
 	DQ,
 	OP,
 	CP,
-	UNK
+	UNK,
+	EMPTY
 }					t_type;
+
+// typedef enum st_type
+// {
+// 	PIPELINE,
+// 	CONNECTOR,
+// 	CMD,
+// 	SUBSHELL,
+// 	RDIR
+// }	tt_type;
 
 typedef struct s_lexer
 {
@@ -53,6 +63,7 @@ typedef struct s_lexer
 typedef struct s_parser
 {
 	char			*str;
+	char			*path;
 	t_lexer			*args_list;
 	t_type			type;
 	t_boolean		is_builtin;
@@ -64,15 +75,27 @@ typedef struct s_parser
 typedef struct s_tree
 {
 	char			*str;
+	char			**cmd_args;
+	t_boolean		is_op;
+	t_boolean		is_builtin;
 	t_type			type;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }					t_tree;
 
+typedef struct s_app
+{
+	t_lexer		*lexer_list;
+	t_parser	*parser_list;
+	t_tree		*ast_tree;
+	char		*cmd;
+	t_env		*env_list;
+}	t_app;
+
 #define _ERR_MSG "shell : parse error near"
 
 // main
-t_parser			*formater(char *cmd, t_env *envp);
+t_tree				*formater(t_app *app);
 void				ft_error(char *str);
 void				ft_free_lexer_list(t_lexer *list);
 

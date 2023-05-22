@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/19 18:14:45 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/21 19:02:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_parser	*create_parser_node(t_lexer *l_node)
 	new_node->is_builtin = l_node->is_builtin;
     new_node->next = NULL;
     new_node->prev = NULL;
+	new_node->path = l_node->path;
     new_node->str = l_node->str;
     new_node->type = l_node->type;
 	return (new_node);
