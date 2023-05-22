@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 18:28:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/19 19:46:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/21 19:03:32 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_parser_list(t_parser *list)
 		// printf("is_builtin : %s\n", list->is_builtin ? "true" : "false");
 		while (list->args_list)
 		{
-			printf("    - %s\n", list->args_list->str);
+			printf("     %s\n", list->args_list->str);
 			list->args_list = list->args_list->next;
 		}
 		// printf("type : %s\n", (list->type == 0) ? "CMD" \

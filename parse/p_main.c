@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/21 16:23:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:49:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,43 @@ void ft_free_parser_list(t_parser *list)
 	}
 }
 
+int ft_lst_size(t_lexer *list)
+{
+	int  size;
+
+	size = 0;
+	while (list)
+	{
+		list = list->next;
+		size++;
+	}
+	return (size);
+}
+
+char **get_args(t_parser *node)
+{
+	char	**cmd_args;
+	t_lexer	*tmp;
+	int		size;
+	int		index;
+
+	index = 0;
+	if (node->type != CMD)	
+		return (NULL);
+	tmp = node->args_list;
+	size = ft_lst_size(node->args_list);
+	cmd_args = malloc(sizeof(char *) * (size + 2));
+	cmd_args[index++] = node->path;
+	while (tmp)
+	{
+		cmd_args[index] = ft_strdup(tmp->str);
+		tmp = tmp->next;
+		index++;
+	}
+	cmd_args[index] = NULL;
+	return (cmd_args);
+}
+
 t_tree *create_node(t_parser *item)
 {
 	t_tree	*new_node;
@@ -49,7 +86,8 @@ t_tree *create_node(t_parser *item)
 		return (NULL);
 	new_node->str = item->str;
 	new_node->type = item->type;
-	new_node->args_list =  item->args_list;
+	new_node->is_builtin = item->is_builtin;
+	new_node->cmd_args =  get_args(item);
 	new_node->is_op = false;
 	new_node->left = NULL;
 	new_node->right = NULL;
@@ -65,6 +103,7 @@ t_tree *create_token_node(t_parser *node, t_tree *left, t_tree *right)
 		return (NULL);
 	new_node->str = node->str;
 	new_node->type = node->type;
+	new_node->cmd_args = NULL;
 	new_node->is_op = true;
 	new_node->left = left;
 	new_node->right = right;
@@ -123,10 +162,16 @@ void printTreeHelper(t_tree *root, int depth)
     for (int i = 0; i < depth; i++) {
         printf("    ");
     } 
-    printf("%s ", root->str);
-	if (root->args_list && !root->is_op)
-		printf(" %s", root->args_list->str);
-	puts("");
+    printf("%s\n", root->str);
+	int i = 0;
+	if (root->cmd_args)
+	{
+		for (int i = 0; i < depth + 1; i++)
+			printf("    ");
+		while (root->cmd_args[i])
+			printf("%s ", root->cmd_args[i++]);
+		puts("");
+	}
     printTreeHelper(root->left, depth + 1);
 }
 
@@ -151,6 +196,5 @@ t_tree	*formater(t_app *app)
 		return (NULL);
 	app->ast_tree = create_tree(&app->parser_list);
 	ft_free_parser_list(app->parser_list);
-	// printTree(app->ast_tree);
-	return (at_tree);
+	return (app->ast_tree);
 }

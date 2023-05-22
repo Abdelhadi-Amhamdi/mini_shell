@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/20 16:32:58 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:38:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ int	syntax_analyzer(t_lexer *list)
 	return (0);
 }
 
-void ft_trim_quotes(t_lexer *node)
+void	ft_trim_quotes(t_lexer *node)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	tmp = node;
 	if (tmp->type == SQ)
