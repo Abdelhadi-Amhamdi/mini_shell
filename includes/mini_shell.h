@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/15 14:15:54 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/22 10:48:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-int	executer(t_parser *cmds_list, t_env **env);
+// int	executer(t_parser *cmds_list, t_env **env);
 
 
 
