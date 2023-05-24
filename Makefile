@@ -11,7 +11,7 @@ header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_utils1.c lexer_utils2.c
 env_src = env_main.c utils_env.c
 src = main.c executer.c
-b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c
+b_src = ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c ft_pwd.c
 
 p_srcs = $(addprefix $(parsing_path), $(p_src))
 env_srcs = $(addprefix $(env_path), $(env_src))
@@ -48,8 +48,8 @@ $(build_path)%.o : $(b_path)%.c
 
 all: $(NAME) 
 
-$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs)
-	$(CC) $(CFLAGS) -lreadline $(objs) $(p_objs) $(env_objs) $(libft_path)$(libft) -o $@ 
+$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(b_objs)
+	$(CC) $(CFLAGS) -lreadline $(objs) $(p_objs) $(b_objs) $(env_objs) $(libft_path)$(libft) -o $@ 
 
 $(libft):
 	make -s -C $(libft_path)
