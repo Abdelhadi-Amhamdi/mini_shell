@@ -48,8 +48,8 @@ $(build_path)%.o : $(b_path)%.c
 
 all: $(NAME) 
 
-$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs)
-	$(CC) $(CFLAGS) -lreadline $(objs) $(p_objs) $(env_objs) $(libft_path)$(libft) -o $@ 
+$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(b_objs)
+	$(CC) $(CFLAGS) -lreadline $(objs) $(p_objs) $(b_objs) $(env_objs) $(libft_path)$(libft) -o $@ 
 
 $(libft):
 	make -s -C $(libft_path)

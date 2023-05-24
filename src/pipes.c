@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 14:02:15 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/24 14:51:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,15 @@ void run_pipeline(t_tree *pipe_node, int in, int out)
 	wait(NULL);
 }
 
-void run_cmd(t_tree *cmd)
+void run_cmd(t_tree *cmd, t_env *env)
 {
 	pid_t pid;
 
+	if(cmd->is_builtin)
+	{
+		exec_builtin(cmd, env);
+		return ;
+	}
 	pid = fork();
 	if (!pid)
 		execve(cmd->cmd_args[0], cmd->cmd_args, NULL);
