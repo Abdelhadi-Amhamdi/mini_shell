@@ -68,6 +68,8 @@ void executer(t_tree *root, t_env *env)
 		run_pipeline(root, 0, 1);
 	else if (root->type == RDIR || root->type == APND)
 		run_rdir(root);
+	else if (root->type == HEREDOC)
+		herdoc(root->right->str);
 }
 
 int main(int ac, char **av, char **envp)
@@ -85,7 +87,6 @@ int main(int ac, char **av, char **envp)
 		clean_data(app);
 		app->cmd = NULL;
 		app->cmd = print_prompt();
-		// app->cmd = readline("> ");
 		if (!app->cmd)
 			exit (1);
 		if (app->cmd[0])
@@ -93,6 +94,7 @@ int main(int ac, char **av, char **envp)
 			app->ast_tree = formater(app);
 			if(app->ast_tree)
 				executer(app->ast_tree, app->env_list);
+			// printTree(app->ast_tree);
 			add_history(app->cmd);
 			free(app->cmd);
 		}

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 14:53:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/24 15:14:05 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void run_cmd(t_tree *cmd, t_env *env);
 void run_rdir(t_tree *node);
 
 void	exec_builtin(t_tree	*cmd, t_env	*env);
+void herdoc(char *delemiter);
 #endif
