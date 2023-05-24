@@ -22,9 +22,6 @@
     - (echo "hello" > out) && ls
     - echo "hello" > file
 
-//abdellah
-#Errors
-	-argument should come after the commands directly and anything came after should be counted as UNK
-	ex: echo hello -hello
-	output ==> hello
-	expected ==> hello -hello
+#		- fix echo "$HOME"
+		- fix echo '''$HOME'''
+		- fix echo ''$HOME''

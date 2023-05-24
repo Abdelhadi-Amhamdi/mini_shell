@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/22 12:49:30 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:06:12 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,8 @@ void	ft_error(char *str)
 t_tree	*formater(t_app *app)
 {
 	app->lexer_list = lexer(app->cmd, app->env_list);
+	if(!app->lexer_list)
+		return (NULL);
 	if (ft_expander(app->lexer_list, app->env_list))
 		return (NULL);
 	app->parser_list = parser(app->lexer_list);
