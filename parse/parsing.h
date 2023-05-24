@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/21 18:47:27 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/24 13:40:16 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef enum s_type
 	OP,
 	CP,
 	UNK,
-	EMPTY
+	EMPTY,
+	HEREDOC
 }					t_type;
 
 // typedef enum st_type

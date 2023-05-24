@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/18 21:46:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/24 13:40:49 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ t_type	check_type(t_lexer *lexer_item, char *path)
 		return (RDIR);
 	else if (lexer_item->is_oper && !compare(lexer_item, ">>"))
 		return (APND);
+	else if (lexer_item->is_oper && !compare(lexer_item, "<<"))
+		return (HEREDOC);
 	else if (lexer_item->str[0] == '-')
 		return (ARGS);
 	else if (is_file(lexer_item->str))
