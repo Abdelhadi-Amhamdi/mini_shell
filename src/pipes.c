@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 13:18:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/24 14:02:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void run_pipeline(t_tree *pipe_node, int in, int out)
 	run_pipe(pipe_node->right, fds, fds[0], out,  2);
 	close(fds[1]);
 	close(fds[0]);
+	if (out != 1)
+		close(out);
 	wait(NULL);
 	wait(NULL);
 }
@@ -77,20 +79,23 @@ void run_cmd(t_tree *cmd)
 void run_rdir(t_tree *node)
 {
 	int file_fd;
+	int flags;
 
-	unlink(node->right->str);
-	file_fd = open(node->right->str, O_CREAT | O_RDWR, 0644);
-	if (file_fd == -1)
+	flags = O_CREAT | O_RDWR | O_APPEND;
+	if (node->type == RDIR)
 	{
-		printf("error in open\n");
-		return ;
+		flags = O_CREAT | O_RDWR;
+		unlink(node->right->str);
 	}
+	file_fd = open(node->right->str, flags, 0644);
+	if (file_fd == -1)
+		return ;
 	if (node->left->type == PIPE)
 		run_pipeline(node->left, 0, file_fd);
 	else
 	{
 		exec_cmd(node->left, -1, file_fd, 1, -1);
+		close(file_fd);
 		wait(NULL);
 	}
-	close(file_fd);
 }

@@ -48,7 +48,7 @@ void executer(t_tree *root)
 		run_cmd(root);
 	else if (root->type == PIPE)
 		run_pipeline(root, 0, 1);
-	else if (root->type == RDIR)
+	else if (root->type == RDIR || root->type == APND)
 		run_rdir(root);
 }
 
@@ -72,9 +72,8 @@ int main(int ac, char **av, char **envp)
 		if (app->cmd[0])
 		{
 			app->ast_tree = formater(app);
-			if (!app->ast_tree)
-				return (0);
-			executer(app->ast_tree);
+			if (app->ast_tree)
+				executer(app->ast_tree);
 			add_history(app->cmd);
 			free(app->cmd);
 		}
