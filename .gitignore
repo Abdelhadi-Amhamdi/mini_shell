@@ -1,3 +1,4 @@
 app
+.vscode/settings.json
 libs/libft/libft.a
 build/
