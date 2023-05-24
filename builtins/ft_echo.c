@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/12 12:49:27 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/24 13:08:36 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ void	ft_echo(t_parser *node)
 {
 	t_boolean new_line;
 
+	printf("i was in here\n");
 	new_line = check_new_line(node);
 	while(node)
 	{
-		if (node->type == TOKEN)
+		if (node->type == PIPE)
 			break ;
 		if((node->prev->type == DQ && node->type == SQ) || (node->prev->type == SQ && node->type == DQ))
 			printf("%c",'\'');
