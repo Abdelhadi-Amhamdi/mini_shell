@@ -40,51 +40,6 @@ void print_ast(t_tree *root)
 	print_ast(root->right);
 }
 
-void run_pipe(t_tree *node, int *fds , int out, int side)
-{
-	t_tree *cmd;
-	int file;
-	int end;
-	int end_close;
-	pid_t pid;
-	
-	(void)out;
-
-	cmd = node->right;
-	end = fds[0];
-	end_close = fds[1];
-	file = STDIN_FILENO;
-	if (side == 1)
-	{
-		cmd = node->left;
-		end = fds[1];
-		end_close = fds[0];
-		file = STDOUT_FILENO;
-	}
-	pid = fork();
-	if (!pid)
-	{
-		close(end_close);
-		dup2(end, file);
-		close(end);
-		execve(cmd->cmd_args[0], cmd->cmd_args, NULL);
-	}
-}
-
-void run_pipeline(t_tree *pipe_node, int in, int out)
-{
-	int fds[2];
-
-	(void)in;
-	pipe(fds);
-	run_pipe(pipe_node, fds, out, 1);
-	run_pipe(pipe_node, fds , out, 2);
-	close(fds[1]);
-	close(fds[0]);
-	wait(NULL);
-	wait(NULL);
-}
-
 void	exec_builtin(t_tree	*cmd, t_env	*env)
 {
 	if(!ft_strncmp(cmd->str, "cd", 2))
@@ -103,23 +58,7 @@ void	exec_builtin(t_tree	*cmd, t_env	*env)
 	// 	ft_exit();
 }
 
-void run_cmd(t_tree *cmd, t_env	*env)
-{
-	pid_t pid;
-
-	if(cmd->is_builtin)
-	{
-		exec_builtin(cmd, env);
-		return ;
-	}
-	pid = fork();
-	if (pid == 0)
-		execve(cmd->cmd_args[0], cmd->cmd_args, NULL);
-	wait(NULL);
-}
-
-
-void executer(t_tree *root, t_env	*env)
+void executer(t_tree *root, t_env *env)
 {
 	if (!root)
 		return ;
@@ -127,6 +66,8 @@ void executer(t_tree *root, t_env	*env)
 		run_cmd(root, env);
 	else if (root->type == PIPE)
 		run_pipeline(root, 0, 1);
+	else if (root->type == RDIR || root->type == APND)
+		run_rdir(root);
 }
 
 int main(int ac, char **av, char **envp)
@@ -150,10 +91,6 @@ int main(int ac, char **av, char **envp)
 		if (app->cmd[0])
 		{
 			app->ast_tree = formater(app);
-			// if (!app->ast_tree)
-			// 	return (0);
-			// print_ast(app->ast_tree);
-			// puts("");
 			if(app->ast_tree)
 				executer(app->ast_tree, app->env_list);
 			add_history(app->cmd);
