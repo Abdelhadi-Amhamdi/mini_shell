@@ -1,5 +1,6 @@
 
 #include "../includes/mini_shell.h"
+void run_pipeline(t_tree *pipe_node, int in, int out);
 
 char	*print_prompt(void)
 {
@@ -40,45 +41,52 @@ void print_ast(t_tree *root)
 	print_ast(root->right);
 }
 
-void run_pipe(t_tree *node, int *fds , int out, int side)
+void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 {
-	t_tree *cmd;
-	int file;
-	int end;
-	int end_close;
 	pid_t pid;
-	
-	(void)out;
-
-	cmd = node->right;
-	end = fds[0];
-	end_close = fds[1];
-	file = STDIN_FILENO;
-	if (side == 1)
-	{
-		cmd = node->left;
-		end = fds[1];
-		end_close = fds[0];
-		file = STDOUT_FILENO;
-	}
 	pid = fork();
 	if (!pid)
 	{
-		close(end_close);
-		dup2(end, file);
-		close(end);
-		execve(cmd->cmd_args[0], cmd->cmd_args, NULL);
+		dup2(p2, std);
+		close(p2);
+		if (old != -1)
+			dup2(old, 1);
+		close(p1);
+		execve(node->cmd_args[0], node->cmd_args, NULL);
 	}
+}
+
+void run_pipe(t_tree *cmd, int *pipe,int in, int out, int side)
+{
+	int		std_file;
+	int		used_end;
+	int		unused_end;
+	int		old;
+	
+	used_end = in;
+	unused_end = pipe[1];
+	std_file = STDIN_FILENO;
+	old = out;
+	if (side == 1)
+	{
+		used_end = out;
+		unused_end = pipe[0];
+		std_file = STDOUT_FILENO;
+		old = -1;
+	}
+	if (cmd->type == PIPE)
+		run_pipeline(cmd, in, used_end);
+	else
+		exec_cmd(cmd, unused_end, used_end, std_file, old);
 }
 
 void run_pipeline(t_tree *pipe_node, int in, int out)
 {
 	int fds[2];
 
-	(void)in;
 	pipe(fds);
-	run_pipe(pipe_node, fds, out, 1);
-	run_pipe(pipe_node, fds , out, 2);
+	run_pipe(pipe_node->left, fds, in, fds[1], 1);
+	run_pipe(pipe_node->right, fds, fds[0], out,  2);
 	close(fds[1]);
 	close(fds[0]);
 	wait(NULL);
@@ -90,10 +98,32 @@ void run_cmd(t_tree *cmd)
 	pid_t pid;
 
 	pid = fork();
-	if (pid == 0)
+	if (!pid)
 		execve(cmd->cmd_args[0], cmd->cmd_args, NULL);
 	wait(NULL);
 }
+
+void run_rdir(t_tree *node)
+{
+	int file_fd;
+
+	unlink(node->right->str);
+	file_fd = open(node->right->str, O_CREAT | O_RDWR, 0644);
+	if (file_fd == -1)
+	{
+		printf("error in open\n");
+		return ;
+	}
+	if (node->left->type == PIPE)
+		run_pipeline(node->left, 0, file_fd);
+	else
+	{
+		exec_cmd(node->left, -1, file_fd, 1, -1);
+		wait(NULL);
+	}
+	close(file_fd);
+}
+
 
 
 void executer(t_tree *root)
@@ -104,6 +134,8 @@ void executer(t_tree *root)
 		run_cmd(root);
 	else if (root->type == PIPE)
 		run_pipeline(root, 0, 1);
+	else if (root->type == RDIR)
+		run_rdir(root);
 }
 
 int main(int ac, char **av, char **envp)
