@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 10:31:21 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 16:44:56 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,25 @@ char	*ft_strjoin_entrys(char const *s1, char const *s2)
 	return (p);
 }
 
-void wildcard(t_lexer *node)
+char *wildcard(t_lexer *node)
 {
 	DIR *dir;
     char *data;
     struct dirent *entry;
-
-    dir = opendir("./");
+	char *path;
+	
+	(void)node;
+	path = "./";
+	printf("%s\n", path);
+    dir = opendir(path);
     if (dir == NULL) {
         perror("opendir");
-        return 1;
+        return (NULL);
     }
     data = calloc(1, 1);
     while ((entry = readdir(dir)) != NULL)
         data = ft_strjoin_entrys(data, entry->d_name);
 
     closedir(dir);
-	node->str = data;
-    return 0;
+	return (data);
 }
