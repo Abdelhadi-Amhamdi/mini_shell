@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 17:15:58 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:59:21 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,18 +127,11 @@ int validate_cmd(char *cmd)
 	return(1);
 }
 
-t_lexer	*last_node(t_lexer	*list)
+int is_operator(char c)
 {
-	t_lexer	*last;
-
-	last = list;
-	while(last)
-	{
-		if(last->next == NULL)
-			return (last);
-		last = last->next;
-	}
-	return (last);
+	if (c == '|' || c == '<' || c == '>' || c == '&')
+		return (1);
+	return (0);
 }
 
 t_lexer	*lexer(char *args, t_env	*env)
@@ -163,9 +156,10 @@ t_lexer	*lexer(char *args, t_env	*env)
 			return (NULL);
 		if (!node->is_oper && !node->path)
 			node->path = get_path(node->str ,paths);
-		node->type = check_type(node, node->path);
 		add_token_to_end(&list, node);
-		node = last_node(list);
+		// node = last_node(list);
+		node = get_last_token(list);
+		node->type = check_type(node, node->path);
 		if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str) && node->prev->type == PIPE))
 		{
 				if(validate_cmd(node->str))
@@ -178,6 +172,6 @@ t_lexer	*lexer(char *args, t_env	*env)
 	}
 	// print_token_list(list);
 	ft_free(tabs);
-	// return (NULL);
+	ft_free(paths);
 	return (list);
 }

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/24 13:40:49 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:09:51 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,31 +73,39 @@ int	is_var(t_lexer *node)
 	return (1);
 }
 
-t_type	check_type(t_lexer *lexer_item, char *path)
+t_type	check_type(t_lexer *node, char *path)
 {
-	if (path || is_builtin(lexer_item->str))
+	if ((path && (!node->prev || node->prev->type == PIPE
+				|| node->prev->type == AND || node->prev->type == OR))
+		|| is_builtin(node->str))
 		return (CMD);
-	else if (lexer_item->str[0] == '\'')
+	else if (node->str[0] == '\'')
 		return (SQ);
-	else if (lexer_item->str[0] == '"')
+	else if (node->str[0] == '"')
 		return (DQ);
-	else if (lexer_item->str[0] == '(')
+	else if (node->str[0] == '(')
 		return (OP);
-	else if (lexer_item->str[0] == ')')
+	else if (node->str[0] == ')')
 		return (CP);
-	else if (lexer_item->is_oper && !compare(lexer_item, "|"))
+	else if (node->is_oper && !compare(node, "|"))
 		return (PIPE);
-	else if (lexer_item->is_oper && !compare(lexer_item, ">"))
+	else if (!compare(node, "*"))
+		return (WILDCARD);
+	else if (node->is_oper && !compare(node, "&&"))
+		return (AND);
+	else if (node->is_oper && !compare(node, "||"))
+		return (OR);
+	else if (node->is_oper && !compare(node, ">"))
 		return (RDIR);
-	else if (lexer_item->is_oper && !compare(lexer_item, ">>"))
+	else if (node->is_oper && !compare(node, ">>"))
 		return (APND);
-	else if (lexer_item->is_oper && !compare(lexer_item, "<<"))
+	else if (node->is_oper && !compare(node, "<<"))
 		return (HEREDOC);
-	else if (lexer_item->str[0] == '-')
-		return (ARGS);
-	else if (is_file(lexer_item->str))
+	else if (is_file(node->str))
 		return (FL);
-	else if (lexer_item->str[0] == '$' && is_var(lexer_item->prev))
+	else if (node->str[0] == '$' && is_var(node->prev))
 		return (VAR);
+	else if (node->str[0] == '-' || node->prev->type == CMD || node->prev->type == ARGS)
+		return (ARGS);
 	return (UNK);
 }

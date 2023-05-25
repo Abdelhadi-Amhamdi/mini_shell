@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/20 16:38:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:46:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,14 +154,63 @@ int	check_qoutes(t_lexer *list)
 	return (0);
 }
 
+t_lexer *create_list(char **tabs)
+{
+	int index = 0;
+	t_lexer *list;
+	t_lexer *new_node;
+
+	list = NULL;
+	while (tabs[index])
+	{
+		new_node = create_token(tabs[index], 0, NULL);
+		add_token_to_end(&list, new_node);
+		index++;
+	}
+	return (list);
+}
+
+t_lexer *get_last_token(t_lexer *list)
+{
+	while (list->next)
+		list = list->next;
+	return  (list);
+}
+
+void ft_expand_wildcards(t_lexer **list)
+{
+	t_lexer *tmp;
+	t_lexer *last;
+	t_lexer *new_list;
+	char *data;
+	char **tabs;
+
+	tmp = *list;
+	while (tmp)
+	{
+		if (tmp->type == WILDCARD)
+		{
+			data = wildcard(tmp);
+			tabs = ft_split(data, ' ');
+			new_list = create_list(tabs);
+			last = get_last_token(new_list);
+			last->next = tmp->next;
+			tmp->prev->next = new_list;
+			tabs = NULL;
+			data = NULL;
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	ft_expander(t_lexer *list, t_env *env)
 {
 	if (check_qoutes(list))
 		return (1);
-	if (syntax_analyzer(list))
-		return (1);
+	// if (syntax_analyzer(list))
+	// 	return (1);
 	ft_expand_vars(&list, env);
 	//check phts
-	// clean list;
+	ft_expand_wildcards(&list);
 	return (0);
 }
