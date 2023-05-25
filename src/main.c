@@ -1,28 +1,6 @@
 
 #include "../includes/mini_shell.h"
 
-char	*print_prompt(void)
-{
-	char	*path;
-	char	*data;
-	int		i;
-
-	path = getcwd(NULL, 0);
-    i = ft_strlen(path) - 1;
-	while (i > 0 && path[i] && path[i - 1] != '/')
-        i--;
-	data = ft_strjoin("\033[0;36m\e[1m",path + i);
-	free (path);
-	path = NULL;
-	path = ft_strjoin(data, " $: \e[m\033[0m");
-	free (data);
-	data = NULL;
-	data = readline(path);
-	free (path);
-	path = NULL;
-	return (data);
-}
-
 void clean_data(t_app *app)
 {
 	app->ast_tree = NULL;
@@ -86,7 +64,7 @@ int main(int ac, char **av, char **envp)
 	{
 		clean_data(app);
 		app->cmd = NULL;
-		app->cmd = print_prompt();
+		app->cmd = readline("minishell$ ");
 		if (!app->cmd)
 			exit (1);
 		if (app->cmd[0])
