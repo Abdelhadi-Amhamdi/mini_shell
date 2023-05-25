@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 20:54:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:57:05 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ int check_pths(t_lexer *list)
 			cp++;
 		tmp = tmp->next;
 	}
-	if (!(op % 2) || !(cp % 2))
+	if ((!(op % 2) && (cp % 2)) || ((op % 2) && !(cp % 2)))
 		return (ft_putendl_fd("Syntax Error", 2), 1);
 	return (0);
 }
