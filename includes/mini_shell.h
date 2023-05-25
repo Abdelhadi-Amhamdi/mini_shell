@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 14:53:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:11:14 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void run_pipe(t_tree *cmd, int *pipe,int in, int out, int side);
 void exec_cmd(t_tree *node, int p1, int p2, int std, int old);
 
 // redirection
-void run_cmd(t_tree *cmd, t_env *env);
+void run_cmd(t_tree *cmd, t_env **env);
 void run_rdir(t_tree *node);
 
-void	exec_builtin(t_tree	*cmd, t_env	*env);
+void	exec_builtin(t_tree	*cmd, t_env	**env);
 #endif

@@ -6,46 +6,37 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/24 13:08:36 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:11:14 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-t_boolean	check_new_line(t_parser *node)
+int	check_new_line(char *arg)
 {
-	if (!node)
-		return (true);
-	else
-	{
-		if(node->str)
-			if (!ft_strncmp(node->str, "-n", 2))
-				return (false);
-	}
-	return (true);
+	if (!arg)
+		return (1);
+	else if (!ft_strncmp(arg, "-n", 2))
+		return (0);
+	return (1);
 }
 
-void	ft_echo(t_parser *node)
+void	ft_echo(t_tree *node)
 {
-	t_boolean new_line;
+	int	new_line;
+	int	i;
 
-	printf("i was in here\n");
-	new_line = check_new_line(node);
-	while(node)
+	i = 1;
+	new_line = check_new_line(node->cmd_args[i]);
+	if(!new_line && node->cmd_args[i])
+		i++;
+	while (node->cmd_args[i])
 	{
-		if (node->type == PIPE)
-			break ;
-		if((node->prev->type == DQ && node->type == SQ) || (node->prev->type == SQ && node->type == DQ))
-			printf("%c",'\'');
-		if(node->str && node->type != SQ && node->type != DQ && node->type != ARGS)
-			printf("%s",node->str);
-		node = node->next;
-		if(node && node->type != SQ && node->type != DQ && node->prev->type != SQ && node->prev->type != DQ)
-			printf(" ");
+			printf("%s", node->cmd_args[i]);
+		i++;
 	}
-	if(new_line)
+	if (new_line)
 		printf("\n");
 }

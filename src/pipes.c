@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 14:51:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:10:40 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void run_pipeline(t_tree *pipe_node, int in, int out)
 	wait(NULL);
 }
 
-void run_cmd(t_tree *cmd, t_env *env)
+void run_cmd(t_tree *cmd, t_env **env)
 {
 	pid_t pid;
 
