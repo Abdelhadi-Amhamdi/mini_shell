@@ -1,6 +1,7 @@
 NAME = app
 
 libft_path = libs/libft/
+gnl_path = libs/gnl/
 build_path = build/
 parsing_path = parse/
 b_path = builtins/
@@ -10,22 +11,26 @@ env_path = env/
 header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_utils1.c lexer_utils2.c
 env_src = env_main.c utils_env.c
-src = main.c executer.c
-b_src = ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c ft_pwd.c
+src = main.c executer.c pipes.c heredoc.c connectors.c
+g_src = get_next_line.c get_next_line_utils.c
+b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c
 
 p_srcs = $(addprefix $(parsing_path), $(p_src))
 env_srcs = $(addprefix $(env_path), $(env_src))
 srcs = $(addprefix $(srcs_path), $(src))
 b_srcs = $(addprefix $(b_path), $(b_src))
+g_srcs = $(addprefix $(gnl_path), $(g_src))
 
 obj = $(src:.c=.o)
 p_obj = $(p_src:.c=.o)
 b_obj = $(b_src:.c=.o)
+g_obj = $(g_src:.c=.o)
 env_obj = $(env_src:.c=.o)
 
 objs = $(addprefix $(build_path), $(obj))
 p_objs = $(addprefix $(build_path), $(p_obj))
 b_objs = $(addprefix $(build_path), $(b_obj))
+g_objs = $(addprefix $(build_path), $(g_obj))
 env_objs = $(addprefix $(build_path), $(env_obj))
 
 libft = libft.a
@@ -46,10 +51,13 @@ $(build_path)%.o : $(env_path)%.c
 $(build_path)%.o : $(b_path)%.c
 	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
+$(build_path)%.o : $(gnl_path)%.c
+	$(CC) -Wall -Wextra -Werror -c $< -o $@
+
 all: $(NAME) 
 
-$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(b_objs)
-	$(CC) $(CFLAGS) -lreadline $(objs) $(p_objs) $(b_objs) $(env_objs) $(libft_path)$(libft) -o $@ 
+$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(b_objs) $(g_objs)
+	$(CC) $(CFLAGS) -lreadline $(objs) $(p_objs) $(b_objs) $(env_objs) $(g_objs) $(libft_path)$(libft) -o $@ 
 
 $(libft):
 	make -s -C $(libft_path)

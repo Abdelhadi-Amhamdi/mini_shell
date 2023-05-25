@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 13:26:38 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:35:21 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,13 @@ int validate_cmd(char *cmd)
 	return(1);
 }
 
+int is_operator(char c)
+{
+	if (c == '|' || c == '<' || c == '>' || c == '&')
+		return (1);
+	return (0);
+}
+
 t_lexer	*lexer(char *args, t_env	*env)
 {
 	char	**paths;
@@ -162,5 +169,6 @@ t_lexer	*lexer(char *args, t_env	*env)
 		index++;
 	}
 	ft_free(tabs);
+	ft_free(paths);
 	return (list);
 }

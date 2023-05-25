@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 13:40:16 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:27:22 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef enum s_type
 	CP,
 	UNK,
 	EMPTY,
+	WILDCARD,
 	HEREDOC
 }					t_type;
 
@@ -91,6 +92,8 @@ typedef struct s_app
 	t_tree		*ast_tree;
 	char		*cmd;
 	t_env		*env_list;
+	int			in;
+	int			out;
 }	t_app;
 
 #define _ERR_MSG "shell : parse error near"
@@ -118,7 +121,7 @@ char				*get_path(char *cmd, char **paths);
 int					check_op_prev(char *str, int i);
 int					check_op_next(char *str, int i);
 int					is_container(char c);
-int					is_operator(char c);
+int					is_special_char(char c);
 int					compare(t_lexer	*item, char *oper);
 char				**ft_mini_split(const char *src, char c);
 

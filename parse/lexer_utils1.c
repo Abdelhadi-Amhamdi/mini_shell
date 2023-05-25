@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/24 13:40:49 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/25 11:26:04 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ t_type	check_type(t_lexer *lexer_item, char *path)
 		return (CP);
 	else if (lexer_item->is_oper && !compare(lexer_item, "|"))
 		return (PIPE);
+	else if (lexer_item->is_oper && !compare(lexer_item, "*"))
+		return (WILDCARD);
+	else if (lexer_item->is_oper && !compare(lexer_item, "&&"))
+		return (AND);
+	else if (lexer_item->is_oper && !compare(lexer_item, "||"))
+		return (OR);
 	else if (lexer_item->is_oper && !compare(lexer_item, ">"))
 		return (RDIR);
 	else if (lexer_item->is_oper && !compare(lexer_item, ">>"))
