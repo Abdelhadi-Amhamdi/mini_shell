@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/24 13:47:01 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:17:11 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	ft_cd(t_env *env, t_tree *path)
 	t_env	*oldpwd;
 	t_env	*pwd;
 
-	printf("i was here in c file \n");
 	home = ft_search_env(env, "HOME");
 	oldpwd = ft_search_env(env, "OLDPWD");
 	pwd = ft_search_env(env, "PWD");
@@ -53,15 +52,9 @@ void	ft_cd(t_env *env, t_tree *path)
 	else
 		oldpwd->value = getcwd(NULL, 0);
 	if (!path->cmd_args[1])
-	{
 		chdir(home->value);
-		printf("i was here\n");
-	}	
 	else
 	{
-		// printf("[%s]\n",path->[0]);
-		printf("%s\n",path->cmd_args[0]);
-		printf("%s\n",path->cmd_args[1]);
 		if (path->str[0] == '~')
 			path->str = update_path(path->str + 1, home->value);
 		if (chdir(path->cmd_args[1]) == -1)

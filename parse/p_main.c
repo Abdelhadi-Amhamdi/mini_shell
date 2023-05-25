@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 16:59:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:11:47 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,15 +200,15 @@ t_tree	*formater(t_app *app)
 	app->lexer_list = lexer(app->cmd, app->env_list);
 	if(!app->lexer_list)
 		return (NULL);
-	print_token_list(app->lexer_list);
-	// if (ft_expander(app->lexer_list, app->env_list))
-	// 	return (NULL);
-	// app->parser_list = parser(app->lexer_list);
-	// ft_free_lexer_list(app->lexer_list);
-	// if (!app->parser_list)
-	// 	return (NULL);
-	// app->ast_tree = create_tree(&app->parser_list);
-	// ft_free_parser_list(app->parser_list);
-	// return (app->ast_tree);
-	return (NULL);
+	// print_token_list(app->lexer_list);
+	if (ft_expander(app->lexer_list, app->env_list))
+		return (NULL);
+	app->parser_list = parser(app->lexer_list);
+	ft_free_lexer_list(app->lexer_list);
+	if (!app->parser_list)
+		return (NULL);
+	app->ast_tree = create_tree(&app->parser_list);
+	ft_free_parser_list(app->parser_list);
+	return (app->ast_tree);
+	// return (NULL);
 }
