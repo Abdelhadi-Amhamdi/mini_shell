@@ -21,6 +21,8 @@
     - l's'
     - (echo "hello" > out) && ls
     - echo "hello" > file
+    - (ls asajshas)
+    - ls | wc -l && make || (gcc -g ) file.c
 
 #		- fix echo "$HOME"
 		- fix echo '''$HOME'''
