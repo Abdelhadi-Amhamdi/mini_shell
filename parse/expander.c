@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 13:46:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:54:06 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ int	check_pth(t_lexer *pt)
 		if (!pt->next || (pt->next->is_oper || pt->next->type == SQ \
 		|| pt->next->type == DQ || pt->next->type == UNK))
 			return (ft_error(pt->str), 1);
-		if (pt->prev->type == CMD || pt->prev->type == RDIR \
-		|| pt->prev->type == UNK)
+		if (pt->prev && (pt->prev->type == CMD || pt->prev->type == RDIR \
+		|| pt->prev->type == UNK))
 			return (ft_error(pt->str), 1);
 	}
 	else
 	{
-		if (pt->next->type == FL || pt->next->type == CMD \
-		|| pt->next->type == ARGS || pt->next->type == UNK)
+		if (pt->next && (pt->next->type == FL || pt->next->type == CMD \
+		|| pt->next->type == ARGS || pt->next->type == UNK))
 			return (ft_error(pt->str), 1);
 		if (!pt->prev || (pt->prev->type == SQ || pt->prev->type == DQ \
-		|| pt->prev->type == UNK || pt->next->is_oper))
+		|| pt->prev->type == UNK || pt->prev->is_oper))
 			return (ft_error(pt->str), 1);
 	}
 	return (0);
@@ -203,14 +203,35 @@ void ft_expand_wildcards(t_lexer **list)
 	}
 }
 
+int check_pths(t_lexer *list)
+{
+	int op;
+	int cp;
+	t_lexer *tmp;
+
+	op = 0;
+	cp = 0;
+	tmp = list;
+	while (tmp)
+	{
+		if (tmp->type == OP)
+			op++;
+		else if (tmp->type == CP)
+			cp++;
+		tmp = tmp->next;
+	}
+	if (!(op % 2) || !(cp % 2))
+		return (ft_putendl_fd("Syntax Error", 2), 1);
+	return (0);
+}
+
 int	ft_expander(t_lexer *list, t_env *env)
 {
 	if (check_qoutes(list))
 		return (1);
-	// if (syntax_analyzer(list))
-	// 	return (1);
+	if (syntax_analyzer(list) || check_pths(list))
+		return (1);
 	ft_expand_vars(&list, env);
-	//check phts
 	ft_expand_wildcards(&list);
 	return (0);
 }
