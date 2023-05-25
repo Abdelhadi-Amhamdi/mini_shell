@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 14:51:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:04:57 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 	}
 }
 
-void run_pipe(t_tree *cmd, int *pipe,int in, int out, int side)
+void run_pipe(t_tree *cmd, int *pipe, int in, int out, int side)
 {
 	int		std_file;
 	int		used_end;
@@ -47,6 +47,8 @@ void run_pipe(t_tree *cmd, int *pipe,int in, int out, int side)
 	}
 	if (cmd->type == PIPE)
 		run_pipeline(cmd, in, used_end);
+	else if (cmd->type == HEREDOC)
+		herdoc(cmd->right->str);
 	else
 		exec_cmd(cmd, unused_end, used_end, std_file, old);
 }
