@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:45:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 18:26:51 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:31:46 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_container(char c)
 int	check_op_next(char *str, int i)
 {
 	if ((is_special_char(str[i]) && str[i + 1] != ' ') \
-	&& !is_container(str[i + 1]) && !is_special_char(str[i + 1]) && str[i] != str[i + 1])
+	&& (str[i] != str[i + 1] || !is_operator(str[i + 1])))
 		return (1);
 	return (0);
 }
@@ -42,7 +42,14 @@ int	check_op_next(char *str, int i)
 int	check_op_prev(char *str, int i)
 {
 	if ((is_special_char(str[i]) && str[i - 1] != ' ') \
-	&& !is_container(str[i - 1]) && is_special_char(str[i - 1]) && str[i] != str[i - 1])
+	&& (str[i] != str[i - 1] || !is_operator(str[i - 1])))
+		return (1);
+	return (0);
+}
+
+int is_operator(char c)
+{
+	if (c == '|' || c == '<' || c == '>' || c == '&')
 		return (1);
 	return (0);
 }

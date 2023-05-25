@@ -1,5 +1,7 @@
 
 #include "../includes/mini_shell.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 void clean_data(t_app *app)
 {
@@ -55,6 +57,18 @@ int executer(t_tree *root, t_env *env)
 	return (-11);
 }
 
+void test(int sigtype)
+{
+	if (sigtype == SIGINT)
+	{
+		int s = 0;
+		printf("%d\n", WEXITSTATUS(s));
+		// rl_on_new_line();
+        // rl_replace_line("", 0);
+        // rl_redisplay();
+	}
+}
+
 int main(int ac, char **av, char **envp)
 {
 	t_app *app;
@@ -64,12 +78,13 @@ int main(int ac, char **av, char **envp)
 	app = malloc(sizeof(t_app));
 	if (!app)
 		return (0);
+	// signal(SIGINT, test);
 	app->env_list = get_env_vars(envp);
 	while (1)
 	{
 		clean_data(app);
 		app->cmd = NULL;
-		app->cmd = readline("minishell$ ");
+		app->cmd = readline("mini_sh-1.0$ ");
 		if (!app->cmd)
 			exit (1);
 		if (app->cmd[0])

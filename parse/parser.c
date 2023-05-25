@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/21 19:02:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:59:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_parser	*create_blocks(t_lexer *lexer_list)
 		{
 			new_node = create_parser_node(tmp);
 			tmp1 = tmp->next;
-			while (tmp1 && !tmp1->is_oper)
+			while (tmp1 && !tmp1->is_oper && tmp1->type != OP && tmp1->type != CP)
 			{
 				add_token_to_end(&(new_node->args_list), ft_nodedup(tmp1));
 				tmp1 = tmp1->next;

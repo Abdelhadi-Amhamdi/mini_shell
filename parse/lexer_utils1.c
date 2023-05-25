@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/25 21:09:51 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/25 22:01:07 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ t_type	check_type(t_lexer *node, char *path)
 		return (OP);
 	else if (node->str[0] == ')')
 		return (CP);
-	else if (node->is_oper && !compare(node, "|"))
-		return (PIPE);
 	else if (!compare(node, "*"))
 		return (WILDCARD);
+	else if (node->is_oper && !compare(node, "|"))
+		return (PIPE);
 	else if (node->is_oper && !compare(node, "&&"))
 		return (AND);
 	else if (node->is_oper && !compare(node, "||"))
