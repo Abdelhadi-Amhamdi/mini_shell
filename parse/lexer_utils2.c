@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:45:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/18 21:47:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:55:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	compare(t_lexer	*item, char *oper)
 
 int	is_operator(char c)
 {
-	if (c == '|' || c == '<' || c == '>' || c == '&' || c == '*')
+	if (c == '|' || c == '<' || c == '>' || c == '&')
 		return (1);
 	return (0);
 }
 
 int	is_container(char c)
 {
-	if (c == '\'' || c == '"' || c == ')' || c == '(')
+	if (c == '\'' || c == '"' || c == ')' || c == '(' || c == '*')
 		return (1);
 	return (0);
 }
