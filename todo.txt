@@ -23,7 +23,11 @@
     - echo "hello" > file
     - (ls asajshas)
     - ls | wc -l && make || (gcc -g ) file.c
+    - echo "hello|"
+    - ls && ( cat todo.txt | grep s | wc ) || ls
 
 #		- fix echo "$HOME"
 		- fix echo '''$HOME'''
 		- fix echo ''$HOME''
+		- fix echo "'$HOME'"
+		- fix echo $HOME'

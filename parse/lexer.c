@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 20:25:27 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:55:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ void	_ft_error(char *str)
 	exit(1);
 }
 
-int is_absolute(char *cmd)
+int is_absolute(char *str)
 {
-	while(*cmd)
+	while(*str)
 	{
-		if(*cmd == '/')
+		if(*str == '/')
 			return (1);
-		cmd++;
+		str++;
 	}
 	return (0);
 }
@@ -147,20 +147,23 @@ t_lexer	*lexer(char *args, t_env	*env)
 		node = create_token(tabs[index], is_operator(tabs[index][0]), paths);
 		if (!node)
 			return (NULL);
-		if(is_absolute(node->str) && (!node->prev || node->prev->type == PIPE))
-		{
-			if(validate_cmd(node->str))
-				return (ft_putendl_fd("command not found",2), NULL);
-			node->path = node->str;
-			node->str = extract_cmd(node->str);
-			node->type = CMD;
-		}	
 		if (!node->is_oper && !node->path)
 			node->path = get_path(node->str ,paths);
-		node->type = check_type(node, node->path);
 		add_token_to_end(&list, node);
+		// node = last_node(list);
+		node = get_last_token(list);
+		node->type = check_type(node, node->path);
+		if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str) && node->prev->type == PIPE))
+		{
+				if(validate_cmd(node->str))
+					return (ft_putendl_fd("command not found",2), NULL);
+				node->path = node->str;
+				node->str = extract_cmd(node->str);
+				node->type = CMD;
+		}
 		index++;
 	}
+	// print_token_list(list);
 	ft_free(tabs);
 	ft_free(paths);
 	return (list);

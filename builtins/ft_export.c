@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/11 17:56:42 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:59:38 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,57 @@ int check_spaces(char *str)
 	return (1);	
 }
 
-void	ft_export(t_parser *full_cmd, t_env **env)
+
+int is_exist(t_env	*node, t_env	*env)
+{
+	while(env)
+	{
+		if((!ft_strncmp(node->key, env->key, ft_strlen(node->key))))
+			return (1);
+		env = env->next;
+	}	
+	return (0);
+}
+
+t_env	*search_node(t_env	*node, t_env	*env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while(tmp)
+	{
+		if(!ft_strncmp(tmp->key, node->key, ft_strlen(node->key)))
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (tmp);
+}
+
+void	ft_export(t_tree *cmd, t_env **env)
 {
 	t_env	*node;
+	t_env	*tmp;
 	char *key;
 	char *value;
+	int i;
 	
-	if(!full_cmd->next)
+	if(!cmd->cmd_args[1])
 	{
 		print_export(*env);
 		return ;	
 	}
-	formate_env_item(&key, &value, full_cmd->next->str);
-	node = ft_new_node(key, value);
-	if (node)
-			ft_add_back_env(env, node); 
+	i = 1;
+	while(cmd->cmd_args[i])
+	{
+		formate_env_item(&key, &value, cmd->cmd_args[i]);
+		node = ft_new_node(key, value);
+		if (node && !is_exist(node, *env))
+			ft_add_back_env(env, node);
+		else if(node && is_exist(node, *env))
+		{
+			tmp = search_node(node, *env);
+			tmp->value = value;
+		}
+		i++;
+	}
 }

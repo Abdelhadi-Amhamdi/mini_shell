@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 20:25:49 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:58:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int					is_container(char c);
 int					is_special_char(char c);
 int					compare(t_lexer	*item, char *oper);
 char				**ft_mini_split(const char *src, char c);
+t_lexer				*get_last_token(t_lexer *list);
 int					is_operator(char c);
 
 // parser functions

@@ -22,20 +22,20 @@ void print_ast(t_tree *root)
 	print_ast(root->right);
 }
 
-void	exec_builtin(t_tree	*cmd, t_env	*env)
+void	exec_builtin(t_tree	*cmd, t_env	**env)
 {
 	if(!ft_strncmp(cmd->str, "cd", 2))
-		ft_cd(env,cmd);
-	// else if(!ft_strncmp(cmd->str, "env", 3))
-	// 	ft_env(env);
-	// else if ( !ft_strncmp(cmd->str, "unset", 6))
-	// 	ft_unset(cmd, env);
-	// else if (!ft_strncmp(cmd->str, "export", 6))
-	// 	ft_export(cmd, env);
-	// else if (!ft_strncmp(cmd->str, "echo", 5))
-	// 	ft_echo(cmd);
-	// else if (!ft_strncmp(cmd->str, "pwd", 3))
-	// 	ft_pwd();
+		ft_cd(*env,cmd);
+	else if(!ft_strncmp(cmd->str, "env", 3))
+		ft_env(*env);
+	else if ( !ft_strncmp(cmd->str, "unset", 6))
+		*env = ft_unset(cmd, *env);
+	else if (!ft_strncmp(cmd->str, "export", 6))
+		ft_export(cmd, env);
+	else if (!ft_strncmp(cmd->str, "echo", 5))
+		ft_echo(cmd);
+	else if (!ft_strncmp(cmd->str, "pwd", 3))
+		ft_pwd();
 	// else if (!ft_strncmp(cmd->str, "exit", 5))
 	// 	ft_exit();
 }
@@ -45,7 +45,7 @@ int executer(t_tree *root, t_env *env)
 	if (!root)
 		return (-11);
 	if (root->type == CMD)
-		return (run_cmd(root, env));
+		return (run_cmd(root, &env));
 	else if (root->type == PIPE)
 		return (run_pipeline(root, 0, 1));
 	else if (root->type == RDIR || root->type == APND)
@@ -78,7 +78,7 @@ int main(int ac, char **av, char **envp)
 	app = malloc(sizeof(t_app));
 	if (!app)
 		return (0);
-	signal(SIGINT, test);
+	// signal(SIGINT, test);
 	app->env_list = get_env_vars(envp);
 	while (1)
 	{
