@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/22 19:06:12 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:09:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void printTreeHelper(t_tree *root, int depth)
     for (int i = 0; i < depth; i++) {
         printf("    ");
     } 
-    printf("%s\n", root->str);
+    printf("%s -- %d\n", root->str, root->type);
 	int i = 0;
 	if (root->cmd_args)
 	{
