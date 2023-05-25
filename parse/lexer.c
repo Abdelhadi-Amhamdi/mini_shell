@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 13:34:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:35:21 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,13 @@ int validate_cmd(char *cmd)
 	if(!access(cmd,F_OK | X_OK))
 		return(0);
 	return(1);
+}
+
+int is_operator(char c)
+{
+	if (c == '|' || c == '<' || c == '>' || c == '&')
+		return (1);
+	return (0);
 }
 
 t_lexer	*lexer(char *args, t_env	*env)
