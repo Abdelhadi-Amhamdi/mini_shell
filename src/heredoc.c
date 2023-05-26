@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/26 11:55:54 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/26 15:02:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	herdoc(char *delemiter, t_app *app)
 		if (!new_node)
 			return (-1);
 		heredoc_list_add(&(app->herdoc_list), new_node);
+		free(line);
 		write(0, "> ", 2);
 		line = get_next_line(0);
 		if (!line || !ft_strncmp(line, delemiter, (ft_strlen(line) - 1)))
