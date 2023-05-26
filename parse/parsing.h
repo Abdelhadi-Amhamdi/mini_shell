@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 21:58:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:57:06 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,12 @@ typedef struct s_tree
 	struct s_tree	*right;
 }					t_tree;
 
+typedef struct s_h_list
+{
+	char *data;
+	struct s_h_list *next;
+} t_h_list;
+
 typedef struct s_app
 {
 	t_lexer		*lexer_list;
@@ -92,6 +98,7 @@ typedef struct s_app
 	t_tree		*ast_tree;
 	char		*cmd;
 	t_env		*env_list;
+	t_h_list	*herdoc_list;
 	int			in;
 	int			out;
 }	t_app;
