@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 15:37:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:56:49 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ typedef struct s_tree
 	struct s_tree	*right;
 }					t_tree;
 
+typedef struct s_h_list
+{
+	char *data;
+	struct s_h_list *next;
+} t_h_list;
+
 typedef struct s_app
 {
 	t_lexer		*lexer_list;
@@ -94,23 +100,23 @@ typedef struct s_app
 	t_tree		*ast_tree;
 	char		*cmd;
 	t_env		*env_list;
-	int			in;
-	int			out;
+	t_h_list	*herdoc_list;
+	int			status;
 }	t_app;
 
-#define _ERR_MSG "shell : parse error near"
+#define _ERR_MSG "shell : parse error near" 
 
 // main
 t_tree				*formater(t_app *app);
 void				ft_error(char *str);
-void				ft_free_lexer_list(t_lexer *list);
+void				ft_free_lexer_list(t_lexer **list);
 
 // lexer functions
 t_lexer				*lexer(char *args, t_env *env);
 char				**all_paths(t_env *env);
 void				ft_free(char **tabs);
 void				add_token_to_end(t_lexer **head, t_lexer *new_token);
-t_lexer				*create_token(char *str, int is_token);
+t_lexer				*create_token(char *str, int len, char **paths);
 void				print_token_list(t_lexer *head);
 char				**args_filter(char *str);
 char				*filter_args_helper(char *str);
@@ -136,6 +142,7 @@ t_parser			*create_blocks(t_lexer *lexer_list);
 t_lexer				*ft_nodedup(t_lexer *node);
 void				add_node_to_list(t_parser **list, t_parser *item);
 t_parser			*create_parser_node(t_lexer *l_node);
+void				ft_free_parser_list(t_parser **list);
 
 // expander function
 int					ft_expander(t_lexer *list, t_env *env);

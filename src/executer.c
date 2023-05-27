@@ -1,308 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
+/*   Updated: 2023/05/27 15:34:53 by aamhamdi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-// int	parser_helper(t_parser *list)
-// {
-// 	t_parser	*tmp;
-// 	int			single_qutes;
-// 	int			double_qutes;
-// 	t_type		current;
+void	exec_builtin(t_tree	*cmd, t_env	**env)
+{
+	if(!ft_strncmp(cmd->str, "cd", 2))
+		ft_cd(*env,cmd);
+	else if(!ft_strncmp(cmd->str, "env", 3))
+		ft_env(*env);
+	else if ( !ft_strncmp(cmd->str, "unset", 6))
+		*env = ft_unset(cmd, *env);
+	else if (!ft_strncmp(cmd->str, "export", 6))
+		ft_export(cmd, env);
+	else if (!ft_strncmp(cmd->str, "echo", 5))
+		ft_echo(cmd);
+	else if (!ft_strncmp(cmd->str, "pwd", 3))
+		ft_pwd();
+	// else if (!ft_strncmp(cmd->str, "exit", 5))
+	// 	ft_exit();
+}
 
-// 	tmp = list;
-// 	single_qutes = 0;
-// 	double_qutes = 0;
-// 	while (tmp)
-// 	{
-// 		if ((tmp->type == SQ || tmp->type == DQ) \
-// 		&& (!(single_qutes % 2) && !(double_qutes % 2)))
-// 			current = tmp->type;
-// 		if (tmp->type == SQ && tmp->type == current)
-// 			single_qutes++;
-// 		else if (tmp->type == DQ && tmp->type == current)
-// 			double_qutes++;
-// 		tmp = tmp->next;
-// 	}
-// 	if (single_qutes % 2 || double_qutes % 2)
-// 		return (printf("Error Qutes not closed!\n"), 1);
-// 	tmp = list;
-// 	if (tmp->type != CMD && tmp->type != TOKEN)
-// 		return (printf("Error %s : not found\n", tmp->str), 1);
-// 	return (0);
-// }
-
-// // void	exec_builtins(t_parser *cmd, t_env **env)
-// // {
-// // 	if (!ft_strncmp(cmd->str, "pwd", 3))
-// // 		ft_pwd();
-// // 	else if (!ft_strncmp(cmd->str, "cd", 2))
-// // 		ft_cd(*env, cmd->next);
-// // 	else if (!ft_strncmp(cmd->str, "echo", 4))
-// // 		ft_echo(cmd->next);
-// // 	else if (!ft_strncmp(cmd->str, "export", 6))
-// // 	{
-// // 		// puts("export");
-// // 		// print_parser_list(cmd);
-// // 		ft_export(cmd, env);
-// // 	}
-// // 	else if (!ft_strncmp(cmd->str, "env", 3))
-// // 		ft_env(*env);
-// // 	else if (!ft_strncmp(cmd->str, "unset", 5))
-// // 		ft_unset(cmd ,*env);
-// // }
-
-// int ft_calc(t_parser *list)
-// {
-// 	int count;
-
-// 	count = 0;
-// 	while (list && (list->type == UNK || list->type == ARGS))
-// 	{
-// 		count++;
-// 		list = list->next;
-// 	}
-// 	return (count);
-// }
-
-// void execc(t_parser *list)
-// {
-// 	char **cmd;
-// 	int	index;
-// 	t_parser *tmp;
-// 	int size;
-
-// 	index = 0;
-// 	size = ft_calc(list->next);
-// 	cmd = (char **)malloc(sizeof(char *) * (size + 1));
-// 	cmd[index] = list->str;
-// 	tmp = list->next;
-// 	if (tmp && (tmp->type == UNK || tmp->type == ARGS))
-// 	{
-// 		index++;
-// 		cmd[index] = tmp->str;
-// 		tmp = tmp->next;
-// 	}
-// 	cmd[++index] = NULL;
-// 	index = 0;
-// 	// while (cmd[index])
-// 	// {
-// 	// 	printf("%s ", cmd[index]);
-// 	// 	index++;
-// 	// }
-// 	execve(list->path, cmd, NULL);
-// }
-
-// t_parser *get_next_item(t_parser *list)
-// {
-// 	while (list)
-// 	{
-// 		if (list->type == TOKEN)
-// 			return 	list;
-// 		list = list->next;
-// 	}
-// 	return (NULL);
-// }
-
-// void	exec_cmd(t_parser *list, t_env *env)
-// {
-// 	if (tmp->is_builtin)
-// 		exec_builtins(tmp, env);
-// 	else
-// 		exec_any(tmp, env);
-// }
-
-// int	calc_pipes(t_parser *list)
-// {
-// 	t_parser	*tmp;
-// 	int			count;
-
-// 	tmp = list;
-// 	count = 0;
-// 	while (tmp->next)
-// 	{
-// 		if (tmp->type == TOKEN && tmp->str[0] == '|')
-// 			count++;
-// 		tmp = tmp->next;
-// 	}
-// 	return (count);
-// }
-
-// void	exec_cmd(t_parser *list, t_env *env)
-// {
-// 	t_parser	*tmp;
-// 	t_parser	*next;
-// 	pid_t		pid;
-// 	int			fd[2];
-// 	int			pipes;
-
-// 	tmp = list;
-// 	pipes = 0;
-// 	while (tmp)
-// 	{
-// 		next = get_next_item(tmp->next);
-// 		if (next && next->str[0] == '|')
-// 		{
-// 			pipe(fd);
-// 			pid = fork();
-// 			if (pid == 0)
-// 			{
-// 				close(fd[0]);
-// 				dup2(fd[1], STDOUT_FILENO);
-// 				close(fd[1]);
-// 				exec__(tmp, env);
-// 			}
-// 			else
-// 			{
-// 				close(fd[1]);
-// 				waitpid(pid, NULL, 0);
-// 				dup2(fd[0], STDIN_FILENO);
-// 			}
-// 			tmp = next->next;
-// 			pipes++;
-// 		}
-// 		// else if (next && next->str[0] == '>')
-// 		// {
-// 		// 	pid = fork();
-// 		// 	if (pid == 0)
-// 		// 	{
-// 		// 		int f = open(next->next->str, O_RDWR | O_CREAT, 777);
-// 		// 		dup2(f, STDOUT_FILENO);
-// 		// 		close(f);
-// 		// 		exec__(tmp, env);
-// 		// 	}
-// 		// 	tmp = NULL;
-// 		// }
-// 		else
-// 		{
-// 			pid = fork();
-// 			if (pid == 0)
-// 			{
-// 				if (pipes)
-// 				{
-// 					close(fd[1]);
-// 					close(fd[0]);
-// 				}
-// 				exec__(tmp, env);
-// 			}
-// 			else
-// 			{
-// 				if (pipes)
-// 				{
-// 					close(fd[1]);
-// 					close(fd[0]);
-// 				}
-// 				waitpid(pid, NULL, 0);
-// 				dup2(STDIN_FILENO, fd[0]);
-// 			}
-// 			tmp = NULL;
-// 		}
-// 	}
-// }
-
-// int exec_cmd()
-// {
-
-// }
-
-// int ecec_subshell()
-// {
-
-// }
-
-// int exec_pipe_line()
-// {
-
-// }
-
-// int exec_redirection()
-// {
-
-// }
-
-
-
-// int	executer(t_app *app)
-// {
-// 	t_tree *ast;
-
-// 	ast = app->ast_tree;
-// 	exec_cmd(tmp, env_list);
-// 	return (0);
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// pipe(fd);
-	// pid = fork();
-	// if (pid == 0)
-	// {
-	// 	close(fd[0]);
-	// 	dup2(fd[1], STDOUT_FILENO);
-	// 	close(fd[1]);
-	// 	exec__(tmp, env);
-	// }
-	// else
-	// {
-	// 	close(fd[1]);
-	// 	wait(NULL);
-	// 	dup2(fd[0], STDIN_FILENO);
-	// 	close(fd[0]);
-	// }
-	// next = get_next_item(tmp);
-    // tmp = next->next;
-	// pipe(fd);
-	// pid = fork();
-	// if (pid == 0)
-	// {
-	// 	close(fd[0]);
-	// 	dup2(fd[1], STDOUT_FILENO);
-	// 	close(fd[1]);
-	// 	exec__(tmp, env);
-	// }
-	// else
-	// {
-	// 	close(fd[1]);
-	// 	wait(NULL);
-	// 	dup2(fd[0], STDIN_FILENO);
-	// 	close(fd[0]);
-	// }
-	// next = get_next_item(tmp);
-    // tmp = next->next;
-	// pid = fork();
-	// if (pid == 0)
-	// {
-	// 	close(fd[0]);
-	// 	close(fd[1]);
-	// 	exec__(tmp , env);
-	// }
-	// else
-	// {
-	// 	close(fd[0]);
-	// 	close(fd[1]);
-	// 	wait(NULL);
-	// }
+int executer(t_tree *root, t_app *app)
+{
+	if (!root)
+		return (app->status);
+	if (root->type == CMD)
+		return (run_cmd(root, &app->env_list));
+	else if (root->type == PIPE)
+		return (run_pipeline(root, 0, 1));
+	else if (root->type == RDIR || root->type == APND)
+		return (run_rdir(root));
+	else if (root->type == HEREDOC)
+		return (herdoc(root, app));
+	else if (root->type == AND || root->type == OR)
+		return (run_connectors(root));
+	return (-1);
+}

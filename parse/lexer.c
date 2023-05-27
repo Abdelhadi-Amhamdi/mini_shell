@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 15:57:34 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:07:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+int is_space(char c)
+{
+	return (c == 32 || (c >= 9 && c <= 13));
+}
 
 char *extract_str(char *str, int len)
 {
@@ -30,14 +35,15 @@ char *extract_str(char *str, int len)
 	return (s);
 }
 
-t_lexer	*create_token(char *str, int len)
+t_lexer	*create_token(char *str, int len, char **paths)
 {
 	t_lexer	*new;
 	new = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!new)
 		return (NULL);
 	new->str = extract_str(str, len);
-	new->path = NULL;
+	new->is_oper = is_operator(new->str[0]);
+	new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
 	new->next = NULL;
 	new->prev = NULL;
@@ -58,11 +64,6 @@ void	add_token_to_end(t_lexer **head, t_lexer *new_token)
 		current_token->next = new_token;
 		new_token->prev = current_token;
 	}
-}
-
-int is_space(char c)
-{
-	return (c == 32);
 }
 
 void	ft_free(char **tabs)
@@ -141,19 +142,19 @@ int validate_cmd(char *cmd)
 	return(1);
 }
 
-char *ft_word(t_lexer **list, char *cmd)
+char *ft_word(t_lexer **list, char *cmd, char **paths)
 {
 	int i;
 	t_lexer *new;
 	i = 0;
-	while(cmd[i] && !is_operator(cmd[i]))
+	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32)
 		i++;
-	new = create_token(cmd, i);
+	new = create_token(cmd, i, paths);
 	add_token_to_end (list, new);
 	return (&cmd[i]);
 }
 
-char *ft_spaces(t_lexer	**list, char *cmd)
+char *ft_spaces(t_lexer	**list, char *cmd, char **paths)
 {
 	t_lexer	*new;
 	int i;
@@ -161,108 +162,107 @@ char *ft_spaces(t_lexer	**list, char *cmd)
 	i = 0;
 	while(cmd[i] && is_space(cmd[i]))
 		i++;
-	new = create_token(cmd, i);
+	new = create_token(cmd, i, paths);
 	add_token_to_end (list, new);
 	return (&cmd[i]);
 }
 
-char *ft_and(t_lexer **list, char *cmd)
+
+char *ft_oneoperator(t_lexer **list, char *cmd, char c, char **paths)
 {
 	int i;
 	t_lexer	*new;
 
-	if(*(cmd + 1) == '&')
+	if(*(cmd+1) == c)
 		i = 2;
 	else
 		i = 1;
-	new = create_token(cmd, i);
+	new = create_token(cmd, i, paths);
 	add_token_to_end (list, new);
 	return (&cmd[i]);
 }
 
-char *ft_pipe(t_lexer **list, char *cmd)
-{
-	int i;
-	t_lexer	*new;
-
-	if(*(cmd+1) == '|')
-		i = 2;
-	else
-		i = 1;
-	new = create_token(cmd, i);
-	add_token_to_end (list, new);
-	return (&cmd[i]);
-}
-
-char *ft_parentheses(t_lexer	**list, char *cmd)
+char *ft_parentheses(t_lexer	**list, char *cmd, char **paths)
 {
 	t_lexer	*new;
 	int i;
 
 	i = 1;
-	new = create_token(cmd, i);
+	new = create_token(cmd, i, paths);
 	add_token_to_end (list, new);
 	return (&cmd[i]);
 }
 
-char *ft_singleq(t_lexer	**list, char *cmd)
+char *ft_quotes(t_lexer	**list, char *cmd, char c, char **paths)
 {
 	t_lexer *new;
 	int i;
 
 	i = 1;
-	while(cmd[i] && cmd[i] != '\'')
+	while(cmd[i] && cmd[i] != c)
 		i++;
 	i++;
-	new = create_token(cmd, i);
+	new = create_token(cmd, i, paths);
 	add_token_to_end (list, new);
 	return (&cmd[i]);
 }
 
-char *ft_doubleq(t_lexer	**list, char *cmd)
-{
-	t_lexer *new;
-	int i;
 
-	i = 1;
-	while(cmd[i] && cmd[i] != '"')
-		i++;
-	i++;
-	new = create_token(cmd, i);
-	add_token_to_end (list, new);
-	return (&cmd[i]);
-}
-
-t_lexer	*lexer(char *cmd, t_env	*env)
+t_lexer *tokenizer(char *cmd, char **paths)
 {
 	t_lexer	*list;
 
-	(void)env;
 	list	= NULL;
+	while(*cmd && is_space(*cmd))
+		cmd++;
 	while(*cmd)
 	{
 		if(is_space(*cmd))
-			cmd = ft_spaces(&list,cmd);
+			cmd = ft_spaces(&list,cmd,paths);
 		else if (*cmd == '|')
-			cmd = ft_pipe(&list,cmd);
+			cmd = ft_oneoperator(&list,cmd, *cmd, paths);
 		else if (*cmd == '&')
-			cmd = ft_and(&list,cmd);
+			cmd = ft_oneoperator(&list,cmd, *cmd, paths);
 		else if (*cmd == '(' || *cmd == ')')
-			cmd = ft_parentheses(&list, cmd);
-		else if (*cmd == '\'')
-			cmd = ft_singleq(&list, cmd);
-		else if (*cmd == '"')
-			cmd = ft_doubleq(&list, cmd);
+			cmd = ft_parentheses(&list, cmd,paths);
+		else if (*cmd == '\'' || *cmd == '"')
+			cmd = ft_quotes(&list, cmd, *cmd,paths);
+		else if (*cmd == '>' || *cmd == '<')
+			cmd = ft_oneoperator(&list, cmd, *cmd, paths);
 		else
-			cmd = ft_word(&list,cmd);
+			cmd = ft_word(&list,cmd, paths);
 	}
-	
-	while(list)
+	return (list);
+}
+
+void set_type(t_lexer **list)
+{
+	t_lexer *tmp;
+
+	tmp = *list;
+	while (tmp)
 	{
-		printf("=:%s:\n",list->str);
-		list = list->next;
+		tmp->type = check_type(tmp, tmp->path);
+		tmp = tmp->next;
 	}
-	// char	**paths;
+}
+
+
+t_lexer	*lexer(char *cmd, t_env	*env)
+{
+	char	**paths;
+	t_lexer	*list;
+
+	paths = all_paths(env);
+	list = tokenizer(cmd, paths);
+	set_type(&list);
+	
+	
+	// while(list)
+	// {
+	// 	printf(":%s:\n",list->str);
+	// 	list = list->next;
+	// }
 	// int		index;
 	// char	**tabs;
 
@@ -273,7 +273,6 @@ t_lexer	*lexer(char *cmd, t_env	*env)
 	// tabs = args_filter(args);
 	// if (!tabs)
 	// 	return (NULL);
-	// paths = all_paths(env);
 	// while (tabs[index])
 	// {
 		
@@ -284,7 +283,7 @@ t_lexer	*lexer(char *cmd, t_env	*env)
 	// 		node->path = get_path(node->str ,paths);
 	// 	add_token_to_end(&list, node);
 	// 	node = get_last_token(list);
-	// 	node->type = check_type(node, node->path);
+		// node->type = check_type(node, node->path);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str) && node->prev->type == PIPE))
 	// 	{
 	// 			if(validate_cmd(node->str))
