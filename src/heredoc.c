@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/26 15:02:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 11:15:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,41 @@ void heredoc_list_add(t_h_list **list, t_h_list *item)
 	}
 }
 
-int	herdoc(char *delemiter, t_app *app)
+int	herdoc(t_tree *hrd, t_app *app)
 {
 	char	*line;
-	t_h_list	*new_node;
+	char	*del;
+	t_tree	*cmd;
+	int		fd;
+	char	*tmp_file_name;
 
+	del = hrd->right->str;
+	tmp_file_name = "heredoc_file";
+	cmd = hrd->left;
 	app->herdoc_list = NULL;
+	fd = open(tmp_file_name, O_CREAT | O_RDWR, 0644);
 	write(0, "> ", 2);
 	line = get_next_line(0);
 	while (1)
 	{
-		new_node = create_heredoc_node(line);
-		if (!new_node)
-			return (-1);
-		heredoc_list_add(&(app->herdoc_list), new_node);
+		ft_putstr_fd(line, fd);
 		free(line);
 		write(0, "> ", 2);
 		line = get_next_line(0);
-		if (!line || !ft_strncmp(line, delemiter, (ft_strlen(line) - 1)))
+		if (!line || !ft_strncmp(line, del, (ft_strlen(line) - 1)))
 			break ;
 	}
 	free (line);
+	close(fd);
+	fd = open(tmp_file_name, O_RDONLY, 0644);
+	if (fd == -1)
+		return (ft_putendl_fd("Error", 2), -1);
+	if (cmd)
+	{
+		exec_cmd(cmd, -1, fd, 0, -1);
+		close(fd);
+		wait(NULL);
+	}
+	unlink(tmp_file_name);
 	return (0);
 }
