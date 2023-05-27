@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 12:30:53 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:54:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	ft_trim_quotes(t_lexer *node)
 	tmp = node;
 	if (tmp->type == SQ)
 		tmp->str = ft_strtrim(tmp->str, "'");
-	else 
+	else if (tmp->type == DQ)
 		tmp->str = ft_strtrim(tmp->str, "\"");
 	if (!tmp->str[0])
 	{
@@ -170,7 +170,7 @@ t_lexer *create_list(char **tabs)
 	list = NULL;
 	while (tabs[index])
 	{
-		new_node = create_token(tabs[index], 0, NULL);
+		new_node = create_token(tabs[index], 0);
 		add_token_to_end(&list, new_node);
 		index++;
 	}

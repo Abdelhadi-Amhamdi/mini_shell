@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 16:50:21 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:53:57 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ typedef enum s_type
 	UNK,
 	EMPTY,
 	WILDCARD,
-	HEREDOC
+	HEREDOC,
+	SPACE,
+	DOT
 }					t_type;
 
 // typedef enum st_type
@@ -114,7 +116,7 @@ t_lexer				*lexer(char *args, t_env *env);
 char				**all_paths(t_env *env);
 void				ft_free(char **tabs);
 void				add_token_to_end(t_lexer **head, t_lexer *new_token);
-t_lexer				*create_token(char *str, int is_token, char	**paths);
+t_lexer				*create_token(char *str, int is_token);
 void				print_token_list(t_lexer *head);
 char				**args_filter(char *str);
 char				*filter_args_helper(char *str);
