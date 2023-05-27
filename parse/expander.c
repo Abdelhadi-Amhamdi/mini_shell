@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 20:57:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:52:39 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_trim_quotes(t_lexer *node)
 	tmp = node;
 	if (tmp->type == SQ)
 		tmp->str = ft_strtrim(tmp->str, "'");
-	else 
+	else if (tmp->type == DQ)
 		tmp->str = ft_strtrim(tmp->str, "\"");
 	if (!tmp->str[0])
 	{
