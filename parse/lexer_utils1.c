@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/27 11:43:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:10:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ int	is_var(t_lexer *node)
 	return (1);
 }
 
+// int is_whitespace()
+// {
+	
+// }
+
 t_type	check_type(t_lexer *node, char *path)
 {
 	if (is_file(node))
@@ -109,5 +114,7 @@ t_type	check_type(t_lexer *node, char *path)
 		return (VAR);
 	else if (node->str[0] == '-')
 		return (ARGS);
+	else if (node->str[0] == 32)
+		return (SPACE);
 	return (UNK);
 }
