@@ -8,6 +8,9 @@ b_path = builtins/
 srcs_path = src/
 env_path = env/
 
+#L = -L/Users/aamhamdi/goinfre/homebrew/Cellar/readline/8.2.1/lib/
+#I = -I/Users/aamhamdi/goinfre/homebrew/Cellar/readline/8.2.1/include/
+
 header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_utils1.c lexer_utils2.c
 env_src = env_main.c utils_env.c
@@ -40,7 +43,7 @@ CFLAGS = -Wall -Wextra -Werror
 CC = cc -g
 
 $(build_path)%.o : $(srcs_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
 
 $(build_path)%.o : $(parsing_path)%.c
 	$(CC) -Wall -Wextra -Werror -c $< -o $@
@@ -57,7 +60,7 @@ $(build_path)%.o : $(gnl_path)%.c
 all: $(NAME) 
 
 $(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(b_objs) $(g_objs)
-	$(CC) $(CFLAGS) -lreadline $(objs) $(p_objs) $(b_objs) $(env_objs) $(g_objs) $(libft_path)$(libft) -o $@ 
+	$(CC) $(CFLAGS) $(objs) $(p_objs) $(b_objs) $(env_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
 
 $(libft):
 	make -s -C $(libft_path)

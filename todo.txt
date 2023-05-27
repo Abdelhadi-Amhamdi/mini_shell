@@ -25,6 +25,8 @@
     - ls | wc -l && make || (gcc -g ) file.c
     - echo "hello|"
     - ls && ( cat todo.txt | grep s | wc ) || ls
+    - echo "hello" "ls" "ls"
+    - file.txt
 
 #		- fix echo "$HOME"
 		- fix echo '''$HOME'''

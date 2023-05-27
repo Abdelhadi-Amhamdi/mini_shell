@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 18:43:29 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:49:31 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,43 @@ int run_pipeline(t_tree *pipe_node, int in, int out)
 	return (status);
 }
 
+int ft_env_lst_size(t_env *list)
+{
+	int index;
+	
+	index = 0;
+	while (list)
+	{
+		index++;
+		list = list->next;
+	}
+	return (index);
+}
+
+char **list_to_tab(t_env *list)
+{
+	t_env *tmp;
+	char **env;
+	int size;
+	int index;
+
+	tmp = list;
+	index = 0;
+	size = ft_env_lst_size(tmp);
+	env = malloc(sizeof(char *) * size + 1);
+	if (!env)
+		return (NULL);
+	while (tmp)
+	{
+		env[index] = ft_strjoin(tmp->key, "=");
+		env[index] = ft_strjoin(env[index], tmp->value);
+		index++;
+		tmp = tmp->next;
+	}
+	env[index] = NULL;
+	return (env);
+}
+
 int run_cmd(t_tree *cmd, t_env **env)
 {
 	pid_t pid;
@@ -82,17 +119,19 @@ int run_cmd(t_tree *cmd, t_env **env)
 	}
 	pid = fork();
 	if (!pid)
-		execve(cmd->cmd_args[0], cmd->cmd_args, NULL);
+		execve(cmd->cmd_args[0], cmd->cmd_args, list_to_tab(*env));
 	wait(&status);
 	return (status);
 }
 
-void run_rdir(t_tree *node)
+int run_rdir(t_tree *node)
 {
 	int file_fd;
 	int flags;
+	int status;
 
 	flags = O_CREAT | O_RDWR | O_APPEND;
+	status = 0;
 	if (node->type == RDIR)
 	{
 		flags = O_CREAT | O_RDWR;
@@ -100,15 +139,16 @@ void run_rdir(t_tree *node)
 	}
 	file_fd = open(node->right->str, flags, 0644);
 	if (file_fd == -1)
-		return ;
+		return (-1);
 	if (node->left->type == PIPE)
 		run_pipeline(node->left, 0, file_fd);
 	else if (node->left->type == CMD)
 	{
 		exec_cmd(node->left, -1, file_fd, 1, -1);
 		close(file_fd);
-		wait(NULL);
+		wait(&status);
 	}
 	else
-		executer(node->left, NULL);
+		status = executer(node->left, NULL);
+	return (status);
 }

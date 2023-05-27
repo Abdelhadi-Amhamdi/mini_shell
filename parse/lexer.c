@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 21:55:58 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:30:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,12 +147,11 @@ t_lexer	*lexer(char *args, t_env	*env)
 		node = create_token(tabs[index], is_operator(tabs[index][0]), paths);
 		if (!node)
 			return (NULL);
-		if (!node->is_oper && !node->path)
+		if (!node->is_oper)
 			node->path = get_path(node->str ,paths);
 		add_token_to_end(&list, node);
-		// node = last_node(list);
-		node = get_last_token(list);
 		node->type = check_type(node, node->path);
+		node = get_last_token(list);
 		if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str) && node->prev->type == PIPE))
 		{
 				if(validate_cmd(node->str))

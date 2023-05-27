@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 11:15:12 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:28:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,21 @@
 #include "../libs/gnl/get_next_line.h"
 
 # define DOC_FILE "heredoc_file"
+
+void ft_free_heredoc_list(t_h_list **list)
+{
+	t_h_list *tmp;
+	t_h_list *next;
+
+	tmp = *list;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
+	}
+	*list = NULL;
+}
 
 t_h_list *create_heredoc_node(char *str)
 {

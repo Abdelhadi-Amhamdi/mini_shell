@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/26 11:57:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:50:21 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,15 @@ typedef struct s_app
 	char		*cmd;
 	t_env		*env_list;
 	t_h_list	*herdoc_list;
-	int			in;
-	int			out;
+	int			status;
 }	t_app;
 
-#define _ERR_MSG "shell : parse error near"
+#define _ERR_MSG "shell : parse error near" 
 
 // main
 t_tree				*formater(t_app *app);
 void				ft_error(char *str);
-void				ft_free_lexer_list(t_lexer *list);
+void				ft_free_lexer_list(t_lexer **list);
 
 // lexer functions
 t_lexer				*lexer(char *args, t_env *env);
@@ -141,6 +140,7 @@ t_parser			*create_blocks(t_lexer *lexer_list);
 t_lexer				*ft_nodedup(t_lexer *node);
 void				add_node_to_list(t_parser **list, t_parser *item);
 t_parser			*create_parser_node(t_lexer *l_node);
+void				ft_free_parser_list(t_parser **list);
 
 // expander function
 int					ft_expander(t_lexer *list, t_env *env);

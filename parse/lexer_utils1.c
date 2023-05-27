@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/25 22:01:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 11:43:07 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,13 @@ char	*get_path(char *cmd, char **paths)
 	return (NULL);
 }
 
-int	is_file(char *str)
+int	is_file(t_lexer *node)
 {
-	if (!ft_strncmp((str + (ft_strlen(str) - 4)), ".txt", 4))
+	
+	if (!ft_strncmp((node->str + (ft_strlen(node->str) - 4)), ".txt", 4))
+		return (1);
+	if (node->prev && (node->prev->type == RDIR || \
+	node->prev->type == APND || node->prev->type == HEREDOC))
 		return (1);
 	return (0);
 }
@@ -75,9 +79,9 @@ int	is_var(t_lexer *node)
 
 t_type	check_type(t_lexer *node, char *path)
 {
-	if ((path && (!node->prev || node->prev->type == PIPE
-				|| node->prev->type == AND || node->prev->type == OR))
-		|| is_builtin(node->str))
+	if (is_file(node))
+		return (FL);
+	else if ((path || is_builtin(node->str)))
 		return (CMD);
 	else if (node->str[0] == '\'')
 		return (SQ);
@@ -101,11 +105,9 @@ t_type	check_type(t_lexer *node, char *path)
 		return (APND);
 	else if (node->is_oper && !compare(node, "<<"))
 		return (HEREDOC);
-	else if (is_file(node->str))
-		return (FL);
 	else if (node->str[0] == '$' && is_var(node->prev))
 		return (VAR);
-	else if (node->str[0] == '-' || node->prev->type == CMD || node->prev->type == ARGS)
+	else if (node->str[0] == '-')
 		return (ARGS);
 	return (UNK);
 }

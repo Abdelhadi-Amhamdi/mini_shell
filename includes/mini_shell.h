@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/26 11:55:15 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:35:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int run_cmd(t_tree *cmd, t_env **env);
 int run_rdir(t_tree *node);
 
 void	exec_builtin(t_tree	*cmd, t_env	**env);
-int	herdoc(char *delemiter, t_app *app);
-int executer(t_tree *root, t_env *env, t_app *app);
+int	herdoc(t_tree *hrd, t_app *app);
+int executer(t_tree *root, t_app *app);
 
 int run_connectors(t_tree *root);
 char *wildcard(t_lexer *node);
