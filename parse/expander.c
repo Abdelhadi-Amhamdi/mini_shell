@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 20:57:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 10:14:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 int	check_opeators(t_lexer *op)
 {
 	if (!op->next || (op->next->type == CP || op->next->type == SQ \
-	|| op->next->type == DQ || (op->next->is_oper && op->next->type != RDIR)))
+	|| op->next->type == DQ || (op->next->is_oper && op->next->type != RDIR && op->next->type != HEREDOC)))
 		return (ft_error(op->str), 1);
 	if (op->prev && (op->prev->type == OP || op->prev->type == SQ \
-	|| op->prev->type == DQ || op->prev->is_oper))
+	|| op->prev->type == DQ || (op->prev->is_oper && op->type != HEREDOC)))
 		return (ft_error(op->str), 1);
 	return (0);
 }
