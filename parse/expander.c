@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 10:14:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 11:56:03 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 int	check_opeators(t_lexer *op)
 {
 	if (!op->next || (op->next->type == CP || op->next->type == SQ \
-	|| op->next->type == DQ || (op->next->is_oper && op->next->type != RDIR && op->next->type != HEREDOC)))
+	|| op->next->type == DQ || (op->next->is_oper && op->next->type != RDIR && op->next->type != HEREDOC && op->next->type != APND)))
 		return (ft_error(op->str), 1);
 	if (op->prev && (op->prev->type == OP || op->prev->type == SQ \
-	|| op->prev->type == DQ || (op->prev->is_oper && op->type != HEREDOC)))
+	|| op->prev->type == DQ))
 		return (ft_error(op->str), 1);
 	return (0);
 }
@@ -91,6 +91,13 @@ int	syntax_analyzer(t_lexer *list)
 
 	tmp = list;
 	res = 0;
+	if (tmp->type == UNK)
+	{
+		ft_putstr_fd("min-sh: ", 2);
+		ft_putstr_fd(tmp->str, 2);
+		ft_putendl_fd(": command not found", 2);
+		return (1);
+	}
 	while (tmp)
 	{
 		if (tmp->is_oper && tmp->type != RDIR)
