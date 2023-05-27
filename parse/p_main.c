@@ -6,38 +6,40 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 21:56:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/27 10:18:14 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-void ft_free_lexer_list(t_lexer *list)
+void ft_free_lexer_list(t_lexer **list)
 {
 	t_lexer *tmp;
 	t_lexer *next;
 
-	tmp = list;
+	tmp = *list;
 	while (tmp)
 	{
 		next = tmp->next;
 		free(tmp);
 		tmp = next;
 	}
+	*list = NULL;
 }
 
-void ft_free_parser_list(t_parser *list)
+void ft_free_parser_list(t_parser **list)
 {
 	t_parser *tmp;
 	t_parser *next;
 
-	tmp = list;
+	tmp = *list;
 	while (tmp)
 	{
 		next = tmp->next;
 		free(tmp);
 		tmp = next;
 	}
+	*list = NULL;
 }
 
 int ft_lst_size(t_lexer *list)
@@ -147,6 +149,8 @@ t_tree *term(t_parser **list)
 		t_tree *right = factor(list);
 		res = create_token_node(op, res,right);
 	}
+	if (res->is_op && res->type == HEREDOC)
+		res->left = term(list);
 	return (res);
 }
 
@@ -209,10 +213,12 @@ t_tree	*formater(t_app *app)
 	if (ft_expander(app->lexer_list, app->env_list))
 		return (NULL);
 	app->parser_list = parser(app->lexer_list);
-	ft_free_lexer_list(app->lexer_list);
+	ft_free_lexer_list(&app->lexer_list);
 	if (!app->parser_list)
 		return (NULL);
+	// print_parser_list(app->parser_list);
 	app->ast_tree = create_tree(&app->parser_list);
-	ft_free_parser_list(app->parser_list);
+	ft_free_parser_list(&app->parser_list);
+	// return (NULL);
 	return (app->ast_tree);
 }
