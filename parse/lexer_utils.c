@@ -6,22 +6,11 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/28 15:05:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/28 15:07:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-static char	**ft_free_all(char **tabs, int index)
-{
-	while (index >= 0)
-	{
-		free(tabs[index]);
-		index--;
-	}
-	free(tabs);
-	return (0);
-}
 
 void	print_token_list(t_lexer *head)
 {
