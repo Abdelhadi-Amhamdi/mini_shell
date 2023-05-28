@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 16:51:27 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/28 13:37:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,9 @@ void	print_token_list(t_lexer *head)
 		//  : (cur->type == 2) ? "RDIR" : (cur->type == 3) ? "APND" : (cur->type == 4) ? "AND" : (cur->type == 5) ? "OR" : (cur->type == 6) ? "ARGS" : (cur->type == 7) ? "VAR": (cur->type == 8) ? "FILE": (cur->type == 9) ? "SQ": (cur->type == 10) ? "DQ"\
 		//  : (cur->type == 11) ? "OP": ((cur->type == 12) ? "CP": (cur->type == 15) ? "wildcard" : "UNK"));
 		// printf("type index %u\n",cur->type);
-		printf("-------------------------\n");
+		printf("-----------\n");
 		cur = cur->next;
 	}
+	printf("-------------------------\n");
+	printf("-------------------------\n");
 }

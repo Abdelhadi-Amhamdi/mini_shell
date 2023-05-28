@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 18:07:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/28 14:19:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ char *ft_word(t_lexer **list, char *cmd, char **paths)
 	int i;
 	t_lexer *new;
 	i = 0;
-	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32)
+	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"')
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end (list, new);
@@ -235,6 +235,25 @@ t_lexer *tokenizer(char *cmd, char **paths)
 	return (list);
 }
 
+void clean_white_spaces(t_lexer **list)
+{
+	t_lexer *tmp;
+	t_lexer *prev_node;
+
+	tmp = *list;
+	while (tmp)
+	{
+		prev_node = NULL;
+		tmp->type = check_type(tmp, tmp->path);
+		if (tmp->type == SPACE && ((tmp->prev && tmp->prev->is_oper) || (tmp->next && tmp->next->is_oper)))
+		{
+			prev_node = tmp->prev;
+			prev_node->next = tmp->next;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void set_type(t_lexer **list)
 {
 	t_lexer *tmp;
@@ -247,6 +266,66 @@ void set_type(t_lexer **list)
 	}
 }
 
+void	ft_trim_quotes(t_lexer *node)
+{
+	t_lexer	*tmp;
+
+	tmp = node;
+	if (tmp->type == SQ)
+		tmp->str = ft_strtrim(tmp->str, "'");
+	else if (tmp->type == DQ)
+		tmp->str = ft_strtrim(tmp->str, "\"");
+	if (!tmp->str[0])
+	{
+		tmp->str = " ";
+		tmp->type = SPACE;
+	}
+	else
+		tmp->type = UNK;
+}
+
+int	check_qoutes(t_lexer *list)
+{
+	t_lexer	*tmp;
+	char	current;
+	char	*data;
+	int		index;
+
+	tmp = list;
+	while (tmp)
+	{
+		if (tmp->type == DQ || tmp->type == SQ)
+		{
+			index = 0;
+			data = tmp->str;
+			current = data[index];
+			while (data[++index] && data[index] != current);
+			if (!data[index])
+				return (ft_putendl_fd("Syntax Error", 2), 1);
+			ft_trim_quotes(tmp);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+void join_args(t_lexer **list, char **paths)
+{
+	t_lexer *tmp;
+
+	tmp = *list;
+	while (tmp)
+	{
+		if (!tmp->is_oper && tmp->type != SPACE && tmp->next && !tmp->next->is_oper && tmp->next->type != SPACE)
+		{
+			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
+			tmp->path = get_path(tmp->str, paths);
+			tmp = tmp->next = tmp->next->next;
+		}
+		else
+			tmp = tmp->next;
+	}
+}
 
 t_lexer	*lexer(char *cmd, t_env	*env)
 {
@@ -256,26 +335,11 @@ t_lexer	*lexer(char *cmd, t_env	*env)
 	paths = all_paths(env);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
-	
-	
-	// while(list)
-	// {
-	// 	printf(":%s:\n",list->str);
-	// 	list = list->next;
-	// }
-	// int		index;
-	// char	**tabs;
-
-
-	
-	// index = 0;
-	// list = NULL;
-	// tabs = args_filter(args);
-	// if (!tabs)
-	// 	return (NULL);
-	// while (tabs[index])
-	// {
-		
+	if (check_qoutes(list))
+		return (NULL);
+	join_args(&list, paths);
+	set_type(&list);
+	// clean_white_spaces(&list);
 	// 	node = create_token(tabs[index], is_operator(tabs[index][0]), paths);
 	// 	if (!node)
 	// 		return (NULL);
@@ -294,8 +358,6 @@ t_lexer	*lexer(char *cmd, t_env	*env)
 	// 	}
 	// 	index++;
 	// }
-	// // print_token_list(list);
-	// ft_free(tabs);
-	// ft_free(paths);
+	ft_free(paths);
 	return (list);
 }

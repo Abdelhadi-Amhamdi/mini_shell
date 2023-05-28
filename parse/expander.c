@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 16:57:22 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/28 13:27:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,49 +113,6 @@ int	syntax_analyzer(t_lexer *list)
 		}
 		if (res)
 			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-void	ft_trim_quotes(t_lexer *node)
-{
-	t_lexer	*tmp;
-
-	tmp = node;
-	if (tmp->type == SQ)
-		tmp->str = ft_strtrim(tmp->str, "'");
-	else if (tmp->type == DQ)
-		tmp->str = ft_strtrim(tmp->str, "\"");
-	if (!tmp->str[0])
-	{
-		tmp->str = NULL;
-		tmp->type = EMPTY;
-	}
-	else
-		tmp->type = ARGS;
-}
-
-int	check_qoutes(t_lexer *list)
-{
-	t_lexer	*tmp;
-	char	current;
-	char	*data;
-	int		index;
-
-	tmp = list;
-	while (tmp)
-	{
-		if (tmp->type == DQ || tmp->type == SQ)
-		{
-			index = 0;
-			data = tmp->str;
-			current = data[index];
-			while (data[++index] && data[index] != current);
-			if (!data[index])
-				return (ft_putendl_fd("Syntax Error", 2), 1);
-			ft_trim_quotes(tmp);
-		}
 		tmp = tmp->next;
 	}
 	return (0);
