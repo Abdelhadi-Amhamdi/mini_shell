@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/27 18:10:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/28 15:02:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,8 @@ int	is_var(t_lexer *node)
 	return (1);
 }
 
-// int is_whitespace()
-// {
-	
-// }
 
+// check the type of the given arg
 t_type	check_type(t_lexer *node, char *path)
 {
 	if (is_file(node))

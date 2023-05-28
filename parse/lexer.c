@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/28 14:51:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/28 15:01:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,7 @@ void clean_white_spaces(t_lexer **list)
 	}
 }
 
+// loop over the list and set types
 void set_type(t_lexer **list)
 {
 	t_lexer	*tmp;
@@ -319,6 +320,7 @@ void	clean_spaces(t_lexer	**list)
 	}
 }
 
+// get rid of quotes and check if the arg are empty
 void	ft_trim_quotes(t_lexer *node)
 {
 	t_lexer	*tmp;
@@ -337,6 +339,7 @@ void	ft_trim_quotes(t_lexer *node)
 		tmp->type = UNK;
 }
 
+// check if the quotes are closed and get rid of them
 int	check_qoutes(t_lexer *list)
 {
 	t_lexer	*tmp;
@@ -362,6 +365,7 @@ int	check_qoutes(t_lexer *list)
 	return (0);
 }
 
+// join args that no espace or operator between them
 void join_args(t_lexer **list, char **paths)
 {
 	t_lexer *tmp;
@@ -380,6 +384,7 @@ void join_args(t_lexer **list, char **paths)
 	}
 }
 
+// main lexer function
 t_lexer	*lexer(char *cmd, t_env *env)
 {
 	char	**paths;
