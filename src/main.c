@@ -60,7 +60,7 @@ int main(int ac, char **av, char **envp)
 	if (!app)
 		return (0);
 	init(app, envp);
-	print_banner();
+	// print_banner();
 	while (1)
 	{
 		clean_data(app);

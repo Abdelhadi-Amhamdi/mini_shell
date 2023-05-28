@@ -6,17 +6,17 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/28 14:51:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:32:10 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
+//check is space
 int	is_space(char c)
 {
 	return (c == 32 || (c >= 9 && c <= 13));
 }
-
+//extract str from line command
 char	*extract_str(char *str, int len)
 {
 	int		i;
@@ -34,7 +34,7 @@ char	*extract_str(char *str, int len)
 	s[i] = '\0';
 	return (s);
 }
-
+//create new token
 t_lexer	*create_token(char *str, int len, char **paths)
 {
 	t_lexer	*new;
@@ -43,6 +43,7 @@ t_lexer	*create_token(char *str, int len, char **paths)
 	if (!new)
 		return (NULL);
 	new->str = extract_str(str, len);
+	// printf("%s\n",new->str);
 	new->is_oper = is_operator(new->str[0]);
 	new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
@@ -50,7 +51,7 @@ t_lexer	*create_token(char *str, int len, char **paths)
 	new->prev = NULL;
 	return (new);
 }
-
+//add token to end of list
 void	add_token_to_end(t_lexer **head, t_lexer *new_token)
 {
 	t_lexer	*current_token;
@@ -79,7 +80,7 @@ void	ft_free(char **tabs)
 	}
 	free(tabs);
 }
-
+//get all paths
 char	**all_paths(t_env *env)
 {
 	char	*path;
@@ -106,7 +107,7 @@ int	isabs(char *str)
 	}
 	return (0);
 }
-
+//extract command from abs path
 char	*extract_cmd(char *cmd)
 {
 	char	*new;
@@ -135,27 +136,27 @@ char	*extract_cmd(char *cmd)
 	cmd[len] = '\0';
 	return (new);
 }
-
+//check is the path exits and valid
 int	validate_cmd(char *cmd)
 {
 	if (!access(cmd, F_OK | X_OK))
 		return (0);
 	return (1);
 }
-
+//handle normal case
 char	*ft_word(t_lexer **list, char *cmd, char **paths)
 {
 	int		i;
 	t_lexer	*new;
 
 	i = 0;
-	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"')
+	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != '$')
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
 	return (&cmd[i]);
 }
-
+//handle spaces case
 char	*ft_spaces(t_lexer **list, char *cmd, char **paths)
 {
 	t_lexer	*new;
@@ -168,7 +169,7 @@ char	*ft_spaces(t_lexer **list, char *cmd, char **paths)
 	add_token_to_end(list, new);
 	return (&cmd[i]);
 }
-
+//handle oneoperator case
 char	*ft_oneoperator(t_lexer **list, char *cmd, char c, char **paths)
 {
 	int		i;
@@ -182,7 +183,7 @@ char	*ft_oneoperator(t_lexer **list, char *cmd, char c, char **paths)
 	add_token_to_end(list, new);
 	return (&cmd[i]);
 }
-
+//handle parenthesses case
 char	*ft_parentheses(t_lexer **list, char *cmd, char **paths)
 {
 	t_lexer	*new;
@@ -208,6 +209,20 @@ char	*ft_quotes(t_lexer **list, char *cmd, char c, char **paths)
 	return (&cmd[i]);
 }
 
+//handle variable case
+char *ft_variable(t_lexer **list,char *cmd ,char **paths)
+{
+	t_lexer *new;
+	int i;
+
+	i = 1;
+	while(cmd[i] && !is_space(cmd[i]) && cmd[i] != '$' && cmd[i] != '.')
+		i++;
+	new = create_token(cmd, i, paths);
+	add_token_to_end(list, new);
+	return (&cmd[i]);
+}
+//split cmd into tokens
 t_lexer	*tokenizer(char *cmd, char **paths)
 {
 	t_lexer	*list;
@@ -229,6 +244,8 @@ t_lexer	*tokenizer(char *cmd, char **paths)
 			cmd = ft_quotes(&list, cmd, *cmd, paths);
 		else if (*cmd == '>' || *cmd == '<')
 			cmd = ft_oneoperator(&list, cmd, *cmd, paths);
+		else if (*cmd == '$')
+			cmd = ft_variable(&list, cmd, paths);
 		else
 			cmd = ft_word(&list, cmd, paths);
 	}
@@ -388,25 +405,11 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	paths = all_paths(env);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
-	// while(list)
-	// {
-	// 	printf(":%s:\n",list->str);
-	// 	list = list->next;
-	// }
-	// int		index;
-	// char	**tabs;
-	// index = 0;
-	// list = NULL;
-	// tabs = args_filter(args);
-	// if (!tabs)
-	// 	return (NULL);
-	// while (tabs[index])
-	// {
 	if (check_qoutes(list))
 		return (NULL);
-	join_args(&list, paths);
-	set_type(&list);
 	clean_spaces(&list);
+	// join_args(&list, paths);
+	set_type(&list);
 	// clean_white_spaces(&list);
 	// 	node = create_token(tabs[index], is_operator(tabs[index][0]), paths);
 	// 	if (!node)
