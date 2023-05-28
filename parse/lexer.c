@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/28 15:01:40 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/28 15:36:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,11 +377,33 @@ void join_args(t_lexer **list, char **paths)
 		{
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
 			tmp->path = get_path(tmp->str, paths);
-			tmp = tmp->next = tmp->next->next;
+			tmp->next = tmp->next->next;
 		}
-		else
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
+}
+
+// check parentsis if they are closed or not
+int check_pths(t_lexer *list)
+{
+	int op;
+	int cp;
+	t_lexer *tmp;
+
+	op = 0;
+	cp = 0;
+	tmp = list;
+	while (tmp)
+	{
+		if (tmp->type == OP)
+			op++;
+		else if (tmp->type == CP)
+			cp++;
+		tmp = tmp->next;
+	}
+	if ((!(op % 2) && (cp % 2)) || ((op % 2) && !(cp % 2)))
+		return (ft_putendl_fd("Syntax Error", 2), 1);
+	return (0);
 }
 
 // main lexer function
@@ -393,34 +415,13 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	paths = all_paths(env);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
-	// while(list)
-	// {
-	// 	printf(":%s:\n",list->str);
-	// 	list = list->next;
-	// }
-	// int		index;
-	// char	**tabs;
-	// index = 0;
-	// list = NULL;
-	// tabs = args_filter(args);
-	// if (!tabs)
-	// 	return (NULL);
-	// while (tabs[index])
-	// {
 	if (check_qoutes(list))
 		return (NULL);
+	clean_spaces(&list);
 	join_args(&list, paths);
 	set_type(&list);
-	clean_spaces(&list);
-	// clean_white_spaces(&list);
-	// 	node = create_token(tabs[index], is_operator(tabs[index][0]), paths);
-	// 	if (!node)
-	// 		return (NULL);
-	// 	if (!node->is_oper && !node->path)
-	// 		node->path = get_path(node->str ,paths);
-	// 	add_token_to_end(&list, node);
-	// 	node = get_last_token(list);
-	// node->type = check_type(node, node->path);
+	if (check_pths(list))
+		return (NULL);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
 					// && node->prev->type == PIPE))
 	// 	{
@@ -432,8 +433,6 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	// 	}
 	// 	index++;
 	// }
-	// // print_token_list(list);
-	// ft_free(tabs);
 	ft_free(paths);
 	return (list);
 }
