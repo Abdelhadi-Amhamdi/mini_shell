@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 10:37:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:23:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ t_tree	*formater(t_app *app)
 		return (NULL);
 	if (ft_expander(app->lexer_list, app->env_list))
 		return (NULL);
-	print_token_list(app->lexer_list);
+	// print_token_list(app->lexer_list);
 	// print_token_list(app->lexer_list);
 	// app->parser_list = parser(app->lexer_list);
 	// ft_free_lexer_list(app->lexer_list);

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 15:35:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:25:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ int	herdoc(t_tree *hrd, t_app *app);
 int executer(t_tree *root, t_app *app);
 
 int run_connectors(t_tree *root);
-char *wildcard(t_lexer *node);
+char *wildcard(char *path, char *cnd);
 #endif

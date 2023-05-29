@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 10:54:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:01:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,7 +444,7 @@ t_lexer	*lexer(char *cmd, t_env *env)
 		return (NULL);
 	clean_spaces(&list);
 	join_args(&list, paths);
-	set_type(&list);
+	// set_type(&list);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
 					// && node->prev->type == PIPE))
 	// 	{

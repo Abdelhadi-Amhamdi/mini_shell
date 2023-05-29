@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 10:29:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 17:42:22 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,24 +138,41 @@ t_lexer *get_last_token(t_lexer *list)
 void ft_expand_wildcards(t_lexer **list)
 {
 	t_lexer *tmp;
-	t_lexer *last;
-	t_lexer *new_list;
-	char *data;
-	char **tabs;
+	char *path;
+	char *cnd;
+	// t_lexer *last;
+	// t_lexer *new_list;
+	// char *data;
+	// char **tabs;
 
 	tmp = *list;
 	while (tmp)
 	{
 		if (tmp->type == WILDCARD)
 		{
-			data = wildcard(tmp);
-			tabs = ft_split(data, ' ');
-			new_list = create_list(tabs);
-			last = get_last_token(new_list);
-			last->next = tmp->next;
-			tmp->prev->next = new_list;
-			tabs = NULL;
-			data = NULL;
+			int index = ft_last_char_search(tmp->str, '/') + 1;
+			if (!index || tmp->str[index] == '*')
+				index = ft_char_search(tmp->str, '*');
+			if (index)
+			{
+				path = ft_substr(tmp->str, 0, index);
+				cnd = ft_substr(tmp->str, index, (ft_strlen(tmp->str) - index));
+			}
+			else
+			{
+				path = ft_strdup("./");
+				cnd = ft_strdup(tmp->str);
+			}
+			// data = wildcard(path, cnd);
+			// tabs = ft_split(data, ' ');
+			// new_list = create_list(tabs);
+			// last = get_last_token(new_list);
+			// last->next = tmp->next;
+			// tmp->prev->next = new_list;
+			// tabs = NULL;
+			// data = NULL;
+			printf("%s path -- %s cnd\n", path, cnd);
+			// printf("%s\n", data);
 		}
 		tmp = tmp->next;
 	}
@@ -164,10 +181,13 @@ void ft_expand_wildcards(t_lexer **list)
 int	ft_expander(t_lexer *list, t_env *env)
 {
 	(void)env;
-	(void)list;
+	// char *data;
 	if (syntax_analyzer(list))
 		return (1);
 	// ft_expand_vars(&list, env);
+	
 	ft_expand_wildcards(&list);
+	// data = wildcard(NULL);
+	// printf("%s\n", data);
 	return (0);
 }

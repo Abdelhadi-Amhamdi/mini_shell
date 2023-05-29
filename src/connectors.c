@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 16:44:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:27:14 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,70 @@ char	*ft_strjoin_entrys(char const *s1, char const *s2)
 	return (p);
 }
 
-char *wildcard(t_lexer *node)
+char *str_fill(char *str, char *condition)
+{
+    int j;
+    int index;
+    char *tmp;
+    char current;
+
+    j = 0;
+    index = 0;
+    tmp = strdup(str);
+    while (condition[j])
+    {
+        while (condition[j] && condition[j] == '*')
+            j++;
+        current = condition[j];
+        while (tmp[index] && tmp[index] != current)
+        {
+            tmp[index] = '*';
+            index++;
+        }
+        if (!tmp[index] || !condition[j])
+            break ;
+        j++;
+        index++;
+    }
+    return (tmp);
+}
+
+int reg_ex_(char *str, char *condition)
+{
+	int index;
+	int j;
+    char current;
+    char *tmp;
+    
+    index = 0;
+    j = 0;
+    tmp = str_fill(str, condition);
+    while (condition[j])
+    {
+        while (condition[j] && condition[j] == '*')
+            j++;
+        current = condition[j];
+        while (tmp[index] && tmp[index] != current)
+            index++;
+        if ((!j && index) || (!index && j))
+            return (free(tmp), 0);
+        if (!tmp[index])
+            break;
+        j++;
+        index++;
+    }
+    if (condition[j] == '\0')
+	    return (free(tmp), 1);
+    return (free(tmp), 0);
+}
+
+char *wildcard(char *path, char *cnd)
 {
 	DIR *dir;
     char *data;
     struct dirent *entry;
-	char *path;
-	
-	(void)node;
-	path = "./";
-	printf("%s\n", path);
+
+	(void)cnd;
     dir = opendir(path);
     if (dir == NULL) {
         perror("opendir");
@@ -70,8 +124,13 @@ char *wildcard(t_lexer *node)
     }
     data = calloc(1, 1);
     while ((entry = readdir(dir)) != NULL)
-        data = ft_strjoin_entrys(data, entry->d_name);
+	{
+		if (reg_ex_(entry->d_name, cnd))
+			printf("%s\n", entry->d_name);
+        	// data = ft_strjoin_entrys(data, entry->d_name);
+	}
 
-    closedir(dir);
-	return (data);
+    // closedir(dir);
+	return (NULL);
+	// return (data);
 }

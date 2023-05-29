@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/28 16:28:55 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:49:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,42 @@ int	is_var(t_lexer *node)
 	return (1);
 }
 
+int ft_char_search(char *str, char c)
+{
+	int index;
+
+	index = 0;
+	while (str[index])
+	{
+		if (str[index] == c)
+			return (index);
+		index++;
+	}
+	return (-1);
+}
+
+int ft_last_char_search(char *str, char c)
+{
+	int index;
+
+	index = ft_strlen(str) - 1;
+	while (index >= 0)
+	{
+		if (str[index] == c)
+			return (index);
+		index--;
+	}
+	return (-1);
+}
+
+int is_wild_card(t_lexer *node)
+{
+	if (node->str[0] != '"' && node->str[0] != '\'' \
+	&& ft_char_search(node->str, '*'))
+		return (1);
+	return (0);
+}
+
 
 // check the type of the given arg
 t_type	check_type(t_lexer *node, char *path)
@@ -85,6 +121,8 @@ t_type	check_type(t_lexer *node, char *path)
 		return (FL);
 	else if ((path || is_builtin(node->str)))
 		return (CMD);
+	else if (is_wild_card(node) != -1)
+		return (WILDCARD);
 	else if (node->str[0] == '\'')
 		return (SQ);
 	else if (node->str[0] == '"')
@@ -93,8 +131,6 @@ t_type	check_type(t_lexer *node, char *path)
 		return (OP);
 	else if (node->str[0] == ')')
 		return (CP);
-	else if (!compare(node, "*"))
-		return (WILDCARD);
 	else if (node->is_oper && !compare(node, "|"))
 		return (PIPE);
 	else if (node->is_oper && !compare(node, "&&"))
