@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/28 13:27:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:08:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 
 int	check_opeators(t_lexer *op)
 {
-	if (!op->next || (op->next->type == CP || op->next->type == SQ \
-	|| op->next->type == DQ || (op->next->is_oper && op->next->type != RDIR && op->next->type != HEREDOC && op->next->type != APND)))
-		return (ft_error(op->str), 1);
-	if (op->prev && (op->prev->type == OP || op->prev->type == SQ \
-	|| op->prev->type == DQ))
-		return (ft_error(op->str), 1);
+	if (!op->next || (op->next->type == CP || op->next->type == UNK || \
+	(op->next->is_oper && op->next->type != RDIR && op->next->type != HEREDOC && op->next->type != APND)))
+		return (ft_error(op->str));
+	if (!op->prev ||op->prev->type == OP)
+		return (ft_error(op->str));
 	return (0);
 }
 
@@ -58,30 +57,33 @@ int	check_pth(t_lexer *pt)
 {
 	if (pt->type == OP)
 	{
-		if (!pt->next || (pt->next->is_oper || pt->next->type == SQ \
-		|| pt->next->type == DQ || pt->next->type == UNK))
-			return (ft_error(pt->str), 1);
-		if (pt->prev && (pt->prev->type == CMD || pt->prev->type == RDIR \
-		|| pt->prev->type == UNK))
-			return (ft_error(pt->str), 1);
+		if (!pt->next || pt->next->type == UNK || pt->next->type == CP)
+			return (ft_error(pt->str));
+		if (pt->prev && pt->prev->type == OP)
+			return (1);
 	}
-	else
-	{
-		if (pt->next && (pt->next->type == FL || pt->next->type == CMD \
-		|| pt->next->type == ARGS || pt->next->type == UNK))
-			return (ft_error(pt->str), 1);
-		if (!pt->prev || (pt->prev->type == SQ || pt->prev->type == DQ \
-		|| pt->prev->type == UNK || pt->prev->is_oper))
-			return (ft_error(pt->str), 1);
-	}
+	// else
+	// {
+	// 	if (pt->next && (pt->next->type == FL || pt->next->type == CMD || pt->next->type == ARGS || pt->next->type == UNK))
+	// 		return (ft_error(pt->str), 1);
+	// 	if (!pt->prev || (pt->prev->type == UNK || pt->prev->is_oper))
+	// 		return (ft_error(pt->str), 1);
+	// }
 	return (0);
 }
 
 int	check_redir(t_lexer *rdir)
 {
 	if (!rdir->next || (rdir->next->type != UNK  && rdir->next->type != FL))
-		return (ft_error(rdir->str), 1);	
+		return (ft_error(rdir->str));	
 	return (0);
+}
+
+void print_error(char *str)
+{
+	ft_putstr_fd("min-sh: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd(": command not found", 2);
 }
 
 int	syntax_analyzer(t_lexer *list)
@@ -92,25 +94,17 @@ int	syntax_analyzer(t_lexer *list)
 	tmp = list;
 	res = 0;
 	if (tmp->type == UNK)
-	{
-		ft_putstr_fd("min-sh: ", 2);
-		ft_putstr_fd(tmp->str, 2);
-		ft_putendl_fd(": command not found", 2);
-		return (1);
-	}
+		return (print_error(tmp->str), 1);
 	while (tmp)
 	{
-		if (tmp->is_oper && tmp->type != RDIR)
+		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND)
 			res += check_opeators(tmp);
+		else if (tmp->type == RDIR || tmp->type == APND)
+			res += check_redir(tmp);
 		else if (tmp->type == OP || tmp->type == CP)
 			res += check_pth(tmp);
-		else if (tmp->type == RDIR)
-			res += check_redir(tmp);
-		else if (tmp->type != EMPTY)
-		{
-			if (!ft_strncmp(tmp->str, ";;", ft_strlen(tmp->str)))
-				res++;
-		}
+		else if (tmp->type == UNK && (!ft_strncmp(tmp->str, ";;", ft_strlen(tmp->str))))
+				res += ft_error(tmp->str);
 		if (res)
 			return (1);
 		tmp = tmp->next;
@@ -167,35 +161,12 @@ void ft_expand_wildcards(t_lexer **list)
 	}
 }
 
-int check_pths(t_lexer *list)
-{
-	int op;
-	int cp;
-	t_lexer *tmp;
-
-	op = 0;
-	cp = 0;
-	tmp = list;
-	while (tmp)
-	{
-		if (tmp->type == OP)
-			op++;
-		else if (tmp->type == CP)
-			cp++;
-		tmp = tmp->next;
-	}
-	if ((!(op % 2) && (cp % 2)) || ((op % 2) && !(cp % 2)))
-		return (ft_putendl_fd("Syntax Error", 2), 1);
-	return (0);
-}
-
 int	ft_expander(t_lexer *list, t_env *env)
 {
-	if (check_qoutes(list))
+	(void)env;
+	if (syntax_analyzer(list))
 		return (1);
-	if (syntax_analyzer(list) || check_pths(list))
-		return (1);
-	ft_expand_vars(&list, env);
-	ft_expand_wildcards(&list);
+	// ft_expand_vars(&list, env);
+	// ft_expand_wildcards(&list);
 	return (0);
 }
