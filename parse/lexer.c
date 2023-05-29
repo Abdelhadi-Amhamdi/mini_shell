@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/28 16:32:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:44:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,6 +271,7 @@ void clean_white_spaces(t_lexer **list)
 	}
 }
 
+// loop over the list and set types
 void set_type(t_lexer **list)
 {
 	t_lexer	*tmp;
@@ -336,6 +337,7 @@ void	clean_spaces(t_lexer	**list)
 	}
 }
 
+// get rid of quotes and check if the arg are empty
 void	ft_trim_quotes(t_lexer *node)
 {
 	t_lexer	*tmp;
@@ -354,6 +356,7 @@ void	ft_trim_quotes(t_lexer *node)
 		tmp->type = UNK;
 }
 
+// check if the quotes are closed and get rid of them
 int	check_qoutes(t_lexer *list)
 {
 	t_lexer	*tmp;
@@ -371,7 +374,7 @@ int	check_qoutes(t_lexer *list)
 			current = data[index];
 			while (data[++index] && data[index] != current);
 			if (!data[index])
-				return (ft_putendl_fd("Syntax Error", 2), 1);
+				return (ft_putendl_fd("Syntax Error \"'", 2), 1);
 			ft_trim_quotes(tmp);
 		}
 		tmp = tmp->next;
@@ -379,6 +382,7 @@ int	check_qoutes(t_lexer *list)
 	return (0);
 }
 
+// join args that no espace or operator between them
 void join_args(t_lexer **list, char **paths)
 {
 	t_lexer *tmp;
@@ -386,17 +390,41 @@ void join_args(t_lexer **list, char **paths)
 	tmp = *list;
 	while (tmp)
 	{
-		if (!tmp->is_oper && tmp->type != SPACE && tmp->next && !tmp->next->is_oper && tmp->next->type != SPACE)
+		if (!tmp->is_oper && tmp->type != SPACE && tmp->type != OP && tmp->type != CP && tmp->type != VAR\
+		&& tmp->next && !tmp->next->is_oper && tmp->next->type != SPACE && tmp->next->type \
+		!= CP && tmp->next->type != OP && tmp->next->type != VAR)
 		{
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
 			tmp->path = get_path(tmp->str, paths);
-			tmp = tmp->next = tmp->next->next;
+			tmp->next = tmp->next->next;
 		}
-		else
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 }
 
+int check_pths(t_lexer *list)
+{
+	int op;
+	int cp;
+
+	op = 0;
+	cp = 0;
+	while (list)
+	{
+		if (list->type == OP)
+			op++;
+		else if (list->type == CP)
+			cp++;
+		list = list->next;
+		if (op - cp < 0)
+			break ;
+	}
+	if (op - cp != 0)
+		return (ft_putendl_fd("Syntax Error )(", 2), 1);
+	return (0);
+}
+
+// main lexer function
 t_lexer	*lexer(char *cmd, t_env *env)
 {
 	char	**paths;
@@ -405,20 +433,11 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	paths = all_paths(env);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
-	if (check_qoutes(list))
+	if (check_qoutes(list) || check_pths(list))
 		return (NULL);
 	clean_spaces(&list);
 	// join_args(&list, paths);
-	set_type(&list);
-	// clean_white_spaces(&list);
-	// 	node = create_token(tabs[index], is_operator(tabs[index][0]), paths);
-	// 	if (!node)
-	// 		return (NULL);
-	// 	if (!node->is_oper && !node->path)
-	// 		node->path = get_path(node->str ,paths);
-	// 	add_token_to_end(&list, node);
-	// 	node = get_last_token(list);
-	// node->type = check_type(node, node->path);
+	// set_type(&list);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
 					// && node->prev->type == PIPE))
 	// 	{
@@ -430,8 +449,6 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	// 	}
 	// 	index++;
 	// }
-	// // print_token_list(list);
-	// ft_free(tabs);
 	ft_free(paths);
 	return (list);
 }

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/27 18:10:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:28:55 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	is_file(t_lexer *node)
 	
 	if (!ft_strncmp((node->str + (ft_strlen(node->str) - 4)), ".txt", 4))
 		return (1);
-	if (node->prev && (node->prev->type == RDIR || \
+	if (node->str[0] != ' ' && node->str[0] != ')' && node->str[0] != '(' && node->prev && (node->prev->type == RDIR || \
 	node->prev->type == APND || node->prev->type == HEREDOC))
 		return (1);
 	return (0);
@@ -77,11 +77,8 @@ int	is_var(t_lexer *node)
 	return (1);
 }
 
-// int is_whitespace()
-// {
-	
-// }
 
+// check the type of the given arg
 t_type	check_type(t_lexer *node, char *path)
 {
 	if (is_file(node))
