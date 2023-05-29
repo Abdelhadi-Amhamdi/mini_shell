@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/28 15:36:26 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:04:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ char	*ft_word(t_lexer **list, char *cmd, char **paths)
 	t_lexer	*new;
 
 	i = 0;
-	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"')
+	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"' &&  cmd[i] != '(' && cmd[i] != ')' )
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
@@ -357,7 +357,7 @@ int	check_qoutes(t_lexer *list)
 			current = data[index];
 			while (data[++index] && data[index] != current);
 			if (!data[index])
-				return (ft_putendl_fd("Syntax Error", 2), 1);
+				return (ft_putendl_fd("Syntax Error \"'", 2), 1);
 			ft_trim_quotes(tmp);
 		}
 		tmp = tmp->next;
@@ -373,7 +373,8 @@ void join_args(t_lexer **list, char **paths)
 	tmp = *list;
 	while (tmp)
 	{
-		if (!tmp->is_oper && tmp->type != SPACE && tmp->next && !tmp->next->is_oper && tmp->next->type != SPACE)
+		if (!tmp->is_oper && tmp->type != SPACE && tmp->type != OP && tmp->type != CP\
+		&& tmp->next && !tmp->next->is_oper && tmp->next->type != SPACE && tmp->next->type != CP && tmp->next->type != OP)
 		{
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
 			tmp->path = get_path(tmp->str, paths);
@@ -383,26 +384,25 @@ void join_args(t_lexer **list, char **paths)
 	}
 }
 
-// check parentsis if they are closed or not
 int check_pths(t_lexer *list)
 {
 	int op;
 	int cp;
-	t_lexer *tmp;
 
 	op = 0;
 	cp = 0;
-	tmp = list;
-	while (tmp)
+	while (list)
 	{
-		if (tmp->type == OP)
+		if (list->type == OP)
 			op++;
-		else if (tmp->type == CP)
+		else if (list->type == CP)
 			cp++;
-		tmp = tmp->next;
+		list = list->next;
+		if (op - cp < 0)
+			break ;
 	}
-	if ((!(op % 2) && (cp % 2)) || ((op % 2) && !(cp % 2)))
-		return (ft_putendl_fd("Syntax Error", 2), 1);
+	if (op - cp != 0)
+		return (ft_putendl_fd("Syntax Error )(", 2), 1);
 	return (0);
 }
 
@@ -415,13 +415,11 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	paths = all_paths(env);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
-	if (check_qoutes(list))
+	if (check_qoutes(list) || check_pths(list))
 		return (NULL);
 	clean_spaces(&list);
 	join_args(&list, paths);
 	set_type(&list);
-	if (check_pths(list))
-		return (NULL);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
 					// && node->prev->type == PIPE))
 	// 	{
