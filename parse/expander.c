@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 10:08:38 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:29:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ int	syntax_analyzer(t_lexer *list)
 		return (print_error(tmp->str), 1);
 	while (tmp)
 	{
-		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND)
+		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND && tmp->type != HEREDOC)
 			res += check_opeators(tmp);
-		else if (tmp->type == RDIR || tmp->type == APND)
+		else if (tmp->type == RDIR || tmp->type == APND || tmp->type == HEREDOC)
 			res += check_redir(tmp);
 		else if (tmp->type == OP || tmp->type == CP)
 			res += check_pth(tmp);
@@ -164,9 +164,10 @@ void ft_expand_wildcards(t_lexer **list)
 int	ft_expander(t_lexer *list, t_env *env)
 {
 	(void)env;
+	(void)list;
 	if (syntax_analyzer(list))
 		return (1);
 	// ft_expand_vars(&list, env);
-	// ft_expand_wildcards(&list);
+	ft_expand_wildcards(&list);
 	return (0);
 }
