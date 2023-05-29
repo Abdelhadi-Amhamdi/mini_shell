@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 16:56:49 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:39:06 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct s_app
 
 // main
 t_tree				*formater(t_app *app);
-void				ft_error(char *str);
+int				ft_error(char *str);
 void				ft_free_lexer_list(t_lexer **list);
 
 // lexer functions

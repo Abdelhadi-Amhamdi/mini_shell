@@ -17,12 +17,11 @@
     - [fixed] echo "hello" | '"''
     - [fixed] ls )
     - [fixed] ls "" |wc
-    - l's
-    - l's'
-    - (echo "hello" > out) && ls
-    - echo "hello" > file
-    - (ls asajshas)
-    - ls | wc -l && make || (gcc -g ) file.c
+    - [fixed] l's
+    - [fixed] (echo "hello" > out) && ls
+    - [fixed] echo "hello" > file
+    - [fixed] (ls asajshas)
+    - [fixed] ls | wc -l && make || (gcc -g ) file.c
     - echo "hello|"
     - ls && ( cat todo.txt | grep s | wc ) || ls
     - echo "hello" "ls" "ls"
@@ -31,6 +30,7 @@
     - <<   l"" cat
     - echo $HOMEsdjhfk$HOME
     - echo $HOME.sdjhfk$HOME
+    - <<$x ca
 
 #		- fix echo "$HOME"
 		- fix echo '''$HOME'''
