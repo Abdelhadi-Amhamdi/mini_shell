@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 21:45:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 18:07:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/28 15:54:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_op_prev(char *str, int i)
 
 int is_operator(char c)
 {
-	if (c == '|' || c == '<' || c == '>' || c == '&' || c == '(' || c == ')')
+	if (c == '|' || c == '<' || c == '>' || c == '&')
 		return (1);
 	return (0);
 }
