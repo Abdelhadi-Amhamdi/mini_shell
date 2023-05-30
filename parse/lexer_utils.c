@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 10:36:35 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 14:05:23 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	print_token_list(t_lexer *head)
 	{
 		printf("STR : [%s]\n", cur->str);
 		printf("IS_O: [%s]\n", cur->is_oper ? "true" : "false");
-		printf("TYPE: [%u]\n", cur->type);
+		if(cur->type == 7)
+			printf("TYPE: VAR\n");
+		else
+			printf("TYPE: [%u]\n",cur->type);
 		printf("PATH: [%s]\n",cur->path);
 		// printf("is_|bu|iltin	: %s\n",cur->is_builtin ? "true" : "false");
 		// printf("type : %s\n", (cur->type == 0) ? "CMD" : (cur->type == 1) ? "PIPE" \

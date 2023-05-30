@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 10:44:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:47:59 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_lexer	*create_token(char *str, int len, char **paths)
 	if (!new)
 		return (NULL);
 	new->str = extract_str(str, len);
-	// printf("%s\n",new->str);
 	new->is_oper = is_operator(new->str[0]);
 	new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
@@ -216,7 +215,7 @@ char *ft_variable(t_lexer **list,char *cmd ,char **paths)
 	int i;
 
 	i = 1;
-	while(cmd[i] && !is_space(cmd[i]) && cmd[i] != '$' && cmd[i] != '.')
+	while(cmd[i] && !is_space(cmd[i]) && cmd[i] != '$' && cmd[i] != '.' && cmd[i] != '\'' && cmd[i] != '"')
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
@@ -307,7 +306,7 @@ void	clean_spaces(t_lexer	**list)
 	tmp = *list;
 	while(tmp)
 	{
-		if(tmp->is_oper && tmp->prev && tmp->prev->type ==SPACE)
+		if((tmp->is_oper || tmp->type == CMD) && tmp->prev && tmp->prev->type ==SPACE )
 		{
 			cur = tmp->prev->prev;
 			space = tmp->prev;
@@ -324,7 +323,7 @@ void	clean_spaces(t_lexer	**list)
 				free(space);
 			}
 		}
-		if(tmp->is_oper && tmp->next && tmp->next->type == SPACE)
+		if((tmp->is_oper || tmp->type == CMD) && tmp->next && tmp->next->type == SPACE)
 		{
 			cur = tmp->next->next;
 			space = tmp->next;
@@ -433,9 +432,10 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	paths = all_paths(env);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
-	if (check_qoutes(list) || check_pths(list))
-		return (NULL);
+	// if (check_qoutes(list) || check_pths(list))
+	// 	return (0);
 	clean_spaces(&list);
+	// set_type(&list);
 	// join_args(&list, paths);
 	// set_type(&list);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)

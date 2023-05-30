@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/28 16:39:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:42:20 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,11 @@ int					compare(t_lexer	*item, char *oper);
 char				**ft_mini_split(const char *src, char c);
 t_lexer				*get_last_token(t_lexer *list);
 int					is_operator(char c);
+int	check_qoutes(t_lexer *list);
+void	ft_trim_quotes(t_lexer *node);
+int check_pths(t_lexer *list);
+void set_type(t_lexer **list);
+void join_args(t_lexer **list, char **paths);
 
 // parser functions
 t_parser			*parser(t_lexer *list);
