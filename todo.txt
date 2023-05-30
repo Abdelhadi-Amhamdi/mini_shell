@@ -36,4 +36,4 @@
 		- fix echo '''$HOME'''
 		- fix echo ''$HOME''
 		- fix echo "'$HOME'"
-		- fix echo $HOME'
+		- fix echo $HOME
