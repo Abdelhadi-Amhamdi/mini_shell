@@ -1577,6 +1577,22 @@
       "typeName": "instance_page_state"
     },
     {
+<<<<<<< HEAD
+      "isReadOnly": false,
+      "isPenMode": false,
+      "isGridMode": false,
+      "isDarkMode": false,
+      "isMobileMode": false,
+      "isSnapMode": false,
+      "lastUpdatedPageId": "page:zKbeMRIyvL3ljkcj7Doy_",
+      "lastUsedTabId": "instance:GPmqDfrwl3af_qioma5pJ",
+      "id": "user_document:Aq8Sve0Y5FHdLNg6St0uo",
+      "userId": "user:yZDGQ_ug03_CdrPdIzU1b",
+      "typeName": "user_document"
+    },
+    {
+=======
+>>>>>>> 7701426f27ecd8c765eb379bd2b24f1e692c7374
       "followingUserId": null,
       "propsForNextShape": {
         "opacity": "1",
@@ -1587,7 +1603,11 @@
         "size": "m",
         "icon": "file",
         "font": "draw",
+<<<<<<< HEAD
+        "align": "middle",
+=======
         "align": "start",
+>>>>>>> 7701426f27ecd8c765eb379bd2b24f1e692c7374
         "geo": "rectangle",
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
@@ -1596,7 +1616,11 @@
       "brush": null,
       "scribble": null,
       "cursor": {
+<<<<<<< HEAD
+        "type": "default",
+=======
         "type": "cross",
+>>>>>>> 7701426f27ecd8c765eb379bd2b24f1e692c7374
         "color": "black",
         "rotation": 0
       },
@@ -1607,20 +1631,61 @@
       "screenBounds": {
         "x": 0,
         "y": 0,
+<<<<<<< HEAD
+        "w": 809.0277709960938,
+        "h": 579.2824096679688
+      },
+      "zoomBrush": null,
+      "id": "instance:GPmqDfrwl3af_qioma5pJ",
+      "userId": "user:yZDGQ_ug03_CdrPdIzU1b",
+=======
         "w": 847.5,
         "h": 1120.833251953125
       },
       "zoomBrush": null,
       "id": "instance:wrWuL6KcgzEk9QWoaUau3",
       "userId": "user:v33HoC0wIVB0mbVg_wz1Q",
+>>>>>>> 7701426f27ecd8c765eb379bd2b24f1e692c7374
       "currentPageId": "page:zKbeMRIyvL3ljkcj7Doy_",
       "typeName": "instance"
     },
     {
+<<<<<<< HEAD
+      "name": "New User",
+      "locale": "en",
+      "id": "user:yZDGQ_ug03_CdrPdIzU1b",
+      "typeName": "user"
+    },
+    {
+      "lastUsedInstanceId": "instance:GPmqDfrwl3af_qioma5pJ",
+      "lastActivityTimestamp": 1685458115428,
+      "cursor": {
+        "x": -7814.6618755383115,
+        "y": 6380.999966753272,
+        "z": 0
+      },
+      "viewportPageBounds": {
+        "x": -8110.523795898654,
+        "y": 3427.2512888808164,
+        "w": 6340.4409350872575,
+        "h": 5073.366570064138
+      },
+      "color": "#FF802B",
+      "id": "user_presence:fD0PiJVjyKg3db9h9q8q7",
+      "userId": "user:yZDGQ_ug03_CdrPdIzU1b",
+      "typeName": "user_presence"
+    },
+    {
+      "x": 8110.523795898654,
+      "y": -3427.2512888808164,
+      "z": 0.11418106727908792,
+      "id": "camera:8AKUoLDZsCEpokksnjwn4",
+=======
       "x": 4769.10563616432,
       "y": -2360.861761805319,
       "z": 0.1498793631696016,
       "id": "camera:8h9EIQ6tYtzdHLzcdH9vv",
+>>>>>>> 7701426f27ecd8c765eb379bd2b24f1e692c7374
       "typeName": "camera"
     },
     {
@@ -1631,10 +1696,17 @@
       "erasingIds": [],
       "hintingIds": [],
       "focusLayerId": null,
+<<<<<<< HEAD
+      "id": "instance_page_state:BxyzfLnwvcp7rc1Z_SIVt",
+      "pageId": "page:zKbeMRIyvL3ljkcj7Doy_",
+      "instanceId": "instance:GPmqDfrwl3af_qioma5pJ",
+      "cameraId": "camera:8AKUoLDZsCEpokksnjwn4",
+=======
       "id": "instance_page_state:8HP73e_lALjUxSb_xCB3f",
       "pageId": "page:zKbeMRIyvL3ljkcj7Doy_",
       "instanceId": "instance:wrWuL6KcgzEk9QWoaUau3",
       "cameraId": "camera:8h9EIQ6tYtzdHLzcdH9vv",
+>>>>>>> 7701426f27ecd8c765eb379bd2b24f1e692c7374
       "typeName": "instance_page_state"
     },
     {
@@ -3940,11 +4012,19 @@
       "typeName": "shape"
     },
     {
+<<<<<<< HEAD
+      "x": -7327.313363813917,
+      "y": 6787.216192032262,
+      "rotation": 0,
+      "isLocked": false,
+      "id": "shape:7pS8wVuwuO4VfZpy3miZ3",
+=======
       "x": -4097.992980139899,
       "y": 5542.475736422896,
       "rotation": 0,
       "isLocked": false,
       "id": "shape:4eeQ0kZG0zE3epLIXZGB4",
+>>>>>>> 7701426f27ecd8c765eb379bd2b24f1e692c7374
       "type": "draw",
       "props": {
         "segments": [
@@ -3955,6 +4035,8 @@
                 "x": 0,
                 "y": 0,
                 "z": 0.5
+<<<<<<< HEAD
+=======
               },
               {
                 "x": 0.15,
@@ -4446,6 +4528,7 @@
                 "x": 289.56,
                 "y": -14.36,
                 "z": 0.5
+>>>>>>> 7701426f27ecd8c765eb379bd2b24f1e692c7374
               }
             ]
           }
@@ -4462,6 +4545,8 @@
       "parentId": "page:zKbeMRIyvL3ljkcj7Doy_",
       "index": "b5J",
       "typeName": "shape"
+<<<<<<< HEAD
+=======
     },
     {
       "x": -3533.259315630726,
@@ -6961,6 +7046,7 @@
       "parentId": "page:zKbeMRIyvL3ljkcj7Doy_",
       "index": "b5g",
       "typeName": "shape"
+>>>>>>> 7701426f27ecd8c765eb379bd2b24f1e692c7374
     }
   ]
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/30 18:33:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 19:03:02 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,10 @@ t_type	check_type(t_lexer *node, char *path)
 		return (FL);
 	else if ((path || is_builtin(node->str)))
 		return (CMD);
+	// else if (node->str[0] == '$' && is_var(node->prev))
+	// 	return (VAR);
+	else if (ft_strchr(node->str, '$') && node->str[0] != '\'')
+		return (VAR);
 	else if (is_wild_card(node))
 		return (WILDCARD);
 	else if (node->str[0] == '\'')
@@ -143,8 +147,6 @@ t_type	check_type(t_lexer *node, char *path)
 		return (APND);
 	else if (node->is_oper && !compare(node, "<<"))
 		return (HEREDOC);
-	else if (node->str[0] == '$' && is_var(node->prev))
-		return (VAR);
 	else if (node->str[0] == '-')
 		return (ARGS);
 	else if (node->str[0] == 32)

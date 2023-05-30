@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/30 18:57:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 19:02:11 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,100 @@ char	*expand(char *var, t_env *envp)
 	index = 0;
 	while (envp)
 	{
-		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key)))
+		if (!ft_strncmp(var, envp->key, ft_strlen(var)))
 			return (envp->value);
 		envp = envp->next;
 	}
-	return (NULL);
+	return (ft_strdup(" "));
+}
+//extarct before command
+char *extract_before(char *cmd)
+{
+	int i;
+	int index;
+	char *before;
+	i = 0;
+	while(cmd[i] && cmd[i] != '$')
+		i++;
+	before = malloc (i + 1);
+	if(!before)
+		return (NULL);
+	index = 0;
+	while(cmd[index] && cmd[index] != '$')
+	{
+		before[index] = cmd[index];
+		index++;
+	}
+	before[index] = '\0';
+	return (before);
+}
+//extract variable to expland
+char *extarct_expand(char *cmd)
+{
+	int i;
+	int index;
+	char *to_expand;
+	i = 0;
+	while(cmd[i] && cmd[i] != '.' && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"')
+		i++;
+	to_expand = malloc (i + 1);
+	if(!to_expand)
+		return (NULL);
+	index = 0;
+	while(cmd[index] && cmd[index] != '.' && cmd[index] != 32 && cmd[index] != '\'' && cmd[index] != '"')
+	{
+		to_expand[index] = cmd[index];
+		index++;
+	}
+	to_expand[index] = '\0';
+	return (to_expand);
+}
+//extract after command
+char *extarct_after(char *cmd)
+{
+	char *after;
+	int index;
+	int i;
+	
+	index = 0;
+	i = 0;
+	while(cmd[i])
+		i++;
+	after = malloc (i + 1);
+	if(!after)
+		return(NULL);
+	while(cmd[index])
+	{
+		after[index] = cmd[index];
+		index++;
+	}
+	after[index] = '\0';
+	return (after);
 }
 
 void	ft_expand_vars(t_lexer **list, t_env *envp)
 {
+	char *before;
+	char *after;
+	char *to_expand;
 	t_lexer	*tmp;
 
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->type == VAR && tmp->str[0] != '\'')
+		if (tmp->type == VAR)
 		{
+			before = extract_before(tmp->str);
 			while (*(tmp->str) != '$')
 				tmp->str = tmp->str + 1;
-			tmp->str = expand(tmp->str + 1, envp);
+			to_expand = extarct_expand(tmp->str);
+			while(*(tmp->str) && *(tmp->str) != '.' && *(tmp->str) != 32 && *(tmp->str) != '\'' && *(tmp->str) != '"' )
+				tmp->str = tmp->str + 1;
+			after = extarct_after(tmp->str);
+			to_expand = expand(to_expand + 1, envp);
+			to_expand = ft_strjoin(before,to_expand);
+			to_expand = ft_strjoin(to_expand,after);
+			tmp->str = to_expand;
 		}
 		tmp = tmp->next;
 	}
@@ -172,11 +247,17 @@ void ft_expand_wildcards(t_lexer **list)
 
 int	ft_expander(t_lexer *list, t_env *env)
 {
-	(void)env;
+	char **paths;
+
+	paths = all_paths(env);
+	ft_expand_vars(&list, env);
+	if (check_qoutes(list) || check_pths(list))
+		return (1);
+	set_type(&list);
+	join_args(&list, paths);
+	set_type(&list);
 	if (syntax_analyzer(list))
 		return (1);
-	// ft_expand_vars(&list, env);
-	
 	ft_expand_wildcards(&list);
 	return (0);
 }
