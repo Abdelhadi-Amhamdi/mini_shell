@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 16:27:14 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:54:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,71 +53,63 @@ char	*ft_strjoin_entrys(char const *s1, char const *s2)
 	return (p);
 }
 
-char *str_fill(char *str, char *condition)
+int is_match(char *str, char *cnd)
 {
-    int j;
     int index;
-    char *tmp;
-    char current;
+    int j;
+    int last_wild_index;
+    int next_wild_index;
+    int backtracking_index;
 
-    j = 0;
     index = 0;
-    tmp = strdup(str);
-    while (condition[j])
+    j = 0;
+    last_wild_index = -1;
+    next_wild_index = -1;
+    backtracking_index = -1;
+    while (str[index])
     {
-        while (condition[j] && condition[j] == '*')
-            j++;
-        current = condition[j];
-        while (tmp[index] && tmp[index] != current)
+        if (cnd[j] == str[index])
         {
-            tmp[index] = '*';
             index++;
-        }
-        if (!tmp[index] || !condition[j])
-            break ;
-        j++;
-        index++;
-    }
-    return (tmp);
-}
-
-int reg_ex_(char *str, char *condition)
-{
-	int index;
-	int j;
-    char current;
-    char *tmp;
-    
-    index = 0;
-    j = 0;
-    tmp = str_fill(str, condition);
-    while (condition[j])
-    {
-        while (condition[j] && condition[j] == '*')
             j++;
-        current = condition[j];
-        while (tmp[index] && tmp[index] != current)
-            index++;
-        if ((!j && index) || (!index && j))
-            return (free(tmp), 0);
-        if (!tmp[index])
-            break;
-        j++;
-        index++;
+        }
+        else if (cnd[j] == '*')
+        {
+            last_wild_index = j;
+            next_wild_index = ++j;
+            backtracking_index = index;
+        }
+        else if (last_wild_index == -1)
+            return (0);
+        else
+        {
+            j = next_wild_index;
+            index = ++backtracking_index;
+        }
     }
-    if (condition[j] == '\0')
-	    return (free(tmp), 1);
-    return (free(tmp), 0);
+    while (j < (int)ft_strlen(cnd))
+    {
+        if (cnd[j++] != '*')
+            return (0);
+    }
+    return (1);
 }
 
-char *wildcard(char *path, char *cnd)
+int allow_hidden(char *file_name, char *cnd)
+{
+    if ((cnd[0] == '.' && file_name[0] == '.') || file_name[0] != '.')
+        return (1);
+    return (0);
+}
+
+char *wildcard(char *condition)
 {
 	DIR *dir;
     char *data;
     struct dirent *entry;
 
-	(void)cnd;
-    dir = opendir(path);
+    (void)condition;
+    dir = opendir("./");
     if (dir == NULL) {
         perror("opendir");
         return (NULL);
@@ -125,12 +117,9 @@ char *wildcard(char *path, char *cnd)
     data = calloc(1, 1);
     while ((entry = readdir(dir)) != NULL)
 	{
-		if (reg_ex_(entry->d_name, cnd))
-			printf("%s\n", entry->d_name);
-        	// data = ft_strjoin_entrys(data, entry->d_name);
+		if (is_match(entry->d_name, condition) && allow_hidden(entry->d_name, condition))
+            data = ft_strjoin_entrys(data, entry->d_name);
 	}
-
-    // closedir(dir);
-	return (NULL);
-	// return (data);
+    closedir(dir);
+	return (data);
 }

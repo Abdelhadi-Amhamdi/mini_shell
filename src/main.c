@@ -55,12 +55,10 @@ int main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
-	// print_banner();
 	app = malloc(sizeof(t_app));
 	if (!app)
 		return (0);
 	init(app, envp);
-	// print_banner();
 	while (1)
 	{
 		clean_data(app);

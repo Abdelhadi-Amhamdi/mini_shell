@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/29 16:49:53 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:33:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int ft_last_char_search(char *str, char c)
 int is_wild_card(t_lexer *node)
 {
 	if (node->str[0] != '"' && node->str[0] != '\'' \
-	&& ft_char_search(node->str, '*'))
+	&& ft_char_search(node->str, '*') != -1)
 		return (1);
 	return (0);
 }
@@ -121,7 +121,7 @@ t_type	check_type(t_lexer *node, char *path)
 		return (FL);
 	else if ((path || is_builtin(node->str)))
 		return (CMD);
-	else if (is_wild_card(node) != -1)
+	else if (is_wild_card(node))
 		return (WILDCARD);
 	else if (node->str[0] == '\'')
 		return (SQ);

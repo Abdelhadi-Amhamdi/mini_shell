@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 13:01:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:31:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ t_lexer	*create_token(char *str, int len, char **paths)
 	if (!new)
 		return (NULL);
 	new->str = extract_str(str, len);
-	// printf("%s\n",new->str);
 	new->is_oper = is_operator(new->str[0]);
-	new->path = get_path(new->str, paths);
+	if (paths)
+		new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
 	new->next = NULL;
 	new->prev = NULL;
@@ -443,8 +443,8 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	if (check_qoutes(list) || check_pths(list))
 		return (NULL);
 	clean_spaces(&list);
-	join_args(&list, paths);
-	// set_type(&list);
+	// join_args(&list, paths);
+	set_type(&list);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
 					// && node->prev->type == PIPE))
 	// 	{

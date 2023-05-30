@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 17:42:22 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:57:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,9 @@ t_lexer *create_list(char **tabs)
 	list = NULL;
 	while (tabs[index])
 	{
-		new_node = create_token(tabs[index], 0, NULL);
+		new_node = create_token(tabs[index], ft_strlen(tabs[index]), NULL);
+		new_node->type = ARGS;
+		new_node->path = NULL;
 		add_token_to_end(&list, new_node);
 		index++;
 	}
@@ -138,41 +140,31 @@ t_lexer *get_last_token(t_lexer *list)
 void ft_expand_wildcards(t_lexer **list)
 {
 	t_lexer *tmp;
-	char *path;
-	char *cnd;
-	// t_lexer *last;
-	// t_lexer *new_list;
-	// char *data;
-	// char **tabs;
+	t_lexer *last;
+	t_lexer *new_list;
+	char *data;
+	char **tabs;
+	int index;
+
+	index = 0;
 
 	tmp = *list;
 	while (tmp)
 	{
 		if (tmp->type == WILDCARD)
 		{
-			int index = ft_last_char_search(tmp->str, '/') + 1;
-			if (!index || tmp->str[index] == '*')
-				index = ft_char_search(tmp->str, '*');
-			if (index)
-			{
-				path = ft_substr(tmp->str, 0, index);
-				cnd = ft_substr(tmp->str, index, (ft_strlen(tmp->str) - index));
-			}
-			else
-			{
-				path = ft_strdup("./");
-				cnd = ft_strdup(tmp->str);
-			}
-			// data = wildcard(path, cnd);
-			// tabs = ft_split(data, ' ');
-			// new_list = create_list(tabs);
-			// last = get_last_token(new_list);
-			// last->next = tmp->next;
-			// tmp->prev->next = new_list;
-			// tabs = NULL;
-			// data = NULL;
-			printf("%s path -- %s cnd\n", path, cnd);
-			// printf("%s\n", data);
+			data = wildcard(tmp->str);
+			if (!data || !*data)
+				return ;
+			tabs = ft_split(data, 32);
+			if (!tabs)
+				puts("split error");
+			new_list = create_list(tabs);
+			last = get_last_token(new_list);
+			last->next = tmp->next;
+			tmp->prev->next = new_list;
+			tabs = NULL;
+			data = NULL;
 		}
 		tmp = tmp->next;
 	}
@@ -181,13 +173,10 @@ void ft_expand_wildcards(t_lexer **list)
 int	ft_expander(t_lexer *list, t_env *env)
 {
 	(void)env;
-	// char *data;
 	if (syntax_analyzer(list))
 		return (1);
 	// ft_expand_vars(&list, env);
 	
 	ft_expand_wildcards(&list);
-	// data = wildcard(NULL);
-	// printf("%s\n", data);
 	return (0);
 }
