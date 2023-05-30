@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 10:29:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:57:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,9 @@ t_lexer *create_list(char **tabs)
 	list = NULL;
 	while (tabs[index])
 	{
-		new_node = create_token(tabs[index], 0, NULL);
+		new_node = create_token(tabs[index], ft_strlen(tabs[index]), NULL);
+		new_node->type = ARGS;
+		new_node->path = NULL;
 		add_token_to_end(&list, new_node);
 		index++;
 	}
@@ -142,14 +144,21 @@ void ft_expand_wildcards(t_lexer **list)
 	t_lexer *new_list;
 	char *data;
 	char **tabs;
+	int index;
+
+	index = 0;
 
 	tmp = *list;
 	while (tmp)
 	{
 		if (tmp->type == WILDCARD)
 		{
-			data = wildcard(tmp);
-			tabs = ft_split(data, ' ');
+			data = wildcard(tmp->str);
+			if (!data || !*data)
+				return ;
+			tabs = ft_split(data, 32);
+			if (!tabs)
+				puts("split error");
 			new_list = create_list(tabs);
 			last = get_last_token(new_list);
 			last->next = tmp->next;
@@ -164,10 +173,10 @@ void ft_expand_wildcards(t_lexer **list)
 int	ft_expander(t_lexer *list, t_env *env)
 {
 	(void)env;
-	(void)list;
 	if (syntax_analyzer(list))
 		return (1);
 	// ft_expand_vars(&list, env);
+	
 	ft_expand_wildcards(&list);
 	return (0);
 }

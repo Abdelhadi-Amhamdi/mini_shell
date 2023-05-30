@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 10:44:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:31:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ t_lexer	*create_token(char *str, int len, char **paths)
 	if (!new)
 		return (NULL);
 	new->str = extract_str(str, len);
-	// printf("%s\n",new->str);
 	new->is_oper = is_operator(new->str[0]);
-	new->path = get_path(new->str, paths);
+	if (paths)
+		new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
 	new->next = NULL;
 	new->prev = NULL;
@@ -382,6 +382,15 @@ int	check_qoutes(t_lexer *list)
 	return (0);
 }
 
+// check if the node need to be joined with the next node
+int to_join(t_lexer *node)
+{
+	if (node && !node->is_oper && node->type != SPACE && \
+	node->type != OP && node->type != CP && node->type != VAR)
+		return (1);
+	return (0);
+}
+
 // join args that no espace or operator between them
 void join_args(t_lexer **list, char **paths)
 {
@@ -390,9 +399,7 @@ void join_args(t_lexer **list, char **paths)
 	tmp = *list;
 	while (tmp)
 	{
-		if (!tmp->is_oper && tmp->type != SPACE && tmp->type != OP && tmp->type != CP && tmp->type != VAR\
-		&& tmp->next && !tmp->next->is_oper && tmp->next->type != SPACE && tmp->next->type \
-		!= CP && tmp->next->type != OP && tmp->next->type != VAR)
+		if (to_join(tmp) && to_join(tmp->next))
 		{
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
 			tmp->path = get_path(tmp->str, paths);
@@ -437,7 +444,7 @@ t_lexer	*lexer(char *cmd, t_env *env)
 		return (NULL);
 	clean_spaces(&list);
 	// join_args(&list, paths);
-	// set_type(&list);
+	set_type(&list);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
 					// && node->prev->type == PIPE))
 	// 	{
