@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 16:44:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:54:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,73 @@ char	*ft_strjoin_entrys(char const *s1, char const *s2)
 	return (p);
 }
 
-char *wildcard(t_lexer *node)
+int is_match(char *str, char *cnd)
+{
+    int index;
+    int j;
+    int last_wild_index;
+    int next_wild_index;
+    int backtracking_index;
+
+    index = 0;
+    j = 0;
+    last_wild_index = -1;
+    next_wild_index = -1;
+    backtracking_index = -1;
+    while (str[index])
+    {
+        if (cnd[j] == str[index])
+        {
+            index++;
+            j++;
+        }
+        else if (cnd[j] == '*')
+        {
+            last_wild_index = j;
+            next_wild_index = ++j;
+            backtracking_index = index;
+        }
+        else if (last_wild_index == -1)
+            return (0);
+        else
+        {
+            j = next_wild_index;
+            index = ++backtracking_index;
+        }
+    }
+    while (j < (int)ft_strlen(cnd))
+    {
+        if (cnd[j++] != '*')
+            return (0);
+    }
+    return (1);
+}
+
+int allow_hidden(char *file_name, char *cnd)
+{
+    if ((cnd[0] == '.' && file_name[0] == '.') || file_name[0] != '.')
+        return (1);
+    return (0);
+}
+
+char *wildcard(char *condition)
 {
 	DIR *dir;
     char *data;
     struct dirent *entry;
-	char *path;
-	
-	(void)node;
-	path = "./";
-	printf("%s\n", path);
-    dir = opendir(path);
+
+    (void)condition;
+    dir = opendir("./");
     if (dir == NULL) {
         perror("opendir");
         return (NULL);
     }
     data = calloc(1, 1);
     while ((entry = readdir(dir)) != NULL)
-        data = ft_strjoin_entrys(data, entry->d_name);
-
+	{
+		if (is_match(entry->d_name, condition) && allow_hidden(entry->d_name, condition))
+            data = ft_strjoin_entrys(data, entry->d_name);
+	}
     closedir(dir);
 	return (data);
 }

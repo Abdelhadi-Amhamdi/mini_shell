@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/29 15:42:20 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/30 19:03:54 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,6 @@ typedef enum s_type
 	SPACE,
 	DOT
 }					t_type;
-
-// typedef enum st_type
-// {
-// 	PIPELINE,
-// 	CONNECTOR,
-// 	CMD,
-// 	SUBSHELL,
-// 	RDIR
-// }	tt_type;
 
 typedef struct s_lexer
 {
@@ -169,5 +160,8 @@ t_tree				*term(t_parser **list);
 t_tree				*factor(t_parser **list);
 void				printTreeHelper(t_tree *root, int depth);
 void				printTree(t_tree *root);
+
+int ft_char_search(char *str, char c);
+int ft_last_char_search(char *str, char c);
 
 #endif
