@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/30 19:02:11 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/31 11:53:26 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,45 @@ void ft_expand_wildcards(t_lexer **list)
 	}
 }
 
+void	clean_unsed_spaces(t_lexer	**list)
+{
+		t_lexer	*cur;
+	t_lexer	*space;
+	t_lexer	*tmp;
+	
+	tmp = *list;
+	while(tmp)
+	{
+		if(tmp->type == CMD && tmp->prev && tmp->prev->type ==SPACE )
+		{
+			cur = tmp->prev->prev;
+			space = tmp->prev;
+			if(cur)
+			{
+				cur->next = tmp;
+				tmp->prev = cur;
+				free(space);
+			}
+			else
+			{
+				*list = tmp;
+				tmp->prev = NULL;
+				free(space);
+			}
+		}
+		if(tmp->type == CMD && tmp->next && tmp->next->type == SPACE)
+		{
+			cur = tmp->next->next;
+			space = tmp->next;
+			tmp->next = cur;
+			if(cur)
+				cur->prev = tmp;
+			free(space);
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	ft_expander(t_lexer *list, t_env *env)
 {
 	char **paths;
@@ -253,11 +292,11 @@ int	ft_expander(t_lexer *list, t_env *env)
 	ft_expand_vars(&list, env);
 	if (check_qoutes(list) || check_pths(list))
 		return (1);
-	set_type(&list);
-	join_args(&list, paths);
-	set_type(&list);
+	// join_args(&list, paths);
+	// set_type(&list);
 	if (syntax_analyzer(list))
 		return (1);
 	ft_expand_wildcards(&list);
+	clean_unsed_spaces(&list);
 	return (0);
 }
