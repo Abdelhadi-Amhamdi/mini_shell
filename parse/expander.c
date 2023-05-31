@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 11:53:26 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:02:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,23 +238,27 @@ void ft_expand_wildcards(t_lexer **list)
 			last = get_last_token(new_list);
 			last->next = tmp->next;
 			tmp->prev->next = new_list;
-			tabs = NULL;
+			del_node(tmp);
+			ft_free(tabs);
+			free(data);
 			data = NULL;
+			tmp = last->next;
 		}
-		tmp = tmp->next;
+		else
+			tmp = tmp->next;
 	}
 }
 
 void	clean_unsed_spaces(t_lexer	**list)
 {
-		t_lexer	*cur;
+	t_lexer	*cur;
 	t_lexer	*space;
 	t_lexer	*tmp;
 	
 	tmp = *list;
 	while(tmp)
 	{
-		if(tmp->type == CMD && tmp->prev && tmp->prev->type ==SPACE )
+		if(tmp->type == CMD && tmp->prev && tmp->prev->type == SPACE)
 		{
 			cur = tmp->prev->prev;
 			space = tmp->prev;
@@ -262,13 +266,13 @@ void	clean_unsed_spaces(t_lexer	**list)
 			{
 				cur->next = tmp;
 				tmp->prev = cur;
-				free(space);
+				del_node(space);
 			}
 			else
 			{
 				*list = tmp;
 				tmp->prev = NULL;
-				free(space);
+				del_node(space);
 			}
 		}
 		if(tmp->type == CMD && tmp->next && tmp->next->type == SPACE)
@@ -278,7 +282,7 @@ void	clean_unsed_spaces(t_lexer	**list)
 			tmp->next = cur;
 			if(cur)
 				cur->prev = tmp;
-			free(space);
+			del_node(space);
 		}
 		tmp = tmp->next;
 	}
@@ -291,12 +295,12 @@ int	ft_expander(t_lexer *list, t_env *env)
 	paths = all_paths(env);
 	ft_expand_vars(&list, env);
 	if (check_qoutes(list) || check_pths(list))
-		return (1);
-	// join_args(&list, paths);
-	// set_type(&list);
+		return (ft_free(paths), 1);
+	join_args(&list, paths);
+	set_type(&list);
 	if (syntax_analyzer(list))
-		return (1);
+		return (ft_free(paths), 1);
 	ft_expand_wildcards(&list);
 	clean_unsed_spaces(&list);
-	return (0);
+	return (ft_free(paths), 0);
 }

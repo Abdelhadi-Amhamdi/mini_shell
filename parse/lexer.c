@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 15:06:57 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:52:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	ft_free(char **tabs)
 		index++;
 	}
 	free(tabs);
+	tabs = NULL;
 }
 //get all paths
 char	**all_paths(t_env *env)
@@ -354,8 +355,12 @@ void	clean_spaces(t_lexer	**list)
 void	ft_trim_quotes(t_lexer *node)
 {
 	t_lexer	*tmp;
+	char	*str_tmp;
 
 	tmp = node;
+	if (!tmp)
+		return ;
+	str_tmp = tmp->str;
 	if (tmp->type == SQ)
 		tmp->str = ft_strtrim(tmp->str, "'");
 	else if (tmp->type == DQ)
@@ -367,6 +372,7 @@ void	ft_trim_quotes(t_lexer *node)
 	}
 	else
 		tmp->type = UNK;
+	free(str_tmp);
 }
 
 // check if the quotes are closed and get rid of them
@@ -404,19 +410,25 @@ int to_join(t_lexer *node)
 	return (0);
 }
 
-// join args that no espace or operator between them
+// join args that no space or operator between them
 void join_args(t_lexer **list, char **paths)
 {
 	t_lexer *tmp;
+	t_lexer *next_tmp;
+	char	*str_tmp;
 
 	tmp = *list;
 	while (tmp)
 	{
 		if (to_join(tmp) && to_join(tmp->next))
 		{
+			str_tmp = tmp->str;
+			next_tmp = tmp->next;
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
+			free(str_tmp);
 			tmp->path = get_path(tmp->str, paths);
 			tmp->next = tmp->next->next;
+			del_node(next_tmp);
 		}
 		tmp = tmp->next;
 	}
