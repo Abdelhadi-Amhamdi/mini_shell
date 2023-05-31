@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 12:41:40 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:48:05 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ char	*ft_word(t_lexer **list, char *cmd, char **paths)
 	t_lexer	*new;
 
 	i = 0;
-	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != '$')
+	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != '$' && cmd[i] != '(' && cmd[i] != ')')
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
@@ -307,7 +307,7 @@ void	clean_spaces(t_lexer	**list)
 	tmp = *list;
 	while(tmp)
 	{
-		if(tmp->is_oper && tmp->prev && tmp->prev->type ==SPACE )
+		if(tmp->is_oper && tmp->prev && tmp->prev->type == SPACE )
 		{
 			cur = tmp->prev->prev;
 			space = tmp->prev;
@@ -315,12 +315,14 @@ void	clean_spaces(t_lexer	**list)
 			{
 				cur->next = tmp;
 				tmp->prev = cur;
+				free(space->str);
 				free(space);
 			}
 			else
 			{
 				*list = tmp;
 				tmp->prev = NULL;
+				free(space->str);
 				free(space);
 			}
 		}
@@ -331,6 +333,7 @@ void	clean_spaces(t_lexer	**list)
 			tmp->next = cur;
 			if(cur)
 				cur->prev = tmp;
+			free(space->str);
 			free(space);
 		}
 		tmp = tmp->next;

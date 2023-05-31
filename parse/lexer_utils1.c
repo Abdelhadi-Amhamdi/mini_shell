@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/31 12:42:04 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:14:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,8 @@ t_type	check_type(t_lexer *node, char *path)
 {
 	if (is_file(node))
 		return (FL);
-	else if ((path || is_builtin(node->str) || !node->prev || ((node->prev->prev) && (node->prev->prev->type == PIPE || node->prev->prev->type == AND || node->prev->prev->type == OR))))
+	// || !node->prev || ((node->prev->prev) && (node->prev->prev->type == PIPE || node->prev->prev->type == AND || node->prev->prev->type == OR)))
+	else if ((path || is_builtin(node->str)))
 		return (CMD);
 	// else if (node->str[0] == '$' && is_var(node->prev))
 	// 	return (VAR);
