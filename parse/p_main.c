@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 11:39:29 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/31 12:46:02 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ void printTreeHelper(t_tree *root, int depth)
 		for (int i = 0; i < depth + 1; i++)
 			printf("    ");
 		while (root->cmd_args[i])
-			printf("%s ", root->cmd_args[i++]);
+			printf("[%s]", root->cmd_args[i++]);
 		puts("");
 	}
     printTreeHelper(root->left, depth + 1);
@@ -223,8 +223,9 @@ t_tree	*formater(t_app *app)
 	if (ft_expander(app->lexer_list, app->env_list))
 		return (NULL);
 	app->parser_list = parser(app->lexer_list);
-	print_parser_list(app->parser_list);
+	// print_parser_list(app->parser_list);
+	app->ast_tree = create_tree(&app->parser_list);
 	// print_token_list(app->lexer_list);
 	// print_cmd(app->lexer_list);
-	return (0);
+	return (app->ast_tree);
 }
