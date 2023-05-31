@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/30 19:02:11 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/31 11:05:19 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int	syntax_analyzer(t_lexer *list)
 	{
 		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND && tmp->type != HEREDOC)
 			res += check_opeators(tmp);
-		else if (tmp->type == RDIR || tmp->type == APND || tmp->type == HEREDOC)
+		else if (tmp->type == RDIR || tmp->type == APND)
 			res += check_redir(tmp);
 		else if (tmp->type == OP || tmp->type == CP)
 			res += check_pth(tmp);
@@ -253,7 +253,6 @@ int	ft_expander(t_lexer *list, t_env *env)
 	ft_expand_vars(&list, env);
 	if (check_qoutes(list) || check_pths(list))
 		return (1);
-	set_type(&list);
 	join_args(&list, paths);
 	set_type(&list);
 	if (syntax_analyzer(list))
