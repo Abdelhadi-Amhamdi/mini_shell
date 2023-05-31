@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 14:48:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:06:57 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,19 @@ void set_type(t_lexer **list)
 	}
 }
 
+void del_node(t_lexer *node)
+{
+	if (!node)
+		return ;
+	free(node->str);
+	node->str = NULL;
+	if (node->path)
+		free(node->path);
+	node->path = NULL;
+	free(node);
+	node = NULL;
+}
+
 void	clean_spaces(t_lexer	**list)
 {
 	t_lexer	*cur;
@@ -315,15 +328,13 @@ void	clean_spaces(t_lexer	**list)
 			{
 				cur->next = tmp;
 				tmp->prev = cur;
-				free(space->str);
-				free(space);
+				del_node(space);
 			}
 			else
 			{
 				*list = tmp;
 				tmp->prev = NULL;
-				free(space->str);
-				free(space);
+				del_node(space);
 			}
 		}
 		if(tmp->is_oper && tmp->next && tmp->next->type == SPACE)
@@ -333,8 +344,7 @@ void	clean_spaces(t_lexer	**list)
 			tmp->next = cur;
 			if(cur)
 				cur->prev = tmp;
-			free(space->str);
-			free(space);
+			del_node(space);
 		}
 		tmp = tmp->next;
 	}
@@ -443,12 +453,7 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	paths = all_paths(env);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
-	// if (check_qoutes(list) || check_pths(list))
-	// 	return (0);
 	clean_spaces(&list);
-	// set_type(&list);
-	// join_args(&list, paths);
-	// set_type(&list);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
 					// && node->prev->type == PIPE))
 	// 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 12:46:02 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:08:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void ft_free_lexer_list(t_lexer **list)
 	while (tmp)
 	{
 		next = tmp->next;
-		free(tmp);
+		del_node(tmp);
 		tmp = next;
 	}
 	*list = NULL;
@@ -149,7 +149,7 @@ t_tree *term(t_parser **list)
 		t_tree *right = factor(list);
 		res = create_token_node(op, res,right);
 	}
-	if (res && !res->left && res->is_op && (res->type == HEREDOC || res->type == APND || res->type == RDIR))
+	if (res && !res->left && res->is_op && (res->type == HEREDOC || res->type == APND || res->type == RDIR) && *list)
 		res->left = term(list);
 	return (res);
 }
@@ -215,17 +215,34 @@ int	ft_error(char *str)
 	return (printf("%s `%s'\n", _ERR_MSG, str));
 }
 
-t_tree	*formater(t_app *app)
+void destroy_ast_tree(t_tree *root)
+{
+	t_tree *right;
+
+	if (!root)
+		return ;
+	right = NULL;
+	destroy_ast_tree(root->left);
+	right = root->right;
+	free(root);
+	root = NULL;
+	destroy_ast_tree(right);
+}
+
+void	formater(t_app *app)
 {
 	app->lexer_list = lexer(app->cmd, app->env_list);
 	if(!app->lexer_list)
-		return (NULL);
-	if (ft_expander(app->lexer_list, app->env_list))
-		return (NULL);
-	app->parser_list = parser(app->lexer_list);
-	// print_parser_list(app->parser_list);
-	app->ast_tree = create_tree(&app->parser_list);
-	// print_token_list(app->lexer_list);
-	// print_cmd(app->lexer_list);
-	return (app->ast_tree);
+		return ;
+	ft_free_lexer_list(&app->lexer_list);
+	// if (ft_expander(app->lexer_list, app->env_list))
+	// 	return ;
+	// app->parser_list = parser(app->lexer_list);
+	// if (!app->parser_list)
+	// 	return ;
+	// app->ast_tree = create_tree(&app->parser_list);
+	// if (!app->ast_tree)
+	// 	return ;
+	// destroy_ast_tree(app->ast_tree);
+	app->ast_tree = NULL;
 }
