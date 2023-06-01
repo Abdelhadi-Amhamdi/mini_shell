@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 12:46:02 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:01:55 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,4 +228,5 @@ t_tree	*formater(t_app *app)
 	// print_token_list(app->lexer_list);
 	// print_cmd(app->lexer_list);
 	return (app->ast_tree);
+	// return(0);
 }
