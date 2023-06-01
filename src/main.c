@@ -70,8 +70,8 @@ int main(int ac, char **av, char **envp)
 			app->ast_tree = formater(app);
 			if(app->ast_tree)
 			{
-				printTree(app->ast_tree);
-				// app->status = executer(app->ast_tree, app);
+				// printTree(app->ast_tree);
+				app->status = executer(app->ast_tree, app);
 				// destroy tree;
 			}
 			add_history(app->cmd);
