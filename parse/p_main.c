@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 15:08:26 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:09:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,22 @@ void ft_free_lexer_list(t_lexer **list)
 	*list = NULL;
 }
 
+void del_p_node(t_parser *node)
+{
+	if (!node)
+		return ;
+	if (node->args_list)
+		ft_free_lexer_list(&node->args_list);
+	node->args_list = NULL;
+	free(node->str);
+	node->str = NULL;
+	if (node->path)
+		free(node->path);
+	node->path = NULL;
+	free(node);
+	node = NULL;
+}
+
 void ft_free_parser_list(t_parser **list)
 {
 	t_parser *tmp;
@@ -36,7 +52,7 @@ void ft_free_parser_list(t_parser **list)
 	while (tmp)
 	{
 		next = tmp->next;
-		free(tmp);
+		del_p_node(tmp);
 		tmp = next;
 	}
 	*list = NULL;
@@ -234,12 +250,19 @@ void	formater(t_app *app)
 	app->lexer_list = lexer(app->cmd, app->env_list);
 	if(!app->lexer_list)
 		return ;
+	if (ft_expander(app->lexer_list, app->env_list))
+	{
+		ft_free_lexer_list(&app->lexer_list);
+		return ;
+	}
+	app->parser_list = parser(app->lexer_list);
+	if (!app->parser_list)
+	{
+		ft_free_lexer_list(&app->lexer_list);
+		return ;
+	}
 	ft_free_lexer_list(&app->lexer_list);
-	// if (ft_expander(app->lexer_list, app->env_list))
-	// 	return ;
-	// app->parser_list = parser(app->lexer_list);
-	// if (!app->parser_list)
-	// 	return ;
+	ft_free_parser_list(&app->parser_list);
 	// app->ast_tree = create_tree(&app->parser_list);
 	// if (!app->ast_tree)
 	// 	return ;
