@@ -67,7 +67,7 @@ int main(int ac, char **av, char **envp)
 			break ;
 		if (app->cmd[0])
 		{
-			app->ast_tree = formater(app);
+			formater(app);
 			if(app->ast_tree)
 			{
 				// printTree(app->ast_tree);

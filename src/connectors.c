@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/30 18:54:30 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:58:01 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*ft_strjoin_entrys(char const *s1, char const *s2)
 	ft_memcpy(p + size1, s2, size2);
     p[size1 + size2] = ' ';
 	p[size1 + size2 + 1] = '\0';
+    free((char *)s1);
 	return (p);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/30 19:05:07 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:14:21 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	ft_free(char **tabs)
 		index++;
 	}
 	free(tabs);
+	tabs = NULL;
 }
 //get all paths
 char	**all_paths(t_env *env)
@@ -150,7 +151,7 @@ char	*ft_word(t_lexer **list, char *cmd, char **paths)
 	t_lexer	*new;
 
 	i = 0;
-	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != '$')
+	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != '$' && cmd[i] != '(' && cmd[i] != ')')
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
@@ -298,6 +299,19 @@ void set_type(t_lexer **list)
 	}
 }
 
+void del_node(t_lexer *node)
+{
+	if (!node)
+		return ;
+	free(node->str);
+	node->str = NULL;
+	if (node->path)
+		free(node->path);
+	node->path = NULL;
+	free(node);
+	node = NULL;
+}
+
 void	clean_spaces(t_lexer	**list)
 {
 	t_lexer	*cur;
@@ -307,7 +321,7 @@ void	clean_spaces(t_lexer	**list)
 	tmp = *list;
 	while(tmp)
 	{
-		if((tmp->is_oper || tmp->type == CMD) && tmp->prev && tmp->prev->type ==SPACE )
+		if(tmp->is_oper && tmp->prev && tmp->prev->type == SPACE )
 		{
 			cur = tmp->prev->prev;
 			space = tmp->prev;
@@ -315,23 +329,23 @@ void	clean_spaces(t_lexer	**list)
 			{
 				cur->next = tmp;
 				tmp->prev = cur;
-				free(space);
+				del_node(space);
 			}
 			else
 			{
 				*list = tmp;
 				tmp->prev = NULL;
-				free(space);
+				del_node(space);
 			}
 		}
-		if((tmp->is_oper || tmp->type == CMD) && tmp->next && tmp->next->type == SPACE)
+		if(tmp->is_oper && tmp->next && tmp->next->type == SPACE)
 		{
 			cur = tmp->next->next;
 			space = tmp->next;
 			tmp->next = cur;
 			if(cur)
 				cur->prev = tmp;
-			free(space);
+			del_node(space);
 		}
 		tmp = tmp->next;
 	}
@@ -341,8 +355,12 @@ void	clean_spaces(t_lexer	**list)
 void	ft_trim_quotes(t_lexer *node)
 {
 	t_lexer	*tmp;
+	char	*str_tmp;
 
 	tmp = node;
+	if (!tmp)
+		return ;
+	str_tmp = tmp->str;
 	if (tmp->type == SQ)
 		tmp->str = ft_strtrim(tmp->str, "'");
 	else if (tmp->type == DQ)
@@ -354,6 +372,7 @@ void	ft_trim_quotes(t_lexer *node)
 	}
 	else
 		tmp->type = UNK;
+	free(str_tmp);
 }
 
 // check if the quotes are closed and get rid of them
@@ -391,19 +410,25 @@ int to_join(t_lexer *node)
 	return (0);
 }
 
-// join args that no espace or operator between them
+// join args that no space or operator between them
 void join_args(t_lexer **list, char **paths)
 {
 	t_lexer *tmp;
+	t_lexer *next_tmp;
+	char	*str_tmp;
 
 	tmp = *list;
 	while (tmp)
 	{
 		if (to_join(tmp) && to_join(tmp->next))
 		{
+			str_tmp = tmp->str;
+			next_tmp = tmp->next;
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
+			free(str_tmp);
 			tmp->path = get_path(tmp->str, paths);
 			tmp->next = tmp->next->next;
+			del_node(next_tmp);
 		}
 		tmp = tmp->next;
 	}
@@ -440,12 +465,7 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	paths = all_paths(env);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
-	// if (check_qoutes(list) || check_pths(list))
-	// 	return (0);
-	// clean_spaces(&list);
-	// set_type(&list);
-	// join_args(&list, paths);
-	set_type(&list);
+	clean_spaces(&list);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
 					// && node->prev->type == PIPE))
 	// 	{
@@ -457,6 +477,8 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	// 	}
 	// 	index++;
 	// }
+	// set_type(&list);
 	ft_free(paths);
+	// print_token_list(list);
 	return (list);
 }

@@ -23,7 +23,7 @@ char	*expand(char *var, t_env *envp)
 			return (envp->value);
 		envp = envp->next;
 	}
-	return (ft_strdup(" "));
+	return (NULL);
 }
 //extarct before command
 char *extract_before(char *cmd)
@@ -89,13 +89,50 @@ char *extarct_after(char *cmd)
 	after[index] = '\0';
 	return (after);
 }
-
+//remove nodes with null str
+void	remove_node(t_lexer	**list, t_lexer	*node)
+{
+	t_lexer	*tmp;
+	t_lexer	*prev;
+	t_lexer	*next;
+	
+	tmp = *list;
+	while(tmp)
+	{
+		if(tmp == node)
+			break;
+		tmp = tmp->next;
+	}
+	prev = tmp->prev;
+	if(prev->type == SPACE)
+	{
+		while(prev->type == SPACE && prev)
+			prev = prev->prev;
+	}
+	next = tmp->next;
+	if(!prev)
+	{
+		*list = next;
+		if(next)
+			next->prev = *list;
+		free(node);
+	}
+	else
+	{
+		prev->next = next;
+		if(next)
+			next->prev = prev;
+		free(node);
+	}
+}
+//expand variables
 void	ft_expand_vars(t_lexer **list, t_env *envp)
 {
 	char *before;
 	char *after;
 	char *to_expand;
 	t_lexer	*tmp;
+	t_lexer	*cur;
 
 	tmp = *list;
 	while (tmp)
@@ -110,9 +147,18 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 				tmp->str = tmp->str + 1;
 			after = extarct_after(tmp->str);
 			to_expand = expand(to_expand + 1, envp);
-			to_expand = ft_strjoin(before,to_expand);
-			to_expand = ft_strjoin(to_expand,after);
-			tmp->str = to_expand;
+			if(!to_expand)
+			{
+				cur = tmp;
+				tmp = tmp->prev;
+				remove_node(list,cur);
+			}
+			else
+			{
+				to_expand = ft_strjoin(before,to_expand);
+				to_expand = ft_strjoin(to_expand,after);
+				tmp->str = to_expand;	
+			}
 		}
 		tmp = tmp->next;
 	}
@@ -238,8 +284,51 @@ void ft_expand_wildcards(t_lexer **list)
 			last = get_last_token(new_list);
 			last->next = tmp->next;
 			tmp->prev->next = new_list;
-			tabs = NULL;
+			del_node(tmp);
+			ft_free(tabs);
+			free(data);
 			data = NULL;
+			tmp = last->next;
+		}
+		else
+			tmp = tmp->next;
+	}
+}
+
+void	clean_unsed_spaces(t_lexer	**list)
+{
+	t_lexer	*cur;
+	t_lexer	*space;
+	t_lexer	*tmp;
+	
+	tmp = *list;
+	while(tmp)
+	{
+		if(tmp->type == CMD && tmp->prev && tmp->prev->type == SPACE)
+		{
+			cur = tmp->prev->prev;
+			space = tmp->prev;
+			if(cur)
+			{
+				cur->next = tmp;
+				tmp->prev = cur;
+				del_node(space);
+			}
+			else
+			{
+				*list = tmp;
+				tmp->prev = NULL;
+				del_node(space);
+			}
+		}
+		if(tmp->type == CMD && tmp->next && tmp->next->type == SPACE)
+		{
+			cur = tmp->next->next;
+			space = tmp->next;
+			tmp->next = cur;
+			if(cur)
+				cur->prev = tmp;
+			del_node(space);
 		}
 		tmp = tmp->next;
 	}
@@ -252,11 +341,12 @@ int	ft_expander(t_lexer *list, t_env *env)
 	paths = all_paths(env);
 	ft_expand_vars(&list, env);
 	if (check_qoutes(list) || check_pths(list))
-		return (1);
+		return (ft_free(paths), 1);
 	join_args(&list, paths);
 	set_type(&list);
 	if (syntax_analyzer(list))
-		return (1);
+		return (ft_free(paths), 1);
 	ft_expand_wildcards(&list);
-	return (0);
+	clean_unsed_spaces(&list);
+	return (ft_free(paths), 0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/30 19:03:54 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:57:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ typedef struct s_app
 #define _ERR_MSG "shell : parse error near" 
 
 // main
-t_tree				*formater(t_app *app);
-int				ft_error(char *str);
+void				formater(t_app *app);
+int					ft_error(char *str);
 void				ft_free_lexer_list(t_lexer **list);
 
 // lexer functions
@@ -130,6 +130,8 @@ void	ft_trim_quotes(t_lexer *node);
 int check_pths(t_lexer *list);
 void set_type(t_lexer **list);
 void join_args(t_lexer **list, char **paths);
+void del_node(t_lexer *node);
+void	clean_spaces(t_lexer	**list);
 
 // parser functions
 t_parser			*parser(t_lexer *list);

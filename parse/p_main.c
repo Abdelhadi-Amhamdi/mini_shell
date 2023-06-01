@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/30 19:03:47 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:14:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,26 @@ void ft_free_lexer_list(t_lexer **list)
 	while (tmp)
 	{
 		next = tmp->next;
-		free(tmp);
+		del_node(tmp);
 		tmp = next;
 	}
 	*list = NULL;
+}
+
+void del_p_node(t_parser *node)
+{
+	if (!node)
+		return ;
+	if (node->args_list)
+		ft_free_lexer_list(&node->args_list);
+	node->args_list = NULL;
+	free(node->str);
+	node->str = NULL;
+	if (node->path)
+		free(node->path);
+	node->path = NULL;
+	free(node);
+	node = NULL;
 }
 
 void ft_free_parser_list(t_parser **list)
@@ -36,7 +52,7 @@ void ft_free_parser_list(t_parser **list)
 	while (tmp)
 	{
 		next = tmp->next;
-		free(tmp);
+		del_p_node(tmp);
 		tmp = next;
 	}
 	*list = NULL;
@@ -149,7 +165,7 @@ t_tree *term(t_parser **list)
 		t_tree *right = factor(list);
 		res = create_token_node(op, res,right);
 	}
-	if (res && !res->left && res->is_op && (res->type == HEREDOC || res->type == APND || res->type == RDIR))
+	if (res && !res->left && res->is_op && (res->type == HEREDOC || res->type == APND || res->type == RDIR) && *list)
 		res->left = term(list);
 	return (res);
 }
@@ -189,7 +205,7 @@ void printTreeHelper(t_tree *root, int depth)
 		for (int i = 0; i < depth + 1; i++)
 			printf("    ");
 		while (root->cmd_args[i])
-			printf("%s ", root->cmd_args[i++]);
+			printf("[%s]", root->cmd_args[i++]);
 		puts("");
 	}
     printTreeHelper(root->left, depth + 1);
@@ -215,14 +231,41 @@ int	ft_error(char *str)
 	return (printf("%s `%s'\n", _ERR_MSG, str));
 }
 
-t_tree	*formater(t_app *app)
+void destroy_ast_tree(t_tree *root)
+{
+	t_tree *right;
+
+	if (!root)
+		return ;
+	right = NULL;
+	destroy_ast_tree(root->left);
+	right = root->right;
+	free(root);
+	root = NULL;
+	destroy_ast_tree(right);
+}
+
+void	formater(t_app *app)
 {
 	app->lexer_list = lexer(app->cmd, app->env_list);
 	if(!app->lexer_list)
-		return (NULL);
+		return ;
 	if (ft_expander(app->lexer_list, app->env_list))
-		return (NULL);
-	print_token_list(app->lexer_list);
-	print_cmd(app->lexer_list);
-	return (0);
+	{
+		ft_free_lexer_list(&app->lexer_list);
+		return ;
+	}
+	app->parser_list = parser(app->lexer_list);
+	if (!app->parser_list)
+	{
+		ft_free_lexer_list(&app->lexer_list);
+		return ;
+	}
+	ft_free_lexer_list(&app->lexer_list);
+	ft_free_parser_list(&app->parser_list);
+	// app->ast_tree = create_tree(&app->parser_list);
+	// if (!app->ast_tree)
+	// 	return ;
+	// destroy_ast_tree(app->ast_tree);
+	app->ast_tree = NULL;
 }
