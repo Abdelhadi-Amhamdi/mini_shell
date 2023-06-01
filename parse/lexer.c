@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/01 16:57:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:14:21 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -477,6 +477,8 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	// 	}
 	// 	index++;
 	// }
+	// set_type(&list);
 	ft_free(paths);
+	// print_token_list(list);
 	return (list);
 }
