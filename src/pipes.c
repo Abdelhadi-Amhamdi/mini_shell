@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 14:16:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 15:26:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void run_pipe(t_tree *cmd, int *pipe, int in, int out, int side)
 	}
 	if (cmd->type == PIPE)
 		run_pipeline(cmd, in, used_end);
-	else if (cmd->type != CMD)
-		executer(cmd, NULL);
-	else
+	else if (cmd->type == CMD)
 		exec_cmd(cmd, unused_end, used_end, std_file, old);
+	else
+		executer(cmd, NULL);
 }
 
 int run_pipeline(t_tree *pipe_node, int in, int out)

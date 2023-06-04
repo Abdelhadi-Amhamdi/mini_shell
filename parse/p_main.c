@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 13:24:51 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 15:10:06 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,16 +217,6 @@ void printTree(t_tree *root)
     printTreeHelper(root, 0);
 }
 
-void	print_cmd(t_lexer *cmd)
-{
-	while(cmd)
-	{
-		printf("%s ",cmd->str);
-		cmd = cmd->next;
-	}
-	puts("");
-}
-
 int	ft_error(char *str)
 {
 	return (printf("%s `%s'\n", _ERR_MSG, str));
@@ -253,10 +243,5 @@ void	formater(t_app *app)
 	ft_free_lexer_list(&app->lexer_list);
 	tmp = app->parser_list;
 	app->ast_tree = create_tree(&tmp);
-	if (!app->ast_tree)
-	{
-		ft_free_parser_list(&app->parser_list);
-		return ;
-	}
 	ft_free_parser_list(&app->parser_list);
 }

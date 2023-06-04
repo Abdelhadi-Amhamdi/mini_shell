@@ -4,8 +4,6 @@
 #include <sys/wait.h>
 # include <signal.h>
 
-t_app *app;
-
 void print_banner()
 {
 	puts("");
@@ -29,17 +27,19 @@ void clean_data(t_app *app)
 	app->parser_list = NULL;
 }
 
-void print_ast(t_tree *root)
-{
-	if (!root)
-		return ;
-	printf("%s ", root->str);
-	print_ast(root->left);
-	print_ast(root->right);
-}
+// void test()
+// {
+// 	int fd = open("heredoc_file", O_RDONLY);
+// 	printf("%d\n", fd);
+// }
 
-void init(t_app *app, char **env)
+t_app *init(char **env)
 {
+	t_app *app;
+
+	app = malloc(sizeof(t_app));
+	if (!app)
+		return (NULL);
 	app->status = 0;
 	app->cmd = NULL;
 	app->ast_tree = NULL;
@@ -49,6 +49,7 @@ void init(t_app *app, char **env)
 	app->env_list = get_env_vars(env);
 	// signal(SIGINT, test);
 	// signal(SIGQUIT, SIG_IGN);
+	return (app);
 }
 
 void destroy_ast_tree(t_tree *root)
@@ -70,12 +71,13 @@ void destroy_ast_tree(t_tree *root)
 
 int main(int ac, char **av, char **envp)
 {
+	t_app	*app;
 	(void)ac;
 	(void)av;
-	app = malloc(sizeof(t_app));
+
+	app = init(envp);
 	if (!app)
 		return (0);
-	init(app, envp);
 	while (1)
 	{
 		clean_data(app);
@@ -90,12 +92,10 @@ int main(int ac, char **av, char **envp)
 				// printTree(app->ast_tree);
 				app->status = executer(app->ast_tree, app);
 				destroy_ast_tree(app->ast_tree);
-				// destroy tree;
 			}
 			add_history(app->cmd);
 			free(app->cmd);
 		}
 	}
-	// clean all;
 	return (0);
 }

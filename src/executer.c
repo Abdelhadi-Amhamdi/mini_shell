@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 14:20:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 15:22:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	exec_builtin(t_tree	*cmd, t_env	**env)
 
 int executer(t_tree *root, t_app *app)
 {
-	if (!root)
-		return (0);
 	if (root->type == CMD)
 		return (run_cmd(root, &app->env_list));
 	else if (root->type == PIPE)
