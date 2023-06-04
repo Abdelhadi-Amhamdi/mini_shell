@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/01 17:14:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 13:37:20 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,14 +255,16 @@ void	formater(t_app *app)
 		ft_free_lexer_list(&app->lexer_list);
 		return ;
 	}
-	app->parser_list = parser(app->lexer_list);
-	if (!app->parser_list)
-	{
-		ft_free_lexer_list(&app->lexer_list);
-		return ;
-	}
+	puts("print");
+	print_token_list(app->lexer_list);
+	// app->parser_list = parser(app->lexer_list);
+	// if (!app->parser_list)
+	// {
+	// 	ft_free_lexer_list(&app->lexer_list);
+	// 	return ;
+	// }
 	ft_free_lexer_list(&app->lexer_list);
-	ft_free_parser_list(&app->parser_list);
+	// ft_free_parser_list(&app->parser_list);
 	// app->ast_tree = create_tree(&app->parser_list);
 	// if (!app->ast_tree)
 	// 	return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 11:05:19 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 14:25:11 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,11 @@ void	remove_node(t_lexer	**list, t_lexer	*node)
 		tmp = tmp->next;
 	}
 	prev = tmp->prev;
-	if(prev->type == SPACE)
-	{
-		while(prev->type == SPACE && prev)
+	if(prev &&prev->type == SPACE)
 			prev = prev->prev;
-	}
 	next = tmp->next;
+	if(next && next->type == SPACE)
+		next= next->next;
 	if(!prev)
 	{
 		*list = next;
@@ -133,8 +132,10 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 	char *to_expand;
 	t_lexer	*tmp;
 	t_lexer	*cur;
+	char	*temp;
 
 	tmp = *list;
+	(void)envp;
 	while (tmp)
 	{
 		if (tmp->type == VAR)
@@ -146,21 +147,36 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 			while(*(tmp->str) && *(tmp->str) != '.' && *(tmp->str) != 32 && *(tmp->str) != '\'' && *(tmp->str) != '"' )
 				tmp->str = tmp->str + 1;
 			after = extarct_after(tmp->str);
+			temp = to_expand;
 			to_expand = expand(to_expand + 1, envp);
+			free(temp);
 			if(!to_expand)
 			{
 				cur = tmp;
-				tmp = tmp->prev;
+				tmp = tmp->next;
 				remove_node(list,cur);
 			}
 			else
 			{
+				temp = to_expand;
 				to_expand = ft_strjoin(before,to_expand);
+				free(before);
+				free(temp);
+				temp = to_expand;
 				to_expand = ft_strjoin(to_expand,after);
+				free(after);
+				free(temp);
+				temp = tmp->str;
 				tmp->str = to_expand;	
+				free(temp);
+				tmp = tmp->next;
 			}
 		}
-		tmp = tmp->next;
+		else
+			tmp = tmp->next;
+		after = NULL;
+		before = NULL;
+		to_expand = NULL;
 	}
 }
 

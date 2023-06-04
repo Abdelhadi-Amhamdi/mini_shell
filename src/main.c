@@ -68,12 +68,12 @@ int main(int ac, char **av, char **envp)
 		if (app->cmd[0])
 		{
 			formater(app);
-			if(app->ast_tree)
-			{
-				// printTree(app->ast_tree);
-				app->status = executer(app->ast_tree, app);
-				// destroy tree;
-			}
+			// if(app->ast_tree)
+			// {
+			// 	// printTree(app->ast_tree);
+			// 	app->status = executer(app->ast_tree, app);
+			// 	// destroy tree;
+			// }
 			add_history(app->cmd);
 			free(app->cmd);
 		}
