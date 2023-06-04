@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/01 17:14:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 12:51:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char **get_args(t_parser *node)
 	tmp = node->args_list;
 	size = ft_lst_size(node->args_list);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
-	cmd_args[index++] = node->path;
+	cmd_args[index++] = ft_strdup(node->path);
 	while (tmp)
 	{
 		cmd_args[index] = ft_strdup(tmp->str);
@@ -112,7 +112,7 @@ t_tree *create_node(t_parser *item)
 	new_node = malloc(sizeof(t_tree));
 	if (!new_node)
 		return (NULL);
-	new_node->str = item->str;
+	new_node->str = ft_strdup(item->str);
 	new_node->type = item->type;
 	new_node->is_builtin = item->is_builtin;
 	new_node->cmd_args =  get_args(item);
@@ -129,7 +129,7 @@ t_tree *create_token_node(t_parser *node, t_tree *left, t_tree *right)
 	new_node = malloc(sizeof(t_tree));
 	if (!new_node)
 		return (NULL);
-	new_node->str = node->str;
+	new_node->str = ft_strdup(node->str);
 	new_node->type = node->type;
 	new_node->cmd_args = NULL;
 	new_node->is_op = true;
@@ -231,22 +231,10 @@ int	ft_error(char *str)
 	return (printf("%s `%s'\n", _ERR_MSG, str));
 }
 
-void destroy_ast_tree(t_tree *root)
-{
-	t_tree *right;
-
-	if (!root)
-		return ;
-	right = NULL;
-	destroy_ast_tree(root->left);
-	right = root->right;
-	free(root);
-	root = NULL;
-	destroy_ast_tree(right);
-}
-
 void	formater(t_app *app)
 {
+	t_parser *tmp;
+
 	app->lexer_list = lexer(app->cmd, app->env_list);
 	if(!app->lexer_list)
 		return ;
@@ -262,10 +250,12 @@ void	formater(t_app *app)
 		return ;
 	}
 	ft_free_lexer_list(&app->lexer_list);
-	ft_free_parser_list(&app->parser_list);
-	// app->ast_tree = create_tree(&app->parser_list);
-	// if (!app->ast_tree)
-	// 	return ;
-	// destroy_ast_tree(app->ast_tree);
-	app->ast_tree = NULL;
+	tmp = app->parser_list;
+	app->ast_tree = create_tree(&app->parser_list);
+	if (!app->ast_tree)
+	{
+		ft_free_parser_list(&app->parser_list);
+		return ;
+	}
+	ft_free_parser_list(&tmp);
 }
