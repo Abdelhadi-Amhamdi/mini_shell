@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 14:25:11 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/04 14:26:52 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,7 +355,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 	char **paths;
 
 	paths = all_paths(env);
-	ft_expand_vars(&list, env);
+	// ft_expand_vars(&list, env);
 	if (check_qoutes(list) || check_pths(list))
 		return (ft_free(paths), 1);
 	join_args(&list, paths);

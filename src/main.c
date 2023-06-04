@@ -51,6 +51,23 @@ void init(t_app *app, char **env)
 	// signal(SIGQUIT, SIG_IGN);
 }
 
+void destroy_ast_tree(t_tree *root)
+{
+	t_tree *right;
+
+	if (!root)
+		return ;
+	right = NULL;
+	destroy_ast_tree(root->left);
+	right = root->right;
+	free(root->str);
+	ft_free(root->cmd_args);
+	free(root);
+	root = NULL;
+	root = NULL;
+	destroy_ast_tree(right);
+}
+
 int main(int ac, char **av, char **envp)
 {
 	(void)ac;
@@ -68,12 +85,13 @@ int main(int ac, char **av, char **envp)
 		if (app->cmd[0])
 		{
 			formater(app);
-			// if(app->ast_tree)
-			// {
-			// 	// printTree(app->ast_tree);
-			// 	app->status = executer(app->ast_tree, app);
-			// 	// destroy tree;
-			// }
+			if(app->ast_tree)
+			{
+				printTree(app->ast_tree);
+				destroy_ast_tree(app->ast_tree);
+				// app->status = executer(app->ast_tree, app);
+				// destroy tree;
+			}
 			add_history(app->cmd);
 			free(app->cmd);
 		}
