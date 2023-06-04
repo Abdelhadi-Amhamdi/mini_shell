@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/30 15:18:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 14:20:45 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ void	exec_builtin(t_tree	*cmd, t_env	**env);
 int	herdoc(t_tree *hrd, t_app *app);
 int executer(t_tree *root, t_app *app);
 
-int run_connectors(t_tree *root);
+int run_connectors(t_tree *root, t_app *app);
 char *wildcard(char *condition);
 #endif

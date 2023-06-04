@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 12:51:30 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 13:24:51 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,8 @@ t_tree *term(t_parser **list)
 		t_tree *right = factor(list);
 		res = create_token_node(op, res,right);
 	}
-	if (res && !res->left && res->is_op && (res->type == HEREDOC || res->type == APND || res->type == RDIR) && *list)
+	if (res && !res->left && res->is_op && (res->type == HEREDOC \
+	|| res->type == APND || res->type == RDIR) && *list && (*list)->type != CP)
 		res->left = term(list);
 	return (res);
 }
@@ -251,11 +252,11 @@ void	formater(t_app *app)
 	}
 	ft_free_lexer_list(&app->lexer_list);
 	tmp = app->parser_list;
-	app->ast_tree = create_tree(&app->parser_list);
+	app->ast_tree = create_tree(&tmp);
 	if (!app->ast_tree)
 	{
 		ft_free_parser_list(&app->parser_list);
 		return ;
 	}
-	ft_free_parser_list(&tmp);
+	ft_free_parser_list(&app->parser_list);
 }

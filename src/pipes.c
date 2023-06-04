@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 15:49:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 14:16:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int run_cmd(t_tree *cmd, t_env **env)
 	pid = fork();
 	if (!pid)
 		execve(cmd->cmd_args[0], cmd->cmd_args, list_to_tab(*env));
-	wait(&status);
+	waitpid(pid , &status, 0);
 	return (status);
 }
 

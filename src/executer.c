@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/27 15:34:53 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 14:20:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exec_builtin(t_tree	*cmd, t_env	**env)
 int executer(t_tree *root, t_app *app)
 {
 	if (!root)
-		return (app->status);
+		return (0);
 	if (root->type == CMD)
 		return (run_cmd(root, &app->env_list));
 	else if (root->type == PIPE)
@@ -43,6 +43,6 @@ int executer(t_tree *root, t_app *app)
 	else if (root->type == HEREDOC)
 		return (herdoc(root, app));
 	else if (root->type == AND || root->type == OR)
-		return (run_connectors(root));
+		return (run_connectors(root, app));
 	return (-1);
 }

@@ -31,6 +31,7 @@
     - echo $HOMEsdjhfk$HOME
     - echo $HOME.sdjhfk$HOME
     - <<$x ca
+    - ls -l | wc -l >> out && (cat out | grep 5 >> out || << del)
 
 #		- fix echo "$HOME"
 		- fix echo '''$HOME'''

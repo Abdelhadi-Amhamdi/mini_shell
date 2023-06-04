@@ -6,28 +6,28 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 15:58:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 14:21:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 #include <dirent.h>
 
-int run_connectors(t_tree *root)
+int run_connectors(t_tree *root, t_app *app)
 {
 	int status;
 	
 	if (!ft_strncmp(root->str, "&&", ft_strlen(root->str)))
 	{
-		status = executer(root->left, NULL);
-		if (!status)
-			return (executer(root->right, NULL));
+		status = executer(root->left, app);
+		if (status >= 0 && status <= 127)
+			return (executer(root->right, app));
 	}
 	else
 	{
-		status = executer(root->left, NULL);
-		if (status)
-			status = executer(root->right, NULL);
+		status = executer(root->left, app);
+		if (status < 0 || status > 127)
+			status = executer(root->right, app);
 		return (status);
 	}
 	return (-11);
