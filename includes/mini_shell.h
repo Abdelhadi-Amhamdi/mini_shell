@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 13:34:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:33:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char *wildcard(char *condition);
 
 // exec utils
 int lexer_list_size(t_lexer *list);
-char **cmd_args_list_to_tabs(t_tree *node);
+char **cmd_args_list_to_tabs(t_tree *node, t_env **env);
 char **env_list_to_tabs(t_env *list);
 int env_list_size(t_env *list);
 
