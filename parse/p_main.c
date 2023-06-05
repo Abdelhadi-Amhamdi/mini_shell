@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 12:51:30 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:33:59 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void ft_free_lexer_list(t_lexer **list)
 {
 	t_lexer *tmp;
 	t_lexer *next;
-
 	tmp = *list;
 	while (tmp)
 	{
@@ -251,11 +250,11 @@ void	formater(t_app *app)
 	}
 	ft_free_lexer_list(&app->lexer_list);
 	tmp = app->parser_list;
-	app->ast_tree = create_tree(&app->parser_list);
+	app->ast_tree = create_tree(&tmp);
 	if (!app->ast_tree)
 	{
 		ft_free_parser_list(&app->parser_list);
 		return ;
 	}
-	ft_free_parser_list(&tmp);
+	ft_free_parser_list(&app->parser_list);
 }
