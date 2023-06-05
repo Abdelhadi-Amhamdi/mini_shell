@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 14:29:43 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:33:59 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void ft_free_lexer_list(t_lexer **list)
 {
 	t_lexer *tmp;
 	t_lexer *next;
-
 	tmp = *list;
 	while (tmp)
 	{
@@ -257,5 +256,5 @@ void	formater(t_app *app)
 		ft_free_parser_list(&app->parser_list);
 		return ;
 	}
-	ft_free_parser_list(&tmp);
+	ft_free_parser_list(&app->parser_list);
 }
