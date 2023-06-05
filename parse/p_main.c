@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 12:37:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:28:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void del_p_node(t_parser *node)
 {
 	if (!node)
 		return ;
-	if (node->args_list)
-		ft_free_lexer_list(&node->args_list);
 	node->args_list = NULL;
 	free(node->str);
 	node->str = NULL;
@@ -57,18 +55,7 @@ void ft_free_parser_list(t_parser **list)
 	*list = NULL;
 }
 
-int ft_lst_size(t_lexer *list)
-{
-	int  size;
 
-	size = 0;
-	while (list)
-	{
-		list = list->next;
-		size++;
-	}
-	return (size);
-}
 
 int ft_tabs_len(char **tabs)
 {
@@ -78,30 +65,6 @@ int ft_tabs_len(char **tabs)
 	while (tabs[index])
 		index++;
 	return (index);
-}
-
-char **get_args(t_parser *node)
-{
-	char	**cmd_args;
-	t_lexer	*tmp;
-	int		size;
-	int		index;
-
-	index = 0;
-	if (node->type != CMD)	
-		return (NULL);
-	tmp = node->args_list;
-	size = ft_lst_size(node->args_list);
-	cmd_args = malloc(sizeof(char *) * (size + 2));
-	cmd_args[index++] = ft_strdup(node->path);
-	while (tmp)
-	{
-		cmd_args[index] = ft_strdup(tmp->str);
-		tmp = tmp->next;
-		index++;
-	}
-	cmd_args[index] = NULL;
-	return (cmd_args);
 }
 
 t_tree *create_node(t_parser *item)
@@ -114,7 +77,9 @@ t_tree *create_node(t_parser *item)
 	new_node->str = ft_strdup(item->str);
 	new_node->type = item->type;
 	new_node->is_builtin = item->is_builtin;
-	new_node->cmd_args =  get_args(item);
+	if (item->path)
+		new_node->path = ft_strdup(item->path);
+	new_node->cmd_args =  item->args_list;
 	new_node->is_op = false;
 	new_node->left = NULL;
 	new_node->right = NULL;
@@ -199,13 +164,16 @@ void printTreeHelper(t_tree *root, int depth)
         printf("    ");
     } 
     printf("%s -- %d\n", root->str, root->type);
-	int i = 0;
 	if (root->cmd_args)
 	{
 		for (int i = 0; i < depth + 1; i++)
 			printf("    ");
-		while (root->cmd_args[i])
-			printf("[%s]", root->cmd_args[i++]);
+		while (root->cmd_args)
+		{
+			printf("[%s - %d]", root->cmd_args->str, root->cmd_args->type);
+			root->cmd_args = root->cmd_args->next;
+			
+		}
 		puts("");
 	}
     printTreeHelper(root->left, depth + 1);

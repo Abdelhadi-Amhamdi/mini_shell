@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 15:13:51 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:18:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_lexer	*create_token(char *str, int len, char **paths)
 	if (paths)
 		new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
+	new->type = -1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -369,7 +370,8 @@ void	ft_trim_quotes(t_lexer *node)
 		tmp->str = ft_strtrim(tmp->str, "\"");
 	if (!tmp->str[0])
 	{
-		tmp->str = " ";
+		// fix this case
+		tmp->str = ft_strdup(" ");
 		tmp->type = SPACE;
 	}
 	else
