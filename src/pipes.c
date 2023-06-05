@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 15:23:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:13:32 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int run_cmd(t_tree *cmd, t_env **env)
 	return (status);
 }
 
-int run_rdir(t_tree *node)
+int run_rdir(t_tree *node, int out)
 {
 	int file_fd;
 	int flags;
@@ -109,9 +109,25 @@ int run_rdir(t_tree *node)
 		run_pipeline(node->left, 0, file_fd);
 	else if (node->left->type == CMD)
 	{
-		exec_cmd(node->left, -1, file_fd, 1, -1);
-		close(file_fd);
+		if (out != 1)
+		{
+			exec_cmd(node->left, -1, out, 1, -1);
+			close(out);
+		}
+		else
+		{
+			exec_cmd(node->left, -1, file_fd, 1, -1);
+			close(file_fd);
+		}
+			
 		wait(&status);
+	}
+	else if (node->left->type == RDIR)
+	{
+		if (out == 1)
+			run_rdir(node->left, file_fd);
+		else
+			run_rdir(node->left, out);
 	}
 	else
 		status = executer(node->left, NULL);

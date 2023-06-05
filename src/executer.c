@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:42:56 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:07:51 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int executer(t_tree *root, t_app *app)
 	else if (root->type == PIPE)
 		return (run_pipeline(root, 0, 1));
 	else if (root->type == RDIR || root->type == APND)
-		return (run_rdir(root));
+		return (run_rdir(root, 1));
 	else if (root->type == HEREDOC)
 		return (herdoc(root, app));
 	else if (root->type == AND || root->type == OR)
