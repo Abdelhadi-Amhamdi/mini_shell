@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 15:42:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:15:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 {
 	pid_t pid;
+	char **args;
+	
 	pid = fork();
+	args = cmd_args_list_to_tabs(node);
+	// if (node->is_builtin)
+	// 	exec_builtin(node, NULL);
 	if (!pid)
 	{
 		dup2(p2, std);
@@ -23,7 +28,7 @@ void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 		if (old != -1)
 			dup2(old, 1);
 		close(p1);
-		execve(node->cmd_args[0], node->cmd_args, NULL);
+		execve(args[0], args, NULL);
 	}
 }
 
@@ -70,53 +75,18 @@ int run_pipeline(t_tree *pipe_node, int in, int out)
 	return (status);
 }
 
-int ft_env_lst_size(t_env *list)
-{
-	int index;
-	
-	index = 0;
-	while (list)
-	{
-		index++;
-		list = list->next;
-	}
-	return (index);
-}
-
-char **list_to_tab(t_env *list)
-{
-	t_env *tmp;
-	char **env;
-	int size;
-	int index;
-
-	tmp = list;
-	index = 0;
-	size = ft_env_lst_size(tmp);
-	env = malloc(sizeof(char *) * size + 1);
-	if (!env)
-		return (NULL);
-	while (tmp)
-	{
-		env[index] = ft_strjoin(tmp->key, "=");
-		env[index] = ft_strjoin(env[index], tmp->value);
-		index++;
-		tmp = tmp->next;
-	}
-	env[index] = NULL;
-	return (env);
-}
-
 int run_cmd(t_tree *cmd, t_env **env)
 {
 	pid_t pid;
 	int status;
+	char **args;
 
-	if(cmd->is_builtin)
-		return (exec_builtin(cmd, env));
+	args = cmd_args_list_to_tabs(cmd);
+	// if(cmd->is_builtin)
+	// 	return (exec_builtin(cmd, env));
 	pid = fork();
 	if (!pid)
-		execve(cmd->cmd_args[0], cmd->cmd_args, list_to_tab(*env));
+		execve(args[0], args, env_list_to_tabs(*env));
 	waitpid(pid , &status, 0);
 	return (status);
 }

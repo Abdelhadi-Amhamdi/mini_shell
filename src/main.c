@@ -70,7 +70,7 @@ void destroy_ast_tree(t_tree *root)
 	destroy_ast_tree(root->left);
 	right = root->right;
 	free(root->str);
-	ft_free(root->cmd_args);
+	// ft_free(root->cmd_args);
 	free(root);
 	root = NULL;
 	root = NULL;
