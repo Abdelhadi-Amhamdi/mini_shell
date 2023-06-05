@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:45:46 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:05:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ t_tree *create_node(t_parser *item)
 	new_node->is_builtin = item->is_builtin;
 	if (item->path)
 		new_node->path = ft_strdup(item->path);
+	else
+		new_node->path  = NULL;
 	new_node->cmd_args =  item->args_list;
 	new_node->is_op = false;
 	new_node->args = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:26:23 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:47:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,9 +364,9 @@ void	ft_trim_quotes(t_lexer *node)
 	if (!tmp)
 		return ;
 	str_tmp = tmp->str;
-	if (tmp->type == SQ)
+	if (tmp->str[0] == '\'')
 		tmp->str = ft_strtrim(tmp->str, "'");
-	else if (tmp->type == DQ)
+	else if (tmp->str[0] == '"')
 		tmp->str = ft_strtrim(tmp->str, "\"");
 	if (!tmp->str[0])
 	{
@@ -390,7 +390,7 @@ int	check_qoutes(t_lexer *list)
 	tmp = list;
 	while (tmp)
 	{
-		if (tmp->type == DQ || tmp->type == SQ)
+		if (tmp->str[0] == '"' || tmp->str[0] == '\'')
 		{
 			index = 0;
 			data = tmp->str;
