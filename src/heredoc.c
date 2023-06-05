@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 15:16:47 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 16:30:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	herdoc(t_tree *hrd, t_app *app)
 	char	*tmp_file_name;
 
 	del = hrd->right->str;
-	tmp_file_name = "heredoc_file";
+	tmp_file_name = "/Users/aamhamdi/tmp/heredoc_file";
 	cmd = hrd->left;
 	app->herdoc_list = NULL;
 	fd = open(tmp_file_name, O_CREAT | O_RDWR, 0644);

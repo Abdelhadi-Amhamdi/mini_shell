@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 15:26:17 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/04 15:42:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,7 @@ int run_cmd(t_tree *cmd, t_env **env)
 	int status;
 
 	if(cmd->is_builtin)
-	{
-		exec_builtin(cmd, env);
-		return (-11);
-	}
+		return (exec_builtin(cmd, env));
 	pid = fork();
 	if (!pid)
 		execve(cmd->cmd_args[0], cmd->cmd_args, list_to_tab(*env));

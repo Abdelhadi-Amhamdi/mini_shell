@@ -4,6 +4,8 @@
 #include <sys/wait.h>
 # include <signal.h>
 
+int exit_status;
+
 void print_banner()
 {
 	puts("");
@@ -33,6 +35,12 @@ void clean_data(t_app *app)
 // 	printf("%d\n", fd);
 // }
 
+void set_exit_status(int new_status)
+{
+	exit_status = new_status;
+	printf("%d\n", exit_status);
+}
+
 t_app *init(char **env)
 {
 	t_app *app;
@@ -47,7 +55,7 @@ t_app *init(char **env)
 	app->parser_list = NULL;
 	app->herdoc_list = NULL;
 	app->env_list = get_env_vars(env);
-	// signal(SIGINT, test);
+	signal(SIGINT, SIG_DFL);
 	// signal(SIGQUIT, SIG_IGN);
 	return (app);
 }
@@ -90,7 +98,7 @@ int main(int ac, char **av, char **envp)
 			if(app->ast_tree)
 			{
 				// printTree(app->ast_tree);
-				app->status = executer(app->ast_tree, app);
+				executer(app->ast_tree, app);
 				destroy_ast_tree(app->ast_tree);
 			}
 			add_history(app->cmd);

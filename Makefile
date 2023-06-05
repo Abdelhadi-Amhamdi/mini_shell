@@ -16,7 +16,7 @@ p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_
 env_src = env_main.c utils_env.c
 src = main.c executer.c pipes.c heredoc.c connectors.c
 g_src = get_next_line.c get_next_line_utils.c
-b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c
+b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c ft_exit.c
 
 p_srcs = $(addprefix $(parsing_path), $(p_src))
 env_srcs = $(addprefix $(env_path), $(env_src))
