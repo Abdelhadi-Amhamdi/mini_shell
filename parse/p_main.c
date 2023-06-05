@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 15:10:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:37:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void ft_free_lexer_list(t_lexer **list)
 {
 	t_lexer *tmp;
 	t_lexer *next;
-
 	tmp = *list;
 	while (tmp)
 	{
