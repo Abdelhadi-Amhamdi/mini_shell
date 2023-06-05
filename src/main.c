@@ -4,7 +4,7 @@
 #include <sys/wait.h>
 # include <signal.h>
 
-t_app *app;
+int exit_status;
 
 void print_banner()
 {
@@ -29,17 +29,25 @@ void clean_data(t_app *app)
 	app->parser_list = NULL;
 }
 
-void print_ast(t_tree *root)
+// void test()
+// {
+// 	int fd = open("heredoc_file", O_RDONLY);
+// 	printf("%d\n", fd);
+// }
+
+void set_exit_status(int new_status)
 {
-	if (!root)
-		return ;
-	printf("%s ", root->str);
-	print_ast(root->left);
-	print_ast(root->right);
+	exit_status = new_status;
+	printf("%d\n", exit_status);
 }
 
-void init(t_app *app, char **env)
+t_app *init(char **env)
 {
+	t_app *app;
+
+	app = malloc(sizeof(t_app));
+	if (!app)
+		return (NULL);
 	app->status = 0;
 	app->cmd = NULL;
 	app->ast_tree = NULL;
@@ -47,8 +55,9 @@ void init(t_app *app, char **env)
 	app->parser_list = NULL;
 	app->herdoc_list = NULL;
 	app->env_list = get_env_vars(env);
-	// signal(SIGINT, test);
+	signal(SIGINT, SIG_DFL);
 	// signal(SIGQUIT, SIG_IGN);
+	return (app);
 }
 
 void destroy_ast_tree(t_tree *root)
@@ -61,7 +70,7 @@ void destroy_ast_tree(t_tree *root)
 	destroy_ast_tree(root->left);
 	right = root->right;
 	free(root->str);
-	ft_free(root->cmd_args);
+	// ft_free(root->cmd_args);
 	free(root);
 	root = NULL;
 	root = NULL;
@@ -70,12 +79,13 @@ void destroy_ast_tree(t_tree *root)
 
 int main(int ac, char **av, char **envp)
 {
+	t_app	*app;
 	(void)ac;
 	(void)av;
-	app = malloc(sizeof(t_app));
+
+	app = init(envp);
 	if (!app)
 		return (0);
-	init(app, envp);
 	while (1)
 	{
 		clean_data(app);
@@ -96,6 +106,5 @@ int main(int ac, char **av, char **envp)
 			free(app->cmd);
 		}
 	}
-	// clean all;
 	return (0);
 }

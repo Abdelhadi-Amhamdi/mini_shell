@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 13:11:23 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:26:35 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*expand(char *var, t_env *envp)
 	index = 0;
 	while (envp)
 	{
-		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key)))
+		if (!ft_strncmp(var, envp->key, (ft_strlen(envp->key) + 1)))
 			return (ft_strdup(envp->value));
 		envp = envp->next;
 	}
