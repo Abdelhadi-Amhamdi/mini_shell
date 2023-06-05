@@ -39,4 +39,8 @@
 		- fix echo $HOME
 
 
-		**  echo "$HOME"
+		**  echo "$HOME" 
+				-output
+					"/Users/aagouzou"
+				-expected
+					/Users/aagouzou"

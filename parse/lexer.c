@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 12:40:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:24:37 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,7 +369,7 @@ void	ft_trim_quotes(t_lexer *node)
 		tmp->str = ft_strtrim(tmp->str, "\"");
 	if (!tmp->str[0])
 	{
-		tmp->str = " ";
+		tmp->str = ft_strdup(" ");
 		tmp->type = SPACE;
 	}
 	else
