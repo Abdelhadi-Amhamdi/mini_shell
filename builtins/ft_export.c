@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/25 13:59:38 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/04 16:09:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_env	*search_node(t_env	*node, t_env	*env)
 	return (tmp);
 }
 
-void	ft_export(t_tree *cmd, t_env **env)
+int	ft_export(t_tree *cmd, t_env **env)
 {
 	t_env	*node;
 	t_env	*tmp;
@@ -130,7 +130,7 @@ void	ft_export(t_tree *cmd, t_env **env)
 	if(!cmd->cmd_args[1])
 	{
 		print_export(*env);
-		return ;	
+		return (0);	
 	}
 	i = 1;
 	while(cmd->cmd_args[i])
@@ -146,4 +146,5 @@ void	ft_export(t_tree *cmd, t_env **env)
 		}
 		i++;
 	}
+	return (0);
 }

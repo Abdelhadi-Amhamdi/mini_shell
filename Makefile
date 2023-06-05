@@ -14,9 +14,9 @@ env_path = env/
 header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_utils1.c lexer_utils2.c
 env_src = env_main.c utils_env.c
-src = main.c executer.c pipes.c heredoc.c connectors.c
+src = main.c connectors.c pipes.c executer.c exec_utils.c heredoc.c 
 g_src = get_next_line.c get_next_line_utils.c
-b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c
+b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c ft_exit.c
 
 p_srcs = $(addprefix $(parsing_path), $(p_src))
 env_srcs = $(addprefix $(env_path), $(env_src))
@@ -51,16 +51,16 @@ $(build_path)%.o : $(parsing_path)%.c
 $(build_path)%.o : $(env_path)%.c
 	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
-$(build_path)%.o : $(b_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@
+# $(build_path)%.o : $(b_path)%.c
+# 	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
 $(build_path)%.o : $(gnl_path)%.c
 	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
 all: $(NAME) 
 
-$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(b_objs) $(g_objs)
-	$(CC) $(CFLAGS) $(objs) $(p_objs) $(b_objs) $(env_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
+$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(g_objs)
+	$(CC) $(CFLAGS) $(objs) $(p_objs)  $(env_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
 
 $(libft):
 	make -s -C $(libft_path)

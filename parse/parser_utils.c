@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 18:28:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 11:40:42 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/04 13:02:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_parser_list(t_parser *list)
 	while (list)
 	{
 		printf("string : [%s]\n", list->str);
-		// printf("is_builtin : %s\n", list->is_builtin ? "true" : "false");
+		printf("is_op : %s\n", list->is_op ? "true" : "false");
 		while (list->args_list)
 		{
 			printf("     :%s:\n", list->args_list->str);

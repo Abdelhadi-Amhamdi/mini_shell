@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/01 16:57:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:24:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ typedef struct s_parser
 typedef struct s_tree
 {
 	char			*str;
-	char			**cmd_args;
+	char			*path;
+	t_lexer			*cmd_args;
 	t_boolean		is_op;
 	t_boolean		is_builtin;
 	t_type			type;

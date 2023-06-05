@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 12:40:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:18:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_lexer	*create_token(char *str, int len, char **paths)
 	if (paths)
 		new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
+	new->type = -1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -369,7 +370,8 @@ void	ft_trim_quotes(t_lexer *node)
 		tmp->str = ft_strtrim(tmp->str, "\"");
 	if (!tmp->str[0])
 	{
-		tmp->str = " ";
+		// fix this case
+		tmp->str = ft_strdup(" ");
 		tmp->type = SPACE;
 	}
 	else
@@ -395,7 +397,7 @@ int	check_qoutes(t_lexer *list)
 			current = data[index];
 			while (data[++index] && data[index] != current);
 			if (!data[index])
-				return (ft_putendl_fd("Syntax Error \"'", 2), 1);
+				return (ft_putendl_fd("Syntax Error , Qoutes are not closed!", 2), 1);
 			ft_trim_quotes(tmp);
 		}
 		tmp = tmp->next;
@@ -454,7 +456,7 @@ int check_pths(t_lexer *list)
 			break ;
 	}
 	if (op - cp != 0)
-		return (ft_putendl_fd("Syntax Error )(", 2), 1);
+		return (ft_putendl_fd("Syntax Error , parentheses are not closed!", 2), 1);
 	return (0);
 }
 
