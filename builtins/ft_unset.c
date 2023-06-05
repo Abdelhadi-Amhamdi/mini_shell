@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/05/25 13:14:21 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:42:02 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_env	*ft_unset(t_tree	*node, t_env *env)
 	
 	if(!node)
 		return env;
-	while(node->cmd_args[i])
+	while(node->args[i])
 	{
-		cur = env_search(node->cmd_args[i], env);
+		cur = env_search(node->args[i], env);
 		if(cur)
 		{
 			prev = cur->prev;

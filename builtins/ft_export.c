@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 16:09:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:42:19 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,15 +127,15 @@ int	ft_export(t_tree *cmd, t_env **env)
 	char *value;
 	int i;
 	
-	if(!cmd->cmd_args[1])
+	if(!cmd->args[1])
 	{
 		print_export(*env);
 		return (0);	
 	}
 	i = 1;
-	while(cmd->cmd_args[i])
+	while(cmd->args[i])
 	{
-		formate_env_item(&key, &value, cmd->cmd_args[i]);
+		formate_env_item(&key, &value, cmd->args[i]);
 		node = ft_new_node(key, value);
 		if (node && !is_exist(node, *env))
 			ft_add_back_env(env, node);

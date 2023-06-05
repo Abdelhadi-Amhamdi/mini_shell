@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:15:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:43:23 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ int run_cmd(t_tree *cmd, t_env **env)
 	char **args;
 
 	args = cmd_args_list_to_tabs(cmd);
-	// if(cmd->is_builtin)
-	// 	return (exec_builtin(cmd, env));
+	if(cmd->is_builtin)
+		return (exec_builtin(cmd, env));
 	pid = fork();
 	if (!pid)
 		execve(args[0], args, env_list_to_tabs(*env));

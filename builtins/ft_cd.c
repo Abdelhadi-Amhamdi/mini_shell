@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/04 15:41:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:41:05 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ int	ft_cd(t_env *env, t_tree *path)
 	}
 	else
 		oldpwd->value = getcwd(NULL, 0);
-	if (!path->cmd_args[1])
+	if (!path->args[1])
 		chdir(home->value);
 	else
 	{
 		if (path->str[0] == '~')
 			path->str = update_path(path->str + 1, home->value);
-		if (chdir(path->cmd_args[1]) == -1)
+		if (chdir(path->args[1]) == -1)
 			return (perror("cd"), -1);
 	}
 	pwd->value = getcwd(NULL, 0);

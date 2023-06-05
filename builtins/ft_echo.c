@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/04 15:50:23 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:40:20 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	ft_echo(t_tree *node)
 	int	i;
 
 	i = 1;
-	new_line = check_new_line(node->cmd_args[i]);
-	if(!new_line && node->cmd_args[i])
+	new_line = check_new_line(node->args[i]);
+	if(!new_line && node->args[i])
 		i++;
-	while (node->cmd_args[i])
+	while (node->args[i])
 	{
-		printf("%s", node->cmd_args[i]);
+		printf("%s", node->args[i]);
 		i++;
 	}
 	if (new_line)
