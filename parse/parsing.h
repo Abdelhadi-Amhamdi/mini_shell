@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:40:05 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:45:55 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_tree
 	char			*str;
 	char			*path;
 	t_lexer			*cmd_args;
+	char			**args;
 	t_boolean		is_op;
 	t_boolean		is_builtin;
 	t_type			type;

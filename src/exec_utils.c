@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 13:35:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:48:02 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ int lexer_list_size(t_lexer *list)
 	return (size);
 }
 
-char **cmd_args_list_to_tabs(t_tree *node)
+char **cmd_args_list_to_tabs(t_tree *node, t_env **env)
 {
 	char	**cmd_args;
 	t_lexer	*tmp;
 	int		size;
 	int		index;
+	char	*value;
 
 	index = 0;
 	if (node->type != CMD)	
@@ -41,8 +42,15 @@ char **cmd_args_list_to_tabs(t_tree *node)
 	cmd_args[index++] = ft_strdup(node->path);
 	while (tmp)
 	{
-		cmd_args[index] = ft_strdup(tmp->str);
-		tmp = tmp->next;
+		if (tmp->type == VAR)
+		{
+			value = expand(tmp->str, *env);
+			if (value)
+				cmd_args[index] = ft_strdup(value);
+		}
+		else
+			cmd_args[index] = ft_strdup(tmp->str);
+		tmp = tmp->next;	
 		index++;
 	}
 	cmd_args[index] = NULL;

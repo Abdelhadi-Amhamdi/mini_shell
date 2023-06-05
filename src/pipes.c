@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:43:23 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:47:28 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 {
 	pid_t pid;
-	char **args;
 	
 	pid = fork();
-	args = cmd_args_list_to_tabs(node);
+	node->args = cmd_args_list_to_tabs(node, NULL);
 	// if (node->is_builtin)
 	// 	exec_builtin(node, NULL);
 	if (!pid)
@@ -28,7 +27,7 @@ void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 		if (old != -1)
 			dup2(old, 1);
 		close(p1);
-		execve(args[0], args, NULL);
+		execve(node->args[0], node->args, NULL);
 	}
 }
 
@@ -79,14 +78,13 @@ int run_cmd(t_tree *cmd, t_env **env)
 {
 	pid_t pid;
 	int status;
-	char **args;
 
-	args = cmd_args_list_to_tabs(cmd);
+	cmd->args = cmd_args_list_to_tabs(cmd, env);
 	if(cmd->is_builtin)
 		return (exec_builtin(cmd, env));
 	pid = fork();
 	if (!pid)
-		execve(args[0], args, env_list_to_tabs(*env));
+		execve(cmd->args[0], cmd->args, env_list_to_tabs(*env));
 	waitpid(pid , &status, 0);
 	return (status);
 }

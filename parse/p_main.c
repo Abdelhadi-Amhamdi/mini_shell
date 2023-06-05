@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:26:04 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:45:46 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_tree *create_node(t_parser *item)
 		new_node->path = ft_strdup(item->path);
 	new_node->cmd_args =  item->args_list;
 	new_node->is_op = false;
+	new_node->args = NULL;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	return (new_node);
