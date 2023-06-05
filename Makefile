@@ -51,16 +51,16 @@ $(build_path)%.o : $(parsing_path)%.c
 $(build_path)%.o : $(env_path)%.c
 	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
-# $(build_path)%.o : $(b_path)%.c
-# 	$(CC) -Wall -Wextra -Werror -c $< -o $@
+$(build_path)%.o : $(b_path)%.c
+	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
 $(build_path)%.o : $(gnl_path)%.c
 	$(CC) -Wall -Wextra -Werror -c $< -o $@
 
 all: $(NAME) 
 
-$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(g_objs)
-	$(CC) $(CFLAGS) $(objs) $(p_objs)  $(env_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
+$(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(b_objs) $(g_objs)
+	$(CC) $(CFLAGS) $(objs) $(p_objs)  $(env_objs) $(b_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
 
 $(libft):
 	make -s -C $(libft_path)

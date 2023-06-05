@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:37:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:48:02 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ char **cmd_args_list_to_tabs(t_tree *node, t_env **env)
 		if (tmp->type == VAR)
 		{
 			value = expand(tmp->str, *env);
-			if (v)
-				cmd_args[index] = ft_strdup(v);
+			if (value)
+				cmd_args[index] = ft_strdup(value);
 		}
 		else
 			cmd_args[index] = ft_strdup(tmp->str);

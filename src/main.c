@@ -98,8 +98,9 @@ int main(int ac, char **av, char **envp)
 			if(app->ast_tree)
 			{
 				// printTree(app->ast_tree);
-				executer(app->ast_tree, app);
+				app->status = executer(app->ast_tree, app);
 				destroy_ast_tree(app->ast_tree);
+				// destroy tree;
 			}
 			add_history(app->cmd);
 			free(app->cmd);
