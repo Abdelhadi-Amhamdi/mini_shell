@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 16:36:15 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:46:47 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,6 @@
 #include "../libs/gnl/get_next_line.h"
 
 # define DOC_FILE "heredoc_file"
-
-// void ft_free_heredoc_list(t_h_list **list)
-// {
-// 	t_h_list *tmp;
-// 	t_h_list *next;
-
-// 	tmp = *list;
-// 	while (tmp)
-// 	{
-// 		next = tmp->next;
-// 		free(tmp);
-// 		tmp = next;
-// 	}
-// 	*list = NULL;
-// }
-
-// t_h_list *create_heredoc_node(char *str)
-// {
-// 	t_h_list	*new_node;
-
-// 	new_node = malloc(sizeof(t_h_list));
-// 	if (!new_node)
-// 		return (NULL);
-// 	new_node->data = str;
-// 	new_node->next = NULL;
-// 	return (new_node);
-// }
-
-// void heredoc_list_add(t_h_list **list, t_h_list *item)
-// {
-// 	t_h_list *tmp;
-	
-// 	tmp = NULL;
-// 	if (!(*list))
-// 		*list = item;
-// 	else
-// 	{
-// 		tmp = *list;
-// 		while (tmp->next)
-// 			tmp = tmp->next;
-// 		tmp->next = item;
-// 	}
-// }
 
 int	herdoc(t_tree *hrd)
 {
