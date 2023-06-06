@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 15:56:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:36:51 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/history.h>
 
 t_app	*app;
+# define HEREDOC_FILENAME "heredoc_file"
 
 // pipes
 int run_pipeline(t_tree *pipe_node, int in, int out);
@@ -39,7 +40,7 @@ char *wildcard(char *condition);
 
 // exec utils
 int lexer_list_size(t_lexer *list);
-char **cmd_args_list_to_tabs(t_tree *node, t_env **env);
+char **cmd_args_list_to_tabs(t_tree *node);
 char **env_list_to_tabs(t_env *list);
 int env_list_size(t_env *list);
 char *get_exit_status();

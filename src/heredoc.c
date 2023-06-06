@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 15:50:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:36:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,15 @@ int	herdoc(t_tree *hrd)
 	char	*line;
 	char	*del;
 	t_tree	*cmd;
-	int		fd;
-	char	*tmp_file_name;
 
 	del = hrd->right->str;
-	tmp_file_name = "/Users/aamhamdi/tmp/heredoc_file";
 	cmd = hrd->left;
-	fd = open(tmp_file_name, O_CREAT | O_RDWR, 0644);
-	printf("%d\n", fd);
+	app->hdoc_fd = open(HEREDOC_FILENAME, O_CREAT | O_RDWR, 0644);
 	write(0, "> ", 2);
 	line = get_next_line(0);
 	while (1)
 	{
-		ft_putstr_fd(line, fd);
+		ft_putstr_fd(line, app->hdoc_fd);
 		free(line);
 		write(0, "> ", 2);
 		line = get_next_line(0);
@@ -83,16 +79,16 @@ int	herdoc(t_tree *hrd)
 			break ;
 	}
 	free (line);
-	close(fd);
-	fd = open(tmp_file_name, O_RDONLY, 0644);
-	if (fd == -1)
+	close(app->hdoc_fd);
+	app->hdoc_fd = open(HEREDOC_FILENAME, O_RDONLY, 0644);
+	if (app->hdoc_fd == -1)
 		return (ft_putendl_fd("Error", 2), -1);
 	if (cmd)
 	{
-		exec_cmd(cmd, -1, fd, 0, -1);
-		close(fd);
+		exec_cmd(cmd, -1, app->hdoc_fd, 0, -1);
+		close(app->hdoc_fd);
 		wait(NULL);
 	}
-	unlink(tmp_file_name);
+	unlink(HEREDOC_FILENAME);
 	return (0);
 }

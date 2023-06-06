@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 16:16:30 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:37:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 {
 	pid_t pid;
 	
-	node->args = cmd_args_list_to_tabs(node, NULL);
+	node->args = cmd_args_list_to_tabs(node);
 	pid = fork();
 	if (!pid)
 	{
@@ -84,7 +84,7 @@ int run_cmd(t_tree *cmd, t_env **env)
 	pid_t pid;
 	int status;
 
-	cmd->args = cmd_args_list_to_tabs(cmd, env);
+	cmd->args = cmd_args_list_to_tabs(cmd);
 	if(cmd->is_builtin)
 		return (exec_builtin(cmd, env));
 	pid = fork();

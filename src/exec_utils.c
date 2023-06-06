@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 16:23:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:37:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char **cmd_args_list_to_tabs(t_tree *node)
 			if (!ft_strncmp(tmp->str, "$?", ft_strlen(tmp->str)))
 				value = get_exit_status();
 			else
-				value = expand(tmp->str+1, *env);
+				value = expand(tmp->str+1, app->env_list);
 			if (value)
 			{
 				cmd_args[index] = ft_strdup(value);
