@@ -22,11 +22,19 @@ void print_banner()
 	puts("");
 }
 
-// void test()
-// {
-// 	int fd = open("heredoc_file", O_RDONLY);
-// 	printf("%d\n", fd);
-// }
+void test(int sigtype)
+{
+	if (sigtype == SIGINT)
+	{
+		if (app->hdoc_fd > 0)
+		{
+			close(app->hdoc_fd);
+			app->hdoc_fd = 0;
+			unlink(HEREDOC_FILENAME);
+		}
+		exit (0);
+	}
+}
 
 void set_exit_status(int new_status)
 {
@@ -48,8 +56,8 @@ t_app *init(char **env)
 	app->status = 0;
 	app->hdoc_fd = -1;
 	app->env_list = get_env_vars(env);
-	signal(SIGINT, SIG_DFL);
-	// signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, test);
+	signal(SIGQUIT, SIG_IGN);
 	return (app);
 }
 
