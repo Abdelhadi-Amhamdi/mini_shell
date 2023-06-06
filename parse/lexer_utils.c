@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/30 19:02:43 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/06 22:12:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	print_token_list(t_lexer *head)
 	{
 		printf("STR : [%s]\n", cur->str);
 		printf("IS_O: [%s]\n", cur->is_oper ? "true" : "false");
+		printf("ID: [%d]\n", cur->id);
 		if(cur->type == 7)
 			printf("TYPE: VAR\n");
 		else

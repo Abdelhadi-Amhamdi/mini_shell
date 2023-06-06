@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 15:47:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 22:14:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_lexer	*create_token(char *str, int len, char **paths)
 		new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
 	new->type = -1;
+	new->id = -1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -460,6 +461,21 @@ int check_pths(t_lexer *list)
 	return (0);
 }
 
+void set_tokens_ids(t_lexer **list)
+{
+	t_lexer *tmp;
+	int index;
+
+	tmp = *list;
+	index = 0;
+	while (tmp)
+	{
+		tmp->id = index;
+		index++;
+		tmp = tmp->next;
+	}
+}
+
 // main lexer function
 t_lexer	*lexer(char *cmd, t_env *env)
 {
@@ -470,6 +486,7 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	list = tokenizer(cmd, paths);
 	set_type(&list);
 	clean_spaces(&list);
+	set_tokens_ids(&list);
 	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
 					// && node->prev->type == PIPE))
 	// 	{
