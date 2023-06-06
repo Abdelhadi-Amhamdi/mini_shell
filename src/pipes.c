@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 18:13:32 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:57:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void run_pipe(t_tree *cmd, int *pipe, int in, int out, int side)
 	else if (cmd->type == CMD)
 		exec_cmd(cmd, unused_end, used_end, std_file, old);
 	else
-		executer(cmd, NULL);
+		executer(cmd);
 }
 
 int run_pipeline(t_tree *pipe_node, int in, int out)
@@ -86,6 +86,7 @@ int run_cmd(t_tree *cmd, t_env **env)
 	if (!pid)
 		execve(cmd->args[0], cmd->args, env_list_to_tabs(*env));
 	waitpid(pid , &status, 0);
+	set_exit_status(status);
 	return (status);
 }
 
@@ -130,6 +131,6 @@ int run_rdir(t_tree *node, int out)
 			run_rdir(node->left, out);
 	}
 	else
-		status = executer(node->left, NULL);
+		status = executer(node->left);
 	return (status);
 }

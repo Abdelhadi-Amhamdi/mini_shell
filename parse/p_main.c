@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 15:05:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:53:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,11 +171,11 @@ void printTreeHelper(t_tree *root, int depth)
 	{
 		for (int i = 0; i < depth + 1; i++)
 			printf("    ");
+		printf("%s ", root->path);
 		while (root->cmd_args)
 		{
 			printf("[%s - %d]", root->cmd_args->str, root->cmd_args->type);
 			root->cmd_args = root->cmd_args->next;
-			
 		}
 		puts("");
 	}
@@ -192,26 +192,27 @@ int	ft_error(char *str)
 	return (printf("%s `%s'\n", _ERR_MSG, str));
 }
 
-void	formater(t_app *app)
+t_tree *formater(char *cmd)
 {
 	t_parser *tmp;
+	t_lexer *lexer_list;
+	t_parser *parser_list;
+	t_tree *ast_tree;
 
-	app->lexer_list = lexer(app->cmd, app->env_list);
-	if(!app->lexer_list)
-		return ;
-	if (ft_expander(app->lexer_list, app->env_list))
-	{
-		ft_free_lexer_list(&app->lexer_list);
-		return ;
-	}
-	app->parser_list = parser(app->lexer_list);
-	if (!app->parser_list)
-	{
-		ft_free_lexer_list(&app->lexer_list);
-		return ;
-	}
-	ft_free_lexer_list(&app->lexer_list);
-	tmp = app->parser_list;
-	app->ast_tree = create_tree(&tmp);
-	ft_free_parser_list(&app->parser_list);
+	lexer_list = NULL;
+	parser_list = NULL;
+	ast_tree = NULL;
+	lexer_list = lexer(cmd, app->env_list);
+	if(!lexer_list)
+		return (NULL);
+	if (ft_expander(lexer_list, app->env_list))
+		return (ft_free_lexer_list(&lexer_list), NULL);
+	parser_list = parser(lexer_list);
+	if (!parser_list)
+		return (ft_free_lexer_list(&lexer_list), NULL);
+	ft_free_lexer_list(&lexer_list);
+	tmp = parser_list;
+	ast_tree = create_tree(&tmp);
+	ft_free_parser_list(&parser_list);
+	return (ast_tree);
 }

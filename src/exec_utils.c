@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 15:33:00 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:53:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ char **cmd_args_list_to_tabs(t_tree *node, t_env **env)
 	{
 		if (tmp->type == VAR)
 		{
-			value = expand(tmp->str+1, *env);
+			if (!ft_strncmp(tmp->str, "$?", ft_strlen(tmp->str)))
+				value = get_exit_status();
+			else
+				value = expand(tmp->str+1, *env);
 			if (value)
 			{
 				cmd_args[index] = ft_strdup(value);
