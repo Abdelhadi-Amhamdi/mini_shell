@@ -22,7 +22,7 @@ void print_banner()
 	puts("");
 }
 
-void test(int sigtype)
+void sig_int_handler(int sigtype)
 {
 	if (sigtype == SIGINT)
 	{
@@ -56,7 +56,7 @@ t_app *init(char **env)
 	app->status = 0;
 	app->hdoc_fd = -1;
 	app->env_list = get_env_vars(env);
-	signal(SIGINT, test);
+	signal(SIGINT, sig_int_handler);
 	signal(SIGQUIT, SIG_IGN);
 	return (app);
 }
