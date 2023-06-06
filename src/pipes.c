@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 16:37:43 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 20:32:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 		else
 			execve(node->args[0], node->args, NULL);
 	}
+	ft_free(node->args);
 }
 
 void run_pipe(t_tree *cmd, int *pipe, int in, int out, int side)
@@ -76,6 +77,7 @@ int run_pipeline(t_tree *pipe_node, int in, int out)
 		close(out);
 	wait(&status);
 	wait(&status);
+	set_exit_status(status);
 	return (status);
 }
 
@@ -92,6 +94,7 @@ int run_cmd(t_tree *cmd, t_env **env)
 		execve(cmd->args[0], cmd->args, env_list_to_tabs(*env));
 	waitpid(pid , &status, 0);
 	set_exit_status(status);
+	ft_free(cmd->args);
 	return (status);
 }
 

@@ -1,11 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
+/*   Updated: 2023/06/06 20:41:31 by aamhamdi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-#include <sys/types.h>
-#include <sys/wait.h>
-# include <signal.h>
-
-// int exit_status;
-
 
 void print_banner()
 {
@@ -70,8 +75,12 @@ void destroy_ast_tree(t_tree *root)
 	right = NULL;
 	destroy_ast_tree(root->left);
 	right = root->right;
+	if (!root->is_op && root->cmd_args)
+		ft_free_lexer_list(&root->cmd_args);
+	if (root->type == CMD && root->path)
+		free(root->path);
+	root->path = NULL;
 	free(root->str);
-	// ft_free(root->cmd_args);
 	free(root);
 	root = NULL;
 	root = NULL;
@@ -98,8 +107,8 @@ int main(int ac, char **av, char **envp)
 			ast_tree = formater(cmd);
 			if(ast_tree)
 			{
-				// printTree(ast_tree);
-				executer(ast_tree);
+				printTree(ast_tree);
+				// executer(ast_tree);
 				destroy_ast_tree(ast_tree);
 			}
 			add_history(cmd);

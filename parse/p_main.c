@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 15:53:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 20:47:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void ft_free_lexer_list(t_lexer **list)
 	t_lexer *tmp;
 	t_lexer *next;
 	tmp = *list;
+	if (!tmp)
+		return ;
 	while (tmp)
 	{
 		next = tmp->next;
@@ -55,8 +57,6 @@ void ft_free_parser_list(t_parser **list)
 	*list = NULL;
 }
 
-
-
 int ft_tabs_len(char **tabs)
 {
 	int index;
@@ -84,6 +84,7 @@ t_tree *create_node(t_parser *item)
 	new_node->cmd_args =  item->args_list;
 	new_node->is_op = false;
 	new_node->args = NULL;
+	new_node->id = item->id;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	return (new_node);
@@ -100,6 +101,7 @@ t_tree *create_token_node(t_parser *node, t_tree *left, t_tree *right)
 	new_node->type = node->type;
 	new_node->cmd_args = NULL;
 	new_node->is_op = true;
+	new_node->id = node->id;
 	new_node->left = left;
 	new_node->right = right;
 	return (new_node);
@@ -166,7 +168,7 @@ void printTreeHelper(t_tree *root, int depth)
     for (int i = 0; i < depth; i++) {
         printf("    ");
     } 
-    printf("%s -- %d\n", root->str, root->type);
+    printf("%s -- %d -- %d\n", root->str, root->type, root->id);
 	if (root->cmd_args)
 	{
 		for (int i = 0; i < depth + 1; i++)
