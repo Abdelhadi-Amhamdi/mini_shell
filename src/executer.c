@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 15:56:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:11:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int executer(t_tree *root)
 	else if (root->type == AND || root->type == OR)
 		return (run_connectors(root));
 	else if (root->type == UNK)
-		return (set_exit_status(127), -1);
+		return (set_exit_status(127), printf("mini-sh: %s: command not found\n", root->str), -1);
 	return (-1);
 }
