@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 17:28:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:37:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ t_lexer  *heredoc_helper(t_lexer *root)
 		tmp = ft_nodedup(root);
 		tmp->str = file_name;
 		tmp->path = file_name;
+		tmp->is_oper = FALSE;
 		tmp->type = FL;
 		if (next)
 		{
