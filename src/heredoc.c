@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 17:45:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:08:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,10 @@ void heredoc_handler(t_lexer **list)
 	{
 		if (tmp->type == HEREDOC)
 		{
-			// if (tmp->prev)
-			// 	tmp->prev->next = heredoc_helper(tmp);
 			if (!tmp->prev)
 				*list = heredoc_helper(tmp);
 			else
-				heredoc_helper(tmp);
+				tmp->prev->next = heredoc_helper(tmp);
 		}
 		tmp = tmp->next;
 	}	
@@ -102,6 +100,9 @@ t_lexer  *heredoc_helper(t_lexer *root)
 	{
 		unlink(file_name);
 		prev->next = next;
+		del_node(root->next);
+		del_node(root);
+		return (next);
 	}
 	else
 	{
@@ -109,11 +110,10 @@ t_lexer  *heredoc_helper(t_lexer *root)
 		tmp->str = file_name;
 		tmp->path = file_name;
 		tmp->is_oper = FALSE;
-		tmp->type = HEREDOC;
+		tmp->type = FL;
 		if (next)
 		{
 			tmp->next = next->next;
-			next->prev = NULL;
 			next->next = tmp;
 			del_node(root->next);
 			del_node(root);
@@ -121,9 +121,10 @@ t_lexer  *heredoc_helper(t_lexer *root)
 		}
 		else if (prev)
 		{
-			prev->next = tmp;
-			tmp->prev = prev;
 			tmp->next = root->next->next;
+			del_node(root->next);
+			del_node(root);
+			return (tmp);
 		}
 	}
 	if (!next && !prev)
