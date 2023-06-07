@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 15:47:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:13:11 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,6 +357,7 @@ void	clean_spaces(t_lexer	**list)
 // get rid of quotes and check if the arg are empty
 void	ft_trim_quotes(t_lexer *node)
 {
+	int type;
 	t_lexer	*tmp;
 	char	*str_tmp;
 
@@ -365,17 +366,25 @@ void	ft_trim_quotes(t_lexer *node)
 		return ;
 	str_tmp = tmp->str;
 	if (tmp->str[0] == '\'')
+	{
+		type = 0;
 		tmp->str = ft_strtrim(tmp->str, "'");
+	}
 	else if (tmp->str[0] == '"')
+	{	
+		type = 1;
 		tmp->str = ft_strtrim(tmp->str, "\"");
+	}
 	if (!tmp->str[0])
 	{
 		// fix this case
 		tmp->str = ft_strdup(" ");
 		tmp->type = SPACE;
 	}
-	else
+	else if(!type)
 		tmp->type = UNK;
+	else
+		tmp->type = VAR;
 	free(str_tmp);
 }
 
@@ -470,19 +479,6 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	list = tokenizer(cmd, paths);
 	set_type(&list);
 	clean_spaces(&list);
-	// 	if((is_absolute(node->str) && !node->prev) || (is_absolute(node->str)
-					// && node->prev->type == PIPE))
-	// 	{
-	// 			if(validate_cmd(node->str))
-	// 				return (ft_putendl_fd("command not found",2), NULL);
-	// 			node->path = node->str;
-	// 			node->str = extract_cmd(node->str);
-	// 			node->type = CMD;
-	// 	}
-	// 	index++;
-	// }
-	// set_type(&list);
 	ft_free(paths);
-	// print_token_list(list);
 	return (list);
 }
