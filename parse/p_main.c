@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 14:40:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:11:13 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int	ft_error(char *str)
 
 t_tree *formater(char *cmd)
 {
-	t_parser *tmp;
+	// t_parser *tmp;
 	t_lexer *lexer_list;
 	t_parser *parser_list;
 	t_tree *ast_tree;

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 14:28:14 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:54:04 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,12 @@ int check_key(char *key)
 	int i;
 
 	i = 0;
-	if(key && (!ft_isalpha(key[i]) && key[i] != '_'))
+	if(key && (!ft_isalpha(key[i]) && key[i] != '_' && key[i] == '\\'))
 		return(1);
 	i++;
 	while(key[i])
 	{
-		if(!ft_isalnum(key[i]) && key[i] != '_')
+		if(!ft_isalnum(key[i]) && key[i] != '_' && key[i] == '\\')
 			return(1);
 		i++;
 	}

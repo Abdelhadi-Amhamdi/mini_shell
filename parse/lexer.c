@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 14:40:04 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:10:33 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -485,6 +485,19 @@ void set_tokens_ids(t_lexer **list)
 	}
 }
 
+void	will_expand(t_lexer	**list)
+{
+	t_lexer *tmp;
+
+	tmp = *list;
+	while(tmp)
+	{
+		if(tmp->type == HEREDOC && tmp->next && (tmp->next->str[0] == '\'' || tmp->next->str[0] == '"'))
+			tmp->next->is_builtin = true;
+		tmp = tmp->next;
+	}
+}
+
 // main lexer function
 t_lexer	*lexer(char *cmd, t_env *env)
 {
@@ -496,6 +509,7 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	set_type(&list);
 	clean_spaces(&list);
 	set_tokens_ids(&list);
+	will_expand(&list); 
 	ft_free(paths);
 	return (list);
 }
