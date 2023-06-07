@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 22:08:39 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:52:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,12 @@ t_lexer *get_next_token(t_lexer *root)
 	return (NULL);
 }
 
-char *start_heredoc(t_lexer *node)
+char *start_heredoc(t_lexer *node, t_boolean to_expand)
 {
 	char	*line;
 	char	*del;
 	char 	*file_name;
+	char *res;
 	
 	file_name = ft_strjoin(HEREDOC_FILENAME, ft_itoa(node->id));
 	del = node->next->str;
@@ -74,7 +75,15 @@ char *start_heredoc(t_lexer *node)
 	line = get_next_line(0);
 	while (1)
 	{
-		ft_putstr_fd(line, app->hdoc_fd);
+		if(to_expand && line[0] == '$')
+		{
+			line[strlen(line) - 1] = '\0';
+			res = expand(line+1, app->env_list);
+			if (res && *res)
+				ft_putendl_fd(res, app->hdoc_fd);
+		}
+		else
+			ft_putstr_fd(line, app->hdoc_fd);
 		free(line);
 		write(0, "> ", 2);
 		line = get_next_line(0);
@@ -95,7 +104,7 @@ t_lexer  *heredoc_helper(t_lexer *root)
 
 	prev = get_hlast_token(root);
 	next = get_next_token(root);
-	file_name = start_heredoc(root);
+	file_name = start_heredoc(root, !root->next->is_builtin);
 	if (next && prev)
 	{
 		unlink(file_name);
