@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 15:10:21 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:54:04 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,12 @@ void	print_export(t_env	*env)
 		}
 		cur = cur->next;
 	}
-	while(env->next)
+	while(env)
 	{
-		printf("declare -x %s=\"%s\"\n",env->key, env->value);
+		if(env->key && env->value && ft_strncmp(env->key,"_", 2))
+			printf("declare -x %s=\"%s\"\n",env->key, env->value);
+		if(env->key && !env->value)
+			printf("declare -x %s\n",env->key);
 		env = env->next;
 	}
 
@@ -119,6 +122,23 @@ t_env	*search_node(t_env	*node, t_env	*env)
 	return (tmp);
 }
 
+int check_key(char *key)
+{
+	int i;
+
+	i = 0;
+	if(key && (!ft_isalpha(key[i]) && key[i] != '_' && key[i] == '\\'))
+		return(1);
+	i++;
+	while(key[i])
+	{
+		if(!ft_isalnum(key[i]) && key[i] != '_' && key[i] == '\\')
+			return(1);
+		i++;
+	}
+	return (0);
+}
+
 int	ft_export(t_tree *cmd, t_env **env)
 {
 	t_env	*node;
@@ -131,11 +151,13 @@ int	ft_export(t_tree *cmd, t_env **env)
 	if(!cmd->args[i])
 	{
 		print_export(*env);
-		return (0);	
+		return (0);
 	}
 	while(cmd->args[i])
 	{
 		formate_env_item(&key, &value, cmd->args[i]);
+		if(check_key(key))
+			return(ft_putendl_fd("export: not a valid identifier",2), 1);
 		node = ft_new_node(key, value);
 		if (node && !is_exist(node, *env))
 			ft_add_back_env(env, node);

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 22:09:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 21:22:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_app
 	int			status;
 }	t_app;
 
-#define _ERR_MSG "shell : parse error near" 
+# define _ERR_MSG "shell : parse error near"
 
 // main
 t_tree				*formater(char *cmd);
@@ -116,17 +116,17 @@ int					check_op_prev(char *str, int i);
 int					check_op_next(char *str, int i);
 int					is_container(char c);
 int					is_special_char(char c);
-int					compare(t_lexer	*item, char *oper);
+int					compare(t_lexer *item, char *oper);
 char				**ft_mini_split(const char *src, char c);
 t_lexer				*get_last_token(t_lexer *list);
 int					is_operator(char c);
-int	check_qoutes(t_lexer *list);
-void	ft_trim_quotes(t_lexer *node);
-int check_pths(t_lexer *list);
-void set_type(t_lexer **list);
-void join_args(t_lexer **list, char **paths);
-void del_node(t_lexer *node);
-void	clean_spaces(t_lexer	**list);
+int					check_qoutes(t_lexer *list);
+void				ft_trim_quotes(t_lexer *node);
+int					check_pths(t_lexer *list);
+void				set_type(t_lexer **list);
+void				join_args(t_lexer **list, char **paths);
+void				del_node(t_lexer *node);
+void				clean_spaces(t_lexer **list);
 
 // parser functions
 t_parser			*parser(t_lexer *list);
@@ -141,7 +141,9 @@ void				ft_free_parser_list(t_parser **list);
 int					ft_expander(t_lexer *list, t_env *env);
 char				*expand(char *var, t_env *envp);
 void				ft_expand_vars(t_lexer **list, t_env *envp);
-
+int					isabs(char *str);
+char				*extract_cmd(char *cmd);
+int					validate_cmd(char *cmd);
 // syntax analizer
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);
@@ -151,14 +153,15 @@ int					check_qoutes(t_lexer *list);
 
 // ast
 t_tree				*create_node(t_parser *item);
-t_tree				*create_token_node(t_parser *node, t_tree *left, t_tree *right);
+t_tree				*create_token_node(t_parser *node, t_tree *left,
+						t_tree *right);
 t_tree				*create_tree(t_parser **list);
 t_tree				*term(t_parser **list);
 t_tree				*factor(t_parser **list);
 void				printTreeHelper(t_tree *root, int depth);
 void				printTree(t_tree *root);
 
-int ft_char_search(char *str, char c);
-int ft_last_char_search(char *str, char c);
+int					ft_char_search(char *str, char c);
+int					ft_last_char_search(char *str, char c);
 
 #endif

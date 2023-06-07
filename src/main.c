@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 17:39:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 21:21:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int main(int ac, char **av, char **envp)
 			if(ast_tree)
 			{
 				printTree(ast_tree);
-				// heredoc_handler(ast_tree);
 				// executer(ast_tree);
 				destroy_ast_tree(ast_tree);
 			}
