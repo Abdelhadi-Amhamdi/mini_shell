@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:42:56 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:11:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,19 @@ int	exec_builtin(t_tree	*cmd, t_env	**env)
 	return (0);
 }
 
-int executer(t_tree *root, t_app *app)
+int executer(t_tree *root)
 {
 	if (root->type == CMD)
 		return (run_cmd(root, &app->env_list));
 	else if (root->type == PIPE)
 		return (run_pipeline(root, 0, 1));
 	else if (root->type == RDIR || root->type == APND)
-		return (run_rdir(root));
+		return (run_rdir(root, 1));
 	else if (root->type == HEREDOC)
-		return (herdoc(root, app));
+		return (herdoc(root));
 	else if (root->type == AND || root->type == OR)
-		return (run_connectors(root, app));
+		return (run_connectors(root));
+	else if (root->type == UNK)
+		return (set_exit_status(127), printf("mini-sh: %s: command not found\n", root->str), -1);
 	return (-1);
 }

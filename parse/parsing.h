@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 14:45:55 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/06 20:48:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_parser
 	t_type			type;
 	t_boolean		is_builtin;
 	t_boolean		is_op;
+	int id;
 	struct s_parser	*next;
 	struct s_parser	*prev;
 }					t_parser;
@@ -74,33 +75,24 @@ typedef struct s_tree
 	t_lexer			*cmd_args;
 	char			**args;
 	t_boolean		is_op;
+	int id;
 	t_boolean		is_builtin;
 	t_type			type;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }					t_tree;
 
-typedef struct s_h_list
-{
-	char *data;
-	struct s_h_list *next;
-} t_h_list;
-
 typedef struct s_app
 {
-	t_lexer		*lexer_list;
-	t_parser	*parser_list;
-	t_tree		*ast_tree;
-	char		*cmd;
 	t_env		*env_list;
-	t_h_list	*herdoc_list;
+	int			hdoc_fd;
 	int			status;
 }	t_app;
 
 #define _ERR_MSG "shell : parse error near" 
 
 // main
-void				formater(t_app *app);
+t_tree				*formater(char *cmd);
 int					ft_error(char *str);
 void				ft_free_lexer_list(t_lexer **list);
 
@@ -141,7 +133,7 @@ void				print_parser_list(t_parser *list);
 t_parser			*create_blocks(t_lexer *lexer_list);
 t_lexer				*ft_nodedup(t_lexer *node);
 void				add_node_to_list(t_parser **list, t_parser *item);
-t_parser			*create_parser_node(t_lexer *l_node);
+t_parser			*create_parser_node(t_lexer *l_node, int id);
 void				ft_free_parser_list(t_parser **list);
 
 // expander function
