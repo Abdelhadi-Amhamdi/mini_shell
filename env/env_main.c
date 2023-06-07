@@ -6,11 +6,31 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 15:52:00 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:29:24 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./env.h"
+
+char *ft_sub_str(char *str, int start, int len)
+{
+	int i;
+	char *s;
+
+	i = 0;
+	s = malloc (len + 1);
+	if(!s)
+		return(NULL);
+	while(str[start] && i < len)
+	{
+		if(str[start] != '\\')
+			s[i] = str[start];
+		i++;
+		start++;
+	}
+	s[i] = '\0';
+	return(s);
+}
 
 int ft_search(char *item, char tofind)
 {
@@ -31,9 +51,9 @@ void	formate_env_item(char **key, char **val, char *item)
 	int	index;
 
 	index = ft_search(item , '=');
-	*key = ft_substr(item, 0, index);
+	*key = ft_sub_str(item, 0, index);
 	if(index != -1)
-		*val = ft_substr(item, index + 1, (ft_strlen(item) - index));
+		*val = ft_sub_str(item, index + 1, (ft_strlen(item) - index));
 	else
 		*val = NULL;
 }
