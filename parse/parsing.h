@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 20:48:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 22:09:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_lexer
 	t_boolean		is_oper;
 	t_boolean		is_builtin;
 	t_type			type;
+	int id;
 	char			*path;
 	struct s_lexer	*next;
 	struct s_lexer	*prev;

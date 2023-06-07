@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 20:44:39 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:31:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ t_lexer *ft_nodedup(t_lexer *node)
 	// new_node->is_oper = node->is_builtin;
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	new_node->path = NULL;
+	new_node->id = -1;
+	new_node->path = ft_strdup(node->path);
 	new_node->str = ft_strdup(node->str);
 	new_node->type = node->type;
 	return (new_node);
@@ -103,40 +104,6 @@ t_parser *create_blocks(t_lexer *lexer_list)
 	}
 	return (parser_list);
 }
-
-// t_parser	*create_blocks(t_lexer *lexer_list)
-// {
-// 	t_parser	*blocks_list;
-// 	t_lexer		*tmp;
-// 	t_lexer		*tmp1;
-// 	t_parser	*new_node;
-
-// 	tmp = lexer_list;
-// 	blocks_list = NULL;
-// 	new_node = NULL;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type == CMD)
-// 		{
-// 			new_node = create_parser_node(tmp);
-// 			tmp1 = tmp->next;
-// 			new_node->args_list = NULL;
-// 			while (tmp1 && !tmp1->is_oper && tmp1->type != OP && tmp1->type != CP)
-// 			{
-// 				add_token_to_end(&(new_node->args_list), ft_nodedup(tmp1));
-// 				tmp1 = tmp1->next;
-// 			}
-//             tmp = tmp1;
-// 		}
-// 		else
-// 		{
-//         	new_node = create_parser_node(tmp);
-// 			tmp = tmp->next;
-// 		}
-//         add_node_to_list(&blocks_list, new_node);
-// 	}
-// 	return (blocks_list);
-// }
 
 t_parser	*parser(t_lexer *lexer_list)
 {

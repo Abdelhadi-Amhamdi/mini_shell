@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 18:28:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 13:02:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:34:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ void	print_parser_list(t_parser *list)
 	while (list)
 	{
 		printf("string : [%s]\n", list->str);
-		printf("is_op : %s\n", list->is_op ? "true" : "false");
+		printf("is_op  : %s\n", list->is_op ? "true" : "false");
+		printf("ID     : %d\n", list->id);
 		while (list->args_list)
 		{
-			printf("     :%s:\n", list->args_list->str);
+			printf("          : [%s]\n", list->args_list->str);
 			list->args_list = list->args_list->next;
 		}
-		printf("type : %d\n", list->type);
+		printf("type   : %d\n", list->type);
 		// printf("type : %s\n", (list->type == 0) ? "CMD" \
 		// : ((list->type == 1)) ? "UNK": ((list->type == 2) ? "TOKEN" : ((list->type == 3) ? "ARGS" \
 		// : ((list->type == 4) ? "VAR" : ((list->type == 8) ? "FILE" : "Q")))));
