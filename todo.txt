@@ -45,6 +45,8 @@
 					"/Users/aagouzou"
 				-expected
 					/Users/aagouzou"
+		** ls || ks 
+		** echo "$HOME$HOME"
 
     # ls | cd
 /usr/bin/cd: line 4: cd: HOME not set

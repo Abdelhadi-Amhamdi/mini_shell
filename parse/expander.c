@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 15:42:47 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:39:34 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,34 @@
 
 char	*expand(char *var, t_env *envp)
 {
-	int	index;
-
-	index = 0;
 	while (envp)
 	{
-		if (!ft_strncmp(var, envp->key, (ft_strlen(envp->key) + 1)))
+		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key) + 1))
 			return (ft_strdup(envp->value));
 		envp = envp->next;
 	}
 	return (NULL);
 }
 //extarct before command
-char *extract_before(char *cmd, int *i)
+char	*extract_before(char *cmd, int *i)
 {
-	int start;
-	int len;
-	int index;
-	char *before;
-	
+	int		start;
+	int		len;
+	int		index;
+	char	*before;
+
 	len = 0;
 	start = *i;
-	while(cmd[*i] && cmd[*i] != '$')
+	while (cmd[*i] && cmd[*i] != '$')
 	{
 		*i = *i + 1;
 		len++;
 	}
-	before = malloc (len + 1);
-	if(!before)
+	before = malloc(len + 1);
+	if (!before)
 		return (NULL);
 	index = 0;
-	while(cmd[start] && cmd[start] != '$')
+	while (cmd[start] && cmd[start] != '$')
 	{
 		before[index] = cmd[start];
 		index++;
@@ -54,25 +51,27 @@ char *extract_before(char *cmd, int *i)
 	return (before);
 }
 //extract variable to expland
-char *extarct_expand(char *cmd, int *i)
+char	*extarct_expand(char *cmd, int *i)
 {
-	int start;
-	int len;
-	int index;
-	char *to_expand;
+	int		start;
+	int		len;
+	int		index;
+	char	*to_expand;
 
 	start = *i;
 	len = 0;
-	while(cmd[*i] && cmd[*i] != '.' && cmd[*i] != 32 && cmd[*i] != '\'' && cmd[*i] != '"')
+	while (cmd[*i] && cmd[*i] != '.' && cmd[*i] != 32 && cmd[*i] != '\''
+		&& cmd[*i] != '"')
 	{
 		*i = *i + 1;
 		len++;
 	}
-	to_expand = malloc (len + 1);
-	if(!to_expand)
+	to_expand = malloc(len + 1);
+	if (!to_expand)
 		return (NULL);
 	index = 0;
-	while(cmd[start] && cmd[start] != '.' && cmd[start] != 32 && cmd[start] != '\'' && cmd[start] != '"')
+	while (cmd[start] && cmd[start] != '.' && cmd[start] != 32
+		&& cmd[start] != '\'' && cmd[start] != '"')
 	{
 		to_expand[index] = cmd[start];
 		index++;
@@ -82,25 +81,25 @@ char *extarct_expand(char *cmd, int *i)
 	return (to_expand);
 }
 //extract after command
-char *extarct_after(char *cmd, int *i)
+char	*extarct_after(char *cmd, int *i)
 {
-	int start;
-	char *after;
-	int index;
-	int len;
-	
+	int		start;
+	char	*after;
+	int		index;
+	int		len;
+
 	index = 0;
 	len = 0;
 	start = *i;
-	while(cmd[*i])
+	while (cmd[*i])
 	{
 		len++;
 		*i = *i + 1;
 	}
-	after = malloc (len + 1);
-	if(!after)
-		return(NULL);
-	while(cmd[start])
+	after = malloc(len + 1);
+	if (!after)
+		return (NULL);
+	while (cmd[start])
 	{
 		after[index] = cmd[start];
 		index++;
@@ -120,7 +119,7 @@ char *extarct_after(char *cmd, int *i)
 // 	while(tmp)
 // 	{
 // 		if(tmp == node)
-// 			break;
+// 			break ;
 // 		tmp = tmp->next;
 // 	}
 // 	prev = tmp->prev;
@@ -145,43 +144,43 @@ char *extarct_after(char *cmd, int *i)
 // 	}
 // }
 
-void	remove_node(t_lexer	**list, t_lexer	*node)
+void	remove_node(t_lexer **list, t_lexer *node)
 {
 	t_lexer	*tmp;
 	t_lexer	*prev;
 	t_lexer	*next;
-	
+
 	tmp = *list;
-	while(tmp)
+	while (tmp)
 	{
-		if(tmp == node)
-			break;
+		if (tmp == node)
+			break ;
 		tmp = tmp->next;
 	}
 	prev = tmp->prev;
-	if(prev && prev->type == SPACE)
+	if (prev && prev->type == SPACE)
 	{
-		while(prev->type == SPACE && prev)
+		while (prev->type == SPACE && prev)
 			prev = prev->prev;
 	}
 	next = tmp->next;
-	if(!prev && !next)
+	if (!prev && !next)
 	{
 		*list = NULL;
 		free(node);
 		return ;
 	}
-	if(!prev)
+	if (!prev)
 	{
 		*list = next;
-		if(next)
+		if (next)
 			next->prev = *list;
 		free(node);
 	}
 	else
 	{
 		prev->next = next;
-		if(next)
+		if (next)
 			next->prev = prev;
 		free(node);
 	}
@@ -190,24 +189,24 @@ void	remove_node(t_lexer	**list, t_lexer	*node)
 void	ft_expand_vars(t_lexer **list, t_env *envp)
 {
 	t_lexer	*tmp;
-	char *before;
-	char *after;
-	char *var;
-	char *temp;
-	int i;
-	
-	i = 0;
+	char	*before;
+	char	*after;
+	char	*var;
+	char	*temp;
+	int		i;
+
 	tmp = *list;
 	while (tmp)
 	{
+		i = 0;
 		if (tmp->type == VAR)
 		{
 			before = extract_before(tmp->str, &i);
 			var = extarct_expand(tmp->str, &i);
 			after = extarct_after(tmp->str, &i);
 			temp = var;
-			var = expand(var + 1,envp);
-			if(!var)
+			var = expand(var + 1, envp);
+			if (!var)
 			{
 				free(temp);
 				tmp = tmp->next;
@@ -216,10 +215,10 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 			{
 				free(temp);
 				temp = var;
-				var = ft_strjoin(before,var);
+				var = ft_strjoin(before, var);
 				free(temp);
 				temp = var;
-				var = ft_strjoin(var,after);
+				var = ft_strjoin(var, after);
 				free(temp);
 				temp = tmp->str;
 				tmp->str = var;
@@ -228,9 +227,8 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 			}
 			free(before);
 			free(after);
-			
 		}
-		else		
+		else
 			tmp = tmp->next;
 	}
 }
@@ -240,7 +238,7 @@ int	check_opeators(t_lexer *op)
 	if (!op->next || (op->next->type == CP || \
 	(op->next->is_oper && op->next->type != RDIR && op->next->type != HEREDOC && op->next->type != APND)))
 		return (ft_error(op->str));
-	if (!op->prev ||op->prev->type == OP)
+	if (!op->prev || op->prev->type == OP)
 		return (ft_error(op->str));
 	return (0);
 }
@@ -256,7 +254,8 @@ int	check_pth(t_lexer *pt)
 	}
 	// else
 	// {
-	// 	if (pt->next && (pt->next->type == FL || pt->next->type == CMD || pt->next->type == ARGS || pt->next->type == UNK))
+	// 	if (pt->next && (pt->next->type == FL || pt->next->type == CMD
+					// || pt->next->type == ARGS || pt->next->type == UNK))
 	// 		return (ft_error(pt->str), 1);
 	// 	if (!pt->prev || (pt->prev->type == UNK || pt->prev->is_oper))
 	// 		return (ft_error(pt->str), 1);
@@ -266,12 +265,12 @@ int	check_pth(t_lexer *pt)
 
 int	check_redir(t_lexer *rdir)
 {
-	if (!rdir->next || (rdir->next->type != UNK  && rdir->next->type != FL))
-		return (ft_error(rdir->str));	
+	if (!rdir->next || (rdir->next->type != UNK && rdir->next->type != FL))
+		return (ft_error(rdir->str));
 	return (0);
 }
 
-void print_error(char *str)
+void	print_error(char *str)
 {
 	ft_putstr_fd("min-sh: ", 2);
 	ft_putstr_fd(str, 2);
@@ -285,20 +284,22 @@ int	syntax_analyzer(t_lexer *list)
 
 	tmp = list;
 	res = 0;
-	if(!list)
+	if (!list)
 		return (1);
 	if (tmp->type == UNK)
 		return (print_error(tmp->str), set_exit_status(127), 1);
 	while (tmp)
 	{
-		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND && tmp->type != HEREDOC)
+		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND
+			&& tmp->type != HEREDOC)
 			res += check_opeators(tmp);
 		else if (tmp->type == RDIR || tmp->type == APND)
 			res += check_redir(tmp);
 		else if (tmp->type == OP || tmp->type == CP)
 			res += check_pth(tmp);
-		else if (tmp->type == UNK && (!ft_strncmp(tmp->str, ";;", ft_strlen(tmp->str))))
-				res += ft_error(tmp->str);
+		else if (tmp->type == UNK && (!ft_strncmp(tmp->str, ";;",
+						ft_strlen(tmp->str))))
+			res += ft_error(tmp->str);
 		if (res)
 			return (1);
 		tmp = tmp->next;
@@ -306,12 +307,13 @@ int	syntax_analyzer(t_lexer *list)
 	return (0);
 }
 
-t_lexer *create_list(char **tabs)
+t_lexer	*create_list(char **tabs)
 {
-	int index = 0;
-	t_lexer *list;
-	t_lexer *new_node;
+	int		index;
+	t_lexer	*list;
+	t_lexer	*new_node;
 
+	index = 0;
 	list = NULL;
 	while (tabs[index])
 	{
@@ -324,24 +326,23 @@ t_lexer *create_list(char **tabs)
 	return (list);
 }
 
-t_lexer *get_last_token(t_lexer *list)
+t_lexer	*get_last_token(t_lexer *list)
 {
 	while (list->next)
 		list = list->next;
-	return  (list);
+	return (list);
 }
 
-void ft_expand_wildcards(t_lexer **list)
+void	ft_expand_wildcards(t_lexer **list)
 {
-	t_lexer *tmp;
-	t_lexer *last;
-	t_lexer *new_list;
-	char *data;
-	char **tabs;
-	int index;
+	t_lexer	*tmp;
+	t_lexer	*last;
+	t_lexer	*new_list;
+	char	*data;
+	char	**tabs;
+	int		index;
 
 	index = 0;
-
 	tmp = *list;
 	while (tmp)
 	{
@@ -368,20 +369,20 @@ void ft_expand_wildcards(t_lexer **list)
 	}
 }
 
-void	clean_unsed_spaces(t_lexer	**list)
+void	clean_unsed_spaces(t_lexer **list)
 {
 	t_lexer	*cur;
 	t_lexer	*space;
 	t_lexer	*tmp;
-	
+
 	tmp = *list;
-	while(tmp)
+	while (tmp)
 	{
-		if(tmp->type == CMD && tmp->prev && tmp->prev->type == SPACE)
+		if (tmp->type == CMD && tmp->prev && tmp->prev->type == SPACE)
 		{
 			cur = tmp->prev->prev;
 			space = tmp->prev;
-			if(cur)
+			if (cur)
 			{
 				cur->next = tmp;
 				tmp->prev = cur;
@@ -394,12 +395,12 @@ void	clean_unsed_spaces(t_lexer	**list)
 				del_node(space);
 			}
 		}
-		if(tmp->type == CMD && tmp->next && tmp->next->type == SPACE)
+		if (tmp->type == CMD && tmp->next && tmp->next->type == SPACE)
 		{
 			cur = tmp->next->next;
 			space = tmp->next;
 			tmp->next = cur;
-			if(cur)
+			if (cur)
 				cur->prev = tmp;
 			del_node(space);
 		}
@@ -407,14 +408,183 @@ void	clean_unsed_spaces(t_lexer	**list)
 	}
 }
 
+int	is_linked_var(t_lexer *node)
+{
+	int	i;
+
+	i = 0;
+	while (node->str[i])
+	{
+		if (node->str[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	add_to_list(t_lexer **list, t_lexer *prev, t_lexer *new, t_lexer *next)
+{
+	t_lexer	*tmp;
+
+	tmp = *list;
+	while (tmp)
+	{
+		if (tmp == prev)
+			break ;
+		tmp = tmp->next;
+	}
+	tmp->next = new;
+	new->prev = tmp;
+	new->next = next;
+	if (next)
+		next->prev = new;
+}
+//please don't remove me
+char	*get_newstr(char *str, int *index)
+{
+	char	*new;
+	int		start;
+	int		i;
+	int		len;
+
+	len = 0;
+	start = *index;
+	if (str[*index] == '$' || str[*index] == '\'' || str[*index] == '.')
+	{
+		*index = *index + 1;
+		len++;
+	}
+	while (str[*index] && str[*index] != '$' && str[*index] != '\''
+		&& str[*index] != '.' && str[*index] != 32)
+	{
+		len++;
+		*index = *index + 1;
+	}
+	new = malloc(len + 1);
+	i = 0;
+	if (str[start] == '$' || str[start] == '\'' || str[start] == '.')
+		new[i++] = str[start++];
+	while (str[start] && str[start] != '$' && str[start] != '\''
+		&& str[start] != '.' && str[start] != 32)
+	{
+		new[i] = str[start];
+		start++;
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+//me too please
+char	*get_spacestr(char *str, int *index)
+{
+	char	*new;
+	int		start;
+	int		i;
+	int		len;
+
+	len = 0;
+	start = *index;
+	while (str[*index] == 32 && str[*index])
+	{
+		*index = *index + 1;
+		len++;
+	}
+	new = malloc(len + 1);
+	i = 0;
+	while (str[start] == 32 && str[start])
+	{
+		new[i] = str[start];
+		start++;
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+//i don't some stuipd shit don't remove
+void	add_new_node(t_lexer **list, t_lexer *node)
+{
+	char	*current;
+	int		i;
+	t_lexer	*next;
+	t_lexer	*tmp;
+	t_lexer	*new;
+
+	tmp = *list;
+	while (tmp)
+	{
+		if (tmp == node)
+			break ;
+		tmp = tmp->next;
+	}
+	i = 0;
+	next = tmp->next;
+	current = tmp->str;
+	tmp->str = get_newstr(current, &i);
+	while (current[i])
+	{
+		new = malloc(sizeof(t_lexer));
+		if (current[i] == 32)
+			new->str = get_spacestr(current, &i);
+		else
+			new->str = get_newstr(current, &i);
+		new->is_builtin = is_builtin(new->str);
+		new->is_oper = is_operator(new->str[0]);
+		new->path = NULL;
+		add_to_list(list, tmp, new, next);
+		new->type = check_type(new, new->path);
+		tmp = new;
+	}
+	free(current);
+}
+//also don't remove
+void	check_variables(t_lexer **list)
+{
+	t_lexer	*tmp;
+
+	tmp = *list;
+	while (tmp)
+	{
+		if (tmp->type == VAR)
+		{
+			if (is_linked_var(tmp))
+				add_new_node(list, tmp);
+		}
+		tmp = tmp->next;
+	}
+}
+
+void	check_asbpath(t_lexer **list)
+{
+	t_lexer	*tmp;
+
+	tmp = *list;
+	while (tmp)
+	{
+		if ((isabs(tmp->str) && !tmp->prev) || (isabs(tmp->str)
+				&& tmp->prev->type == PIPE) || (isabs(tmp->str)
+				&& tmp->prev->type == AND) || (isabs(tmp->str)
+				&& tmp->prev->type == OR))
+		{
+			if (validate_cmd(tmp->str))
+				return (ft_putendl_fd("command not found", 2));
+			tmp->path = tmp->str;
+			tmp->str = extract_cmd(tmp->str);
+			tmp->type = CMD;
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	ft_expander(t_lexer *list, t_env *env)
 {
-	char **paths;
+	char	**paths;
 
 	paths = all_paths(env);
 	ft_expand_vars(&list, env);
 	if (check_qoutes(list) || check_pths(list))
 		return (ft_free(paths), 1);
+	check_variables(&list);
+	check_asbpath(&list);
 	join_args(&list, paths);
 	set_type(&list);
 	if (syntax_analyzer(list))
@@ -423,4 +593,3 @@ int	ft_expander(t_lexer *list, t_env *env)
 	clean_unsed_spaces(&list);
 	return (ft_free(paths), 0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/11 17:53:43 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:52:00 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	formate_env_item(char **key, char **val, char *item)
 
 	index = ft_search(item , '=');
 	*key = ft_substr(item, 0, index);
-	*val = ft_substr(item, index + 1, (ft_strlen(item) - index));
+	if(index != -1)
+		*val = ft_substr(item, index + 1, (ft_strlen(item) - index));
+	else
+		*val = NULL;
 }
 
 t_env	*get_env_vars(char **envp)
