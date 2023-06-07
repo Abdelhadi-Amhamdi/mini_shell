@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 23:20:00 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:39:34 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,9 +235,8 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 
 int	check_opeators(t_lexer *op)
 {
-	if (!op->next || (op->next->type == CP || op->next->type == UNK
-			|| (op->next->is_oper && op->next->type != RDIR
-				&& op->next->type != HEREDOC && op->next->type != APND)))
+	if (!op->next || (op->next->type == CP || \
+	(op->next->is_oper && op->next->type != RDIR && op->next->type != HEREDOC && op->next->type != APND)))
 		return (ft_error(op->str));
 	if (!op->prev || op->prev->type == OP)
 		return (ft_error(op->str));
@@ -288,7 +287,7 @@ int	syntax_analyzer(t_lexer *list)
 	if (!list)
 		return (1);
 	if (tmp->type == UNK)
-		return (print_error(tmp->str), 1);
+		return (print_error(tmp->str), set_exit_status(127), 1);
 	while (tmp)
 	{
 		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND

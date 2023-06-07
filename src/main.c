@@ -1,10 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
+/*   Updated: 2023/06/06 20:41:31 by aamhamdi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-#include <sys/types.h>
-#include <sys/wait.h>
-# include <signal.h>
-
-int exit_status;
 
 void print_banner()
 {
@@ -21,24 +27,28 @@ void print_banner()
 	puts("");
 }
 
-void clean_data(t_app *app)
+void sig_int_handler(int sigtype)
 {
-	app->ast_tree = NULL;
-	app->cmd = NULL;
-	app->lexer_list = NULL;
-	app->parser_list = NULL;
+	if (sigtype == SIGINT)
+	{
+		if (app->hdoc_fd > 0)
+		{
+			close(app->hdoc_fd);
+			app->hdoc_fd = 0;
+			unlink(HEREDOC_FILENAME);
+		}
+		exit (0);
+	}
 }
-
-// void test()
-// {
-// 	int fd = open("heredoc_file", O_RDONLY);
-// 	printf("%d\n", fd);
-// }
 
 void set_exit_status(int new_status)
 {
-	exit_status = new_status;
-	printf("%d\n", exit_status);
+	app->status = new_status;
+}
+
+char *get_exit_status()
+{
+	return (ft_itoa(app->status >> 8));
 }
 
 t_app *init(char **env)
@@ -49,14 +59,10 @@ t_app *init(char **env)
 	if (!app)
 		return (NULL);
 	app->status = 0;
-	app->cmd = NULL;
-	app->ast_tree = NULL;
-	app->lexer_list = NULL;
-	app->parser_list = NULL;
-	app->herdoc_list = NULL;
+	app->hdoc_fd = -1;
 	app->env_list = get_env_vars(env);
-	signal(SIGINT, SIG_DFL);
-	// signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sig_int_handler);
+	signal(SIGQUIT, SIG_IGN);
 	return (app);
 }
 
@@ -69,8 +75,12 @@ void destroy_ast_tree(t_tree *root)
 	right = NULL;
 	destroy_ast_tree(root->left);
 	right = root->right;
+	if (!root->is_op && root->cmd_args)
+		ft_free_lexer_list(&root->cmd_args);
+	if (root->type == CMD && root->path)
+		free(root->path);
+	root->path = NULL;
 	free(root->str);
-	// ft_free(root->cmd_args);
 	free(root);
 	root = NULL;
 	root = NULL;
@@ -79,7 +89,8 @@ void destroy_ast_tree(t_tree *root)
 
 int main(int ac, char **av, char **envp)
 {
-	t_app	*app;
+	char *cmd;
+	t_tree *ast_tree;
 	(void)ac;
 	(void)av;
 
@@ -88,22 +99,20 @@ int main(int ac, char **av, char **envp)
 		return (0);
 	while (1)
 	{
-		clean_data(app);
-		app->cmd = readline("mini_sh-1.0$ ");
-		if (!app->cmd)
+		cmd = readline("mini_sh-1.0$ ");
+		if (!cmd)
 			break ;
-		if (app->cmd[0])
+		if (cmd[0])
 		{
-			formater(app);
-			if(app->ast_tree)
+			ast_tree = formater(cmd);
+			if(ast_tree)
 			{
-				// printTree(app->ast_tree);
-				app->status = executer(app->ast_tree, app);
-				destroy_ast_tree(app->ast_tree);
-				// destroy tree;
+				printTree(ast_tree);
+				// executer(ast_tree);
+				destroy_ast_tree(ast_tree);
 			}
-			add_history(app->cmd);
-			free(app->cmd);
+			add_history(cmd);
+			free(cmd);
 		}
 	}
 	return (0);

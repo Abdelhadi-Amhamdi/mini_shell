@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/05 15:33:00 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:37:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int lexer_list_size(t_lexer *list)
 	return (size);
 }
 
-char **cmd_args_list_to_tabs(t_tree *node, t_env **env)
+char **cmd_args_list_to_tabs(t_tree *node)
 {
 	char	**cmd_args;
 	t_lexer	*tmp;
@@ -34,7 +34,6 @@ char **cmd_args_list_to_tabs(t_tree *node, t_env **env)
 	char	*value;
 
 	index = 0;
-	(void)env;
 	if (node->type != CMD)	
 		return (NULL);
 	tmp = node->cmd_args;
@@ -46,7 +45,10 @@ char **cmd_args_list_to_tabs(t_tree *node, t_env **env)
 	{
 		if (tmp->type == VAR)
 		{
-			value = expand(tmp->str+1, *env);
+			if (!ft_strncmp(tmp->str, "$?", ft_strlen(tmp->str)))
+				value = get_exit_status();
+			else
+				value = expand(tmp->str+1, app->env_list);
 			if (value)
 			{
 				cmd_args[index] = ft_strdup(value);

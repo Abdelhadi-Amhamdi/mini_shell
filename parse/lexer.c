@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 13:13:11 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:40:04 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_lexer	*create_token(char *str, int len, char **paths)
 		new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
 	new->type = -1;
+	new->id = -1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -469,6 +470,21 @@ int check_pths(t_lexer *list)
 	return (0);
 }
 
+void set_tokens_ids(t_lexer **list)
+{
+	t_lexer *tmp;
+	int index;
+
+	tmp = *list;
+	index = 0;
+	while (tmp)
+	{
+		tmp->id = index;
+		index++;
+		tmp = tmp->next;
+	}
+}
+
 // main lexer function
 t_lexer	*lexer(char *cmd, t_env *env)
 {
@@ -479,6 +495,7 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	list = tokenizer(cmd, paths);
 	set_type(&list);
 	clean_spaces(&list);
+	set_tokens_ids(&list);
 	ft_free(paths);
 	return (list);
 }

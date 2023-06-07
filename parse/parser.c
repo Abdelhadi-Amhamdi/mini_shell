@@ -6,13 +6,13 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/01 17:07:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/06 20:44:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-t_parser	*create_parser_node(t_lexer *l_node)
+t_parser	*create_parser_node(t_lexer *l_node, int id)
 {
 	t_parser	*new_node;
 
@@ -24,6 +24,7 @@ t_parser	*create_parser_node(t_lexer *l_node)
 	new_node->is_builtin = l_node->is_builtin;
     new_node->next = NULL;
     new_node->prev = NULL;
+	new_node->id = id;
 	new_node->path = ft_strdup(l_node->path);
     new_node->str = ft_strdup(l_node->str);
     new_node->type = l_node->type;
@@ -71,14 +72,16 @@ t_parser *create_blocks(t_lexer *lexer_list)
 	t_lexer  *tmp;
 	t_lexer  *next_node;
 	t_lexer  *args_list;
+	int index;
 
 	tmp = lexer_list;
 	parser_list = NULL;
+	index = 0;
 	while (tmp)
 	{
 		if (tmp->type == CMD && tmp->next && !tmp->next->is_oper)
 		{
-			new_node = create_parser_node(tmp);
+			new_node = create_parser_node(tmp, index);
 			next_node = tmp->next;
 			args_list = NULL;
 			while (next_node && !next_node->is_oper && next_node->type != OP && next_node->type != CP)
@@ -91,11 +94,12 @@ t_parser *create_blocks(t_lexer *lexer_list)
 		}
 		else
 		{
-			new_node = create_parser_node(tmp);
+			new_node = create_parser_node(tmp, index);
 			new_node->args_list = NULL;
 			tmp = tmp->next;
 		}
 		add_node_to_list(&parser_list, new_node);
+		index++;
 	}
 	return (parser_list);
 }
