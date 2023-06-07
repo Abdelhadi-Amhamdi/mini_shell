@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/05 14:42:02 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:24:47 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_env	*env_search(char *arg, t_env	*env)
 
 t_env	*ft_unset(t_tree	*node, t_env *env)
 {
-	int i = 1;
+	int i = 0;
 	t_env	*cur;
 	t_env	*prev;
 	

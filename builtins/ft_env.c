@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:03 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 15:51:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:16:25 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	ft_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		printf("%s=%s\n",tmp->key,tmp->value);
+		if(tmp->key && tmp->value)
+			printf("%s=%s\n",tmp->key,tmp->value);
 		tmp = tmp->next;
 	}
 	return (0);
