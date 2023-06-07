@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 16:50:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:20:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,8 @@ char **env_list_to_tabs(t_env *list);
 int env_list_size(t_env *list);
 char *get_exit_status();
 void set_exit_status(int new_status);
+
+// heredoc
+void heredoc_handler(t_lexer **root);
+t_lexer *heredoc_helper(t_lexer *root);
 #endif

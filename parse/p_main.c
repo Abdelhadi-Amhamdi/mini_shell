@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 18:11:13 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:10:31 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void ft_free_lexer_list(t_lexer **list)
 	while (tmp)
 	{
 		next = tmp->next;
+		// if (tmp->type == HEREDOC)
+		// 	puts("here11111");
 		del_node(tmp);
 		tmp = next;
 	}
@@ -196,7 +198,7 @@ int	ft_error(char *str)
 
 t_tree *formater(char *cmd)
 {
-	// t_parser *tmp;
+	t_parser *tmp;
 	t_lexer *lexer_list;
 	t_parser *parser_list;
 	t_tree *ast_tree;
@@ -209,11 +211,13 @@ t_tree *formater(char *cmd)
 		return (NULL);
 	if (ft_expander(lexer_list, app->env_list))
 		return (ft_free_lexer_list(&lexer_list), NULL);
+	heredoc_handler(&lexer_list);
 	parser_list = parser(lexer_list);
 	if (!parser_list)
 		return (ft_free_lexer_list(&lexer_list), NULL);
-	ft_free_lexer_list(&lexer_list);
+	// ft_free_lexer_list(&lexer_list);
 	tmp = parser_list;
+	// print_parser_list(parser_list);
 	ast_tree = create_tree(&tmp);
 	ft_free_parser_list(&parser_list);
 	return (ast_tree);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 14:41:32 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:16:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ typedef struct s_lexer
 	t_boolean		is_oper;
 	t_boolean		is_builtin;
 	t_type			type;
-	char			*path;
 	int id;
+	char			*path;
 	struct s_lexer	*next;
 	struct s_lexer	*prev;
 }					t_lexer;
