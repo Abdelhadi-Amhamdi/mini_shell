@@ -45,3 +45,5 @@
 					"/Users/aagouzou"
 				-expected
 					/Users/aagouzou"
+		** ls || ks 
+		** echo "$HOME$HOME"
