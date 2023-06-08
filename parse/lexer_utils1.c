@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/05 13:05:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:39:34 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ t_type	check_type(t_lexer *node, char *path)
 		return (AND);
 	else if (node->is_oper && !compare(node, "||"))
 		return (OR);
-	else if (node->is_oper && !compare(node, ">"))
+	else if (node->is_oper && (!compare(node, ">") || !compare(node, "<")))
 		return (RDIR);
 	else if (node->is_oper && !compare(node, ">>"))
 		return (APND);

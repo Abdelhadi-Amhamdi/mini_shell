@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 22:10:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:14:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void ft_free_lexer_list(t_lexer **list)
 	while (tmp)
 	{
 		next = tmp->next;
-		// if (tmp->type == HEREDOC)
-		// 	puts("here11111");
+		if (tmp->type == 8 && tmp->id == -11)
+			unlink(tmp->str);
 		del_node(tmp);
 		tmp = next;
 	}
@@ -215,9 +215,8 @@ t_tree *formater(char *cmd)
 	parser_list = parser(lexer_list);
 	if (!parser_list)
 		return (ft_free_lexer_list(&lexer_list), NULL);
-	// ft_free_lexer_list(&lexer_list);
+	ft_free_lexer_list(&lexer_list);
 	tmp = parser_list;
-	// print_parser_list(parser_list);
 	ast_tree = create_tree(&tmp);
 	ft_free_parser_list(&parser_list);
 	return (ast_tree);
