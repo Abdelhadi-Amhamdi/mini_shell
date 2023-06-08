@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 17:31:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:12:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_lexer *ft_nodedup(t_lexer *node)
 	// new_node->is_oper = node->is_builtin;
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	new_node->id = -1;
+	new_node->id = node->id;
 	new_node->path = ft_strdup(node->path);
 	new_node->str = ft_strdup(node->str);
 	new_node->type = node->type;
