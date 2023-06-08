@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 20:32:38 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:40:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int run_rdir(t_tree *node, int out)
 
 	flags = O_CREAT | O_RDWR | O_APPEND;
 	status = 0;
+	//  > <
 	if (node->type == RDIR)
 	{
 		flags = O_CREAT | O_RDWR;

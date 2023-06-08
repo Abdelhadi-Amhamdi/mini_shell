@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 16:11:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:16:19 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int executer(t_tree *root)
 		return (run_pipeline(root, 0, 1));
 	else if (root->type == RDIR || root->type == APND)
 		return (run_rdir(root, 1));
-	else if (root->type == HEREDOC)
-		return (herdoc(root));
 	else if (root->type == AND || root->type == OR)
 		return (run_connectors(root));
 	else if (root->type == UNK)
