@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/08 21:58:00 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 22:15:19 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ t_parser *create_blocks(t_lexer *lexer_list)
 		}
 		else
 		{
-			puts("here");
 			new_node = create_parser_node(tmp, 1);
 			add_node_to_list(&parser_list, new_node);
 			tmp = tmp->next;
