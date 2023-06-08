@@ -14,7 +14,7 @@ env_path = env/
 header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_utils1.c lexer_utils2.c
 env_src = env_main.c utils_env.c
-src = main.c connectors.c pipes.c executer.c exec_utils.c heredoc.c 
+src = main.c executer.c exec_utils.c  connectors.c heredoc.c rdir.c pipes.c 
 g_src = get_next_line.c get_next_line_utils.c
 b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c ft_exit.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 14:39:34 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:09:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,8 +286,8 @@ int	syntax_analyzer(t_lexer *list)
 	res = 0;
 	if (!list)
 		return (1);
-	if (tmp->type == UNK)
-		return (print_error(tmp->str), set_exit_status(127), 1);
+	// if (tmp->type == UNK)
+	// 	return (print_error(tmp->str), set_exit_status(127), 1);
 	while (tmp)
 	{
 		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND

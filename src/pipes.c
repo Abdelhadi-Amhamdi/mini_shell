@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 20:32:38 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 22:50:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 {
-	pid_t pid;
+	// pid_t pid;
 	
 	node->args = cmd_args_list_to_tabs(node);
-	pid = fork();
-	if (!pid)
+	node->id = fork();
+	if (!node->id)
 	{
 		dup2(p2, std);
 		close(p2);
@@ -27,7 +27,6 @@ void exec_cmd(t_tree *node, int p1, int p2, int std, int old)
 		close(p1);
 		if (node->is_builtin)
 		{
-			puts("b--");
 			exec_builtin(node, &app->env_list);
 			exit (0);
 		}
@@ -60,85 +59,24 @@ void run_pipe(t_tree *cmd, int *pipe, int in, int out, int side)
 	else if (cmd->type == CMD)
 		exec_cmd(cmd, unused_end, used_end, std_file, old);
 	else
-		executer(cmd);
+		executer(cmd, in, out);
 }
 
 int run_pipeline(t_tree *pipe_node, int in, int out)
 {
 	int fds[2];
-	int status;
+	// int status;
 
+	
 	pipe(fds);
 	run_pipe(pipe_node->left, fds, in, fds[1], 1);
-	run_pipe(pipe_node->right, fds, fds[0], out,  2);
+	run_pipe(pipe_node->right, fds, fds[0], out, 2);
 	close(fds[1]);
 	close(fds[0]);
 	if (out != 1)
 		close(out);
-	wait(&status);
-	wait(&status);
-	set_exit_status(status);
-	return (status);
-}
-
-int run_cmd(t_tree *cmd, t_env **env)
-{
-	pid_t pid;
-	int status;
-
-	cmd->args = cmd_args_list_to_tabs(cmd);
-	if(cmd->is_builtin)
-		return (exec_builtin(cmd, env));
-	pid = fork();
-	if (!pid)
-		execve(cmd->args[0], cmd->args, env_list_to_tabs(*env));
-	waitpid(pid , &status, 0);
-	set_exit_status(status);
-	ft_free(cmd->args);
-	return (status);
-}
-
-int run_rdir(t_tree *node, int out)
-{
-	int file_fd;
-	int flags;
-	int status;
-
-	flags = O_CREAT | O_RDWR | O_APPEND;
-	status = 0;
-	if (node->type == RDIR)
-	{
-		flags = O_CREAT | O_RDWR;
-		unlink(node->right->str);
-	}
-	file_fd = open(node->right->str, flags, 0644);
-	if (file_fd == -1)
-		return (-1);
-	if (node->left->type == PIPE)
-		run_pipeline(node->left, 0, file_fd);
-	else if (node->left->type == CMD)
-	{
-		if (out != 1)
-		{
-			exec_cmd(node->left, -1, out, 1, -1);
-			close(out);
-		}
-		else
-		{
-			exec_cmd(node->left, -1, file_fd, 1, -1);
-			close(file_fd);
-		}
-			
-		wait(&status);
-	}
-	else if (node->left->type == RDIR)
-	{
-		if (out == 1)
-			run_rdir(node->left, file_fd);
-		else
-			run_rdir(node->left, out);
-	}
-	else
-		status = executer(node->left);
-	return (status);
+	// wait(&status);
+	// wait(&status);
+	// set_exit_status(status);
+	return (0);
 }
