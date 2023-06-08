@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/08 16:12:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 21:58:00 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,42 +65,61 @@ t_lexer *ft_nodedup(t_lexer *node)
 	return (new_node);
 }
 
+t_lexer *handle_rdir_case(t_parser **parser_list, t_lexer *arg, t_lexer **args_list)
+{
+	add_node_to_list(parser_list, create_parser_node(arg, 1));
+	arg = arg->next;
+	add_node_to_list(parser_list, create_parser_node(arg, 1));
+	arg = arg->next;
+	while (arg && !arg->is_oper)
+	{
+		add_token_to_end(args_list, ft_nodedup(arg));
+		arg = arg->next;
+	}
+	return (arg);
+}
 
 t_parser *create_blocks(t_lexer *lexer_list)
 {
 	t_parser *parser_list;
+	t_lexer *args_list;
+	t_lexer *tmp;
+	t_lexer *first_arg;
 	t_parser *new_node;
-	t_lexer  *tmp;
-	t_lexer  *next_node;
-	t_lexer  *args_list;
-	int index;
-
+	
 	tmp = lexer_list;
 	parser_list = NULL;
-	index = 0;
 	while (tmp)
 	{
-		if (tmp->type == CMD && tmp->next && !tmp->next->is_oper)
+		if (tmp->type == CMD)
 		{
-			new_node = create_parser_node(tmp, index);
-			next_node = tmp->next;
+			new_node = create_parser_node(tmp, 1);
+			add_node_to_list(&parser_list, new_node);
+			first_arg = tmp->next;
 			args_list = NULL;
-			while (next_node && !next_node->is_oper && next_node->type != OP && next_node->type != CP)
+			if (first_arg && (first_arg->type == RDIR || first_arg->type == APND))
 			{
-				add_token_to_end(&args_list, ft_nodedup(next_node));
-				next_node = next_node->next;
+				tmp = handle_rdir_case(&parser_list, first_arg, &args_list);
+				new_node->args_list = args_list;
 			}
-			new_node->args_list = args_list;
-			tmp = next_node;
+			else
+			{
+				while (first_arg && !first_arg->is_oper)
+				{
+					add_token_to_end(&args_list, ft_nodedup(first_arg));
+					first_arg = first_arg->next;
+				}
+				new_node->args_list = args_list;
+				tmp = first_arg;
+			}
 		}
 		else
 		{
-			new_node = create_parser_node(tmp, index);
-			new_node->args_list = NULL;
+			puts("here");
+			new_node = create_parser_node(tmp, 1);
+			add_node_to_list(&parser_list, new_node);
 			tmp = tmp->next;
 		}
-		add_node_to_list(&parser_list, new_node);
-		index++;
 	}
 	return (parser_list);
 }
