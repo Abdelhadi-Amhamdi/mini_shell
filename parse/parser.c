@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 16:26:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:49:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_parser *create_blocks(t_lexer *lexer_list)
 	parser_list = NULL;
 	while (tmp)
 	{
-		if (!tmp->is_oper && tmp->type != OP && tmp->type != CP && tmp->type != SPACE)
+		if (tmp->type == CMD || tmp->type == UNK)
 		{
 			new_node = create_parser_node(tmp, 1);
 			add_node_to_list(&parser_list, new_node);
