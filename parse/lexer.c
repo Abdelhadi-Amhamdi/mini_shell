@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 18:10:33 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:22:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_lexer	*create_token(char *str, int len, char **paths)
 		return (NULL);
 	new->str = extract_str(str, len);
 	new->is_oper = is_operator(new->str[0]);
+	new->path = NULL;
 	if (paths)
 		new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
@@ -285,20 +286,6 @@ void set_type(t_lexer **list)
 	while (tmp)
 	{
 		tmp->type = check_type(tmp, tmp->path);
-		// if ((isabs(tmp->str) && !tmp->prev) || (isabs(tmp->str)
-		// 		&& tmp->prev->type == PIPE) || (isabs(tmp->str)
-		// 		&& tmp->prev->prev->type == PIPE) || (isabs(tmp->str)
-		// 		&& tmp->prev->type == AND) || (isabs(tmp->str)
-		// 		&& tmp->prev->prev->type == AND) || (isabs(tmp->str)
-		// 		&& tmp->prev->type == OR) || (isabs(tmp->str)
-		// 		&& tmp->prev->prev->type == OR))
-		// {
-		// 	if (validate_cmd(tmp->str))
-		// 		return (ft_putendl_fd("command not found", 2));
-		// 	tmp->path = tmp->str;
-		// 	tmp->str = extract_cmd(tmp->str);
-		// 	tmp->type = CMD;
-		// }
 		tmp = tmp->next;
 	}
 }
@@ -505,6 +492,8 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	t_lexer	*list;
 
 	paths = all_paths(env);
+	// if (!paths)
+	// 	return (ft_putendl_fd(""), NULL);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
 	clean_spaces(&list);

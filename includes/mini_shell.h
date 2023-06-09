@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 15:11:51 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:55:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 
 t_app	*app;
 # define HEREDOC_FILENAME "heredoc_file"
-
+ 
 // pipes
-int run_pipeline(t_tree *pipe_node, int in, int out);
-void run_pipe(t_tree *cmd, int *pipe,int in, int out, int side);
-void exec_cmd(t_tree *node, int p1, int p2, int std, int old);
+int run_pipeline(t_tree *pipe_node, int out);
+void run_pipe(t_tree *cmd, int *pipe, int out, int side);
+void exec_cmd(t_tree *node);
 
 // redirection
 int run_cmd(t_tree *cmd, int in, int out);

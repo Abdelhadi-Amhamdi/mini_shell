@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/08 18:01:14 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:46:46 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void run_redir_input(char *file_name, t_tree *cmd, int in, int out)
 void run_redir_output(char *file_name, t_tree *cmd, int in, int out)
 {
 	int file_fd;
-
 	file_fd = open(file_name, O_CREAT | O_RDWR, 0644);\
 	if (file_fd == -1)
 		return ;

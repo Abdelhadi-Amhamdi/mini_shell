@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 15:28:09 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:50:46 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int main(int ac, char **av, char **envp)
 			if(ast_tree)
 			{
 				// printTree(ast_tree);
-				executer(ast_tree, 0, 1);
+				executer(ast_tree, STDIN_FILENO, STDOUT_FILENO);
 				wait_pids(ast_tree);
 				destroy_ast_tree(ast_tree);
 			}
