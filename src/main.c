@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 22:11:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:17:22 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int main(int ac, char **av, char **envp)
 			if(ast_tree)
 			{
 				// printTree(ast_tree);
-				executer(ast_tree);
+				// executer(ast_tree);
 				destroy_ast_tree(ast_tree);
 			}
 			add_history(cmd);
