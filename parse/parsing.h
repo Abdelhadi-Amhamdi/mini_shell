@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 22:16:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:29:25 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void				set_type(t_lexer **list);
 void				join_args(t_lexer **list, char **paths);
 void				del_node(t_lexer *node);
 void				clean_spaces(t_lexer **list);
+int	is_space(char c);
 
 // parser functions
 t_parser			*parser(t_lexer *list);

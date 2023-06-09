@@ -3,26 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/06 16:37:12 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:01:52 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-int lexer_list_size(t_lexer *list)
+int lexer_list_size(t_lexer *list, int is_b)
 {
 	int  size;
 
 	size = 0;
-	while (list)
+	while (list && is_b)
 	{
 		list = list->next;
 		size++;
 	}
+	while (list && !is_b)
+	{
+		if(list->type != SPACE)
+			size++;
+		list = list->next;
+	}
 	return (size);
+}
+
+void	print_tab(char** tab)
+{
+	int i;
+
+	i = 0;
+	while(tab[i])
+		printf("[%s]\n",tab[i++]);
 }
 
 char **cmd_args_list_to_tabs(t_tree *node)
@@ -37,7 +52,7 @@ char **cmd_args_list_to_tabs(t_tree *node)
 	if (node->type != CMD)	
 		return (NULL);
 	tmp = node->cmd_args;
-	size = lexer_list_size(node->cmd_args);
+	size = lexer_list_size(node->cmd_args, node->is_builtin);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (node->path)
 		cmd_args[index++] = ft_strdup(node->path);
@@ -57,8 +72,19 @@ char **cmd_args_list_to_tabs(t_tree *node)
 		}
 		else
 		{
-			cmd_args[index] = ft_strdup(tmp->str);
-			index++;
+			if(node->is_builtin)
+			{
+				cmd_args[index] = ft_strdup(tmp->str);
+				index++;
+			}
+			else
+			{
+				if(tmp->type != SPACE)
+				{
+					cmd_args[index] = ft_strdup(tmp->str);
+					index++;
+				}
+			}
 		}
 		tmp = tmp->next;	
 	}
