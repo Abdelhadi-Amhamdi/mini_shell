@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/08 22:15:19 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:26:03 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_parser *create_blocks(t_lexer *lexer_list)
 	parser_list = NULL;
 	while (tmp)
 	{
-		if (tmp->type == CMD)
+		if (!tmp->is_oper && tmp->type != OP && tmp->type != CP && tmp->type != SPACE)
 		{
 			new_node = create_parser_node(tmp, 1);
 			add_node_to_list(&parser_list, new_node);
@@ -117,6 +117,7 @@ t_parser *create_blocks(t_lexer *lexer_list)
 		{
 			new_node = create_parser_node(tmp, 1);
 			add_node_to_list(&parser_list, new_node);
+			new_node->args_list = NULL;
 			tmp = tmp->next;
 		}
 	}
