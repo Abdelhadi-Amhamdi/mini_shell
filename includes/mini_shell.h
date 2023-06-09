@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 14:20:36 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/08 22:19:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void run_pipe(t_tree *cmd, int *pipe,int in, int out, int side);
 void exec_cmd(t_tree *node, int p1, int p2, int std, int old);
 
 // redirection
-int run_cmd(t_tree *cmd, t_env **env);
+int run_cmd(t_tree *cmd, int in, int out);
 int run_rdir(t_tree *node, int out);
+int redirection_helper(t_tree *node, int in, int out);
 
 int	exec_builtin(t_tree	*cmd, t_env	**env);
-int	herdoc(t_tree *hrd);
-int executer(t_tree *root);
+int executer(t_tree *root, int in, int out);
 
-int run_connectors(t_tree *root);
+int run_connectors(t_tree *root, int in, int out);
 char *wildcard(char *condition);
 
 // exec utils

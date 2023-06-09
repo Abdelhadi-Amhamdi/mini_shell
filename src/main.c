@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 14:17:22 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:24:16 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,16 @@ void destroy_ast_tree(t_tree *root)
 	destroy_ast_tree(right);
 }
 
+void wait_pids(t_tree *root)
+{
+	if (!root)
+		return ;
+	wait_pids(root->left);
+	if (root->type == CMD && root->id > 0)
+		waitpid(root->id, NULL, 0);
+	wait_pids(root->right);
+}
+
 int main(int ac, char **av, char **envp)
 {
 	char *cmd;
@@ -107,8 +117,9 @@ int main(int ac, char **av, char **envp)
 			ast_tree = formater(cmd);
 			if(ast_tree)
 			{
-				// printTree(ast_tree);
-				// executer(ast_tree);
+				printTree(ast_tree);
+				executer(ast_tree, 0, 1);
+				// wait_pids(ast_tree);
 				destroy_ast_tree(ast_tree);
 			}
 			add_history(cmd);
