@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/08 22:39:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:55:22 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int executer(t_tree *root, int in, int out)
 	}
 	else if (root->type == PIPE)
 	{
-		status = run_pipeline(root, in, out);
+		status = run_pipeline(root, out);
 		set_exit_status(status);
 	}
 	return (status);
