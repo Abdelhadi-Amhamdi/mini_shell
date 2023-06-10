@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:49:51 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:27:32 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ void printTree(t_tree *root)
 
 int	ft_error(char *str)
 {
-	return (printf("%s `%s'\n", _ERR_MSG, str));
+	return (printf("%s `%s'\n", SYNTAX_ERROR_MSG, str));
 }
 
 t_tree *formater(char *cmd)

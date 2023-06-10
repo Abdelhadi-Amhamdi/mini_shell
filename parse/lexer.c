@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 14:21:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:26:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -393,7 +393,7 @@ int	check_qoutes(t_lexer *list)
 			current = data[index];
 			while (data[++index] && data[index] != current);
 			if (!data[index])
-				return (ft_putendl_fd("Syntax Error , Qoutes are not closed!", 2), 1);
+				return (ft_putendl_fd(QUOTES_ERROR_MSG, 2), 1);
 			ft_trim_quotes(tmp);
 		}
 		tmp = tmp->next;
@@ -452,7 +452,7 @@ int check_pths(t_lexer *list)
 			break ;
 	}
 	if (op - cp != 0)
-		return (ft_putendl_fd("Syntax Error , parentheses are not closed!", 2), 1);
+		return (ft_putendl_fd(PARENTICIES_ERROR_MSG, 2), 1);
 	return (0);
 }
 

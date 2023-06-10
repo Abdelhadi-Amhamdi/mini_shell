@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 12:58:40 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:27:05 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 
 # define SYNTAX_ERROR_EXIT_STATUS 258
 # define COMMAND_NOT_FOUND_EXIT_STATUS 127
+# define PIPE_READ_END 0
+# define PIPE_WRITE_END 1
+# define LEFT_CHILD 1
+# define RIGHT_CHILD 2
+
+# define SYNTAX_ERROR_MSG "shell : parse error near"
+# define QUOTES_ERROR_MSG "Syntax Error , Quotes are not closed!"
+# define PARENTICIES_ERROR_MSG "Syntax Error , parentheses are not closed!"
 
 typedef enum s_boolean
 {
@@ -93,7 +101,6 @@ typedef struct s_app
 	int			status;
 }	t_app;
 
-# define _ERR_MSG "shell : parse error near"
 
 // main
 t_tree				*formater(char *cmd);
