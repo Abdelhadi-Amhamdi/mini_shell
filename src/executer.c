@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:50:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 14:39:05 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 int run_cmd(t_tree *cmd, int in, int out)
 {
-	// pid_t pid;
 	int status;
 
 	status = 0;
 	cmd->args = cmd_args_list_to_tabs(cmd);
+	if (!cmd->args)
+		return (perror(cmd->str), COMMAND_NOT_FOUND_EXIT_STATUS);
 	if(cmd->is_builtin)
 		return (exec_builtin(cmd, &app->env_list));
 	cmd->id = fork();
@@ -28,8 +29,6 @@ int run_cmd(t_tree *cmd, int in, int out)
 		dup2(out, STDOUT_FILENO);
 		execve(cmd->args[0], cmd->args, env_list_to_tabs(app->env_list));
 	}
-	// waitpid(pid , &status, 0);
-	set_exit_status(status);
 	ft_free(cmd->args);
 	return (status);
 }
@@ -55,35 +54,20 @@ int	exec_builtin(t_tree	*cmd, t_env	**env)
 
 int executer(t_tree *root, int in, int out)
 {
-	int status;
-	
-	status = 0;
 	if (!root)
-		return (1);
+		return (app->status);
 	if (root->type == CMD)
-	{
-		status = run_cmd(root, in, out);
-		set_exit_status(status);
-	}
+		app->status = run_cmd(root, in, out);
 	else if (root->type == RDIR || root->type == APND)
+		app->status = redirection_helper(root, in, out);
+	else if (root->type == UNK || root->type == SPACE)
 	{
-		status = redirection_helper(root, in, out);
-		set_exit_status(status);
-	}
-	else if (root->type == UNK)
-	{
-		set_exit_status(1);
-		printf("mini-sh: %s: command not found\n", root->str);
+		app->status = COMMAND_NOT_FOUND_EXIT_STATUS;
+		perror(root->str);
 	}
 	else if (root->type == AND || root->type == OR)
-	{
-		status = run_connectors(root, in, out);
-		set_exit_status(status);
-	}
+		app->status = run_connectors(root, in, out);
 	else if (root->type == PIPE)
-	{
-		status = run_pipeline(root, out);
-		set_exit_status(status);
-	}
-	return (status);
+		app->status = run_pipeline(root, out);
+	return (app->status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:01:52 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/10 14:37:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,32 @@ void	print_tab(char** tab)
 		printf("[%s]\n",tab[i++]);
 }
 
+int path_exist(char *path, char **paths)
+{
+	int index;
+
+	index = 0;
+	while (paths[index])
+	{
+		if (!ft_strncmp(path, paths[index], ft_strlen(paths[index])))
+			return (1);
+		index++;
+	}
+	return (0);
+}
+
+int check_path_exist(char *path)
+{
+	char **paths;
+	
+	paths = all_paths(app->env_list);
+	if (!paths)	
+		return (1);
+	if (path_exist(path, paths))
+		return (ft_free(paths), 0);
+	return (ft_free(paths), 1);
+}
+
 char **cmd_args_list_to_tabs(t_tree *node)
 {
 	char	**cmd_args;
@@ -55,13 +81,18 @@ char **cmd_args_list_to_tabs(t_tree *node)
 	size = lexer_list_size(node->cmd_args, node->is_builtin);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (node->path)
-		cmd_args[index++] = ft_strdup(node->path);
+	{
+		if (!check_path_exist(node->path))
+			cmd_args[index++] = ft_strdup(node->path);
+		else 
+			return (free(cmd_args), NULL);
+	}
 	while (tmp)
 	{
 		if (tmp->type == VAR)
 		{
 			if (!ft_strncmp(tmp->str, "$?", ft_strlen(tmp->str)))
-				value = get_exit_status();
+				value = ft_itoa(app->status);
 			else
 				value = expand(tmp->str+1, app->env_list);
 			if (value)
