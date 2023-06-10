@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/08 16:29:25 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/10 12:58:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define PARSING_H
 # include "../env/env.h"
 # include "../libs/libft/libft.h"
+
+# define SYNTAX_ERROR_EXIT_STATUS 258
+# define COMMAND_NOT_FOUND_EXIT_STATUS 127
 
 typedef enum s_boolean
 {

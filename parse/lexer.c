@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 16:22:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 14:21:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,9 +365,8 @@ void	ft_trim_quotes(t_lexer *node)
 	}
 	if (!tmp->str[0])
 	{
-		// fix this case
 		tmp->str = ft_strdup(" ");
-		tmp->type = SPACE;
+		tmp->type = UNK;
 	}
 	else if(!type)
 		tmp->type = UNK;
@@ -492,8 +491,6 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	t_lexer	*list;
 
 	paths = all_paths(env);
-	// if (!paths)
-	// 	return (ft_putendl_fd(""), NULL);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
 	clean_spaces(&list);

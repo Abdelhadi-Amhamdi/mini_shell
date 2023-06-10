@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 15:13:53 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/10 13:23:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -582,13 +582,19 @@ int	ft_expander(t_lexer *list, t_env *env)
 	paths = all_paths(env);
 	ft_expand_vars(&list, env);
 	if (check_qoutes(list) || check_pths(list))
+	{
+		app->status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
+	}
 	check_variables(&list);
 	check_asbpath(&list);
 	join_args(&list, paths);
 	set_type(&list);
 	if (syntax_analyzer(list))
+	{
+		app->status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
+	}
 	ft_expand_wildcards(&list);
 	clean_unsed_spaces(&list);
 	return (ft_free(paths), 0);
