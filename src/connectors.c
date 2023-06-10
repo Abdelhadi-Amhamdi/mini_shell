@@ -6,31 +6,44 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/08 22:28:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:18:01 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 #include <dirent.h>
 
-int run_connectors(t_tree *root, int in, int out)
+void wait_left(t_tree *root)
 {
-	int status;
-	
+    int status;
+    if (!root)
+        return ;
+    wait_left(root->left);
+    if (root->type == CMD && root->id > 0 && !root->is_builtin)
+    {
+        waitpid(root->id, &status, 0);
+        root->id = -1;
+        app->status = status;
+    }
+    wait_left(root->right);
+}
+
+void run_connectors(t_tree *root, int in, int out)
+{
 	if (!ft_strncmp(root->str, "&&", ft_strlen(root->str)))
 	{
-		status = executer(root->left, in, out);
-		if (!status)
-			return (executer(root->right, in, out));
+		executer(root->left, in, out);
+        wait_left(root->left);
+		if (!app->status)
+			executer(root->right, in, out);
 	}
 	else
 	{
-		status = executer(root->left, in, out);
-		if (status)
-			status = executer(root->right, in, out);
-		return (status);
+		executer(root->left, in, out);
+        wait_left(root->left);
+		if (app->status)
+			executer(root->right, in, out);
 	}
-	return (1);
 }
 
 char	*ft_strjoin_entrys(char const *s1, char const *s2)

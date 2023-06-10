@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:46:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:05:49 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void run_apand_function(char *file_name, t_tree *cmd, int in, int out)
 	executer(cmd, in, file_fd);
 }
 
-int redirection_helper(t_tree *node, int in, int out)
+void redirection_helper(t_tree *node, int in, int out)
 {
 	if (node->type == APND)
 		run_apand_function(node->right->str, node->left, in, out);
@@ -82,5 +82,4 @@ int redirection_helper(t_tree *node, int in, int out)
 		else
 			run_redir_output(node->right->str, node->left, in, out);
 	}
-	return (0);
 }

@@ -6,22 +6,26 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 14:39:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 15:06:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-int run_cmd(t_tree *cmd, int in, int out)
+void run_cmd(t_tree *cmd, int in, int out)
 {
-	int status;
-
-	status = 0;
 	cmd->args = cmd_args_list_to_tabs(cmd);
 	if (!cmd->args)
-		return (perror(cmd->str), COMMAND_NOT_FOUND_EXIT_STATUS);
+	{
+		app->status = COMMAND_NOT_FOUND_EXIT_STATUS;
+		perror(cmd->str);
+		return ;
+	}
 	if(cmd->is_builtin)
-		return (exec_builtin(cmd, &app->env_list));
+	{
+		app->status = exec_builtin(cmd, &app->env_list);
+		return ;
+	}
 	cmd->id = fork();
 	if (!cmd->id)
 	{
@@ -30,7 +34,6 @@ int run_cmd(t_tree *cmd, int in, int out)
 		execve(cmd->args[0], cmd->args, env_list_to_tabs(app->env_list));
 	}
 	ft_free(cmd->args);
-	return (status);
 }
 
 int	exec_builtin(t_tree	*cmd, t_env	**env)
@@ -52,22 +55,21 @@ int	exec_builtin(t_tree	*cmd, t_env	**env)
 	return (0);
 }
 
-int executer(t_tree *root, int in, int out)
+void executer(t_tree *root, int in, int out)
 {
 	if (!root)
-		return (app->status);
+		return ;
 	if (root->type == CMD)
-		app->status = run_cmd(root, in, out);
+		run_cmd(root, in, out);
 	else if (root->type == RDIR || root->type == APND)
-		app->status = redirection_helper(root, in, out);
+		redirection_helper(root, in, out);
 	else if (root->type == UNK || root->type == SPACE)
 	{
 		app->status = COMMAND_NOT_FOUND_EXIT_STATUS;
 		perror(root->str);
 	}
 	else if (root->type == AND || root->type == OR)
-		app->status = run_connectors(root, in, out);
+		run_connectors(root, in, out);
 	else if (root->type == PIPE)
-		app->status = run_pipeline(root, out);
-	return (app->status);
+		run_pipeline(root, out);
 }
