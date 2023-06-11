@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 22:07:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:02:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void executer(t_tree *root, int in, int out)
 		run_cmd(root, in, out);
 	else if (root->type == RDIR || root->type == APND)
 		redirection_helper(root, in, out);
-	else if (root->type == UNK || root->type == SPACE)
+	else if (root->type == UNK || root->type == W_SPACE)
 	{
 		app->status = COMMAND_NOT_FOUND_EXIT_STATUS;
 		perror(root->str);

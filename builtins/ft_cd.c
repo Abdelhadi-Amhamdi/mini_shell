@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/11 17:58:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:06:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,11 @@ int	ft_cd(t_env *env, t_tree *path)
 	t_env	*home;
 	t_env	*oldpwd;
 	t_env	*pwd;
-	int i = 0;
 
 	home = ft_search_env(env, "HOME");
 	oldpwd = ft_search_env(env, "OLDPWD");
 	pwd = ft_search_env(env, "PWD");
-	while (path->args[i])
-	{
-		printf("%s\n", path->args[i]);
-		i++;
-	}
-	
+
 	if (!home)
 		return (ft_putendl_fd("mini-sh: cd: HOME not set", 2),1);
 	if (!oldpwd)

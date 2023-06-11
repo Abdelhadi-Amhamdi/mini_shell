@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 22:04:49 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:02:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int lexer_list_size(t_lexer *list, int is_b)
 	}
 	while (list && !is_b)
 	{
-		if(list->type != SPACE)
+		if(list->type != W_SPACE)
 			size++;
 		list = list->next;
 	}
@@ -112,7 +112,7 @@ char **cmd_args_list_to_tabs(t_tree *node)
 			}
 			else
 			{
-				if(tmp->type != SPACE)
+				if(tmp->type != W_SPACE)
 				{
 					cmd_args[index] = ft_strdup(tmp->str);
 					index++;

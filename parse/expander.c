@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 15:17:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:05:34 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,9 +202,9 @@ void	remove_node(t_lexer **list, t_lexer *node)
 		tmp = tmp->next;
 	}
 	prev = tmp->prev;
-	if (prev && prev->type == SPACE)
+	if (prev && prev->type == W_SPACE)
 	{
-		while (prev->type == SPACE && prev)
+		while (prev->type == W_SPACE && prev)
 			prev = prev->prev;
 	}
 	next = tmp->next;
@@ -413,7 +413,7 @@ void	clean_unsed_spaces(t_lexer **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->prev && tmp->prev->type == SPACE)
+		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->prev && tmp->prev->type == W_SPACE)
 		{
 			cur = tmp->prev->prev;
 			space = tmp->prev;
@@ -430,7 +430,7 @@ void	clean_unsed_spaces(t_lexer **list)
 				del_node(space);
 			}
 		}
-		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->next && tmp->next->type == SPACE)
+		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->next && tmp->next->type == W_SPACE)
 		{
 			cur = tmp->next->next;
 			space = tmp->next;

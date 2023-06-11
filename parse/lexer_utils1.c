@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/10 14:19:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:01:32 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,6 @@ t_type	check_type(t_lexer *node, char *path)
 	else if (node->str[0] == '-')
 		return (ARGS);
 	else if (node->str[0] == 32 && node->type != UNK)
-		return (SPACE);
+		return (W_SPACE);
 	return (UNK);
 }

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 15:17:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:02:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ void clean_white_spaces(t_lexer **list)
 	{
 		prev_node = NULL;
 		tmp->type = check_type(tmp, tmp->path);
-		if (tmp->type == SPACE && ((tmp->prev && tmp->prev->is_oper) || (tmp->next && tmp->next->is_oper)))
+		if (tmp->type == W_SPACE && ((tmp->prev && tmp->prev->is_oper) || (tmp->next && tmp->next->is_oper)))
 		{
 			prev_node = tmp->prev;
 			prev_node->next = tmp->next;
@@ -307,7 +307,7 @@ void	clean_spaces(t_lexer	**list)
 	tmp = *list;
 	while(tmp)
 	{
-		if(tmp->is_oper && tmp->prev && tmp->prev->type == SPACE )
+		if(tmp->is_oper && tmp->prev && tmp->prev->type == W_SPACE )
 		{
 			cur = tmp->prev->prev;
 			space = tmp->prev;
@@ -324,7 +324,7 @@ void	clean_spaces(t_lexer	**list)
 				del_node(space);
 			}
 		}
-		if(tmp->is_oper && tmp->next && tmp->next->type == SPACE)
+		if(tmp->is_oper && tmp->next && tmp->next->type == W_SPACE)
 		{
 			cur = tmp->next->next;
 			space = tmp->next;
@@ -399,7 +399,7 @@ int	check_qoutes(t_lexer *list)
 // check if the node need to be joined with the next node
 int to_join(t_lexer *node)
 {
-	if (node && !node->is_oper && node->type != SPACE && \
+	if (node && !node->is_oper && node->type != W_SPACE && \
 	node->type != OP && node->type != CP && node->type != VAR)
 		return (1);
 	return (0);

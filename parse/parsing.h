@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 12:54:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 19:59:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef enum s_type
 	EMPTY,
 	WILDCARD,
 	HEREDOC,
-	SPACE,
+	W_SPACE,
 	DOT,
 	HEREDOC_FILE
 }					t_type;
