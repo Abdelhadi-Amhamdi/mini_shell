@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 16:47:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 12:54:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ typedef enum s_type
 	WILDCARD,
 	HEREDOC,
 	SPACE,
-	DOT
+	DOT,
+	HEREDOC_FILE
 }					t_type;
 
 typedef struct s_lexer
