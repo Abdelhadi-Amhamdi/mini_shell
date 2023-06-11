@@ -53,3 +53,9 @@
 
 
 - ldfsfk fgjd | ls
+- ls | ""
+- echo \"dfgldgl
+- echo $>
+- ls | (ls)
+- cd $HOME/Desktop
+- ./todo.txt 

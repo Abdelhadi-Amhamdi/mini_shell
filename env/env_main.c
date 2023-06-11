@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 15:29:24 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/11 15:09:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ t_env	*get_env_vars(char **envp)
 		value = NULL;
 		key = NULL;
 		formate_env_item(&key, &value, envp[index]);
+		if (!ft_strncmp(key, "SHLVL", ft_strlen(key)))
+		{
+			int v = ft_atoi(value);
+			v++;
+			free(value);
+			value = ft_itoa(v);
+		}
 		node = ft_new_node(key, value);
 		if (node)
 			ft_add_back_env(&env, node);

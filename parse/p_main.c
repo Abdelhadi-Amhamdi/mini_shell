@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 14:39:09 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/11 15:17:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void ft_free_lexer_list(t_lexer **list)
 	while (tmp)
 	{
 		next = tmp->next;
-		if (tmp->type == 8 && tmp->id == -11)
+		if (tmp->type == HEREDOC_FILE)
 			unlink(tmp->str);
 		del_node(tmp);
 		tmp = next;
@@ -176,10 +176,12 @@ void printTreeHelper(t_tree *root, int depth)
 		for (int i = 0; i < depth + 1; i++)
 			printf("    ");
 		printf("%s ", root->path);
-		while (root->cmd_args)
+		t_lexer *tmp;
+		tmp = root->cmd_args;
+		while (tmp)
 		{
-			printf("[%s - %d]", root->cmd_args->str, root->cmd_args->type);
-			root->cmd_args = root->cmd_args->next;
+			printf("[%s - %d]", tmp->str, tmp->type);
+			tmp = tmp->next;
 		}
 		puts("");
 	}
@@ -193,7 +195,7 @@ void printTree(t_tree *root)
 
 int	ft_error(char *str)
 {
-	return (printf("%s `%s'\n", _ERR_MSG, str));
+	return (printf("%s `%s'!\n", SYNTAX_ERROR_MSG, str));
 }
 
 t_tree *formater(char *cmd)
@@ -211,7 +213,6 @@ t_tree *formater(char *cmd)
 		return (NULL);
 	if (ft_expander(lexer_list, app->env_list))
 		return (ft_free_lexer_list(&lexer_list), NULL);
-	heredoc_handler(&lexer_list);
 	parser_list = parser(lexer_list);
 	if (!parser_list)
 		return (ft_free_lexer_list(&lexer_list), NULL);
