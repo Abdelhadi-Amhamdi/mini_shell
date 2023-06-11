@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:25:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 18:08:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/11 18:10:35 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,3 +37,4 @@ int	ft_pwd(t_env	*envp)
 		ft_putendl_fd(get_cwd(envp),1);
 	return (0);
 }
+	

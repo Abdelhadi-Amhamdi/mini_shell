@@ -6,58 +6,12 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/08 17:48:20 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 13:09:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 #include "../libs/gnl/get_next_line.h"
-
-void heredoc_handler(t_lexer **list)
-{
-	t_lexer *tmp;
-
-	tmp = *list;
-	while (tmp)
-	{
-		if (tmp->type == HEREDOC)
-		{
-			if (!tmp->prev)
-				*list = heredoc_helper(tmp);
-			else
-				tmp->prev->next = heredoc_helper(tmp);
-		}
-		tmp = tmp->next;
-	}	
-}
-
-t_lexer *get_hlast_token(t_lexer *root)
-{
-	t_lexer *tmp;
-
-	tmp = root->prev;
-	while (tmp && !tmp->is_oper)
-	{
-		if (tmp->type == CMD)
-			return (tmp);
-		tmp = tmp->prev;
-	}
-	return (NULL);
-}
-
-t_lexer *get_next_token(t_lexer *root)
-{
-	t_lexer *tmp;
-
-	tmp = root->next;
-	while (tmp && !tmp->is_oper)
-	{
-		if (tmp->type == CMD)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
 
 char *start_heredoc(t_lexer *node, t_boolean to_expand)
 {
@@ -93,55 +47,6 @@ char *start_heredoc(t_lexer *node, t_boolean to_expand)
 	free (line);
 	close(app->hdoc_fd);
 	return (file_name);
-}
-
-t_lexer  *heredoc_helper(t_lexer *root)
-{
-	t_lexer *next;
-	t_lexer *prev;
-	t_lexer *tmp;
-	char *file_name;
-
-	prev = get_hlast_token(root);
-	next = get_next_token(root);
-	file_name = start_heredoc(root, !root->next->is_builtin);
-	if (next && prev)
-	{
-		unlink(file_name);
-		prev->next = next;
-		del_node(root->next);
-		del_node(root);
-		return (next);
-	}
-	else
-	{
-		tmp = ft_nodedup(root);
-		tmp->str = file_name;
-		tmp->path = file_name;
-		tmp->is_oper = FALSE;
-		tmp->id = -11;
-		tmp->type = FL;
-		if (next)
-		{
-			tmp->next = next->next;
-			next->next = tmp;
-			del_node(root->next);
-			del_node(root);
-			return (next);
-		}
-		else if (prev)
-		{
-			tmp->next = root->next->next;
-			del_node(root->next);
-			del_node(root);
-			return (tmp);
-		}
-	}
-	if (!next && !prev)
-		unlink(file_name);
-	del_node(root->next);
-	del_node(root);
-	return (NULL);
 }
 
 // int	herdoc(t_tree *hrd)

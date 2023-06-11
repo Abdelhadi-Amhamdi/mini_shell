@@ -6,21 +6,26 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 18:04:35 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/11 18:11:03 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-int run_cmd(t_tree *cmd, int in, int out)
+void run_cmd(t_tree *cmd, int in, int out)
 {
-	// pid_t pid;
-	int status;
-
-	status = 0;
 	cmd->args = cmd_args_list_to_tabs(cmd);
+	if (!cmd->args)
+	{
+		app->status = COMMAND_NOT_FOUND_EXIT_STATUS;
+		perror(cmd->str);
+		return ;
+	}
 	if(cmd->is_builtin)
-		return (exec_builtin(cmd, &app->env_list));
+	{
+		app->status = exec_builtin(cmd, &app->env_list);
+		return ;
+	}
 	cmd->id = fork();
 	if (!cmd->id)
 	{
@@ -28,10 +33,7 @@ int run_cmd(t_tree *cmd, int in, int out)
 		dup2(out, STDOUT_FILENO);
 		execve(cmd->args[0], cmd->args, env_list_to_tabs(app->env_list));
 	}
-	// waitpid(pid , &status, 0);
-	set_exit_status(status);
 	ft_free(cmd->args);
-	return (status);
 }
 
 int	exec_builtin(t_tree	*cmd, t_env	**env)
@@ -53,37 +55,25 @@ int	exec_builtin(t_tree	*cmd, t_env	**env)
 	return (0);
 }
 
-int executer(t_tree *root, int in, int out)
+void executer(t_tree *root, int in, int out)
 {
-	int status;
-	
-	status = 0;
 	if (!root)
-		return (1);
-	if (root->type == CMD)
-	{
-		status = run_cmd(root, in, out);
-		set_exit_status(status);
-	}
+		return ;
+	if (root->type == CMD || root->type == FL)
+		run_cmd(root, in, out);
 	else if (root->type == RDIR || root->type == APND)
+		redirection_helper(root, in, out);
+	else if (root->type == UNK || root->type == SPACE)
 	{
-		status = redirection_helper(root, in, out);
-		set_exit_status(status);
-	}
-	else if (root->type == UNK)
-	{
-		set_exit_status(1);
-		printf("mini-sh: %s: command not found\n", root->str);
+		app->status = COMMAND_NOT_FOUND_EXIT_STATUS;
+		perror(root->str);
 	}
 	else if (root->type == AND || root->type == OR)
 	{
-		status = run_connectors(root, in, out);
-		set_exit_status(status);
+		if (out != STDOUT_FILENO)
+			out  = STDOUT_FILENO;
+		run_connectors(root, in, out);
 	}
 	else if (root->type == PIPE)
-	{
-		status = run_pipeline(root, out);
-		set_exit_status(status);
-	}
-	return (status);
+		run_pipeline(root, out);
 }

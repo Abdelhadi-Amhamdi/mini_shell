@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/08 16:29:25 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/11 12:54:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 # define PARSING_H
 # include "../env/env.h"
 # include "../libs/libft/libft.h"
+
+# define SYNTAX_ERROR_EXIT_STATUS 258
+# define COMMAND_NOT_FOUND_EXIT_STATUS 127
+# define PIPE_READ_END 0
+# define PIPE_WRITE_END 1
+# define LEFT_CHILD 1
+# define RIGHT_CHILD 2
+
+# define SYNTAX_ERROR_MSG "mini-sh : Syntax Error , parse error near"
+# define QUOTES_ERROR_MSG "Syntax Error , Quotes are not closed!"
+# define PARENTICIES_ERROR_MSG "Syntax Error , parentheses are not closed!"
 
 typedef enum s_boolean
 {
@@ -41,7 +52,8 @@ typedef enum s_type
 	WILDCARD,
 	HEREDOC,
 	SPACE,
-	DOT
+	DOT,
+	HEREDOC_FILE
 }					t_type;
 
 typedef struct s_lexer
@@ -90,7 +102,6 @@ typedef struct s_app
 	int			status;
 }	t_app;
 
-# define _ERR_MSG "shell : parse error near"
 
 // main
 t_tree				*formater(char *cmd);

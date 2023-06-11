@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 11:34:16 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/11 15:17:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,7 @@ char	*extract_cmd(char *cmd)
 	cmd[len] = '\0';
 	return (new);
 }
-//check is the path exits and valid
-int	validate_cmd(char *cmd)
-{
-	if (!access(cmd, F_OK | X_OK))
-		return (0);
-	return (1);
-}
+
 //handle normal case
 char	*ft_word(t_lexer **list, char *cmd, char **paths)
 {
@@ -366,9 +360,8 @@ void	ft_trim_quotes(t_lexer *node)
 	}
 	if (!tmp->str[0])
 	{
-		// fix this case
 		tmp->str = ft_strdup(" ");
-		tmp->type = SPACE;
+		tmp->type = UNK;
 	}
 	else if(!type)
 		tmp->type = UNK;
@@ -395,7 +388,7 @@ int	check_qoutes(t_lexer *list)
 			current = data[index];
 			while (data[++index] && data[index] != current);
 			if (!data[index])
-				return (ft_putendl_fd("Syntax Error , Qoutes are not closed!", 2), 1);
+				return (ft_putendl_fd(QUOTES_ERROR_MSG, 2), 1);
 			ft_trim_quotes(tmp);
 		}
 		tmp = tmp->next;
@@ -454,7 +447,7 @@ int check_pths(t_lexer *list)
 			break ;
 	}
 	if (op - cp != 0)
-		return (ft_putendl_fd("Syntax Error , parentheses are not closed!", 2), 1);
+		return (ft_putendl_fd(PARENTICIES_ERROR_MSG, 2), 1);
 	return (0);
 }
 
@@ -493,8 +486,6 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	t_lexer	*list;
 
 	paths = all_paths(env);
-	// if (!paths)
-	// 	return (ft_putendl_fd(""), NULL);
 	list = tokenizer(cmd, paths);
 	set_type(&list);
 	clean_spaces(&list);

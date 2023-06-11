@@ -8,13 +8,16 @@ b_path = builtins/
 srcs_path = src/
 env_path = env/
 
-#L = -L/Users/aamhamdi/goinfre/homebrew/Cellar/readline/8.2.1/lib/
-#I = -I/Users/aamhamdi/goinfre/homebrew/Cellar/readline/8.2.1/include/
+L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
+
+# L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
+# I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
 
 header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_utils1.c lexer_utils2.c
 env_src = env_main.c utils_env.c
-src = main.c executer.c exec_utils.c  connectors.c heredoc.c rdir.c pipes.c 
+src = main.c executer.c exec_utils.c  connectors.c heredoc.c rdir.c pipes.c signals.c
 g_src = get_next_line.c get_next_line_utils.c
 b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c ft_exit.c
 
@@ -46,16 +49,16 @@ $(build_path)%.o : $(srcs_path)%.c
 	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
 
 $(build_path)%.o : $(parsing_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
 
 $(build_path)%.o : $(env_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
 
 $(build_path)%.o : $(b_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
 
 $(build_path)%.o : $(gnl_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
 
 all: $(NAME) 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 14:38:05 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/11 15:17:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,8 +293,8 @@ int	check_pth(t_lexer *pt)
 	{
 		if (!pt->next || pt->next->type == UNK || pt->next->type == CP)
 			return (ft_error(pt->str));
-		if (pt->prev && pt->prev->type == OP)
-			return (1);
+		if (pt->prev && (pt->prev->type == CMD || pt->prev->type == OP))
+			return (ft_error(pt->str));
 	}
 	// else
 	// {
@@ -314,13 +314,6 @@ int	check_redir(t_lexer *rdir)
 	return (0);
 }
 
-void	print_error(char *str)
-{
-	ft_putstr_fd("min-sh: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putendl_fd(": command not found", 2);
-}
-
 int	syntax_analyzer(t_lexer *list)
 {
 	t_lexer	*tmp;
@@ -330,8 +323,6 @@ int	syntax_analyzer(t_lexer *list)
 	res = 0;
 	if (!list)
 		return (1);
-	// if (tmp->type == UNK)
-	// 	return (print_error(tmp->str), set_exit_status(127), 1);
 	while (tmp)
 	{
 		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND
@@ -422,7 +413,7 @@ void	clean_unsed_spaces(t_lexer **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->type == CMD && tmp->prev && tmp->prev->type == SPACE)
+		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->prev && tmp->prev->type == SPACE)
 		{
 			cur = tmp->prev->prev;
 			space = tmp->prev;
@@ -439,7 +430,7 @@ void	clean_unsed_spaces(t_lexer **list)
 				del_node(space);
 			}
 		}
-		if (tmp->type == CMD && tmp->next && tmp->next->type == SPACE)
+		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->next && tmp->next->type == SPACE)
 		{
 			cur = tmp->next->next;
 			space = tmp->next;
@@ -607,13 +598,13 @@ void	check_asbpath(t_lexer **list)
 		if ((isabs(tmp->str) && !tmp->prev) || (isabs(tmp->str)
 				&& tmp->prev->type == PIPE) || (isabs(tmp->str)
 				&& tmp->prev->type == AND) || (isabs(tmp->str)
-				&& tmp->prev->type == OR))
+				&& tmp->prev->type == OR) || (isabs(tmp->str)
+				&& tmp->prev->type == OP))
 		{
-			if (validate_cmd(tmp->str))
-				return (ft_putendl_fd("command not found", 2));
 			tmp->path = tmp->str;
 			tmp->str = extract_cmd(tmp->str);
 			tmp->type = CMD;
+			tmp->id = -1;
 		}
 		tmp = tmp->next;
 	}
@@ -626,14 +617,20 @@ int	ft_expander(t_lexer *list, t_env *env)
 	paths = all_paths(env);
 	ft_expand_vars(&list, env);
 	if (check_qoutes(list) || check_pths(list))
+	{
+		app->status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
+	}
 	// check_variables(&list);
 	check_asbpath(&list);
 	join_args(&list, paths);
 	set_type(&list);
-	if (syntax_analyzer(list))
-		return (ft_free(paths), 1);
-	ft_expand_wildcards(&list);
 	clean_unsed_spaces(&list);
+	if (syntax_analyzer(list))
+	{
+		app->status = SYNTAX_ERROR_EXIT_STATUS;
+		return (ft_free(paths), 1);
+	}
+	ft_expand_wildcards(&list);
 	return (ft_free(paths), 0);
 }

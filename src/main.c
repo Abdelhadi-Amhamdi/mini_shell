@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 11:35:52 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/11 17:59:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,6 @@ void print_banner()
 	printf("###       ### ########### ###    #### ###########               ########  ###    ### \n");
 	puts("");
 	puts("");
-}
-
-void sig_int_handler(int sigtype)
-{
-	if (sigtype == SIGINT)
-	{
-		if (app->hdoc_fd > 0)
-		{
-			close(app->hdoc_fd);
-			app->hdoc_fd = 0;
-			unlink(HEREDOC_FILENAME);
-		}
-		exit (0);
-	}
-}
-
-void set_exit_status(int new_status)
-{
-	app->status = new_status;
-}
-
-char *get_exit_status()
-{
-	return (ft_itoa(app->status >> 8));
 }
 
 t_app *init(char **env)
@@ -79,6 +55,8 @@ void destroy_ast_tree(t_tree *root)
 		ft_free_lexer_list(&root->cmd_args);
 	if (root->type == CMD && root->path)
 		free(root->path);
+	if (root->type == HEREDOC_FILE)
+		unlink(root->str);
 	root->path = NULL;
 	free(root->str);
 	free(root);
@@ -89,11 +67,16 @@ void destroy_ast_tree(t_tree *root)
 
 void wait_pids(t_tree *root)
 {
+	int status;
 	if (!root)
 		return ;
 	wait_pids(root->left);
-	if (root->type == CMD && root->id > 0)
-		waitpid(root->id, NULL, 0);
+	if (root->type == CMD)
+	{
+		waitpid(root->id, &status, 0);
+		if (WIFEXITED(status))
+			app->status = WEXITSTATUS(status);
+	}
 	wait_pids(root->right);
 }
 
@@ -109,7 +92,7 @@ int main(int ac, char **av, char **envp)
 		return (0);
 	while (1)
 	{
-		cmd = readline("mini_sh-1.0$");
+		cmd = readline("\033[1;33mmini_sh-1.0$ \033[0m");
 		if (!cmd)
 			break ;
 		if (cmd[0])
@@ -117,7 +100,7 @@ int main(int ac, char **av, char **envp)
 			ast_tree = formater(cmd);
 			if(ast_tree)
 			{
-				// printTree(ast_tree);
+				printTree(ast_tree);
 				executer(ast_tree, STDIN_FILENO, STDOUT_FILENO);
 				wait_pids(ast_tree);
 				destroy_ast_tree(ast_tree);
