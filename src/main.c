@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:50:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 15:10:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,6 @@ void print_banner()
 	printf("###       ### ########### ###    #### ###########               ########  ###    ### \n");
 	puts("");
 	puts("");
-}
-
-void sig_int_handler(int sigtype)
-{
-	if (sigtype == SIGINT)
-	{
-		if (app->hdoc_fd > 0)
-		{
-			close(app->hdoc_fd);
-			app->hdoc_fd = 0;
-			unlink(HEREDOC_FILENAME);
-		}
-		exit (0);
-	}
-}
-
-void set_exit_status(int new_status)
-{
-	app->status = new_status;
-}
-
-char *get_exit_status()
-{
-	return (ft_itoa(app->status >> 8));
 }
 
 t_app *init(char **env)
@@ -79,6 +55,8 @@ void destroy_ast_tree(t_tree *root)
 		ft_free_lexer_list(&root->cmd_args);
 	if (root->type == CMD && root->path)
 		free(root->path);
+	if (root->type == HEREDOC_FILE)
+		unlink(root->str);
 	root->path = NULL;
 	free(root->str);
 	free(root);
@@ -89,11 +67,15 @@ void destroy_ast_tree(t_tree *root)
 
 void wait_pids(t_tree *root)
 {
+	int status;
 	if (!root)
 		return ;
 	wait_pids(root->left);
-	if (root->type == CMD && root->id > 0)
-		waitpid(root->id, NULL, 0);
+	if (root->type == CMD && !root->is_builtin)
+	{
+		waitpid(root->id, &status, 0);
+		app->status = status % 255;
+	}
 	wait_pids(root->right);
 }
 
@@ -109,7 +91,7 @@ int main(int ac, char **av, char **envp)
 		return (0);
 	while (1)
 	{
-		cmd = readline("mini_sh-1.0$ ");
+		cmd = readline("\033[1;33mmini_sh-1.0$ \033[0m");
 		if (!cmd)
 			break ;
 		if (cmd[0])
