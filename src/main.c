@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:50:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 11:35:52 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int main(int ac, char **av, char **envp)
 		return (0);
 	while (1)
 	{
-		cmd = readline("mini_sh-1.0$ ");
+		cmd = readline("mini_sh-1.0$");
 		if (!cmd)
 			break ;
 		if (cmd[0])
