@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:25:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/04 16:05:32 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:20:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,3 +21,4 @@ int	ft_pwd(void)
 		ft_putendl_fd(path, 1);
 	return (0);
 }
+	
