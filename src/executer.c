@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 22:07:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 18:11:03 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	exec_builtin(t_tree	*cmd, t_env	**env)
 	else if (!ft_strncmp(cmd->str, "echo", 5))
 		return (ft_echo(cmd));
 	else if (!ft_strncmp(cmd->str, "pwd", 3))
-		return (ft_pwd());
+		return (ft_pwd(*env));
 	else if (!ft_strncmp(cmd->str, "exit", 5))
 		ft_exit();
 	return (0);
