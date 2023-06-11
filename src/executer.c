@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 15:06:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:07:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void executer(t_tree *root, int in, int out)
 {
 	if (!root)
 		return ;
-	if (root->type == CMD)
+	if (root->type == CMD || root->type == FL)
 		run_cmd(root, in, out);
 	else if (root->type == RDIR || root->type == APND)
 		redirection_helper(root, in, out);
@@ -69,7 +69,11 @@ void executer(t_tree *root, int in, int out)
 		perror(root->str);
 	}
 	else if (root->type == AND || root->type == OR)
+	{
+		if (out != STDOUT_FILENO)
+			out  = STDOUT_FILENO;
 		run_connectors(root, in, out);
+	}
 	else if (root->type == PIPE)
 		run_pipeline(root, out);
 }

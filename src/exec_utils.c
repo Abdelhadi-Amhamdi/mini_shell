@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 14:37:15 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:04:49 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,15 @@ char **cmd_args_list_to_tabs(t_tree *node)
 	tmp = node->cmd_args;
 	size = lexer_list_size(node->cmd_args, node->is_builtin);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
-	if (node->path)
+	if (node->path && node->id != -1 && !node->is_builtin)
 	{
 		if (!check_path_exist(node->path))
 			cmd_args[index++] = ft_strdup(node->path);
 		else 
 			return (free(cmd_args), NULL);
 	}
+	else if ((node->id == -1 && node->path) || !node->is_builtin)
+			cmd_args[index++] = ft_strdup(node->path);
 	while (tmp)
 	{
 		if (tmp->type == VAR)
