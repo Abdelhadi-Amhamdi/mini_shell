@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 15:18:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 15:30:06 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void wait_left(t_tree *root)
     {
         waitpid(root->id, &status, 0);
         root->id = -1;
-        app->status = status;
+        app->status = WEXITSTATUS(status);
     }
     wait_left(root->right);
 }

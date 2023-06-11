@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 15:17:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 17:59:47 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void printTreeHelper(t_tree *root, int depth)
     for (int i = 0; i < depth; i++) {
         printf("    ");
     } 
-    printf("%s -- %d -- %d\n", root->str, root->type, root->id);
+    printf("%s -- %d -- %d\n", root->str, root->type, root->is_builtin);
 	if (root->cmd_args)
 	{
 		for (int i = 0; i < depth + 1; i++)

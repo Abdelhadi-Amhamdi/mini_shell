@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 15:18:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 17:59:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ void wait_pids(t_tree *root)
 	if (!root)
 		return ;
 	wait_pids(root->left);
-	if (root->type == CMD && !root->is_builtin)
+	if (root->type == CMD)
 	{
 		waitpid(root->id, &status, 0);
-		app->status = status % 255;
+		if (WIFEXITED(status))
+			app->status = WEXITSTATUS(status);
 	}
 	wait_pids(root->right);
 }
@@ -99,7 +100,7 @@ int main(int ac, char **av, char **envp)
 			ast_tree = formater(cmd);
 			if(ast_tree)
 			{
-				// printTree(ast_tree);
+				printTree(ast_tree);
 				executer(ast_tree, STDIN_FILENO, STDOUT_FILENO);
 				wait_pids(ast_tree);
 				destroy_ast_tree(ast_tree);
