@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 12:57:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 13:12:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,11 @@ t_lexer *handle_heredoc_case(t_lexer *arg, t_lexer **args_list)
 			arg = arg->next;
 		if (!arg ||( arg &&  (arg->is_oper || arg->type == ARGS)))
 			add_token_to_end(args_list, tmp);
+		else
+		{
+			unlink(tmp->str);
+			del_node(tmp);	
+		}
 	}
 	while (arg)
 	{
