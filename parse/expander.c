@@ -6,13 +6,13 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 17:14:12 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/11 15:17:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-char	*expand(char *var, t_env *envp)
+char *ft_get_expand_val(char *var, t_env	*envp)
 {
 	while (envp)
 	{
@@ -21,6 +21,50 @@ char	*expand(char *var, t_env *envp)
 		envp = envp->next;
 	}
 	return (NULL);
+}
+
+char *get_string(char *s, int *index, t_env	*envp)
+{
+	char *var;
+	int start;
+	int len=0;
+	int i;
+
+	start = *index;
+	i = 0;
+	if(s[*index] == '$' || s[*index] == '/' || s[*index] == '.' || s[*index] == 32 )
+	{
+		len++;
+		*index = *index + 1;
+	}
+	while(s[*index] && s[*index] != 32 && s[*index] != '/' && s[*index] != '.' && s[*index] != '$')
+	{
+		len++;
+		*index = *index + 1;
+	}
+	var = malloc (len + 1);
+	if(s[start] == '$' || s[start] == '/' || s[start] == '.' || s[start] == 32)
+		var[i++] =s[start++];
+	while(s[start] && s[start] != 32 && s[start] != '/' && s[start] != '.' && s[start] != '$')
+		var[i++] =s[start++];
+	var[i] = '\0';
+	if(var[0] == '$' && ft_get_expand_val(var + 1, envp))
+		var = ft_get_expand_val(var + 1, envp);
+	return(var);
+}
+
+char	*expand(char *var, t_env *envp)
+{
+	int i;
+	char *str;
+	
+	i = 0;
+	str = get_string(var,&i, envp);
+	while(var[i])
+	{
+		str = ft_strjoin(str,get_string(var, &i, envp));
+	}
+	return(str);
 }
 //extarct before command
 char	*extract_before(char *cmd, int *i)
@@ -32,7 +76,7 @@ char	*extract_before(char *cmd, int *i)
 
 	len = 0;
 	start = *i;
-	while (cmd[*i] && cmd[*i] != '$')
+	while (cmd[*i] && (cmd[*i] == '\'' || cmd[*i] == '"'))
 	{
 		*i = *i + 1;
 		len++;
@@ -41,7 +85,7 @@ char	*extract_before(char *cmd, int *i)
 	if (!before)
 		return (NULL);
 	index = 0;
-	while (cmd[start] && cmd[start] != '$')
+	while (cmd[start] && (cmd[start] == '\'' || cmd[start] == '"'))
 	{
 		before[index] = cmd[start];
 		index++;
@@ -60,8 +104,8 @@ char	*extarct_expand(char *cmd, int *i)
 
 	start = *i;
 	len = 0;
-	while (cmd[*i] && cmd[*i] != '.' && cmd[*i] != 32 && cmd[*i] != '\''
-		&& cmd[*i] != '"')
+	// && cmd[*i] != '.' && cmd[*i] != 32 && 
+	while (cmd[*i] && cmd[*i] != '\'' && cmd[*i] != '"')
 	{
 		*i = *i + 1;
 		len++;
@@ -70,8 +114,8 @@ char	*extarct_expand(char *cmd, int *i)
 	if (!to_expand)
 		return (NULL);
 	index = 0;
-	while (cmd[start] && cmd[start] != '.' && cmd[start] != 32
-		&& cmd[start] != '\'' && cmd[start] != '"')
+	// && cmd[start] != '.' && cmd[start] != 32
+	while (cmd[start] && cmd[start] != '\'' && cmd[start] != '"')
 	{
 		to_expand[index] = cmd[start];
 		index++;
@@ -205,7 +249,7 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 			var = extarct_expand(tmp->str, &i);
 			after = extarct_after(tmp->str, &i);
 			temp = var;
-			var = expand(var + 1, envp);
+			var = expand(var, envp);
 			if (!var)
 			{
 				free(temp);
@@ -577,7 +621,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 		app->status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
 	}
-	check_variables(&list);
+	// check_variables(&list);
 	check_asbpath(&list);
 	join_args(&list, paths);
 	set_type(&list);
