@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 15:27:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 16:47:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define LEFT_CHILD 1
 # define RIGHT_CHILD 2
 
-# define SYNTAX_ERROR_MSG "shell : parse error near"
+# define SYNTAX_ERROR_MSG "mini-sh : Syntax Error , parse error near"
 # define QUOTES_ERROR_MSG "Syntax Error , Quotes are not closed!"
 # define PARENTICIES_ERROR_MSG "Syntax Error , parentheses are not closed!"
 

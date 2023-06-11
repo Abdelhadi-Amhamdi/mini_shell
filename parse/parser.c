@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/09 18:49:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:14:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_parser *create_blocks(t_lexer *lexer_list)
 	{
 		if (tmp->type == CMD || tmp->type == UNK)
 		{
-			new_node = create_parser_node(tmp, 1);
+			new_node = create_parser_node(tmp, tmp->id);
 			add_node_to_list(&parser_list, new_node);
 			first_arg = tmp->next;
 			args_list = NULL;
@@ -104,7 +104,7 @@ t_parser *create_blocks(t_lexer *lexer_list)
 			}
 			else
 			{
-				while (first_arg && !first_arg->is_oper)
+				while (first_arg && !first_arg->is_oper && first_arg->type != CP && first_arg->type != OP)
 				{
 					add_token_to_end(&args_list, ft_nodedup(first_arg));
 					first_arg = first_arg->next;
@@ -115,7 +115,7 @@ t_parser *create_blocks(t_lexer *lexer_list)
 		}
 		else
 		{
-			new_node = create_parser_node(tmp, 1);
+			new_node = create_parser_node(tmp, tmp->id);
 			add_node_to_list(&parser_list, new_node);
 			new_node->args_list = NULL;
 			tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 15:26:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/10 21:06:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,7 @@ char	*extract_cmd(char *cmd)
 	cmd[len] = '\0';
 	return (new);
 }
-//check is the path exits and valid
-int	validate_cmd(char *cmd)
-{
-	if (!access(cmd, F_OK | X_OK))
-		return (0);
-	return (1);
-}
+
 //handle normal case
 char	*ft_word(t_lexer **list, char *cmd, char **paths)
 {
@@ -222,7 +216,7 @@ char *ft_variable(t_lexer **list,char *cmd ,char **paths)
 	int i;
 
 	i = 1;
-	while(cmd[i] && !is_space(cmd[i]) && cmd[i] != '$' && cmd[i] != '.' && cmd[i] != '\'' && cmd[i] != '"')
+	while(cmd[i] && !is_space(cmd[i]) && cmd[i] != '$' && cmd[i] != '.' && cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != '/')
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
