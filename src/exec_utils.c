@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 20:02:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:03:07 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,16 @@ char **cmd_args_list_to_tabs(t_tree *node)
 	{
 		if (tmp->type == VAR)
 		{
-			if (!ft_strncmp(tmp->str, "$?", ft_strlen(tmp->str)))
+			if (!ft_strncmp(tmp->str+1, "?", 2))
 				value = ft_itoa(app->status);
 			else
-				value = expand(tmp->str+1, app->env_list);
-			if (value)
-			{
-				cmd_args[index] = ft_strdup(value);
-				index++;
-			}
+				value = expand(tmp->str, app->env_list);
+			if (ft_strncmp(value, tmp->str+1, ft_strlen(tmp->str) + 1))
+				cmd_args[index++] = ft_strdup(value);
+			else if (!*(tmp->str+1))
+				cmd_args[index++] = ft_strdup("$");
+			else
+				cmd_args[index++] = ft_strdup("\0");
 		}
 		else
 		{

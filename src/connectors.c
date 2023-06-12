@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 15:30:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:18:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ void wait_left(t_tree *root)
     wait_left(root->right);
 }
 
-void run_connectors(t_tree *root, int in, int out)
+void run_connectors(t_tree *root, int in, int out, t_tree *tree)
 {
 	if (!ft_strncmp(root->str, "&&", ft_strlen(root->str)))
 	{
-		executer(root->left, in, out);
+		executer(root->left, in, out, tree);
         wait_left(root->left);
 		if (!app->status)
-			executer(root->right, in, out);
+			executer(root->right, in, out, tree);
 	}
 	else
 	{
-		executer(root->left, in, out);
+		executer(root->left, in, out, tree);
         wait_left(root->left);
 		if (app->status)
-			executer(root->right, in, out);
+			executer(root->right, in, out, tree);
 	}
 }
 

@@ -6,25 +6,25 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 17:56:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:20:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-void exec_cmd(t_tree *node)
+void exec_cmd(t_tree *node, t_tree *tree)
 {
 	int status ;
 	if (node->is_builtin)
 	{
-		status = exec_builtin(node, &app->env_list);
+		status = exec_builtin(node, &app->env_list, tree);
 		exit (status);
 	}
 	else
 		execve(node->args[0], node->args, NULL);
 }
 
-void run_pipe(t_tree *cmd, int *pipe, int out, int side)
+void run_pipe(t_tree *cmd, int *pipe, int out, int side, t_tree *tree)
 {
 	int		std_file;
 	int		used_end;
@@ -51,21 +51,21 @@ void run_pipe(t_tree *cmd, int *pipe, int out, int side)
 			dup2(out, STDOUT_FILENO);
 			if (out != STDOUT_FILENO && out != -1)
 				close(out);
-			exec_cmd(cmd);	
+			exec_cmd(cmd, tree);	
 		}
 		ft_free(cmd->args);
 	}
 	else
-		executer(cmd, STDIN_FILENO, used_end);
+		executer(cmd, STDIN_FILENO, used_end, tree);
 }
 
-void run_pipeline(t_tree *pipe_node, int out)
+void run_pipeline(t_tree *pipe_node, int out, t_tree *tree)
 {
 	int fds[2];
 
 	pipe(fds);
-	run_pipe(pipe_node->left, fds, -1, LEFT_CHILD);
-	run_pipe(pipe_node->right, fds, out, RIGHT_CHILD);
+	run_pipe(pipe_node->left, fds, -1, LEFT_CHILD, tree);
+	run_pipe(pipe_node->right, fds, out, RIGHT_CHILD, tree);
 	if (out != STDOUT_FILENO)
 		close(out);
 	close(fds[PIPE_WRITE_END]);
