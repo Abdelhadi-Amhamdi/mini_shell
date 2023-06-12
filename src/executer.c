@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 20:24:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:00:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 void run_cmd(t_tree *cmd, int in, int out, t_tree *tree)
 {
 	cmd->args = cmd_args_list_to_tabs(cmd);
-	if (!cmd->args)
+	if (!cmd->args && !cmd->is_builtin)
 	{
 		app->status = COMMAND_NOT_FOUND_EXIT_STATUS;
-		perror(cmd->str);
+		printf("mini-sh: %s: command not found!\n", cmd->str);
+		// perror(cmd->str);
 		return ;
 	}
 	if(cmd->is_builtin)
@@ -66,7 +67,8 @@ void executer(t_tree *root, int in, int out, t_tree *tree)
 	else if (root->type == UNK || root->type == W_SPACE)
 	{
 		app->status = COMMAND_NOT_FOUND_EXIT_STATUS;
-		perror(root->str);
+		printf("mini-sh: %s: command not found!\n", root->str);
+		// perror(root->str);
 	}
 	else if (root->type == AND || root->type == OR)
 	{

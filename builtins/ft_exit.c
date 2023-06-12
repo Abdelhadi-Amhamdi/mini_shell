@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 20:17:36 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:13:07 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_exit(t_tree *cmd_data, t_tree *tree)
 {
 	char *data;
 
-	if (!cmd_data->args)
+	if (!(*cmd_data->args))
 	{
 		ft_putendl_fd("exit",1);
 		__exit__(0, tree);
