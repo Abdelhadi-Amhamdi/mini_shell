@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/10 21:55:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:43:55 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,25 @@ int is_all_space(char *s)
 	return(1);
 }
 
+int is_all_n(char *data)
+{
+	int index;
+
+	index = 0;
+	while (data[index])
+	{
+		if (data[index] != 'n')
+			return (1);
+		index++;
+	}
+	return (0);
+}
+
 int	check_new_line(char *arg)
 {
 	if (!arg)
 		return (1);
-	else if (!ft_strncmp(arg, "-n", 2))
+	else if (arg[0] == '-' && !is_all_n(++arg))
 		return (0);
 	return (1);
 }
@@ -44,6 +58,11 @@ int	ft_echo(t_tree *node)
 
 	i = 0;
 	new_line = check_new_line(node->args[i]);
+	if (!new_line)
+	{
+		while (!check_new_line(node->args[i]) || is_all_space(node->args[i]))
+			i++;
+	}
 	while (node->args[i])
 	{
 		if(is_all_space(node->args[i]))
