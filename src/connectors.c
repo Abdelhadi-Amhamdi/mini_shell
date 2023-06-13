@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 20:18:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:49:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,26 @@ void wait_left(t_tree *root)
     {
         waitpid(root->id, &status, 0);
         root->id = -1;
-        app->status = WEXITSTATUS(status);
+        exit_status = WEXITSTATUS(status);
     }
     wait_left(root->right);
 }
 
-void run_connectors(t_tree *root, int in, int out, t_tree *tree)
+void run_connectors(t_tree *root, int in, int out, t_main *data)
 {
 	if (!ft_strncmp(root->str, "&&", ft_strlen(root->str)))
 	{
-		executer(root->left, in, out, tree);
+		executer(root->left, in, out, data);
         wait_left(root->left);
-		if (!app->status)
-			executer(root->right, in, out, tree);
+		if (!exit_status)
+			executer(root->right, in, out, data);
 	}
 	else
 	{
-		executer(root->left, in, out, tree);
+		executer(root->left, in, out, data);
         wait_left(root->left);
-		if (app->status)
-			executer(root->right, in, out, tree);
+		if (exit_status)
+			executer(root->right, in, out, data);
 	}
 }
 

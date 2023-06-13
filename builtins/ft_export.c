@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/07 14:54:04 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:15:10 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	count_env(t_env *env)
 	return(i);
 }
 
-void	print_export(t_env	*env)
+void	print_export(t_env	*env, int out)
 {
 	t_env *cur;
 	t_env *tmp;
@@ -70,9 +70,18 @@ void	print_export(t_env	*env)
 	while(env)
 	{
 		if(env->key && env->value && ft_strncmp(env->key,"_", 2))
-			printf("declare -x %s=\"%s\"\n",env->key, env->value);
+		{
+			ft_putstr_fd("declare -x ", out);
+			ft_putstr_fd(env->key, out);
+			ft_putstr_fd("=\"", out);
+			ft_putstr_fd(env->value, out);
+			ft_putendl_fd("\"", out);
+		}
 		if(env->key && !env->value)
-			printf("declare -x %s\n",env->key);
+		{
+			ft_putstr_fd("declare -x ", out);
+			ft_putendl_fd(env->key, out);
+		}
 		env = env->next;
 	}
 
@@ -139,7 +148,7 @@ int check_key(char *key)
 	return (0);
 }
 
-int	ft_export(t_tree *cmd, t_env **env)
+int	ft_export(t_tree *cmd, t_env **env, int out)
 {
 	t_env	*node;
 	t_env	*tmp;
@@ -150,7 +159,7 @@ int	ft_export(t_tree *cmd, t_env **env)
 	i = 0;
 	if(!cmd->args[i])
 	{
-		print_export(*env);
+		print_export(*env, out);
 		return (0);
 	}
 	while(cmd->args[i])

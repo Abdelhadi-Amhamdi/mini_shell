@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 16:32:54 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:53:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,18 @@ void print_banner()
 	puts("");
 }
 
-t_app *init(char **env)
+t_main *init(char **env)
 {
-	t_app *app;
+	t_main *data;
 
-	app = malloc(sizeof(t_app));
-	if (!app)
+	data = malloc(sizeof(t_main));
+	if (!data)
 		return (NULL);
-	app->status = 0;
-	app->hdoc_fd = -1;
-	app->env_list = get_env_vars(env);
+	data->env = get_env_vars(env);
+	data->ast = NULL;
 	signal(SIGINT, sig_int_handler);
 	signal(SIGQUIT, SIG_IGN);
-	return (app);
+	return (data);
 }
 
 void destroy_ast_tree(t_tree *root)
@@ -75,7 +74,7 @@ void wait_pids(t_tree *root)
 	{
 		waitpid(root->id, &status, 0);
 		if (WIFEXITED(status))
-			app->status = WEXITSTATUS(status);
+			exit_status = WEXITSTATUS(status);
 	}
 	wait_pids(root->right);
 }
@@ -83,13 +82,14 @@ void wait_pids(t_tree *root)
 int main(int ac, char **av, char **envp)
 {
 	char *cmd;
-	t_tree *ast_tree;
+	t_main *main;
 	(void)ac;
 	(void)av;
 
-	app = init(envp);
-	if (!app)
+	main = init(envp);
+	if (!main)
 		return (0);
+	exit_status = 0;
 	while (1)
 	{
 		// cmd = readline("mini_sh-1.0$ ");
@@ -98,13 +98,13 @@ int main(int ac, char **av, char **envp)
 			break ;
 		if (cmd[0])
 		{
-			ast_tree = formater(cmd);
-			if(ast_tree)
+			main->ast = formater(cmd, main);
+			if(main->ast)
 			{
 				// printTree(ast_tree);
-				executer(ast_tree, STDIN_FILENO, STDOUT_FILENO, ast_tree);
-				wait_pids(ast_tree);
-				destroy_ast_tree(ast_tree);
+				executer(main->ast, STDIN_FILENO, STDOUT_FILENO, main);
+				wait_pids(main->ast);
+				destroy_ast_tree(main->ast);
 			}
 			add_history(cmd);
 			free(cmd);

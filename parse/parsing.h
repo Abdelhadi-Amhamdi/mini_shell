@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 15:54:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:44:34 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,14 @@ typedef struct s_app
 	int status;
 }	t_app;
 
+typedef struct main
+{
+	t_tree *ast;
+	t_env *env;
+} t_main ;
 
 // main
-t_tree				*formater(char *cmd);
+t_tree				*formater(char *cmd, t_main *data);
 int					ft_error(char *str);
 void				ft_free_lexer_list(t_lexer **list);
 
@@ -141,9 +146,9 @@ void				clean_spaces(t_lexer **list);
 int	is_space(char c);
 
 // parser functions
-t_parser			*parser(t_lexer *list);
+t_parser			*parser(t_lexer *list, t_main *data);
 void				print_parser_list(t_parser *list);
-t_parser			*create_blocks(t_lexer *lexer_list);
+t_parser			*create_blocks(t_lexer *lexer_list, t_main *data);
 t_lexer				*ft_nodedup(t_lexer *node);
 void				add_node_to_list(t_parser **list, t_parser *item);
 t_parser			*create_parser_node(t_lexer *l_node, int id);

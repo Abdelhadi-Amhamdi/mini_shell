@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/12 20:43:55 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:09:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int	check_new_line(char *arg)
 	return (1);
 }
 
-int	ft_echo(t_tree *node)
+int	ft_echo(t_tree *node, int out)
 {
 	int	new_line;
 	int	i;
 
-	i = 0;
+	i = 0;	
 	new_line = check_new_line(node->args[i]);
 	if (!new_line)
 	{
@@ -66,12 +66,12 @@ int	ft_echo(t_tree *node)
 	while (node->args[i])
 	{
 		if(is_all_space(node->args[i]))
-			printf(" ");
+			ft_putstr_fd(" ", out);
 		else
-			printf("%s", node->args[i]);
+			ft_putstr_fd(node->args[i], out);
 		i++;
 	}
 	if (new_line)
-		printf("\n");
+		ft_putendl_fd("", out);
 	return (0);
 }
