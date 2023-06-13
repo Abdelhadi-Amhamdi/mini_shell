@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 15:54:10 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:44:19 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ t_lexer *handle_rdir_case(t_parser **parser_list, t_lexer *arg, t_lexer **args_l
 	return (arg);
 }
 
-t_lexer *handle_heredoc_case(t_lexer *arg, t_lexer **args_list)
+t_lexer *handle_heredoc_case(t_lexer *arg, t_lexer **args_list, t_main *data)
 {
 	if (arg->type == HEREDOC)
 	{
 		t_lexer *tmp;
-		char *file_name = start_heredoc(arg, arg->is_builtin);
+		char *file_name = start_heredoc(arg, arg->is_builtin, data);
 		tmp = ft_nodedup(arg);
 		tmp->str = ft_strdup(file_name);
 		tmp->path = ft_strdup(file_name);
@@ -126,7 +126,7 @@ int ft_check_next(t_lexer *node)
 	return (1);
 }
 
-t_parser *create_blocks(t_lexer *lexer_list)
+t_parser *create_blocks(t_lexer *lexer_list, t_main *data)
 {
 	t_parser *parser_list;
 	t_lexer *args_list;
@@ -149,7 +149,7 @@ t_parser *create_blocks(t_lexer *lexer_list)
 				tmp = handle_rdir_case(&parser_list, first_arg, &args_list);
 				new_node->args_list = args_list;				
 				if (first_arg->type == HEREDOC)
-					tmp = handle_heredoc_case(first_arg, &new_node->args_list);
+					tmp = handle_heredoc_case(first_arg, &new_node->args_list, data);
 			}
 			else
 			{
@@ -164,11 +164,12 @@ t_parser *create_blocks(t_lexer *lexer_list)
 		}
 		else if (tmp->type == HEREDOC)
 		{
-			char *file_name = start_heredoc(tmp, tmp->is_builtin);
-			// if (!file_name)
-			// 	return (NULL);
 			t_lexer *tmp1;
-			printf("%s\n", tmp->prev->str);
+			char *file_name;
+			
+			file_name = start_heredoc(tmp, tmp->is_builtin, data);
+			if (!file_name)
+				return (NULL);
 			if ((tmp->prev && tmp->prev->type == CMD) || !ft_check_next(tmp->next->next))
 			{
 				tmp1 = ft_nodedup(tmp->next);
@@ -198,11 +199,11 @@ t_parser *create_blocks(t_lexer *lexer_list)
 	return (parser_list);
 }
 
-t_parser	*parser(t_lexer *lexer_list)
+t_parser	*parser(t_lexer *lexer_list, t_main *data)
 {
 	t_parser	*parser_list;
 
-	parser_list = create_blocks(lexer_list);
+	parser_list = create_blocks(lexer_list, data);
 	if (!parser_list)
 		return (NULL);
 	return (parser_list);

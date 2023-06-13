@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 21:13:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:51:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,17 @@ void	ft_exit(t_tree *cmd_data, t_tree *tree)
 	{
 		ft_putstr_fd("mini-sh: exit: ",2);
 		ft_putendl_fd(": too many arguments!",2);
-		app->status = 255;
-		__exit__(app->status, tree);
+		exit_status = 255;
+		__exit__(exit_status, tree);
 	}
 	if (parse_data(data))
 	{
 		ft_putstr_fd("mini-sh: exit: ",2);
 		ft_putstr_fd(data,2);
 		ft_putendl_fd(": numeric argument require!",2);
-		app->status = 255;
-		__exit__(app->status, tree);
+		exit_status = 255;
+		__exit__(exit_status, tree);
 	}
 	else
-		__exit__((app->status = (ft_atoi(data) % 256)), tree);
+		__exit__((exit_status = (ft_atoi(data) % 256)), tree);
 }

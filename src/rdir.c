@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 14:40:59 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:50:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_lexer *creat_lexer_node(char *data)
 	return (node);
 }
 
-void run_redir_input(t_tree *node, int in, int out, t_tree *tree)
+void run_redir_input(t_tree *node, int in, int out, t_main *data)
 {
 	t_lexer *arg_node;
 	t_tree	*right;
@@ -70,24 +70,24 @@ void run_redir_input(t_tree *node, int in, int out, t_tree *tree)
 		if (fd == -1)
 		{
 			printf("mini-sh: %s: No such file or directory\n", right->str);
-			app->status = 1;
+			exit_status = 1;
 			return ;
 		}
 	}
-    executer(node->left, in, out, tree);
+    executer(node->left, in, out, data);
 }
-void run_redir_output(char *file_name, t_tree *cmd, int in, int out, t_tree *tree)
+void run_redir_output(char *file_name, t_tree *cmd, int in, int out, t_main *data)
 {
 	int file_fd;
-	file_fd = open(file_name, O_CREAT| O_TRUNC | O_RDWR, 0644);\
+	file_fd = open(file_name, O_CREAT| O_TRUNC | O_RDWR, 0644);
 	if (file_fd == -1)
 		return ;
     if (out != 1)
         file_fd = out;
-	executer(cmd, in, file_fd, tree);
+	executer(cmd, in, file_fd, data);
 }
 
-void run_apand_function(char *file_name, t_tree *cmd, int in, int out, t_tree *tree)
+void run_apand_function(char *file_name, t_tree *cmd, int in, int out, t_main *data)
 {
 	int file_fd;
 
@@ -96,18 +96,18 @@ void run_apand_function(char *file_name, t_tree *cmd, int in, int out, t_tree *t
 		return ;
 	if (out != 1)
 		file_fd = out;
-	executer(cmd, in, file_fd, tree);
+	executer(cmd, in, file_fd, data);
 }
 
-void redirection_helper(t_tree *node, int in, int out, t_tree *tree)
+void redirection_helper(t_tree *node, int in, int out, t_main *data)
 {
 	if (node->type == APND)
-		run_apand_function(node->right->str, node->left, in, out, tree);
+		run_apand_function(node->right->str, node->left, in, out, data);
 	else
 	{
 		if (node->str[0] == '<')
-			run_redir_input(node, in, out, tree);
+			run_redir_input(node, in, out, data);
 		else
-			run_redir_output(node->right->str, node->left, in, out, tree);
+			run_redir_output(node->right->str, node->left, in, out, data);
 	}
 }

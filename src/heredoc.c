@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 15:58:53 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:50:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void sigint_heredoc_handler()
 }
 
 
-char *start_heredoc(t_lexer *node, t_boolean to_expand)
+char *start_heredoc(t_lexer *node, t_boolean to_expand, t_main *data)
 {
 	char	*line;
 	char	*del;
@@ -30,13 +30,14 @@ char *start_heredoc(t_lexer *node, t_boolean to_expand)
 	char	*res;
 	char 	*id;
 	int		status;
+	int fd;
 	
 	id = ft_itoa(node->id);
 	file_name = ft_strjoin(HEREDOC_FILENAME, id);
 	free(id);
 	del = node->next->str;
-	app->hdoc_fd = open(file_name, O_CREAT | O_RDWR, 0644);
-	if (app->hdoc_fd == -1)
+	fd = open(file_name, O_CREAT | O_RDWR, 0644);
+	if (fd == -1)
 		return (NULL);
 	int pid = fork();
 	if (!pid)
@@ -60,23 +61,23 @@ char *start_heredoc(t_lexer *node, t_boolean to_expand)
 			if(to_expand && line[0] == '$')
 			{
 				line[strlen(line) - 1] = '\0';
-				res = expand(line, app->env_list, 0);
+				res = expand(line, data->env, 0);
 				if (res && *res)
-					ft_putendl_fd(res, app->hdoc_fd);
+					ft_putendl_fd(res, fd);
 			}
 			else
-				ft_putstr_fd(line, app->hdoc_fd);
+				ft_putstr_fd(line, fd);
 			free(line);
 			write(0, "> ", 2);
 			line = get_next_line(0);
 		}
 		free (line);
-		close(app->hdoc_fd);
+		close(fd);
 		exit (status);
 	}
 	else
-		app->status = -1;
-	close(app->hdoc_fd);
+		exit_status = -1;
+	close(fd);
 	waitpid(pid, &status, 0);
 	// printf("%d\n", status);
 	if (!status)

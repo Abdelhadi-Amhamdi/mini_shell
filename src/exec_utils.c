@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 16:35:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:57:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int path_exist(char *path, char **paths)
 	return (0);
 }
 
-int check_path_exist(char *path)
+int check_path_exist(char *path, t_main *data)
 {
 	char **paths;
 	
-	paths = all_paths(app->env_list);
+	paths = all_paths(data->env);
 	if (!paths)	
 		return (1);
 	if (path_exist(path, paths))
@@ -66,7 +66,7 @@ int check_path_exist(char *path)
 	return (ft_free(paths), 1);
 }
 
-char **cmd_args_list_to_tabs(t_tree *node)
+char **cmd_args_list_to_tabs(t_tree *node, t_main *data)
 {
 	char	**cmd_args;
 	t_lexer	*tmp;
@@ -82,7 +82,7 @@ char **cmd_args_list_to_tabs(t_tree *node)
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (node->path && node->id != -1 && !node->is_builtin)
 	{
-		if (!check_path_exist(node->path))
+		if (!check_path_exist(node->path, data))
 			cmd_args[index++] = ft_strdup(node->path);
 		else 
 			return (free(cmd_args), NULL);
@@ -94,13 +94,13 @@ char **cmd_args_list_to_tabs(t_tree *node)
 		if (tmp->type == VAR)
 		{
 			if (!ft_strncmp(tmp->str+1, "?", 2))
-				value = ft_itoa(app->status);
+				value = ft_itoa(exit_status);
 			else
-				value = expand(tmp->str, app->env_list, 1);
+				value = expand(tmp->str, data->env, 1);
 			if (value)
-				tmp->str = ft_strdup(value);
+				cmd_args[index++] = ft_strdup(value);
 			else
-				tmp->str = ft_strdup("\0");
+				cmd_args[index++] = ft_strdup("\0");
 			// if (ft_strncmp(value, tmp->str+1, ft_strlen(tmp->str) + 1))
 			// 	cmd_args[index++] = ft_strdup(value);
 			// else if (!*(tmp->str+1))

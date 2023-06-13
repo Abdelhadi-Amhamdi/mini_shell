@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 16:27:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:39:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int	ft_error(char *str)
 	return (printf("%s `%s'!\n", SYNTAX_ERROR_MSG, str));
 }
 
-t_tree *formater(char *cmd)
+t_tree *formater(char *cmd, t_main *data)
 {
 	t_parser *tmp;
 	t_lexer *lexer_list;
@@ -208,12 +208,12 @@ t_tree *formater(char *cmd)
 	lexer_list = NULL;
 	parser_list = NULL;
 	ast_tree = NULL;
-	lexer_list = lexer(cmd, app->env_list);
+	lexer_list = lexer(cmd, data->env);
 	if(!lexer_list)
 		return (NULL);
-	if (ft_expander(lexer_list, app->env_list))
+	if (ft_expander(lexer_list, data->env))
 		return (ft_free_lexer_list(&lexer_list), NULL);
-	parser_list = parser(lexer_list);
+	parser_list = parser(lexer_list, data);
 	if (!parser_list)
 		return (ft_free_lexer_list(&lexer_list), NULL);
 	ft_free_lexer_list(&lexer_list);

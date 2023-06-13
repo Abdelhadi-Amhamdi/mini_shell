@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/12 20:43:55 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:57:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_echo(t_tree *node)
 	int	new_line;
 	int	i;
 
-	i = 0;
+	i = 0;	
 	new_line = check_new_line(node->args[i]);
 	if (!new_line)
 	{
