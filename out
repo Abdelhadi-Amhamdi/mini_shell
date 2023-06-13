@@ -1,0 +1,9 @@
+COMMAND   PID     USER   FD   TYPE             DEVICE SIZE/OFF                NODE NAME
+cat     11488      user  cwd    DIR               1,12      578             5146054 /Users/user/Desktop/mini-sh
+cat     11488      user  txt    REG                1,7    36768 1152921500311902407 /bin/cat
+cat     11488      user  txt    REG                1,7  1572480 1152921500312402812 /usr/lib/dyld
+cat     11488      user    0u   CHR               16,1 0t859586                 681 /dev/ttys001
+cat     11488      user    1   PIPE 0x68008bd41d5f2a18    16384                     ->0x5e5dfbc3a1e316da
+cat     11488      user    2u   CHR               16,1 0t859586                 681 /dev/ttys001
+cat     11488      user    3   PIPE 0x4e2a8b4da7e609f3    16384                     ->0xdb1bd249383b3c9a
+cat     11488      user    4   PIPE 0xdb1bd249383b3c9a    16384                     ->0x4e2a8b4da7e609f3
