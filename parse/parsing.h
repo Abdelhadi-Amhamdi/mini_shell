@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 19:59:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:13:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_app
 {
 	t_env		*env_list;
 	int			hdoc_fd;
-	int			status;
+	int status;
 }	t_app;
 
 
