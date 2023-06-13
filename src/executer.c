@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 14:12:47 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:54:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_tree *tree)
 	else if (!ft_strncmp(cmd->str, "echo", 5))
 		return (ft_echo(cmd));
 	else if (!ft_strncmp(cmd->str, "pwd", 3))
-		return (ft_pwd());
+		return (ft_pwd(*env));
 	else if (!ft_strncmp(cmd->str, "exit", 5))
 		ft_exit(cmd, tree);
 	return (0);

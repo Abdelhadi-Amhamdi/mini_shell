@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 20:59:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:58:10 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char **cmd_args_list_to_tabs(t_tree *node)
 			if (!ft_strncmp(tmp->str+1, "?", 2))
 				value = ft_itoa(app->status);
 			else
-				value = expand(tmp->str, app->env_list);
+				value = expand(tmp->str, app->env_list, 1);
 			if (ft_strncmp(value, tmp->str+1, ft_strlen(tmp->str) + 1))
 				cmd_args[index++] = ft_strdup(value);
 			else if (!*(tmp->str+1))

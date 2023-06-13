@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 15:32:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:58:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char *start_heredoc(t_lexer *node, t_boolean to_expand)
 			if(to_expand && line[0] == '$')
 			{
 				line[strlen(line) - 1] = '\0';
-				res = expand(line+1, app->env_list);
+				res = expand(line, app->env_list, 0);
 				if (res && *res)
 					ft_putendl_fd(res, app->hdoc_fd);
 			}
