@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 15:53:27 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:26:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ char *get_string(char *s, int *index, t_env	*envp, int last)
 	int start;
 	int len=0;
 	int i;
+	char *str;
 
 	start = *index;
 	i = 0;
-	if(s[*index] == '$' || s[*index] == '/' || s[*index] == '.' || s[*index] == 32 )
+	if(s[*index] == '$' || s[*index] == '/' || s[*index] == '.' || s[*index] == 32)
 	{
 		len++;
 		*index = *index + 1;
@@ -47,21 +48,19 @@ char *get_string(char *s, int *index, t_env	*envp, int last)
 	var = malloc (len + 1);
 	if(!var)
 		return(ft_putendl_fd("Malloc Failed\n",2),NULL);
-	printf("%p\n",var);
 	if(s[start] == '$' || s[start] == '/' || s[start] == '.' || s[start] == 32)
-		var[i++] =s[start++];
+		var[i++] = s[start++];
 	while(s[start] && s[start] != 32 && s[start] != '/' && s[start] != '.' && s[start] != '$')
 		var[i++] =s[start++];
 	var[i] = '\0';
-	if(var[0] == '$' && ft_get_expand_val(var + 1, envp))
+	str = ft_get_expand_val(var + 1, envp);
+	if(var[0] == '$' && str)
 	{
 		old = var;
-		printf("%s\n",var);
-		var = ft_get_expand_val(var + 1, envp);
-		printf("%s\n",var);
+		var = str;
 		free(old);
 	}
-	else if (!ft_get_expand_val(var + 1,envp) && last && s[begining] == '$')
+	else if (!str && last && s[begining] == '$')
 		var = NULL;
 	return(var);
 }
@@ -74,7 +73,6 @@ char	*expand(char *var, t_env *envp, int last)
 	char *old;
 	
 	i = 0;
-	// str = ft_strdup("");
 	str = get_string(var,&i, envp, last);
 	while(var[i])
 	{
@@ -636,21 +634,21 @@ int	ft_expander(t_lexer *list, t_env *env)
 
 	paths = all_paths(env);
 	ft_expand_vars(&list, env);
-	// if (check_qoutes(list) || check_pths(list))
-	// {
-	// 	app->status = SYNTAX_ERROR_EXIT_STATUS;
-	// 	return (ft_free(paths), 1);
-	// }
-	// // check_variables(&list);
-	// check_asbpath(&list);
-	// join_args(&list, paths);
-	// set_type(&list);
-	// clean_unsed_spaces(&list);
-	// if (syntax_analyzer(list))
-	// {
-	// 	app->status = SYNTAX_ERROR_EXIT_STATUS;
-	// 	return (ft_free(paths), 1);
-	// }
-	// ft_expand_wildcards(&list);
+	if (check_qoutes(list) || check_pths(list))
+	{
+		app->status = SYNTAX_ERROR_EXIT_STATUS;
+		return (ft_free(paths), 1);
+	}
+	// check_variables(&list);
+	check_asbpath(&list);
+	join_args(&list, paths);
+	set_type(&list);
+	clean_unsed_spaces(&list);
+	if (syntax_analyzer(list))
+	{
+		app->status = SYNTAX_ERROR_EXIT_STATUS;
+		return (ft_free(paths), 1);
+	}
+	ft_expand_wildcards(&list);
 	return (ft_free(paths), 0);
 }

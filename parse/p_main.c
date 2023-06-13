@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 15:59:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:27:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ int	ft_error(char *str)
 
 t_tree *formater(char *cmd)
 {
-	// t_parser *tmp;
+	t_parser *tmp;
 	t_lexer *lexer_list;
 	t_parser *parser_list;
 	t_tree *ast_tree;
@@ -213,13 +213,12 @@ t_tree *formater(char *cmd)
 		return (NULL);
 	if (ft_expander(lexer_list, app->env_list))
 		return (ft_free_lexer_list(&lexer_list), NULL);
-	print_token_list(lexer_list);
-	// parser_list = parser(lexer_list);
-	// if (!parser_list)
-	// 	return (ft_free_lexer_list(&lexer_list), NULL);
+	parser_list = parser(lexer_list);
+	if (!parser_list)
+		return (ft_free_lexer_list(&lexer_list), NULL);
 	ft_free_lexer_list(&lexer_list);
-	// tmp = parser_list;
-	// ast_tree = create_tree(&tmp);
-	// ft_free_parser_list(&parser_list);
+	tmp = parser_list;
+	ast_tree = create_tree(&tmp);
+	ft_free_parser_list(&parser_list);
 	return (ast_tree);
 }
