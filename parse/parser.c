@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:44:19 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:17:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,12 @@ t_lexer *handle_heredoc_case(t_lexer *arg, t_lexer **args_list, t_main *data)
 	{
 		t_lexer *tmp;
 		char *file_name = start_heredoc(arg, arg->is_builtin, data);
+		if (!file_name)
+		{
+			tmp = ft_nodedup(arg);
+			tmp->id = -11;
+			return (tmp);
+		}
 		tmp = ft_nodedup(arg);
 		tmp->str = ft_strdup(file_name);
 		tmp->path = ft_strdup(file_name);
@@ -149,7 +155,14 @@ t_parser *create_blocks(t_lexer *lexer_list, t_main *data)
 				tmp = handle_rdir_case(&parser_list, first_arg, &args_list);
 				new_node->args_list = args_list;				
 				if (first_arg->type == HEREDOC)
+				{
 					tmp = handle_heredoc_case(first_arg, &new_node->args_list, data);
+					if (tmp && tmp->id == -11)
+					{
+						del_node(tmp);
+						return (NULL);
+					}
+				}
 			}
 			else
 			{

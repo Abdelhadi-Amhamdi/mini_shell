@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:50:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:19:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,11 @@ char *start_heredoc(t_lexer *node, t_boolean to_expand, t_main *data)
 		exit_status = -1;
 	close(fd);
 	waitpid(pid, &status, 0);
-	// printf("%d\n", status);
 	if (!status)
+	{
+		unlink(file_name);
 		return (NULL);
+	}
 	return (file_name);
 }
 
