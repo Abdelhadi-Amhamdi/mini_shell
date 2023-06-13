@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:21:48 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 18:12:57 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:54:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,12 @@
 
 void sig_int_handler(int type)
 {
-	if (type == SIGINT)
+	if (type == SIGINT && (app->status != -1))
 	{
-		// if (app->status == HEREDOC)
-		// {
-		// 	close(0);
-		// }
-		// else
-		// {
-			ft_putstr_fd("\n", STDOUT_FILENO);
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-		// }
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		app->status = 128 + SIGINT;
 	}
 }

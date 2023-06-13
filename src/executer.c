@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 21:00:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:12:47 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,26 @@ void run_cmd(t_tree *cmd, int in, int out, t_tree *tree)
 	{
 		app->status = COMMAND_NOT_FOUND_EXIT_STATUS;
 		printf("mini-sh: %s: command not found!\n", cmd->str);
-		// perror(cmd->str);
-		return ;
-	}
-	if(cmd->is_builtin)
-	{
-		app->status = exec_builtin(cmd, &app->env_list, tree);
 		return ;
 	}
 	cmd->id = fork();
 	if (!cmd->id)
 	{
+		if (!ft_strncmp(cmd->str, "app", 3))
+			signal(SIGINT, sig_int_handler);
+		else
+			signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		dup2(in, STDIN_FILENO);
 		dup2(out, STDOUT_FILENO);
-		execve(cmd->args[0], cmd->args, env_list_to_tabs(app->env_list));
+		if(cmd->is_builtin)
+			exit (app->status = exec_builtin(cmd, &app->env_list, tree));
+		else
+			execve(cmd->args[0], cmd->args, env_list_to_tabs(app->env_list));
 	}
+	else
+		app->status = -1;
+		
 	ft_free(cmd->args);
 }
 

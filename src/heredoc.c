@@ -6,12 +6,21 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 22:14:21 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:32:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 #include "../libs/gnl/get_next_line.h"
+
+void sigint_heredoc_handler()
+{
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	exit (0);
+}
+
 
 char *start_heredoc(t_lexer *node, t_boolean to_expand)
 {
@@ -20,6 +29,7 @@ char *start_heredoc(t_lexer *node, t_boolean to_expand)
 	char 	*file_name;
 	char	*res;
 	char 	*id;
+	int		status;
 	
 	id = ft_itoa(node->id);
 	file_name = ft_strjoin(HEREDOC_FILENAME, id);
@@ -31,16 +41,21 @@ char *start_heredoc(t_lexer *node, t_boolean to_expand)
 	int pid = fork();
 	if (!pid)
 	{
-		app->status = HEREDOC;
-		signal(SIGINT, sig_int_handler);
+		signal(SIGINT, sigint_heredoc_handler);
+		signal(SIGQUIT, SIG_DFL);
 		write(0, "> ", 2);
 		line = get_next_line(0);
 		while (1)
 		{
-			if (!line || !ft_strncmp(line, del, (ft_strlen(line) - 1)))
+			if (!line)
 			{
-				puts("stop");	
+				status = 0;
 				break ;
+			}
+			else if (!ft_strncmp(line, del, (ft_strlen(line) - 1)))
+			{
+				status = 1;
+				break;
 			}
 			if(to_expand && line[0] == '$')
 			{
@@ -56,10 +71,16 @@ char *start_heredoc(t_lexer *node, t_boolean to_expand)
 			line = get_next_line(0);
 		}
 		free (line);
-		exit (0);
+		close(app->hdoc_fd);
+		exit (status);
 	}
-	waitpid(pid, NULL, 0);
+	else
+		app->status = -1;
 	close(app->hdoc_fd);
+	waitpid(pid, &status, 0);
+	// printf("%d\n", status);
+	if (!status)
+		return (NULL);
 	return (file_name);
 }
 
