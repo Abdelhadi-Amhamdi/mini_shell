@@ -3,49 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 18:18:29 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:58:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 #include "../libs/gnl/get_next_line.h"
 
+void sigint_heredoc_handler()
+{
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	exit (0);
+}
+
+
 char *start_heredoc(t_lexer *node, t_boolean to_expand)
 {
 	char	*line;
 	char	*del;
 	char 	*file_name;
-	char *res;
+	char	*res;
+	char 	*id;
+	int		status;
 	
-	file_name = ft_strjoin(HEREDOC_FILENAME, ft_itoa(node->id));
+	id = ft_itoa(node->id);
+	file_name = ft_strjoin(HEREDOC_FILENAME, id);
+	free(id);
 	del = node->next->str;
 	app->hdoc_fd = open(file_name, O_CREAT | O_RDWR, 0644);
 	if (app->hdoc_fd == -1)
 		return (NULL);
-	write(0, "> ", 2);
-	line = get_next_line(0);
-	while (1)
+	int pid = fork();
+	if (!pid)
 	{
-		if(to_expand && line[0] == '$')
-		{
-			line[strlen(line) - 1] = '\0';
-			res = expand(line, app->env_list, 0);
-			if (res && *res)
-				ft_putendl_fd(res, app->hdoc_fd);
-		}
-		else
-			ft_putstr_fd(line, app->hdoc_fd);
-		free(line);
+		signal(SIGINT, sigint_heredoc_handler);
+		signal(SIGQUIT, SIG_DFL);
 		write(0, "> ", 2);
 		line = get_next_line(0);
-		if (!line || !ft_strncmp(line, del, (ft_strlen(line) - 1)))
-			break ;
+		while (1)
+		{
+			if (!line)
+			{
+				status = 0;
+				break ;
+			}
+			else if (!ft_strncmp(line, del, (ft_strlen(line) - 1)))
+			{
+				status = 1;
+				break;
+			}
+			if(to_expand && line[0] == '$')
+			{
+				line[strlen(line) - 1] = '\0';
+				res = expand(line, app->env_list, 0);
+				if (res && *res)
+					ft_putendl_fd(res, app->hdoc_fd);
+			}
+			else
+				ft_putstr_fd(line, app->hdoc_fd);
+			free(line);
+			write(0, "> ", 2);
+			line = get_next_line(0);
+		}
+		free (line);
+		close(app->hdoc_fd);
+		exit (status);
 	}
-	free (line);
+	else
+		app->status = -1;
 	close(app->hdoc_fd);
+	waitpid(pid, &status, 0);
+	// printf("%d\n", status);
+	if (!status)
+		return (NULL);
 	return (file_name);
 }
 

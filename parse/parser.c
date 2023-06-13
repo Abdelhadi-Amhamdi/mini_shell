@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 13:20:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:54:10 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,18 @@ t_lexer *handle_heredoc_case(t_lexer *arg, t_lexer **args_list)
 	return (arg);
 }
 
+int ft_check_next(t_lexer *node)
+{
+	t_lexer *tmp;
+
+	tmp = node;
+	while (tmp && tmp->type == W_SPACE)
+		tmp = tmp->next;
+	if (tmp && tmp->type == CMD)
+		return (0);
+	return (1);
+}
+
 t_parser *create_blocks(t_lexer *lexer_list)
 {
 	t_parser *parser_list;
@@ -153,18 +165,27 @@ t_parser *create_blocks(t_lexer *lexer_list)
 		else if (tmp->type == HEREDOC)
 		{
 			char *file_name = start_heredoc(tmp, tmp->is_builtin);
+			// if (!file_name)
+			// 	return (NULL);
 			t_lexer *tmp1;
-			tmp1 = ft_nodedup(tmp->next);
-			tmp1->str = ft_strdup("<");
-			tmp1->type = RDIR;
-			tmp1->is_oper = true;
-			add_node_to_list(&parser_list, create_parser_node(tmp1, 1));
-			tmp1 = ft_nodedup(tmp);
-			tmp1->str = ft_strdup(file_name);
-			tmp1->path = ft_strdup(file_name);
-			tmp1->type = HEREDOC_FILE;
-			add_node_to_list(&parser_list, create_parser_node(tmp1, 1));
+			printf("%s\n", tmp->prev->str);
+			if ((tmp->prev && tmp->prev->type == CMD) || !ft_check_next(tmp->next->next))
+			{
+				tmp1 = ft_nodedup(tmp->next);
+				tmp1->str = ft_strdup("<");
+				tmp1->type = RDIR;
+				tmp1->is_oper = true;
+				add_node_to_list(&parser_list, create_parser_node(tmp1, 1));
+				tmp1 = ft_nodedup(tmp);
+				tmp1->str = ft_strdup(file_name);
+				tmp1->path = ft_strdup(file_name);
+				tmp1->type = HEREDOC_FILE;
+				add_node_to_list(&parser_list, create_parser_node(tmp1, 1));
+			}
 			tmp = tmp->next->next;
+			while (tmp && tmp->type == W_SPACE)
+				tmp = tmp->next;
+			
 		}
 		else
 		{

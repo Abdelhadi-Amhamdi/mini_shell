@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 11:17:01 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:57:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int main(int ac, char **av, char **envp)
 		return (0);
 	while (1)
 	{
+		// cmd = readline("mini_sh-1.0$ ");
 		cmd = readline("\033[1;33mmini_sh-1.0$ \033[0m");
 		if (!cmd)
 			break ;
@@ -101,8 +102,8 @@ int main(int ac, char **av, char **envp)
 			if(ast_tree)
 			{
 				// printTree(ast_tree);
-				// executer(ast_tree, STDIN_FILENO, STDOUT_FILENO);
-				// wait_pids(ast_tree);
+				executer(ast_tree, STDIN_FILENO, STDOUT_FILENO, ast_tree);
+				wait_pids(ast_tree);
 				destroy_ast_tree(ast_tree);
 			}
 			add_history(cmd);
