@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 20:20:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:17:51 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void run_pipe(t_tree *cmd, int *pipe, int out, int side, t_tree *tree)
 		cmd->id = fork();
 		if (!cmd->id)
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			close(unused_end);
 			dup2(used_end, std_file);
 			close(used_end);

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 20:24:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:40:59 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,47 @@
 // 	wait(NULL);
 // }
 
-void run_redir_input(char *file_name, t_tree *cmd, int in, int out, t_tree *tree)
+t_lexer *creat_lexer_node(char *data)
 {
-	int file_fd;
-	
-	file_fd = open(file_name, O_RDONLY, 0644);
-	if (file_fd == -1)
+	t_lexer *node;
+
+	node = malloc(sizeof(t_lexer));
+	if (!node)
+		return (NULL);
+	node->id = 0;
+	node->is_builtin = 0;
+	node->is_oper = 0;
+	node->next = NULL;
+	node->path = NULL;
+	node->str = ft_strdup(data);
+	node->type = FL;
+	return (node);
+}
+
+void run_redir_input(t_tree *node, int in, int out, t_tree *tree)
+{
+	t_lexer *arg_node;
+	t_tree	*right;
+	int fd;
+
+	right = node->right;
+	if (right && node->left && !node->left->is_builtin)
 	{
-		printf("mini-sh: %s: No such file or directory\n", file_name);	
-		return ;
+		arg_node = creat_lexer_node(right->str);
+		if (arg_node)
+			add_token_to_end(&(node->left->cmd_args), arg_node);
 	}
-    if (in != 0)
-        file_fd = in;
-    executer(cmd, file_fd, out, tree);
+	else if (right && ((node->left && node->left->is_builtin) || !node->left))
+	{
+		fd = open(right->str, O_RDONLY, 0644);
+		if (fd == -1)
+		{
+			printf("mini-sh: %s: No such file or directory\n", right->str);
+			app->status = 1;
+			return ;
+		}
+	}
+    executer(node->left, in, out, tree);
 }
 void run_redir_output(char *file_name, t_tree *cmd, int in, int out, t_tree *tree)
 {
@@ -78,7 +106,7 @@ void redirection_helper(t_tree *node, int in, int out, t_tree *tree)
 	else
 	{
 		if (node->str[0] == '<')
-			run_redir_input(node->right->str, node->left, in, out, tree);
+			run_redir_input(node, in, out, tree);
 		else
 			run_redir_output(node->right->str, node->left, in, out, tree);
 	}

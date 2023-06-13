@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/12 20:22:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:13:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 
 t_app	*app;
+
 # define HEREDOC_FILENAME "/Users/aamhamdi/tmp/heredoc_file"
  
 // pipes
