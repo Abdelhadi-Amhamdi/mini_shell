@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 12:54:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:17:54 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef enum s_type
 	EMPTY,
 	WILDCARD,
 	HEREDOC,
-	SPACE,
+	W_SPACE,
 	DOT,
 	HEREDOC_FILE
 }					t_type;
@@ -151,7 +151,7 @@ void				ft_free_parser_list(t_parser **list);
 
 // expander function
 int					ft_expander(t_lexer *list, t_env *env);
-char				*expand(char *var, t_env *envp);
+char	*expand(char *var, t_env *envp, int last);
 void				ft_expand_vars(t_lexer **list, t_env *envp);
 int					isabs(char *str);
 char				*extract_cmd(char *cmd);
