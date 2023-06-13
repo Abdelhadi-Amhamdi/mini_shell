@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 20:19:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:24:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,10 @@ char *start_heredoc(t_lexer *node, t_boolean to_expand, t_main *data)
 	if (!status)
 	{
 		unlink(file_name);
+		exit_status = 1;
 		return (NULL);
 	}
+	exit_status = 0;
 	return (file_name);
 }
 
