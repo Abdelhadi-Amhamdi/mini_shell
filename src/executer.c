@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:48:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:07:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void run_cmd(t_tree *cmd, int in, int out, t_main *data)
 	}
 	if(cmd->is_builtin)
 	{
-		exit_status = exec_builtin(cmd, &data->env, data);
+		exit_status = exec_builtin(cmd, &data->env, data, out);
 		return ;
 	}
 	cmd->id = fork();
@@ -43,20 +43,20 @@ void run_cmd(t_tree *cmd, int in, int out, t_main *data)
 	ft_free(cmd->args);
 }
 
-int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data)
+int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 {
 	if(!ft_strncmp(cmd->str, "cd", 2))
 		return (ft_cd(*env,cmd));
 	else if(!ft_strncmp(cmd->str, "env", 3))
-		return (ft_env(*env));
+		return (ft_env(*env, out));
 	else if ( !ft_strncmp(cmd->str, "unset", 6))
 		*env = ft_unset(cmd, *env);
 	else if (!ft_strncmp(cmd->str, "export", 6))
-		return (ft_export(cmd, env));
+		return (ft_export(cmd, env, out));
 	else if (!ft_strncmp(cmd->str, "echo", 5))
-		return (ft_echo(cmd));
+		return (ft_echo(cmd, out));
 	else if (!ft_strncmp(cmd->str, "pwd", 3))
-		return (ft_pwd(*env));
+		return (ft_pwd(*env, out));
 	else if (!ft_strncmp(cmd->str, "exit", 5))
 		ft_exit(cmd, data->ast);
 	return (0);

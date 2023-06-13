@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:25:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 18:10:35 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:10:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ char *get_cwd(t_env	*envp)
 	return(tmp->value);
 }
 
-int	ft_pwd(t_env	*envp)
+int	ft_pwd(t_env	*envp, int out)
 {
 	char	*path;
 
 	path = getcwd(NULL, 0);
 	if(path)
-		ft_putendl_fd(path, 1);
+		ft_putendl_fd(path, out);
 	else
-		ft_putendl_fd(get_cwd(envp),1);
+		ft_putendl_fd(get_cwd(envp), out);
 	return (0);
 }
 	

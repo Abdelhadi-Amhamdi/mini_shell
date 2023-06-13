@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:48:00 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:15:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void exec_cmd(t_tree *node, t_main *data);
 void run_cmd(t_tree *cmd, int in, int out, t_main *data);
 void redirection_helper(t_tree *node, int in, int out, t_main *data);
 
-int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data);
+int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out);
 void executer(t_tree *root, int in, int out, t_main *data);
 
 void run_connectors(t_tree *root, int in, int out, t_main *data);

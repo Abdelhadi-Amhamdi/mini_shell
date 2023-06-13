@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:43:17 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:16:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void exec_cmd(t_tree *node, t_main *data)
 	int status ;
 	if (node->is_builtin)
 	{
-		status = exec_builtin(node, &data->env, data);
+		status = exec_builtin(node, &data->env, data, 1);
 		exit (status);
 	}
 	else
