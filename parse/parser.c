@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 13:12:17 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:20:10 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_lexer *handle_heredoc_case(t_lexer *arg, t_lexer **args_list)
 		tmp->path = ft_strdup(file_name);
 		tmp->type = HEREDOC_FILE;
 		arg = arg->next->next;
-		while (arg && arg->type == SPACE)
+		while (arg && arg->type == W_SPACE)
 			arg = arg->next;
 		if (!arg ||( arg &&  (arg->is_oper || arg->type == ARGS)))
 			add_token_to_end(args_list, tmp);

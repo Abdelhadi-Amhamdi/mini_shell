@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/10 22:04:49 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 09:54:08 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int lexer_list_size(t_lexer *list, int is_b)
 	}
 	while (list && !is_b)
 	{
-		if(list->type != SPACE)
+		if(list->type != W_SPACE)
 			size++;
 		list = list->next;
 	}
@@ -96,12 +96,13 @@ char **cmd_args_list_to_tabs(t_tree *node)
 			if (!ft_strncmp(tmp->str, "$?", ft_strlen(tmp->str)))
 				value = ft_itoa(app->status);
 			else
-				value = expand(tmp->str+1, app->env_list);
+				value = expand(tmp->str, app->env_list, 1);
 			if (value)
 			{
 				cmd_args[index] = ft_strdup(value);
 				index++;
 			}
+			
 		}
 		else
 		{
@@ -112,7 +113,7 @@ char **cmd_args_list_to_tabs(t_tree *node)
 			}
 			else
 			{
-				if(tmp->type != SPACE)
+				if(tmp->type != W_SPACE)
 				{
 					cmd_args[index] = ft_strdup(tmp->str);
 					index++;

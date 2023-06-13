@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 15:17:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:41:15 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ char *ft_get_expand_val(char *var, t_env	*envp)
 	return (NULL);
 }
 
-char *get_string(char *s, int *index, t_env	*envp)
+char *get_string(char *s, int *index, t_env	*envp, int last)
 {
+	int	begining= *index;
+	char *old;
 	char *var;
 	int start;
 	int len=0;
@@ -43,26 +45,44 @@ char *get_string(char *s, int *index, t_env	*envp)
 		*index = *index + 1;
 	}
 	var = malloc (len + 1);
+	if(!var)
+		return(ft_putendl_fd("Malloc Failed\n",2),NULL);
+	printf("%p\n",var);
 	if(s[start] == '$' || s[start] == '/' || s[start] == '.' || s[start] == 32)
 		var[i++] =s[start++];
 	while(s[start] && s[start] != 32 && s[start] != '/' && s[start] != '.' && s[start] != '$')
 		var[i++] =s[start++];
 	var[i] = '\0';
 	if(var[0] == '$' && ft_get_expand_val(var + 1, envp))
+	{
+		old = var;
+		printf("%s\n",var);
 		var = ft_get_expand_val(var + 1, envp);
+		printf("%s\n",var);
+		free(old);
+	}
+	else if (!ft_get_expand_val(var + 1,envp) && last && s[begining] == '$')
+		var = NULL;
 	return(var);
 }
 
-char	*expand(char *var, t_env *envp)
+char	*expand(char *var, t_env *envp, int last)
 {
 	int i;
 	char *str;
+	char *new;
+	char *old;
 	
 	i = 0;
-	str = get_string(var,&i, envp);
+	// str = ft_strdup("");
+	str = get_string(var,&i, envp, last);
 	while(var[i])
 	{
-		str = ft_strjoin(str,get_string(var, &i, envp));
+		old = str;
+		new = get_string(var, &i, envp, last);
+		str = ft_strjoin(str,new);
+		free(old);
+		free(new);
 	}
 	return(str);
 }
@@ -202,9 +222,9 @@ void	remove_node(t_lexer **list, t_lexer *node)
 		tmp = tmp->next;
 	}
 	prev = tmp->prev;
-	if (prev && prev->type == SPACE)
+	if (prev && prev->type == W_SPACE)
 	{
-		while (prev->type == SPACE && prev)
+		while (prev->type == W_SPACE && prev)
 			prev = prev->prev;
 	}
 	next = tmp->next;
@@ -249,7 +269,7 @@ void	ft_expand_vars(t_lexer **list, t_env *envp)
 			var = extarct_expand(tmp->str, &i);
 			after = extarct_after(tmp->str, &i);
 			temp = var;
-			var = expand(var, envp);
+			var = expand(var, envp, 0);
 			if (!var)
 			{
 				free(temp);
@@ -413,7 +433,7 @@ void	clean_unsed_spaces(t_lexer **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->prev && tmp->prev->type == SPACE)
+		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->prev && tmp->prev->type == W_SPACE)
 		{
 			cur = tmp->prev->prev;
 			space = tmp->prev;
@@ -430,7 +450,8 @@ void	clean_unsed_spaces(t_lexer **list)
 				del_node(space);
 			}
 		}
-		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->next && tmp->next->type == SPACE)
+		// || tmp->type == OP || tmp->type == CP)
+		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP) && tmp->next && tmp->next->type == W_SPACE)
 		{
 			cur = tmp->next->next;
 			space = tmp->next;
@@ -616,21 +637,21 @@ int	ft_expander(t_lexer *list, t_env *env)
 
 	paths = all_paths(env);
 	ft_expand_vars(&list, env);
-	if (check_qoutes(list) || check_pths(list))
-	{
-		app->status = SYNTAX_ERROR_EXIT_STATUS;
-		return (ft_free(paths), 1);
-	}
-	// check_variables(&list);
-	check_asbpath(&list);
-	join_args(&list, paths);
-	set_type(&list);
-	clean_unsed_spaces(&list);
-	if (syntax_analyzer(list))
-	{
-		app->status = SYNTAX_ERROR_EXIT_STATUS;
-		return (ft_free(paths), 1);
-	}
-	ft_expand_wildcards(&list);
+	// if (check_qoutes(list) || check_pths(list))
+	// {
+	// 	app->status = SYNTAX_ERROR_EXIT_STATUS;
+	// 	return (ft_free(paths), 1);
+	// }
+	// // check_variables(&list);
+	// check_asbpath(&list);
+	// join_args(&list, paths);
+	// set_type(&list);
+	// clean_unsed_spaces(&list);
+	// if (syntax_analyzer(list))
+	// {
+	// 	app->status = SYNTAX_ERROR_EXIT_STATUS;
+	// 	return (ft_free(paths), 1);
+	// }
+	// ft_expand_wildcards(&list);
 	return (ft_free(paths), 0);
 }
