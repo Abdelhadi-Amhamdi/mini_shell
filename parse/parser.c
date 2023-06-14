@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 20:17:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 12:53:22 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_lexer *handle_rdir_case(t_parser **parser_list, t_lexer *arg, t_lexer **args_l
 	}
 	else
 		arg = arg->next->next;
-	while (arg && !arg->is_oper)
+	while (arg && !arg->is_oper && arg->type != CP && arg->type != OP)
 	{
 		add_token_to_end(args_list, ft_nodedup(arg));
 		arg = arg->next;
@@ -183,7 +183,7 @@ t_parser *create_blocks(t_lexer *lexer_list, t_main *data)
 			file_name = start_heredoc(tmp, tmp->is_builtin, data);
 			if (!file_name)
 				return (NULL);
-			if ((tmp->prev && tmp->prev->type == CMD) || !ft_check_next(tmp->next->next))
+			if (!ft_check_next(tmp->next->next))
 			{
 				tmp1 = ft_nodedup(tmp->next);
 				tmp1->str = ft_strdup("<");
@@ -196,6 +196,8 @@ t_parser *create_blocks(t_lexer *lexer_list, t_main *data)
 				tmp1->type = HEREDOC_FILE;
 				add_node_to_list(&parser_list, create_parser_node(tmp1, 1));
 			}
+			else
+				unlink(file_name);
 			tmp = tmp->next->next;
 			while (tmp && tmp->type == W_SPACE)
 				tmp = tmp->next;
