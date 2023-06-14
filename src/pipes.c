@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 21:16:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 08:33:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
 		}
 		ft_free(cmd->args);
 	}
+	else if (cmd->type == RDIR)
+		redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data);
 	else
 		executer(cmd, STDIN_FILENO, used_end, data);
 }
