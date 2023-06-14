@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:53:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:20:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ void wait_pids(t_tree *root)
 	if (root->type == CMD)
 	{
 		waitpid(root->id, &status, 0);
+		// printf("%d\n", WIFEXITED(status));
 		if (WIFEXITED(status))
 			exit_status = WEXITSTATUS(status);
+		else
+			exit_status = 128 + SIGINT;
 	}
 	wait_pids(root->right);
 }
@@ -83,12 +86,14 @@ int main(int ac, char **av, char **envp)
 {
 	char *cmd;
 	t_main *main;
+	int fd;
 	(void)ac;
 	(void)av;
 
 	main = init(envp);
 	if (!main)
 		return (0);
+	fd = open("tests.txt", O_CREAT| O_RDWR| O_APPEND, 0644);
 	exit_status = 0;
 	while (1)
 	{
@@ -96,12 +101,13 @@ int main(int ac, char **av, char **envp)
 		cmd = readline("\033[1;33mmini_sh-1.0$ \033[0m");
 		if (!cmd)
 			break ;
+		ft_putendl_fd(cmd, fd);
 		if (cmd[0])
 		{
 			main->ast = formater(cmd, main);
 			if(main->ast)
 			{
-				// printTree(ast_tree);
+				// printTree(main->ast);
 				executer(main->ast, STDIN_FILENO, STDOUT_FILENO, main);
 				wait_pids(main->ast);
 				destroy_ast_tree(main->ast);
@@ -110,5 +116,6 @@ int main(int ac, char **av, char **envp)
 			free(cmd);
 		}
 	}
+	close(fd);
 	return (0);
 }

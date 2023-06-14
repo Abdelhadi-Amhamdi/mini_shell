@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 19:15:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 11:35:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 int exit_status;
 
 
-# define HEREDOC_FILENAME "/Users/aamhamdi/tmp/heredoc_file"
+# define HEREDOC_FILENAME "/tmp/heredoc_file"
  
 // pipes
 void run_pipeline(t_tree *pipe_node, int out, t_main *data);

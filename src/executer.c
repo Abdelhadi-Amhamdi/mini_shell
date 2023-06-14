@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 19:07:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 08:41:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void executer(t_tree *root, int in, int out, t_main *data)
 	{
 		exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
 		printf("mini-sh: %s: command not found!\n", root->str);
-		// perror(root->str);
 	}
 	else if (root->type == AND || root->type == OR)
 	{

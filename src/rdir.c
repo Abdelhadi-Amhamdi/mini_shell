@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:50:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 12:33:03 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,21 @@ t_lexer *creat_lexer_node(char *data)
 
 void run_redir_input(t_tree *node, int in, int out, t_main *data)
 {
-	t_lexer *arg_node;
 	t_tree	*right;
 	int fd;
 
 	right = node->right;
-	if (right && node->left && !node->left->is_builtin)
+	fd = open(right->str, O_RDONLY, 0644);
+	if (fd == -1)
 	{
-		arg_node = creat_lexer_node(right->str);
-		if (arg_node)
-			add_token_to_end(&(node->left->cmd_args), arg_node);
+		printf("mini-sh: %s: No such file or directory\n", right->str);
+		exit_status = 1;
+		return ;
 	}
-	else if (right && ((node->left && node->left->is_builtin) || !node->left))
-	{
-		fd = open(right->str, O_RDONLY, 0644);
-		if (fd == -1)
-		{
-			printf("mini-sh: %s: No such file or directory\n", right->str);
-			exit_status = 1;
-			return ;
-		}
-	}
-    executer(node->left, in, out, data);
+	if (in != 0)
+		fd = out;
+    executer(node->left, fd, out, data);
+	close(fd);
 }
 void run_redir_output(char *file_name, t_tree *cmd, int in, int out, t_main *data)
 {
@@ -83,8 +76,12 @@ void run_redir_output(char *file_name, t_tree *cmd, int in, int out, t_main *dat
 	if (file_fd == -1)
 		return ;
     if (out != 1)
+	{
+		close(file_fd);
         file_fd = out;
+	}
 	executer(cmd, in, file_fd, data);
+	close(file_fd);
 }
 
 void run_apand_function(char *file_name, t_tree *cmd, int in, int out, t_main *data)
@@ -97,6 +94,7 @@ void run_apand_function(char *file_name, t_tree *cmd, int in, int out, t_main *d
 	if (out != 1)
 		file_fd = out;
 	executer(cmd, in, file_fd, data);
+	close(file_fd);
 }
 
 void redirection_helper(t_tree *node, int in, int out, t_main *data)

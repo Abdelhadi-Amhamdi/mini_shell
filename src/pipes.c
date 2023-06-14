@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 21:16:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:21:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			close(unused_end);
-			printf("%d\n",  unused_end);
 			dup2(used_end, std_file);
 			close(used_end);
 			dup2(out, STDOUT_FILENO);
@@ -58,6 +57,8 @@ void run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
 		}
 		ft_free(cmd->args);
 	}
+	else if (cmd->type == RDIR || cmd->type == APND)
+		redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data);
 	else
 		executer(cmd, STDIN_FILENO, used_end, data);
 }

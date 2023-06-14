@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:39:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:18:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,19 +108,38 @@ t_tree *create_token_node(t_parser *node, t_tree *left, t_tree *right)
 	new_node->right = right;
 	return (new_node);
 }
+t_tree *termx(t_parser **list);
 
 t_tree *create_tree(t_parser **list)
+{
+	t_tree		*res = termx(list);
+	t_parser	*op;
+
+	while((*list) && (*list)->is_op && (!ft_strncmp((*list)->str , "&&", 3) || !ft_strncmp((*list)->str , "||", 3)))
+	{
+		op = (*list);
+		(*list) = (*list)->next;
+		t_tree *right = termx(list);
+		res = create_token_node(op, res,right);
+	}
+	return (res);
+}
+
+t_tree *termx(t_parser **list)
 {
 	t_tree		*res = term(list);
 	t_parser	*op;
 
-	while((*list) && (*list)->is_op && (!ft_strncmp((*list)->str , "&&", 2) || !ft_strncmp((*list)->str , "||", 2)))
+	while((*list) && (*list)->is_op && !ft_strncmp((*list)->str , "|", 2))
 	{
 		op = (*list);
 		(*list) = (*list)->next;
 		t_tree *right = term(list);
 		res = create_token_node(op, res,right);
 	}
+	// if (res && !res->left && res->is_op && (res->type == HEREDOC \
+	// || res->type == APND || res->type == RDIR) && *list && (*list)->type != CP)
+	// 	res->left = term(list);
 	return (res);
 }
 
@@ -129,7 +148,7 @@ t_tree *term(t_parser **list)
 	t_tree		*res = factor(list);
 	t_parser	*op;
 
-	while((*list) && (*list)->is_op && (ft_strncmp((*list)->str , "&&", 2) && ft_strncmp((*list)->str , "||", 2)))
+	while((*list) && (*list)->is_op && (ft_strncmp((*list)->str , "&&", 3) && ft_strncmp((*list)->str , "||", 3) && ft_strncmp((*list)->str , "|", 2)))
 	{
 		op = (*list);
 		(*list) = (*list)->next;
