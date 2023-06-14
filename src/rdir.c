@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/14 12:33:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 20:13:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void run_redir_input(t_tree *node, int in, int out, t_main *data)
 		return ;
 	}
 	if (in != 0)
-		fd = out;
+		fd = in;
     executer(node->left, fd, out, data);
 	close(fd);
 }

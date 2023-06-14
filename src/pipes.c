@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/14 13:21:23 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:37:54 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,38 @@ void run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
 			close(unused_end);
 			dup2(used_end, std_file);
 			close(used_end);
+			// printf("out %d %s %d\n", out, cmd->str, side);
+			// printf("used %d %s\n", used_end, cmd->str);
+			// printf("unused %d %s\n", unused_end, cmd->str);
 			dup2(out, STDOUT_FILENO);
-			if (out != STDOUT_FILENO && out != -1)
+			if (out > 1)
 				close(out);
 			exec_cmd(cmd, data);	
 		}
 		ft_free(cmd->args);
 	}
-	else if (cmd->type == RDIR || cmd->type == APND)
-		redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data);
+	else if (((cmd->type == RDIR && cmd->str[0] == '>') || cmd->type == APND))
+	{
+		if (side == 1)
+		{
+			close(used_end);
+			redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data);
+		}
+		else
+			redirection_helper(cmd, used_end, STDOUT_FILENO, data);
+	}
+	else if (cmd->type == RDIR && cmd->str[0] == '<')
+	{
+		close(used_end);
+		redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data); 
+	}
 	else
+	{
 		executer(cmd, STDIN_FILENO, used_end, data);
+		close(used_end);
+		if (out != 1)
+			close(out);
+	}
 }
 
 void run_pipeline(t_tree *pipe_node, int out, t_main *data)
