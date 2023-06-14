@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 19:15:10 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:37:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	print_export(t_env	*env, int out)
 			ft_putstr_fd(env->value, out);
 			ft_putendl_fd("\"", out);
 		}
-		if(env->key && !env->value)
+		else if(env->key && !env->value)
 		{
 			ft_putstr_fd("declare -x ", out);
 			ft_putendl_fd(env->key, out);
