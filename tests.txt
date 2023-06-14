@@ -139,3 +139,5 @@ git commit -m "[fix] bug in create blocks function
 git commit -m "[fix] bug in create blocks function"
 ls
 git add .
+git commit -m "[fix] issues in execution"
+git add tests.txt 
