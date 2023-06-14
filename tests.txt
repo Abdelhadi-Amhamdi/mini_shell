@@ -1,0 +1,141 @@
+
+#----test----#
+[tofix]
+ls > a | cat < A
+ls > a | cat < a
+ls > a | cat < a
+
+#----test----#
+
+echo "$AAA " | cat -e
+
+#----test---#
+[tofix]
+cat | cat | ls
+
+#----test---#
+[tofix]
+cat  // interpt it with SIGINT OR SIGQUIT
+echo $?
+
+#-----test----#
+[tofix]
+export a=123
+- fix export a="a b c"
+export $a
+export a="1 2 3 "
+- fix export $a
+
+#----test----#
+[fixed]
+unset PATH
+/bin/ls
+
+#----test----#
+[fixed]
+ls > a
+cat a
+cat a >> a
+cat a
+--------------------------
+
+make
+./app 
+ls > a | cat < a
+ls > a | cat < a
+ls > a | cat < a
+ls > a | cat
+cat < a
+cat < b
+ls | cat < b
+ls > a | cat < b
+ls > c | cat < b
+make 
+ls > a | cat < a
+ls > a | cat < a
+ls > a | cat < a
+ls > a | (cat < a)
+make
+./a
+ls > a | cat < a
+ls -l > a | cat < a
+ls -l > a | (cat < a)
+ls > a | (cat < a)
+ls > a | (cat < a)
+ls > a | (cat < a)
+ls > a | (cat < a)
+ls > a | (cat < a)
+ls > a | cat < a
+ls > a | (cat < a)
+ls > a | (cat < a)
+ls > b | (cat < b)
+ls > b | cat < b
+make
+ls
+ls > b | cat < b
+ls > b | cat < b
+ls > b | cat < b
+ls > b | cat < b
+ls > b | cat < b
+ls > b | cat < b && ls
+ls > b | cat < b && ls -l > a
+ls && ls -l
+ls && ls -l | wc
+ls | wc -l && ls
+ls | wc -l && ls
+ls | wc -l && ls
+ls && ls | wc
+ls && ls | wc
+make
+ls && ls | wc
+ls > a | cat < a
+make
+./a
+./app 
+ls > a | cat < a
+make
+ls | wc && ls
+ls && wc | ls
+ls && ls | wc
+ls && ls | wc
+ls > a | ls
+ls > a | ls < a
+ls > a | cat < a
+ls && ls -la
+ls && ls | wc
+ls && ls
+ls && ls | wc
+ls && ls | wc
+make
+make
+ls && ls | wc
+ls && ls | wc
+ls | wc && ls
+ls | wc && ls
+ls | wc && ls
+ls | wc && ls
+ls | wc && ls
+ls > a | cat < a
+ls > a | cat < a
+ls > a | cat < a
+ls && ls -l | wc -l
+ls && ls -l && ls
+ls | ls -l && ls
+ls | wc -l && ls
+ls > z | cat < z
+cat z
+ls
+ls && ls
+ls nfjhwe && ls
+ls
+ls | wc && ls
+ls  && ls | wc
+rm -rf a b c z
+ls
+git add parse/p_main.c 
+git commit -m "[fix] issue in tree creation"
+git add parse/parser.c 
+git commit -m "[fix] bug in create blocks function
+git commit -m "[fix] bug in create blocks function"
+ls
+git add .
