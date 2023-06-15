@@ -37,8 +37,9 @@ ls > a
 cat a
 cat a >> a
 cat a
---------------------------
 
+#----tests----#
+[fixed]
 ls > a && cat a
 
 ls | grep s | wc > b && cat b
@@ -50,3 +51,17 @@ ls > f | cat > f
 ls > a | cat < a
 
 ---------------------------
+
+out 5 cat 2
+used 6 cat
+unused 7 cat
+
+out 1 cat 2
+used 4 cat
+unused 5 cat
+
+out -1 ls 1
+used 7 ls
+unused 6 ls
+
+

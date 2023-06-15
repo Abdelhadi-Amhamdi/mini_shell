@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/14 20:45:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:10:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_main *init(char **env)
 		return (NULL);
 	data->env = get_env_vars(env);
 	data->ast = NULL;
+	data->old_fds = NULL;
 	signal(SIGINT, sig_int_handler);
 	signal(SIGQUIT, SIG_IGN);
 	return (data);
@@ -73,11 +74,17 @@ void wait_pids(t_tree *root)
 	if (root->type == CMD)
 	{
 		waitpid(root->id, &status, 0);
-		// printf("%d\n", WIFEXITED(status));
 		if (WIFEXITED(status))
 			exit_status = WEXITSTATUS(status);
 		else
-			exit_status = 128 + SIGINT;
+		{
+			int s = WTERMSIG(status);
+			if (s  == SIGQUIT)
+				printf("Quite\n");
+			else if (s == SIGINT)
+				printf("\n");
+			exit_status = 128 + s;
+		}
 	}
 	wait_pids(root->right);
 }

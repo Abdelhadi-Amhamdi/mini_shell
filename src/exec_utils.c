@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:57:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:20:51 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,8 @@ char **cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	char	*value;
 
 	index = 0;
-	if (node->type != CMD)	
-		return (NULL);
 	tmp = node->cmd_args;
-	size = lexer_list_size(node->cmd_args, node->is_builtin);
+	size = lexer_list_size(tmp, node->is_builtin);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (node->path && node->id != -1 && !node->is_builtin)
 	{
@@ -88,7 +86,7 @@ char **cmd_args_list_to_tabs(t_tree *node, t_main *data)
 			return (free(cmd_args), NULL);
 	}
 	else if ((node->id == -1 && node->path) || !node->is_builtin)
-			cmd_args[index++] = ft_strdup(node->path);
+		cmd_args[index++] = ft_strdup(node->str);
 	while (tmp)
 	{
 		if (tmp->type == VAR)
@@ -101,27 +99,15 @@ char **cmd_args_list_to_tabs(t_tree *node, t_main *data)
 				cmd_args[index++] = ft_strdup(value);
 			else
 				cmd_args[index++] = ft_strdup("\0");
-			// if (ft_strncmp(value, tmp->str+1, ft_strlen(tmp->str) + 1))
-			// 	cmd_args[index++] = ft_strdup(value);
-			// else if (!*(tmp->str+1))
-			// 	cmd_args[index++] = ft_strdup("$");
-			// else
-			// 	cmd_args[index++] = ft_strdup("\0");
 		}
 		else
 		{
 			if(node->is_builtin)
-			{
-				cmd_args[index] = ft_strdup(tmp->str);
-				index++;
-			}
+				cmd_args[index++] = ft_strdup(tmp->str);
 			else
 			{
 				if(tmp->type != W_SPACE)
-				{
-					cmd_args[index] = ft_strdup(tmp->str);
-					index++;
-				}
+					cmd_args[index++] = ft_strdup(tmp->str);
 			}
 		}
 		tmp = tmp->next;	

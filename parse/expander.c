@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:51:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:13:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -640,7 +640,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 		return (ft_free(paths), 1);
 	}
 	// check_variables(&list);
-	check_asbpath(&list);
+	// check_asbpath(&list);
 	join_args(&list, paths);
 	set_type(&list);
 	clean_unsed_spaces(&list);
