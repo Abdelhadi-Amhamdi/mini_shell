@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:44:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:57:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 
 # define SYNTAX_ERROR_EXIT_STATUS 258
 # define COMMAND_NOT_FOUND_EXIT_STATUS 127
+# define NO_PERMISSIONS_EXIT_STATUS 126
+# define SUCCESS_EXIT_STATUS 0
+# define FAILURE_EXIT_STATUS 1
+
 # define PIPE_READ_END 0
 # define PIPE_WRITE_END 1
 # define LEFT_CHILD 1
@@ -106,6 +110,7 @@ typedef struct main
 {
 	t_tree *ast;
 	t_env *env;
+	int *old_fds;
 } t_main ;
 
 // main

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 18:24:14 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:23:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,6 +423,7 @@ void join_args(t_lexer **list, char **paths)
 			free(str_tmp);
 			tmp->path = get_path(tmp->str, paths);
 			tmp->next = tmp->next->next;
+			tmp->type = UNK;
 			del_node(next_tmp);
 		}
 		tmp = tmp->next;
