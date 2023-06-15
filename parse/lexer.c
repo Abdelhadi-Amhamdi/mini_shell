@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 15:53:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:24:14 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ char	*ft_word(t_lexer **list, char *cmd, char **paths)
 	t_lexer	*new;
 
 	i = 0;
-	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != 32 && cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != '$' && cmd[i] != '(' && cmd[i] != ')')
+	while(cmd[i] && !is_operator(cmd[i]) && cmd[i] != '\'' && cmd[i] != '"' && cmd[i] != '$' && cmd[i] != 32 && cmd[i] != '(' && cmd[i] != ')')
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
@@ -366,7 +366,7 @@ void	ft_trim_quotes(t_lexer *node)
 	else if(!type)
 		tmp->type = UNK;
 	else
-		tmp->type = VAR;
+		tmp->type = check_type(node,node->path);
 	free(str_tmp);
 }
 
