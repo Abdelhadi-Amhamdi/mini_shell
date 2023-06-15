@@ -50,3 +50,139 @@ ls > f | cat > f
 ls > a | cat < a
 
 ---------------------------
+l's'
+ls
+l's'
+l's'
+l's'
+l's'
+l's'
+l's'
+l's'
+l's'
+l's'
+l's'
+l's'
+l's'
+l's'
+'ls'
+'ls'
+kskhsk
+ls
+ls
+ls
+ls
+ls
+export a=abc
+env
+export
+export bb
+export
+export aaaa
+export
+export
+export a=abc
+export
+export aaaa
+export
+export aaaaaaax
+export
+export aaa=abc
+export xaxaaxaxaxa
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+export aaaa=abc
+export aaaa=abc
+export aaaa=aabc
+export aaaa=aabcc
+export a=abc
+export a=abc
+export aaaa
+export aaaa
+export aaaa
+export aaaa
+export aaaa
+export aaaa
+export aaaa
+export aaaa
+export aaaa
+ls
+ls
+ls
+export aaa=abc
+env
+export xxxxxx
+ls
+ls
+export aaaa
+export
+export AAAAAJ
+export
+env
+ls
+ls
+ls
+lsl
+s
+ls
+lsl
+s
+./app 
+'ls'
+ls
+ls
+ls
+ls
+l
+export a="abc"
+export a="abc"
+export a=''
+make re
+export a="abc"
+export a=abc
+export a="abc"
+export a="abc"
+export a="abc"
+export a="abc"
+export a="$HOME"
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+export a="abc"
+ls
+export a="abc"
+env
+export b='aaaa'
+env
+export sss='cat'
+env
+export ac=''
+env
+export xxxac=''
+env
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+ls
+export a=abc
+env
+export a=abc
+env
+export axxx=abc
+env
