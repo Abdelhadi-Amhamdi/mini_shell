@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/11 15:09:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:05:38 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,16 @@ void	formate_env_item(char **key, char **val, char *item)
 	int	index;
 
 	index = ft_search(item , '=');
-	*key = ft_sub_str(item, 0, index);
 	if(index != -1)
+	{
+		*key = ft_sub_str(item, 0, index);
 		*val = ft_sub_str(item, index + 1, (ft_strlen(item) - index));
+	}
 	else
+	{
+		*key = ft_strdup(item);
 		*val = NULL;
+	}
 }
 
 t_env	*get_env_vars(char **envp)

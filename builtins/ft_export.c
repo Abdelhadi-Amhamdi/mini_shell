@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/14 21:37:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:30:50 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 	}
 	while(cmd->args[i])
 	{
+		
 		formate_env_item(&key, &value, cmd->args[i]);
 		if(check_key(key))
 			return(ft_putendl_fd("export: not a valid identifier",2), 1);

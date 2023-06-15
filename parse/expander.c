@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 18:13:26 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:24:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -641,8 +641,8 @@ int	ft_expander(t_lexer *list, t_env *env)
 	}
 	// check_variables(&list);
 	// check_asbpath(&list);
-	join_args(&list, paths);
 	set_type(&list);
+	join_args(&list, paths);
 	clean_unsed_spaces(&list);
 	if (syntax_analyzer(list))
 	{
