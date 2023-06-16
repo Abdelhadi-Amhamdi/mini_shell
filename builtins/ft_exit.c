@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/13 18:51:43 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:30:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ int is_empty(char *data)
 
 int check_args_num(char **args)
 {
-	int index = 1;
+	int		index;
+
+	index = 1;
 	while (args[index])
 	{
 		if (is_empty(args[index]))
@@ -58,36 +60,35 @@ int check_args_num(char **args)
 	return (0);
 }
 
-void __exit__(int status, t_tree *tree)
+void	__exit__(int status, t_tree *tree)
 {
-	// destroy the tree;
 	destroy_ast_tree(tree);
 	exit(status);
 }
 
 void	ft_exit(t_tree *cmd_data, t_tree *tree)
 {
-	char *data;
+	char	*data;
 
 	if (!(*cmd_data->args))
 	{
-		ft_putendl_fd("exit",1);
+		ft_putendl_fd("exit", 1);
 		__exit__(0, tree);
 	}
 	data = cmd_data->args[0];
-	ft_putendl_fd("exit",1);
+	ft_putendl_fd("exit", 1);
 	if (check_args_num(cmd_data->args))
 	{
-		ft_putstr_fd("mini-sh: exit: ",2);
-		ft_putendl_fd(": too many arguments!",2);
+		ft_putstr_fd("mini-sh: exit: ", 2);
+		ft_putendl_fd(": too many arguments!", 2);
 		exit_status = 255;
 		__exit__(exit_status, tree);
 	}
 	if (parse_data(data))
 	{
-		ft_putstr_fd("mini-sh: exit: ",2);
-		ft_putstr_fd(data,2);
-		ft_putendl_fd(": numeric argument require!",2);
+		ft_putstr_fd("mini-sh: exit: ", 2);
+		ft_putstr_fd(data, 2);
+		ft_putendl_fd(": numeric argument require!", 2);
 		exit_status = 255;
 		__exit__(exit_status, tree);
 	}
