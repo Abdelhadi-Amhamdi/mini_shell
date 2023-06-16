@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:21:48 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:12:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:35:27 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	sig_int_handler(int type)
 	}
 }
 
-void	sigint_heredoc_handler(void)
+void	sigint_heredoc_handler()
 {
 	ft_putstr_fd("\n", STDOUT_FILENO);
 	rl_on_new_line();

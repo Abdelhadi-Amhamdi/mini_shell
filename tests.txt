@@ -64,3 +64,4 @@ out -1 ls 1
 used 7 ls
 unused 6 ls
 git add tests.txt 
+git commit -m "[clean]"

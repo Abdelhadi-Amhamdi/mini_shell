@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:21:39 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:38:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+#include <dirent.h>
 # include <errno.h>
 
-int	g_exit_status;
+int	exit_status;
 
 # define HEREDOC_FILENAME "/tmp/heredoc_file"
 
@@ -56,4 +57,6 @@ char	*start_heredoc(t_lexer *node, t_boolean to_expand, t_main *data);
 
 void	sig_int_handler(int type);
 void	destroy_ast_tree(t_tree *root);
+
+void	sigint_heredoc_handler();
 #endif

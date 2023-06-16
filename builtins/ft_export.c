@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:29:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:36:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	check_spaces(char *str)
 	int	index;
 
 	index = 0;
-	if (str[i] == '=')
+	if (str[index] == '=')
 	{
 		ft_putendl_fd("export :not a valid identifier", STDERR_FILENO);
 		return (0);

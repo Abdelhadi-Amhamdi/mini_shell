@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:18:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:33:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_sub_str(char *str, int start, int len)
 	char	*s;
 
 	i = 0;
-	s = malloc (len + 1);
+	s = malloc(len + 1);
 	if (!s)
 		return (NULL);
 	while (str[start] && i < len)
@@ -63,9 +63,22 @@ void	formate_env_item(char **key, char **val, char *item)
 	}
 }
 
+void	add_oldpwd(t_env **envp)
+{
+	t_env	*oldpwd;
+	t_env	*new;
+
+	oldpwd = ft_search_env(*envp, "OLDPWD");
+	if (!oldpwd)
+	{
+		new = ft_new_node("OLDPWD", NULL);
+		ft_add_back_env(envp, new);
+	}
+}
+
 t_env	*get_env_vars(char **envp)
 {
-	t_env	*env ;
+	t_env	*env;
 	t_env	*node;
 	int		index;
 	char	*key;
@@ -91,5 +104,6 @@ t_env	*get_env_vars(char **envp)
 			ft_add_back_env(&env, node);
 		index++;
 	}
+	add_oldpwd(&env);
 	return (env);
 }
