@@ -6,55 +6,55 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:06:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 23:33:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-int	lexer_list_size(t_lexer *list, int is_b)
-{
-	int	size;
-
-	size = 0;
-	while (list && is_b)
-	{
-		list = list->next;
-		size++;
-	}
-	while (list && !is_b)
-	{
-		if (list->type != W_SPACE)
-			size++;
-		list = list->next;
-	}
-	return (size);
-}
-
-int	path_exist(char *path, char **paths)
-{
-	int	index;
-
-	index = 0;
-	while (paths[index])
-	{
-		if (!ft_strncmp(path, paths[index], ft_strlen(paths[index])))
-			return (1);
-		index++;
-	}
-	return (0);
-}
 
 int	check_path_exist(char *path, t_main *data)
 {
 	char	**paths;
 
 	paths = all_paths(data->env);
-	if (!paths)	
+	if (!paths)
 		return (1);
 	if (path_exist(path, paths))
 		return (ft_free(paths), 0);
 	return (ft_free(paths), 1);
+}
+
+char	*_path(t_tree *node, t_main *data)
+{
+	if (node->path && node->id != -1 && !node->is_builtin)
+	{
+		if (!check_path_exist(node->path, data))
+			return (node->path);
+		else
+			return (NULL);
+	}
+	else if ((node->id == -1 && node->path) || !node->is_builtin)
+	{
+		if (node->type == VAR)
+			return (expand(node->str, data->env, 1));
+		else
+			return (node->str);
+	}
+	return (NULL);
+}
+
+char	*mini_expander(t_lexer *node, t_main *data)
+{
+	char	*value;
+
+	if (!ft_strncmp(node->str + 1, "?", 2))
+		value = ft_itoa(exit_status);
+	else
+		value = expand(node->str, data->env, 1);
+	if (value)
+		return (value);
+	else
+		return (ft_strdup("\0"));
 }
 
 char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
@@ -63,50 +63,22 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	t_lexer	*tmp;
 	int		size;
 	int		index;
-	char	*value;
+	char	*path;
 
 	index = 0;
 	tmp = node->cmd_args;
-	size = lexer_list_size(tmp, node->is_builtin);
+	size = _args_size(tmp, node->is_builtin);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
-	if (node->path && node->id != -1 && !node->is_builtin)
-	{
-		if (!check_path_exist(node->path, data))
-			cmd_args[index++] = ft_strdup(node->path);
-		else
-			return (free(cmd_args), NULL);
-	}
-	else if ((node->id == -1 && node->path) || !node->is_builtin)
-	{
-		if (node->type == VAR)
-			cmd_args[index++] = expand(node->str, data->env, 1);
-		else
-			cmd_args[index++] = ft_strdup(node->str);
-	}
+	path = _path(node, data);
+	if (path)
+		cmd_args[index++] = ft_strdup(path);
 	while (tmp)
 	{
 		if (tmp->type == VAR)
-		{
-			if (!ft_strncmp(tmp->str+1, "?", 2))
-				value = ft_itoa(exit_status);
-			else
-				value = expand(tmp->str, data->env, 1);
-			if (value)
-				cmd_args[index++] = ft_strdup(value);
-			else
-				cmd_args[index++] = ft_strdup("\0");
-		}
-		else
-		{
-			if (node->is_builtin)
+			cmd_args[index++] = ft_strdup(mini_expander(tmp, data));
+		else if (node->is_builtin || tmp->type != W_SPACE)
 				cmd_args[index++] = ft_strdup(tmp->str);
-			else
-			{
-				if (tmp->type != W_SPACE)
-					cmd_args[index++] = ft_strdup(tmp->str);
-			}
-		}
-		tmp = tmp->next;	
+		tmp = tmp->next;
 	}
 	cmd_args[index] = NULL;
 	return (cmd_args);
