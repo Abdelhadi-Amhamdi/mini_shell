@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/13 19:09:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:24:22 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 #include "../includes/mini_shell.h"
 
-int is_all_space(char *s)
+int	is_all_space(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
-		if(!is_space(s[i]))
+		if (!is_space(s[i]))
 			return (0);
 		i++;
 	}
-	return(1);
+	return (1);
 }
 
-int is_all_n(char *data)
+int	is_all_n(char *data)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	while (data[index])
@@ -56,7 +56,7 @@ int	ft_echo(t_tree *node, int out)
 	int	new_line;
 	int	i;
 
-	i = 0;	
+	i = 0;
 	new_line = check_new_line(node->args[i]);
 	if (!new_line)
 	{
@@ -65,7 +65,7 @@ int	ft_echo(t_tree *node, int out)
 	}
 	while (node->args[i])
 	{
-		if(is_all_space(node->args[i]))
+		if (is_all_space(node->args[i]))
 			ft_putstr_fd(" ", out);
 		else
 			ft_putstr_fd(node->args[i], out);

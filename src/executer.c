@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 20:04:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:12:38 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void run_cmd(t_tree *cmd, int in, int out, t_main *data)
 	if(cmd->is_builtin)
 	{
 		exit_status = exec_builtin(cmd, &data->env, data, out);
+		ft_free(cmd->args);
 		return ;
 	}
 	cmd->id = fork();

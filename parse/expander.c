@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 20:24:30 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:54:28 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ char *get_string(char *s, int *index, t_env	*envp, int last)
 
 	start = *index;
 	i = 0;
-	if(s[*index] == '$' || s[*index] == '/' || s[*index] == '.' || s[*index] == 32)
+	if(s[*index] == '$' || s[*index] == '/' || s[*index] == '.' || s[*index] == 32 || s[*index] == '-' || s[*index] == '=' || s[*index] == '+')
 	{
 		len++;
 		*index = *index + 1;
 	}
-	while(s[*index] && s[*index] != 32 && s[*index] != '/' && s[*index] != '.' && s[*index] != '$')
+	while(s[*index] && s[*index] != 32 && s[*index] != '/' && s[*index] != '.' && s[*index] != '$' &&  s[*index] != '=' && s[*index] != '-' && s[*index] != '+')
 	{
 		len++;
 		*index = *index + 1;
@@ -48,20 +48,22 @@ char *get_string(char *s, int *index, t_env	*envp, int last)
 	var = malloc (len + 1);
 	if(!var)
 		return(ft_putendl_fd("Malloc Failed\n",2),NULL);
-	if(s[start] == '$' || s[start] == '/' || s[start] == '.' || s[start] == 32)
+	
+	if(s[start] == '$' || s[start] == '/' || s[start] == '.' || s[start] == 32 || s[start] == '=' || s[start] == '-' || s[start] == '+')
 		var[i++] = s[start++];
-	while(s[start] && s[start] != 32 && s[start] != '/' && s[start] != '.' && s[start] != '$')
+	while(s[start] && s[start] != 32 && s[start] != '/' && s[start] != '.' && s[start] != '$' && s[start] != '=' && s[start] != '-' && s[start] != '+')
 		var[i++] =s[start++];
 	var[i] = '\0';
 	str = ft_get_expand_val(var + 1, envp);
 	if(var[0] == '$' && str)
 	{
 		old = var;
-		var = str;
+		var = ft_strdup(str);
 		free(old);
 	}
 	else if (!str && last && s[begining] == '$')
 		var = NULL;
+	free(str);
 	return(var);
 }
 
@@ -73,7 +75,8 @@ char	*expand(char *var, t_env *envp, int last)
 	char *old;
 	
 	i = 0;
-	str = get_string(var,&i, envp, last);
+	// str = get_string(var,&i, envp, last);
+	str=NULL;
 	while(var[i])
 	{
 		old = str;
