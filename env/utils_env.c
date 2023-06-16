@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/05 16:36:12 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:18:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "../includes/mini_shell.h"
 
 t_env	*ft_new_node(char *key, char *val)
 {
-	t_env *new_node;
+	t_env	*new_node;
 
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
@@ -40,4 +40,17 @@ void	ft_add_back_env(t_env **list, t_env *item)
 		tmp->next = item;
 		item->prev = tmp;
 	}
+}
+
+int	env_list_size(t_env *list)
+{
+	int	index;
+
+	index = 0;
+	while (list)
+	{
+		index++;
+		list = list->next;
+	}
+	return (index);
 }

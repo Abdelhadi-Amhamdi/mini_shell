@@ -6,25 +6,20 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 20:04:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:09:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-void run_cmd(t_tree *cmd, int in, int out, t_main *data)
+void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 {
 	cmd->is_builtin = is_builtin(cmd->str);
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
-	if (!cmd->args && !cmd->is_builtin)
-	{
-		exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
-		printf("mini-sh: %s: command not found!\n", cmd->str);
-		return ;
-	}
-	if(cmd->is_builtin)
+	if (cmd->is_builtin)
 	{
 		exit_status = exec_builtin(cmd, &data->env, data, out);
+		ft_free(cmd->args);
 		return ;
 	}
 	cmd->id = fork();
@@ -46,7 +41,7 @@ void run_cmd(t_tree *cmd, int in, int out, t_main *data)
 
 int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 {
-	if(!ft_strncmp(cmd->str, "cd", 2))
+	if (!ft_strncmp(cmd->str, "cd", 2))
 		return (ft_cd(*env,cmd));
 	else if(!ft_strncmp(cmd->str, "env", 3))
 		return (ft_env(*env, out));
@@ -63,10 +58,13 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 	return (0);
 }
 
-void exec_unknown(t_tree *cmd, int in, int out, t_main *data)
+void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 {
-	int status;
+	int	status;
+
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
+	if (!(*cmd->args))
+		return ;
 	cmd->id = fork();
 	if (!cmd->id)
 	{
@@ -94,7 +92,7 @@ void exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 		exit_status = FAILURE_EXIT_STATUS;
 }
 
-void executer(t_tree *root, int in, int out, t_main *data)
+void	executer(t_tree *root, int in, int out, t_main *data)
 {
 	if (!root)
 		return ;
@@ -102,14 +100,14 @@ void executer(t_tree *root, int in, int out, t_main *data)
 		run_cmd(root, in, out, data);
 	else if (root->type == RDIR || root->type == APND)
 		redirection_helper(root, in, out, data);
-	else if (root->type == UNK || root->type == W_SPACE)
-		exec_unknown(root, in, out, data);
 	else if (root->type == AND || root->type == OR)
 	{
 		if (out != STDOUT_FILENO)
-			out  = STDOUT_FILENO;
+			out = STDOUT_FILENO;
 		run_connectors(root, in, out, data);
 	}
 	else if (root->type == PIPE)
 		run_pipeline(root, out, data);
+	else
+		exec_unknown(root, in, out, data);
 }

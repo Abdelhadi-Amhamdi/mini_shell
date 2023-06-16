@@ -66,3 +66,229 @@ unused 6 ls
 
 
 
+export a="a b c"
+env
+export $a
+env
+eport
+export
+ls
+ls > a | cat < a
+cat a
+ls
+rm -rf a
+ls
+make
+make
+make
+make
+make re
+ls
+cat | grep s
+ls
+ls | wc
+ls | grep s
+ls | grep s | wc
+cat | cat | ls
+cat | cat | cat | cat | ls
+ls
+cat | cat | cat| cat | cat | cat | cat| cat | cat | cat | cat| cat 
+cat | cat | cat| cat | cat | cat | cat| cat | cat | cat | cat| cat | ls
+cat | cat | cat| cat | cat | cat | cat| cat | cat | cat | cat| cat | ls
+ls
+clear
+ls
+cat | cat | cat| cat | cat | cat | cat| cat | cat | cat | cat| cat | ls
+make re
+cat | cat | cat | cat | cat | ls
+cat | cat | cat | cat | cat | cat| ls
+ls
+cat
+ls
+ls
+cat | cat | ls
+cat | cat | ls
+cat | cat | ls
+make re
+cat | cat | ls
+make
+cat | cat | ls
+ls
+ls | grep s
+ls | grep s | wc
+cat | cat | ls
+make
+cat | cat | ls
+cat | cat | cat | cat | cat | cat | ls
+make re
+cat | cat | cat | cat | cat | cat | cat | ls
+make
+ls | grep s | cat | wc
+cat | cat | cat | ls
+make
+cat | cat | cat | ls
+make re
+cat | cat | cat | ls
+ls | grep s | cat | wc
+ls
+ls | grep s | cat | cat | cat | cat | ls
+cat | cat | ls
+cat | cat | ls
+cat | cat | ls
+cat | cat | cat | cat | ls
+cat | cat | cat | cat | cat | ls
+cat | cat | cat | ls
+ls
+echo
+echo
+cat | cat | cat| cat | ls
+make re
+cat | cat | cat | cat | ls
+cat | cat | cat | cat | cat |ls
+cat | cat | cat | cat | cat | cat | ls
+echo $HOME&
+echo $HOME &
+echo $HOME &&
+env
+env
+env | grep OLD
+cd 
+pwd
+env OLD
+env |grep OLD
+unset OLDPWD
+env |grep OLD
+cd Desktop/
+env |grep OLD
+echo $
+echo $$
+echo $$$$$$
+ls
+echo $-dfds
+$/dljfds
+$/dljfds
+$/dljfds
+echo $/dljfds
+$HOME
+$fhgdhgdd
+
+$fghmjhgdf
+echo $mgjdssd
+make
+$fgdghjdg
+$fgdghjdg
+$fgdghjdg
+echo $mdhgdjg
+echo $/mdhgdjg
+echo $=mdhgdjg
+echo $+mdhgdjg
+export 25g23=a
+make
+export 37mdj=a
+make
+make
+export 4bhdfg=a
+make
+export 4fhgjh=a
+export 438jhdj+fjh=4
+export f438jhdj+fjh=4
+make
+export d3+f=5
+export f438jhdj+fjh=4
+make re
+echo $echo $f438jhdj+fjh
+make
+make
+echo $f438jhdj+fjh
+make
+echo $f438jhdj+fjh
+$f438jhdj+fjh
+$HOME
+dksjdskf
+$dksjdskf
+$dksjd+skf
+make
+./app 
+$dksjd+skf
+make
+$dfhjjs+sdjfhsj
+make
+$mhsfjs+dsdhs
+make
+$jhdj+dafj
+make
+$mhjdsf+dkhffj
+make
+$mhfjs+djhdjsf
+$dfjdf+ddshfjhf
+$msfhj+sdnsf
+make
+make
+$sghjsg+dsfnsf
+make
+$fhgjfg+dsjhsfs
+$dhsj+sdfjshf
+dsfjdsfs
+dsfjdsfssdsfs
+./a
+touch a
+./a
+$,fjgdfgdg
+ssjdksaj
+$sjkdsjf
+$sjkdsjf
+$sjkdsjf+gdhgfdf
+$kddjdj
+$,jfjsf
+make
+$mfhjsfs
+$,djhfj
+$~dfdhs
+$|dsmndms
+$|
+$|lsfjkjd
+echo $~dmhjds
+echo $dm~hjds
+$5dfn~dsf
+$~dfn~dsf
+make re
+echo $~dfkfj
+echo $7dfkfj
+echo $$
+echo $
+echo $gjsjgsd
+echo $-gjsjgsd
+echo $ gjsjgsd
+make
+./ap
+./app 
+ls
+ps
+ls
+./app 
+ls
+ps
+./app 
+ps
+ls
+leaks app
+ls
+ls
+ls
+clear
+echo $
+echo $$
+echo $$$$$$$
+echo $-
+echo $~heelkf
+echo $/heelkf
+echo $\heelkf
+sdsadas
+export fsf=dsj=a
+env
+export fsf\\=dsj=a
+export fsf\\=dsj=a
+export fsf\\=dsj=a
+git add .
+rm -rf a
+git add .

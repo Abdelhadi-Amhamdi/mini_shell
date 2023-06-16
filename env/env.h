@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:20:59 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/09 14:43:13 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:18:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ t_env	*ft_new_node(char *key, char *val);
 void	ft_add_back_env(t_env **list, t_env *item);
 t_env	*get_env_vars(char **envp);
 void	formate_env_item(char **key, char **val, char *item);
-int ft_search(char *item, char tofind);
+int		ft_search(char *item, char tofind);
 
 #endif

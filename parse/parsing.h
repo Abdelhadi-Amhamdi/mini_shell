@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 19:57:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:42:49 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,17 @@ typedef struct s_tree
 	struct s_tree	*right;
 }					t_tree;
 
-typedef struct s_app
+typedef struct s_pipes
 {
-	t_env		*env_list;
-	int			hdoc_fd;
-	int status;
-}	t_app;
+	int *pipe;
+	struct s_pipes *next;
+} t_pipes;
 
 typedef struct main
 {
 	t_tree *ast;
 	t_env *env;
-	int *old_fds;
+	t_pipes *pipes;
 } t_main ;
 
 // main
