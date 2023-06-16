@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:24:49 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:56:32 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	is_empty(char *data)
 
 int	check_args_num(char **args)
 {
-	int	index;
+	int		index;
 
 	index = 1;
 	while (args[index])
@@ -63,14 +63,13 @@ int	check_args_num(char **args)
 
 void	__exit__(int status, t_tree *tree)
 {
-	// destroy the tree;
 	destroy_ast_tree(tree);
 	exit(status);
 }
 
 void	ft_exit(t_tree *cmd_data, t_tree *tree)
 {
-	char *data;
+	char	*data;
 
 	if (!(*cmd_data->args))
 	{

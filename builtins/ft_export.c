@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:27:22 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:56:17 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ t_env	*smallest_env_key(t_env *env, t_env *node)
 
 int	count_env(t_env *env)
 {
-	int	i;
+	int	counter;
 
-	i = 0;
+	counter = 0;
 	while (env)
 	{
-		i++;
+		counter++;
 		env = env->next;
 	}
-	return (i);
+	return (counter);
 }
 
 void	print_export(t_env *env, int out)
@@ -68,7 +68,7 @@ void	print_export(t_env *env, int out)
 	}
 	while (env)
 	{
-		if (env->key && env->value && ft_strncmp(env->key, "_", 2))
+		if (env->key && env->value && ft_strncmp(env->key,"_", 2))
 		{
 			ft_putstr_fd("declare -x ", out);
 			ft_putstr_fd(env->key, out);
@@ -85,7 +85,26 @@ void	print_export(t_env *env, int out)
 	}
 }
 
-int	is_exist(t_env *node, t_env *env)
+int	check_spaces(char *str)
+{
+	int	index;
+
+	index = 0;
+	if (str[index] == '=')
+	{
+		ft_putendl_fd("export :not a valid identifier", STDERR_FILENO);
+		return (0);
+	}
+	while (str[index])
+	{
+		if (str[index] == '=' && str[index] == 32)
+			return (0);
+		index++;
+	}
+	return (1);
+}
+
+int	is_exist(t_env	*node, t_env	*env)
 {
 	while (env)
 	{
@@ -115,12 +134,12 @@ int	check_key(char *key)
 	int	i;
 
 	i = 0;
-	if (key && (!ft_isalpha(key[i]) && key[i] != '_' && key[i] == '\\'))
+	if (key && (!ft_isalpha(key[i]) && key[i] != '_' && key[i] != '\\'))
 		return (1);
 	i++;
 	while (key[i])
 	{
-		if (!ft_isalnum(key[i]) && key[i] != '_' && key[i] == '\\')
+		if (!ft_isalnum(key[i]) && key[i] != '_' && key[i] != '\\')
 			return (1);
 		i++;
 	}

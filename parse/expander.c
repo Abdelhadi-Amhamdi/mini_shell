@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 22:54:28 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:54:22 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char *get_string(char *s, int *index, t_env	*envp, int last)
 		var[i++] =s[start++];
 	var[i] = '\0';
 	str = ft_get_expand_val(var + 1, envp);
+	if(var && (!var[1] || (var[0] == '$' && !ft_isalpha(var[1]))))
+		return(var);
 	if(var[0] == '$' && str)
 	{
 		old = var;
