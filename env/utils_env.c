@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/05 16:36:12 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:28:28 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_env	*ft_new_node(char *key, char *val)
 {
-	t_env *new_node;
+	t_env	*new_node;
 
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)

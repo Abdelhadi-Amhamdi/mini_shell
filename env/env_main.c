@@ -6,33 +6,33 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 17:05:38 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:27:41 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./env.h"
 
-char *ft_sub_str(char *str, int start, int len)
+char	*ft_sub_str(char *str, int start, int len)
 {
-	int i;
-	char *s;
+	int		i;
+	char	*s;
 
 	i = 0;
-	s = malloc (len + 1);
-	if(!s)
-		return(NULL);
-	while(str[start] && i < len)
+	s = malloc(len + 1);
+	if (!s)
+		return (NULL);
+	while (str[start] && i < len)
 	{
-		if(str[start] != '\\')
+		if (str[start] != '\\')
 			s[i] = str[start];
 		i++;
 		start++;
 	}
 	s[i] = '\0';
-	return(s);
+	return (s);
 }
 
-int ft_search(char *item, char tofind)
+int	ft_search(char *item, char tofind)
 {
 	int	index;
 
@@ -50,8 +50,8 @@ void	formate_env_item(char **key, char **val, char *item)
 {
 	int	index;
 
-	index = ft_search(item , '=');
-	if(index != -1)
+	index = ft_search(item, '=');
+	if (index != -1)
 	{
 		*key = ft_sub_str(item, 0, index);
 		*val = ft_sub_str(item, index + 1, (ft_strlen(item) - index));
@@ -63,13 +63,27 @@ void	formate_env_item(char **key, char **val, char *item)
 	}
 }
 
+void	add_oldpwd(t_env **envp)
+{
+	t_env	*oldpwd;
+	t_env	*new;
+
+	oldpwd = ft_search_env(*envp, "OLDPWD");
+	if (!oldpwd)
+	{
+		new = ft_new_node("OLDPWD", NULL);
+		ft_add_back_env(envp, new);
+	}
+}
+
 t_env	*get_env_vars(char **envp)
 {
-	t_env	*env ;
+	t_env	*env;
 	t_env	*node;
 	int		index;
 	char	*key;
 	char	*value;
+	int		v;
 
 	env = NULL;
 	index = 0;
@@ -80,7 +94,7 @@ t_env	*get_env_vars(char **envp)
 		formate_env_item(&key, &value, envp[index]);
 		if (!ft_strncmp(key, "SHLVL", ft_strlen(key)))
 		{
-			int v = ft_atoi(value);
+			v = ft_atoi(value);
 			v++;
 			free(value);
 			value = ft_itoa(v);
@@ -90,5 +104,6 @@ t_env	*get_env_vars(char **envp)
 			ft_add_back_env(&env, node);
 		index++;
 	}
+	add_oldpwd(&env);
 	return (env);
 }
