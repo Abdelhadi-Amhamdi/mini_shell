@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 10:58:49 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 10:59:21 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 23:36:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,46 +33,42 @@ char	*ft_strjoin_entrys(char const *s1, char const *s2)
 	return (p);
 }
 
-int	is_match(char *str, char *cnd)
+int	check_end(t_wildcard_data data, char *cnd)
 {
-	int	index;
-	int	j;
-	int	last_wild_index;
-	int	next_wild_index;
-	int	backtracking_index;
-
-	index = 0;
-	j = 0;
-	last_wild_index = -1;
-	next_wild_index = -1;
-	backtracking_index = -1;
-	while (str[index])
+	while (data.cnd_index < (int)ft_strlen(cnd))
 	{
-		if (cnd[j] == str[index])
-		{
-			index++;
-			j++;
-		}
-		else if (cnd[j] == '*')
-		{
-			last_wild_index = j;
-			next_wild_index = ++j;
-			backtracking_index = index;
-		}
-		else if (last_wild_index == -1)
-			return (0);
-		else
-		{
-			j = next_wild_index;
-			index = ++backtracking_index;
-		}
-	}
-	while (j < (int)ft_strlen(cnd))
-	{
-		if (cnd[j++] != '*')
+		if (cnd[data.cnd_index++] != '*')
 			return (0);
 	}
 	return (1);
+}
+
+int	is_match(char *str, char *cnd)
+{
+	t_wildcard_data	data;
+
+	data = init_data();
+	while (str[data.str_index])
+	{
+		if (cnd[data.cnd_index] == str[data.str_index])
+		{
+			data.str_index++;
+			data.cnd_index++;
+		}
+		else if (cnd[data.cnd_index] == '*')
+		{
+			data.next_card = ++data.cnd_index;
+			data.backtrack = data.str_index;
+		}
+		else if (data.next_card == -1)
+			return (0);
+		else
+		{
+			data.cnd_index = data.next_card;
+			data.str_index = ++data.backtrack;
+		}
+	}
+	return (check_end(data, cnd));
 }
 
 int	allow_hidden(char *file_name, char *cnd)
