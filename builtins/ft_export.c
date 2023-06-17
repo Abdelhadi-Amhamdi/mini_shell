@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 12:56:17 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/17 13:03:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,17 +152,14 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 	t_env	*tmp;
 	char	*key;
 	char	*value;
-	int		i;
+	int		index;
 
-	i = 0;
-	if (!cmd->args[i])
+	index = 0;
+	if (!cmd->args[index])
+		return (print_export(*env, out), 0);
+	while (cmd->args[index])
 	{
-		print_export(*env, out);
-		return (0);
-	}
-	while (cmd->args[i])
-	{
-		formate_env_item(&key, &value, cmd->args[i]);
+		formate_env_item(&key, &value, cmd->args[index]);
 		if (check_key(key))
 			return (ft_putendl_fd("export: not a valid identifier", 2), 1);
 		node = ft_new_node(key, value);
@@ -173,7 +170,7 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 			tmp = search_node(node, *env);
 			tmp->value = value;
 		}
-		i++;
+		index++;
 	}
 	return (0);
 }

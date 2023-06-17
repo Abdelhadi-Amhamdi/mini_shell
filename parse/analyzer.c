@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   analyzer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:25:59 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 16:31:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/17 16:43:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	syntax_analyzer(t_lexer *list)
 		if (tmp->is_oper && tmp->type != RDIR && tmp->type != APND
 			&& tmp->type != HEREDOC)
 			res += check_opeators(tmp);
-		else if (tmp->type == RDIR || tmp->type == APND)
+		else if (tmp->type == RDIR || tmp->type == APND || tmp->type == HEREDOC)
 			res += check_redir(tmp);
 		else if (tmp->type == OP || tmp->type == CP)
 			res += check_pth(tmp);
