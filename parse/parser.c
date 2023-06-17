@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:31 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 18:36:08 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:54:14 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_lexer	*ft_nodedup(t_lexer *node)
 	if (!new_node)
 		return (NULL);
 	new_node->is_builtin = node->is_builtin;
-	// new_node->is_oper = node->is_builtin;
+	new_node->is_oper = node->is_builtin;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	new_node->id = node->id;

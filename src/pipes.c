@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 11:35:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 17:10:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,12 @@ void	run_pipeline(t_tree *pipe_node, int out, t_main *data)
 	p_data.out = -1;
 	p_data.side = LEFT_CHILD;
 	add_to_end(&data->pipes, pipe_node_create(&fds));
-	run_pipe(pipe_node->left, fds, p_data, data);
+	if (pipe_node->left)
+		run_pipe(pipe_node->left, fds, p_data, data);
 	p_data.side = RIGHT_CHILD;
 	p_data.out = out;
-	run_pipe(pipe_node->right, fds, p_data, data);
+	if (pipe_node->right)
+		run_pipe(pipe_node->right, fds, p_data, data);
 	if (out != STDOUT_FILENO)
 		close(out);
 	close(fds[PIPE_WRITE_END]);
