@@ -50,6 +50,8 @@ ls > f | cat > f
 
 ls > a | cat < a
 
+ls |> b
+
 ---------------------------
 
 out 5 cat 2
@@ -63,5 +65,6 @@ unused 5 cat
 out -1 ls 1
 used 7 ls
 unused 6 ls
-git add tests.txt 
-git commit -m "[clean]"
+
+$HEHEJE.sfjksjk
+echo$HOME

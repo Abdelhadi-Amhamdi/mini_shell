@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 20:23:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:57:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,24 +253,24 @@ t_lexer	*tokenizer(char *cmd, char **paths)
 	return (list);
 }
 
-void clean_white_spaces(t_lexer **list)
-{
-	t_lexer *tmp;
-	t_lexer *prev_node;
+// void clean_white_spaces(t_lexer **list)
+// {
+// 	t_lexer *tmp;
+// 	t_lexer *prev_node;
 
-	tmp = *list;
-	while (tmp)
-	{
-		prev_node = NULL;
-		tmp->type = check_type(tmp, tmp->path);
-		if (tmp->type == W_SPACE && ((tmp->prev && tmp->prev->is_oper) || (tmp->next && tmp->next->is_oper)))
-		{
-			prev_node = tmp->prev;
-			prev_node->next = tmp->next;
-		}
-		tmp = tmp->next;
-	}
-}
+// 	tmp = *list;
+// 	while (tmp)
+// 	{
+// 		prev_node = NULL;
+// 		tmp->type = check_type(tmp, tmp->path);
+// 		if (tmp->type == W_SPACE && ((tmp->prev && tmp->prev->is_oper) || (tmp->next && tmp->next->is_oper)))
+// 		{
+// 			prev_node = tmp->prev;
+// 			prev_node->next = tmp->next;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
 
 // loop over the list and set types
 void set_type(t_lexer **list)
