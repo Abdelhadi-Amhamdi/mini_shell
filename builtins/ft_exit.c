@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:30:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:56:32 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-int check_digits(char *data)
+int	check_digits(char *data)
 {
-	int index; 
+	int	index;
 
 	index = 0;
 	while (data[index])
@@ -26,17 +26,18 @@ int check_digits(char *data)
 	return (0);
 }
 
-int parse_data(char *data)
+int	parse_data(char *data)
 {
 	if (check_digits(data))
 		return (1);
 	return (0);
 }
 
-int is_empty(char *data)
+int	is_empty(char *data)
 {
-	int index = 0;
-	
+	int	index;
+
+	index = 0;
 	while (data[index])
 	{
 		if (data[index] != ' ')
@@ -46,7 +47,7 @@ int is_empty(char *data)
 	return (0);
 }
 
-int check_args_num(char **args)
+int	check_args_num(char **args)
 {
 	int		index;
 

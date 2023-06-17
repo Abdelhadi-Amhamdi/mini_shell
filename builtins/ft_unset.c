@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 11:23:51 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:55:36 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/mini_shell.h"
 
-t_env	*env_search(char *arg, t_env	*env)
+t_env	*env_search(char *arg, t_env *env)
 {
 	while (env)
 	{
@@ -24,7 +23,7 @@ t_env	*env_search(char *arg, t_env	*env)
 	return (NULL);
 }
 
-t_env	*ft_unset(t_tree	*node, t_env *env)
+t_env	*ft_unset(t_tree *node, t_env *env)
 {
 	int		i;
 	t_env	*cur;

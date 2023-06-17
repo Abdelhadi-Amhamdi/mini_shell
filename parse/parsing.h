@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/15 20:42:49 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:20:30 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_lexer
 	t_boolean		is_oper;
 	t_boolean		is_builtin;
 	t_type			type;
-	int id;
+	int				id;
 	char			*path;
 	struct s_lexer	*next;
 	struct s_lexer	*prev;
@@ -80,7 +80,7 @@ typedef struct s_parser
 	t_type			type;
 	t_boolean		is_builtin;
 	t_boolean		is_op;
-	int id;
+	int				id;
 	struct s_parser	*next;
 	struct s_parser	*prev;
 }					t_parser;
@@ -92,7 +92,7 @@ typedef struct s_tree
 	t_lexer			*cmd_args;
 	char			**args;
 	t_boolean		is_op;
-	int id;
+	int				id;
 	t_boolean		is_builtin;
 	t_type			type;
 	struct s_tree	*left;
@@ -101,16 +101,16 @@ typedef struct s_tree
 
 typedef struct s_pipes
 {
-	int *pipe;
-	struct s_pipes *next;
-} t_pipes;
+	int				*pipe;
+	struct s_pipes	*next;
+}					t_pipes;
 
 typedef struct main
 {
-	t_tree *ast;
-	t_env *env;
-	t_pipes *pipes;
-} t_main ;
+	t_tree			*ast;
+	t_env			*env;
+	t_pipes			*pipes;
+}					t_main;
 
 // main
 t_tree				*formater(char *cmd, t_main *data);
@@ -147,7 +147,17 @@ void				set_type(t_lexer **list);
 void				join_args(t_lexer **list, char **paths);
 void				del_node(t_lexer *node);
 void				clean_spaces(t_lexer **list);
-int	is_space(char c);
+int					is_space(char c);
+int					is_wild_card(t_lexer *node);
+
+//tokenizer functions
+t_lexer				*tokenizer(char *cmd, char **paths);
+char				*ft_spaces(t_lexer **list, char *cmd, char **paths);
+char				*ft_oneoperator(t_lexer **list, char *cmd, char c,
+						char **paths);
+char				*ft_parentheses(t_lexer **list, char *cmd, char **paths);
+char				*ft_quotes(t_lexer **list, char *cmd, char c, char **paths);
+char				*ft_variable(t_lexer **list, char *cmd, char **paths);
 
 // parser functions
 t_parser			*parser(t_lexer *list, t_main *data);
@@ -157,14 +167,18 @@ t_lexer				*ft_nodedup(t_lexer *node);
 void				add_node_to_list(t_parser **list, t_parser *item);
 t_parser			*create_parser_node(t_lexer *l_node, int id);
 void				ft_free_parser_list(t_parser **list);
-
+t_parser			*create_blocks(t_lexer *lexer_list, t_main *data);
 // expander function
 int					ft_expander(t_lexer *list, t_env *env);
-char	*expand(char *var, t_env *envp, int last);
-void				ft_expand_vars(t_lexer **list, t_env *envp);
-int					isabs(char *str);
-char				*extract_cmd(char *cmd);
+char				*expand(char *var, t_env *envp, int last);
 int					validate_cmd(char *cmd);
+void				ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp);
+void				ft_expand_wildcards(t_lexer **list);
+char				*extarct_expand(char *cmd, int *i);
+char				*extract_before(char *cmd, int *i);
+char				*extarct_after(char *cmd, int *i);
+void				expander_helper(t_lexer *tmp, char *before, char *after,
+						t_env *envp);
 // syntax analizer
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);
