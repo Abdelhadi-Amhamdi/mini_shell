@@ -8,19 +8,19 @@ b_path = builtins/
 srcs_path = src/
 env_path = env/
 
-# L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
-# I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
+L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
 
-L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
-I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
+# L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
+# I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
 
 header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_utils1.c lexer_utils2.c expander_utils.c tokenizer.c tokenizer_utils.c \
-cleaner.c create.c reconstruct.c free.c tree.c analyzer.c blocks.c expand_wildcard.c expand_helper.c type.c blocks_utils.c
+cleaner.c create.c reconstruct.c free.c tree.c analyzer.c blocks.c expand_wildcard.c expand_helper.c type.c blocks_utils.c tree_utils.c 
 env_src = env_main.c utils_env.c
 src = main.c executer.c exec_utils.c  connectors.c heredoc.c rdir.c pipes.c signals.c wildcards.c main_utils.c pipes_utils.c
 g_src = get_next_line.c get_next_line_utils.c
-b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c ft_exit.c
+b_src = ft_pwd.c ft_cd.c ft_echo.c ft_env.c ft_export.c ft_unset.c ft_exit.c builtins_utlis.c
 
 p_srcs = $(addprefix $(parsing_path), $(p_src))
 env_srcs = $(addprefix $(env_path), $(env_src))
