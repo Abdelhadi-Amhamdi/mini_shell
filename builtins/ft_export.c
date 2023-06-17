@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:36:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:56:17 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	print_export(t_env *env, int out)
 		}
 		env = env->next;
 	}
-
 }
 
 int	check_spaces(char *str)
@@ -112,11 +111,11 @@ int	is_exist(t_env	*node, t_env	*env)
 		if ((!ft_strncmp(node->key, env->key, ft_strlen(node->key))))
 			return (1);
 		env = env->next;
-	}	
+	}
 	return (0);
 }
 
-t_env	*search_node(t_env	*node, t_env	*env)
+t_env	*search_node(t_env *node, t_env *env)
 {
 	t_env	*tmp;
 

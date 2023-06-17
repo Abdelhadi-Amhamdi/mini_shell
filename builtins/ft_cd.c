@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/11 20:06:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:24:14 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,12 @@ int	ft_cd(t_env *env, t_tree *path)
 	home = ft_search_env(env, "HOME");
 	oldpwd = ft_search_env(env, "OLDPWD");
 	pwd = ft_search_env(env, "PWD");
-
-	if (!home)
-		return (ft_putendl_fd("mini-sh: cd: HOME not set", 2),1);
-	if (!oldpwd)
-	{
-		oldpwd = ft_new_node("OLDPWD", getcwd(NULL, 0));
-		if(oldpwd)
-			ft_add_back_env(&env, oldpwd);
-	}
-	else
+	if (oldpwd)
 		oldpwd->value = getcwd(NULL, 0);
-	if (!path->args[0])
+	if (!path->args[0] && home)
 		chdir(home->value);
+	else if (!path->args[0] && !home)
+		return (ft_putendl_fd("mini-sh: cd: HOME not set", 2), 1);
 	else
 	{
 		if (path->str[0] == '~')
@@ -61,6 +54,7 @@ int	ft_cd(t_env *env, t_tree *path)
 		if (chdir(path->args[0]) == -1)
 			return (perror("cd"), -1);
 	}
-	pwd->value = getcwd(NULL, 0);
+	if (pwd)
+		pwd->value = getcwd(NULL, 0);
 	return (0);
 }
