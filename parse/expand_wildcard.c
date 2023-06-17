@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:52:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 20:52:54 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/17 17:20:01 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ void	ft_expand_wildcards(t_lexer **list)
 	t_lexer	*new_list;
 	char	*data;
 	char	**tabs;
-	int		index;
 
-	index = 0;
 	tmp = *list;
 	while (tmp)
 	{

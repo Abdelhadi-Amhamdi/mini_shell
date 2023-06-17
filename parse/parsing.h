@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 17:07:35 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:34:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,8 +196,9 @@ int					check_qoutes(t_lexer *list);
 
 // ast
 t_tree				*create_node(t_parser *item);
-t_tree				*create_token_node(t_parser *node, t_tree *left,
-						t_tree *right);
+t_tree				*create_token_node(t_parser *node, t_tree *left, \
+t_tree *right);
+t_tree				*factor(t_parser **list);
 t_tree				*create_tree(t_parser **list);
 t_tree				*term(t_parser **list);
 t_tree				*factor(t_parser **list);

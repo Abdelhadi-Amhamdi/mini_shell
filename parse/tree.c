@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:43:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 15:49:59 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:33:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,6 @@ t_tree	*termx(t_parser **list)
 		right = term(list);
 		res = create_token_node(op, res, right);
 	}
-	// if (res && !res->left && res->is_op && (res->type == HEREDOC 
-	// || res->type == APND || res->type == RDIR) && *list
-	// && (*list)->type != CP)
-	// 	res->left = term(list);
 	return (res);
 }
 
@@ -112,24 +108,5 @@ t_tree	*term(t_parser **list)
 			|| res->type == APND || res->type == RDIR) && *list
 		&& (*list)->type != CP)
 		res->left = term(list);
-	return (res);
-}
-
-t_tree	*factor(t_parser **list)
-{
-	t_tree	*res;
-
-	res = NULL;
-	if ((*list)->type == OP)
-	{
-		(*list) = (*list)->next;
-		res = create_tree(list);
-		(*list) = (*list)->next;
-	}
-	else if ((*list) && !(*list)->is_op)
-	{
-		res = create_node(*list);
-		(*list) = (*list)->next;
-	}
 	return (res);
 }
