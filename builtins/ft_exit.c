@@ -6,25 +6,11 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 12:56:32 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/17 13:24:31 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-int	check_digits(char *data)
-{
-	int	index;
-
-	index = 0;
-	while (data[index])
-	{
-		if (!ft_isdigit(data[index]))
-			return (1);
-		index++;
-	}
-	return (0);
-}
 
 int	parse_data(char *data)
 {
@@ -80,16 +66,13 @@ void	ft_exit(t_tree *cmd_data, t_tree *tree)
 	ft_putendl_fd("exit", 1);
 	if (check_args_num(cmd_data->args))
 	{
-		ft_putstr_fd("mini-sh: exit: ", 2);
-		ft_putendl_fd(": too many arguments!", 2);
+		ft_putendl_fd("mini-sh: exit: too many arguments!", 2);
 		exit_status = 255;
 		__exit__(exit_status, tree);
 	}
 	if (parse_data(data))
 	{
-		ft_putstr_fd("mini-sh: exit: ", 2);
-		ft_putstr_fd(data, 2);
-		ft_putendl_fd(": numeric argument require!", 2);
+		ft_putendl_fd("mini-sh: exit: numeric argument require!", 2);
 		exit_status = 255;
 		__exit__(exit_status, tree);
 	}

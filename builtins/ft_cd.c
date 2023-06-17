@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 11:24:14 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:28:54 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*ft_search_env(t_env *env_list, char *to_find)
 
 char	*update_path(char *str, char *path)
 {
-	ft_strlcat(path, str, (ft_strlen(str) + ft_strlen(path) + 1));
+	path = ft_strjoin(path, str);
 	return (path);
 }
 
@@ -49,8 +49,8 @@ int	ft_cd(t_env *env, t_tree *path)
 		return (ft_putendl_fd("mini-sh: cd: HOME not set", 2), 1);
 	else
 	{
-		if (path->str[0] == '~')
-			path->str = update_path(path->str + 1, home->value);
+		if (path->args[0][0] == '~')
+			path->args[0] = update_path(&path->args[0][1], home->value);
 		if (chdir(path->args[0]) == -1)
 			return (perror("cd"), -1);
 	}

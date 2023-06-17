@@ -6,105 +6,13 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 12:56:17 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/17 13:20:20 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-t_env	*smallest_env_key(t_env *env, t_env *node)
-{
-	t_env	*smallest;
-
-	smallest = env;
-	while (env)
-	{
-		if (node->key[0] <= smallest->key[0])
-			smallest = node;
-		env = env->next;
-	}
-	printf("smallest of %s is %s\n", smallest->key, node->key);
-	return (smallest);
-}
-
-int	count_env(t_env *env)
-{
-	int	counter;
-
-	counter = 0;
-	while (env)
-	{
-		counter++;
-		env = env->next;
-	}
-	return (counter);
-}
-
-void	print_export(t_env *env, int out)
-{
-	t_env	*cur;
-	t_env	*tmp;
-	char	*key;
-	char	*value;
-
-	cur = env;
-	while (cur)
-	{
-		tmp = cur->next;
-		while (tmp)
-		{
-			if (tmp->key[0] < cur->key[0])
-			{
-				key = tmp->key;
-				value = tmp->value;
-				tmp->key = cur->key;
-				tmp->value = cur->value;
-				cur->key = key;
-				cur->value = value;
-			}
-			tmp = tmp->next;
-		}
-		cur = cur->next;
-	}
-	while (env)
-	{
-		if (env->key && env->value && ft_strncmp(env->key,"_", 2))
-		{
-			ft_putstr_fd("declare -x ", out);
-			ft_putstr_fd(env->key, out);
-			ft_putstr_fd("=\"", out);
-			ft_putstr_fd(env->value, out);
-			ft_putendl_fd("\"", out);
-		}
-		else if (env->key && !env->value)
-		{
-			ft_putstr_fd("declare -x ", out);
-			ft_putendl_fd(env->key, out);
-		}
-		env = env->next;
-	}
-}
-
-int	check_spaces(char *str)
-{
-	int	index;
-
-	index = 0;
-	if (str[index] == '=')
-	{
-		ft_putendl_fd("export :not a valid identifier", STDERR_FILENO);
-		return (0);
-	}
-	while (str[index])
-	{
-		if (str[index] == '=' && str[index] == 32)
-			return (0);
-		index++;
-	}
-	return (1);
-}
-
-int	is_exist(t_env	*node, t_env	*env)
+int	is_exist(t_env *node, t_env *env)
 {
 	while (env)
 	{
@@ -156,10 +64,7 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 
 	i = 0;
 	if (!cmd->args[i])
-	{
-		print_export(*env, out);
-		return (0);
-	}
+		return (print_export(*env, out), 0);
 	while (cmd->args[i])
 	{
 		formate_env_item(&key, &value, cmd->args[i]);

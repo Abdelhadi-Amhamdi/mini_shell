@@ -3,55 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 11:38:49 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:00:20 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINI_SHELL_H
 # define MINI_SHELL_H
-# include "../parse/parsing.h"
 # include "../builtins/builtins.h"
 # include "../env/env.h"
-# include "../libs/libft/libft.h"
 # include "../libs/gnl/get_next_line.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <signal.h>
+# include "../libs/libft/libft.h"
+# include "../parse/parsing.h"
 # include <dirent.h>
 # include <errno.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
-int	exit_status;
+int				exit_status;
 
 typedef struct s_pdata
 {
-	int	used_end;
-	int	unused_end;
-	int	out;
-	int	std_file;
-	int	side;
-}	t_pipe_data;
+	int			used_end;
+	int			unused_end;
+	int			out;
+	int			std_file;
+	int			side;
+}				t_pipe_data;
 
 typedef struct wildcard_data
 {
-	int	str_index;
-	int	cnd_index;
-	int	next_card;
-	int	backtrack;
-}	t_wildcard_data;
+	int			str_index;
+	int			cnd_index;
+	int			next_card;
+	int			backtrack;
+}				t_wildcard_data;
 
 # define HEREDOC_FILENAME "/tmp/heredoc_file"
 
 // pipes && pipes utils
 void			run_pipeline(t_tree *pipe_node, int out, t_main *data);
-void			run_pipe(t_tree *cmd, int *pipe, \
-t_pipe_data p_data, t_main *data);
-void			exec_rdir_pipes(t_tree *cmd, int \
-used_end, int side, t_main *data);
+void			run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data,
+					t_main *data);
+void			exec_rdir_pipes(t_tree *cmd, int used_end, int side,
+					t_main *data);
 void			exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data);
 void			exec_cmd(t_tree *node, t_main *data);
 t_pipes			*pipe_node_create(int **pipe);
@@ -60,7 +60,7 @@ void			add_to_end(t_pipes **list, t_pipes *item);
 // ececuteur and exec_utils
 void			executer(t_tree *root, int in, int out, t_main *data);
 void			exec_unknown(t_tree *cmd, int in, int out, t_main *data);
-int				exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out);
+int				exec_builtin(t_tree *cmd, t_env **env, t_main *data, int out);
 void			run_cmd(t_tree *cmd, int in, int out, t_main *data);
 void			close_all_pipes(t_main *data, int fd1, int fd2);
 int				_args_size(t_lexer *list, int is_b);
@@ -96,10 +96,11 @@ void			sig_int_handler(int type);
 void			sigint_heredoc_handler(int type);
 
 // heredoc
-char			*start_heredoc(t_lexer *node, \
-t_boolean to_expand, t_main *data);
-int				run_heredoc(char *del, t_boolean \
-to_expand, int fd, t_main *data);
+char	*start_heredoc(t_lexer *node,
+					t_boolean to_expand,
+					t_main *data);
+int				run_heredoc(char *del, t_boolean to_expand, int fd,
+					t_main *data);
 char			*wait_heredoc(char *file_name, pid_t pid);
 char			*ft_read_line(int fd);
 
