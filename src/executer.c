@@ -6,11 +6,33 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/06/16 12:55:45 by aagouzou         ###   ########.fr       */
+=======
+/*   Updated: 2023/06/16 23:35:44 by aamhamdi         ###   ########.fr       */
+>>>>>>> b9747e2e754291f864e5fabd9d306cc7b2736886
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
+
+void	close_all_pipes(t_main *data, int fd1, int fd2)
+{
+	t_pipes	*p_tmp;
+
+	if (data->pipes)
+	{
+		p_tmp = data->pipes;
+		while (p_tmp)
+		{
+			if (p_tmp->pipe[0] != fd1 && p_tmp->pipe[0] != fd2)
+				close(p_tmp->pipe[0]);
+			if (p_tmp->pipe[1] != fd1 && p_tmp->pipe[1] != fd2)
+				close(p_tmp->pipe[1]);
+			p_tmp = p_tmp->next;
+		}
+	}
+}
 
 void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 {
@@ -32,7 +54,9 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 		signal(SIGQUIT, SIG_DFL);
 		dup2(in, STDIN_FILENO);
 		dup2(out, STDOUT_FILENO);
-		execve(cmd->args[0], cmd->args, env_list_to_tabs(data->env));
+		close_all_pipes(data, STDIN_FILENO, STDOUT_FILENO);
+		if (execve(cmd->args[0], cmd->args, env_list_to_tabs(data->env)) == -1)
+			ft_putendl_fd("Error", 2);
 	}
 	else
 		exit_status = -1;
@@ -42,10 +66,10 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 {
 	if (!ft_strncmp(cmd->str, "cd", 2))
-		return (ft_cd(*env,cmd));
-	else if(!ft_strncmp(cmd->str, "env", 3))
+		return (ft_cd(*env, cmd));
+	else if (!ft_strncmp(cmd->str, "env", 3))
 		return (ft_env(*env, out));
-	else if ( !ft_strncmp(cmd->str, "unset", 6))
+	else if (!ft_strncmp(cmd->str, "unset", 6))
 		*env = ft_unset(cmd, *env);
 	else if (!ft_strncmp(cmd->str, "export", 6))
 		return (ft_export(cmd, env, out));
@@ -81,15 +105,7 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 	else
 		exit_status = -1;
 	waitpid(cmd->id, &status, 0);
-	status = WEXITSTATUS(status);
-	if (status)
-		printf("mini-sh: %s: %s\n",cmd->str, strerror(status));
-	if (status == ENOENT)
-		exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
-	else if (status == EACCES)
-		exit_status = NO_PERMISSIONS_EXIT_STATUS;
-	else
-		exit_status = FAILURE_EXIT_STATUS;
+	perror_sstatus(status, cmd->args[0]);
 }
 
 void	executer(t_tree *root, int in, int out, t_main *data)

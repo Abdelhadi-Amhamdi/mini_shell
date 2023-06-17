@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:40:45 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/16 23:33:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,80 +25,31 @@ void	exec_cmd(t_tree *node, t_main *data)
 		execve(node->args[0], node->args, NULL);
 }
 
-t_pipes	*pipe_node_create(int *pipe)
+void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 {
-	t_pipes	*p;
-
-	p = malloc(sizeof(t_pipes));
-	if (!p)
-		return (NULL);
-	p->pipe = pipe;
-	p->next = NULL;
-	return (p);
+	cmd->args = cmd_args_list_to_tabs(cmd, data);
+	cmd->id = fork();
+	if (!cmd->id)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		close(p_data.unused_end);
+		dup2(p_data.used_end, p_data.std_file);
+		close(p_data.used_end);
+		dup2(p_data.out, STDOUT_FILENO);
+		if (p_data.out > 1)
+			close(p_data.out);
+		close_all_pipes(data, p_data.used_end, p_data.unused_end);
+		exec_cmd(cmd, data);
+	}
+	ft_free(cmd->args);
 }
 
-void	add_to_end(t_pipes **list, t_pipes *item)
+void	exec_rdir_pipes(t_tree *cmd, int used_end, int side, t_main *data)
 {
-	t_pipes	*tmp;
-
-	if (!(*list))
-		*list = item;
-	else
+	if (((cmd->type == RDIR && cmd->str[0] == '>') || cmd->type == APND))
 	{
-		tmp = *list;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = item;
-	}
-}
-
-void	run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
-{
-	int		std_file;
-	int		used_end;
-	int		unused_end;
-	t_pipes	*p_tmp;
-
-	used_end = pipe[PIPE_READ_END];
-	unused_end = pipe[PIPE_WRITE_END];
-	std_file = STDIN_FILENO;
-	if (side == LEFT_CHILD)
-	{
-		used_end = pipe[PIPE_WRITE_END];
-		unused_end = pipe[PIPE_READ_END];
-		std_file = STDOUT_FILENO;
-	}
-	if (cmd->type == CMD)
-	{
-		cmd->args = cmd_args_list_to_tabs(cmd, data);
-		cmd->id = fork();
-		if (!cmd->id)
-		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-			close(unused_end);
-			dup2(used_end, std_file);
-			close(used_end);
-			dup2(out, STDOUT_FILENO);
-			if (data->pipes)
-			{
-				p_tmp = data->pipes;
-				while (p_tmp)
-				{
-					if (p_tmp->pipe[0] != pipe[0] && p_tmp->pipe[0] != pipe[1])
-						close(p_tmp->pipe[0]);
-					if (p_tmp->pipe[1] != pipe[0] && p_tmp->pipe[1] != pipe[1])
-						close(p_tmp->pipe[1]);
-					p_tmp = p_tmp->next;
-				}
-			}
-			exec_cmd(cmd, data);
-		}
-		ft_free(cmd->args);
-	}
-	else if (((cmd->type == RDIR && cmd->str[0] == '>') || cmd->type == APND))
-	{
-		if (side == 1)
+		if (side == LEFT_CHILD)
 		{
 			close(used_end);
 			redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data);
@@ -108,24 +59,51 @@ void	run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
 	}
 	else if (cmd->type == RDIR && cmd->str[0] == '<')
 	{
-		close(used_end);
-		redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data); 
+		if (side == RIGHT_CHILD)
+		{
+			close(used_end);
+			redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data);
+		}
+		else
+			redirection_helper(cmd, STDIN_FILENO, used_end, data);
 	}
+}
+
+void	run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
+{
+	t_pipe_data	p_data;
+
+	p_data.out = out;
+	p_data.side = side;
+	p_data.unused_end = pipe[PIPE_WRITE_END];
+	p_data.used_end = pipe[PIPE_READ_END];
+	p_data.std_file = STDIN_FILENO;
+	if (side == LEFT_CHILD)
+	{
+		p_data.used_end = pipe[PIPE_WRITE_END];
+		p_data.unused_end = pipe[PIPE_READ_END];
+		p_data.std_file = STDOUT_FILENO;
+	}
+	if (cmd->type == CMD)
+		exec_pipe_cmd(cmd, p_data, data);
+	else if (cmd->type == RDIR || cmd->type == APND)
+		exec_rdir_pipes(cmd, p_data.used_end, side, data);
 	else
 	{
-		add_to_end(&data->pipes, pipe_node_create(pipe));
-		executer(cmd, STDIN_FILENO, used_end, data);
-		close(used_end);
-		if (out != 1)
-			close(out);
+		executer(cmd, STDIN_FILENO, p_data.used_end, data);
+		close(p_data.used_end);
+		if (p_data.out != 1)
+			close(p_data.out);
 	}
 }
 
 void	run_pipeline(t_tree *pipe_node, int out, t_main *data)
 {
-	int	fds[2];
+	int	*fds;
 
+	fds = malloc(sizeof(int) * 2);
 	pipe(fds);
+	add_to_end(&data->pipes, pipe_node_create(&fds));
 	run_pipe(pipe_node->left, fds, -1, LEFT_CHILD, data);
 	run_pipe(pipe_node->right, fds, out, RIGHT_CHILD, data);
 	if (out != STDOUT_FILENO)
