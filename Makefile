@@ -8,11 +8,11 @@ b_path = builtins/
 srcs_path = src/
 env_path = env/
 
-L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
-I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
+# L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
+# I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
 
-# L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
-# I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
+L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
 
 header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c lexer_utils1.c lexer_utils2.c expander_utils.c tokenizer.c tokenizer_utils.c \

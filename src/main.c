@@ -6,27 +6,11 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 22:08:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:30:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-t_main	*init(char **env)
-{
-	t_main	*data;
-
-	exit_status = 0;
-	data = malloc(sizeof(t_main));
-	if (!data)
-		return (NULL);
-	data->env = get_env_vars(env);
-	data->ast = NULL;
-	data->pipes = NULL;
-	signal(SIGINT, sig_int_handler);
-	signal(SIGQUIT, SIG_IGN);
-	return (data);
-}
 
 void	destroy_ast_tree(t_tree *root)
 {
@@ -108,9 +92,7 @@ int	main(int ac, char **av, char **envp)
 	char	*cmd;
 	t_main	*main;
 
-	(void)ac;
-	(void)av;
-	main = init(envp);
+	main = init(envp, ac, av);
 	if (!main)
 		return (0);
 	while (1)

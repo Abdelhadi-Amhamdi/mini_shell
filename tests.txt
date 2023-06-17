@@ -50,6 +50,8 @@ ls > f | cat > f
 
 ls > a | cat < a
 
+ls |> b
+
 ---------------------------
 
 out 5 cat 2
@@ -64,5 +66,5 @@ out -1 ls 1
 used 7 ls
 unused 6 ls
 
-
-
+$HEHEJE.sfjksjk
+echo$HOME
