@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 23:33:17 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:35:03 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,12 @@ void	exec_rdir_pipes(t_tree *cmd, int used_end, int side, t_main *data)
 	}
 }
 
-void	run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
+void	run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data, t_main *data)
 {
-	t_pipe_data	p_data;
-
-	p_data.out = out;
-	p_data.side = side;
 	p_data.unused_end = pipe[PIPE_WRITE_END];
 	p_data.used_end = pipe[PIPE_READ_END];
 	p_data.std_file = STDIN_FILENO;
-	if (side == LEFT_CHILD)
+	if (p_data.side == LEFT_CHILD)
 	{
 		p_data.used_end = pipe[PIPE_WRITE_END];
 		p_data.unused_end = pipe[PIPE_READ_END];
@@ -87,7 +83,7 @@ void	run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
 	if (cmd->type == CMD)
 		exec_pipe_cmd(cmd, p_data, data);
 	else if (cmd->type == RDIR || cmd->type == APND)
-		exec_rdir_pipes(cmd, p_data.used_end, side, data);
+		exec_rdir_pipes(cmd, p_data.used_end, p_data.side, data);
 	else
 	{
 		executer(cmd, STDIN_FILENO, p_data.used_end, data);
@@ -99,13 +95,18 @@ void	run_pipe(t_tree *cmd, int *pipe, int out, int side, t_main *data)
 
 void	run_pipeline(t_tree *pipe_node, int out, t_main *data)
 {
-	int	*fds;
+	int			*fds;
+	t_pipe_data	p_data;
 
 	fds = malloc(sizeof(int) * 2);
 	pipe(fds);
+	p_data.out = -1;
+	p_data.side = LEFT_CHILD;
 	add_to_end(&data->pipes, pipe_node_create(&fds));
-	run_pipe(pipe_node->left, fds, -1, LEFT_CHILD, data);
-	run_pipe(pipe_node->right, fds, out, RIGHT_CHILD, data);
+	run_pipe(pipe_node->left, fds, p_data, data);
+	p_data.side = RIGHT_CHILD;
+	p_data.out = out;
+	run_pipe(pipe_node->right, fds, p_data, data);
 	if (out != STDOUT_FILENO)
 		close(out);
 	close(fds[PIPE_WRITE_END]);

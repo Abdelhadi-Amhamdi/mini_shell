@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 23:53:55 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:31:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,23 @@ t_wildcard_data	init_data(void)
 	data.cnd_index = 0;
 	data.next_card = -1;
 	data.backtrack = -1;
+	return (data);
+}
 
+t_main	*init(char **env, int ac, char **av)
+{
+	t_main	*data;
+
+	(void)ac;
+	(void)av;
+	exit_status = 0;
+	data = malloc(sizeof(t_main));
+	if (!data)
+		return (NULL);
+	data->env = get_env_vars(env);
+	data->ast = NULL;
+	data->pipes = NULL;
+	signal(SIGINT, sig_int_handler);
+	signal(SIGQUIT, SIG_IGN);
 	return (data);
 }

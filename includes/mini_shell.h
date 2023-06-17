@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 23:59:10 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:38:49 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,16 @@ typedef struct wildcard_data
 
 # define HEREDOC_FILENAME "/tmp/heredoc_file"
 
-
-
 // pipes && pipes utils
 void			run_pipeline(t_tree *pipe_node, int out, t_main *data);
-void			run_pipe(t_tree *cmd, int *pipe, int \
-out, int side, t_main *data);
+void			run_pipe(t_tree *cmd, int *pipe, \
+t_pipe_data p_data, t_main *data);
 void			exec_rdir_pipes(t_tree *cmd, int \
 used_end, int side, t_main *data);
 void			exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data);
 void			exec_cmd(t_tree *node, t_main *data);
 t_pipes			*pipe_node_create(int **pipe);
 void			add_to_end(t_pipes **list, t_pipes *item);
-
 
 // ececuteur and exec_utils
 void			executer(t_tree *root, int in, int out, t_main *data);
@@ -111,6 +108,9 @@ void			wait_pids(t_tree *root);
 void			destroy_main(t_main *main);
 void			destroy_pipes(t_pipes *list);
 void			destroy_ast_tree(t_tree *root);
-t_main			*init(char **env);
+t_main			*init(char **env, int ac, char **av);
+
+// env
+int				env_list_size(t_env *list);
 
 #endif
