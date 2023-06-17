@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:33:38 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:42:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,6 @@ char	*ft_sub_str(char *str, int start, int len)
 	}
 	s[i] = '\0';
 	return (s);
-}
-
-int	ft_search(char *item, char tofind)
-{
-	int	index;
-
-	index = 0;
-	while (item[index])
-	{
-		if (item[index] == tofind)
-			return (index);
-		index++;
-	}
-	return (-1);
 }
 
 void	formate_env_item(char **key, char **val, char *item)
@@ -76,6 +62,16 @@ void	add_oldpwd(t_env **envp)
 	}
 }
 
+void	set_shlvl(char **value)
+{
+	int	old_value;
+
+	old_value = ft_atoi(*value);
+	old_value++;
+	free(*value);
+	*value = ft_itoa(old_value);
+}
+
 t_env	*get_env_vars(char **envp)
 {
 	t_env	*env;
@@ -83,7 +79,6 @@ t_env	*get_env_vars(char **envp)
 	int		index;
 	char	*key;
 	char	*value;
-	int		v;
 
 	env = NULL;
 	index = 0;
@@ -93,12 +88,7 @@ t_env	*get_env_vars(char **envp)
 		key = NULL;
 		formate_env_item(&key, &value, envp[index]);
 		if (!ft_strncmp(key, "SHLVL", ft_strlen(key)))
-		{
-			v = ft_atoi(value);
-			v++;
-			free(value);
-			value = ft_itoa(v);
-		}
+			set_shlvl(&value);
 		node = ft_new_node(key, value);
 		if (node)
 			ft_add_back_env(&env, node);

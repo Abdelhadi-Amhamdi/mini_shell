@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:34:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:42:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,18 @@ int	env_list_size(t_env *list)
 		list = list->next;
 	}
 	return (index);
+}
+
+int	ft_search(char *item, char tofind)
+{
+	int	index;
+
+	index = 0;
+	while (item[index])
+	{
+		if (item[index] == tofind)
+			return (index);
+		index++;
+	}
+	return (-1);
 }
