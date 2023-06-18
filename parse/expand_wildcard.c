@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:52:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/17 17:20:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 21:53:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,43 @@ t_lexer	*get_last_token(t_lexer *list)
 	return (list);
 }
 
+t_lexer	*expand_wildcards_helper(t_lexer *tmp)
+{
+	char	*data;
+	char	**tabs;
+	t_lexer	*new_list;
+
+	new_list = NULL;
+	data = wildcard(tmp->str);
+	if (!data || !*data)
+		return (NULL);
+	tabs = ft_split(data, 32);
+	free(data);
+	if (!tabs)
+		return (NULL);
+	new_list = create_list(tabs);
+	ft_free(tabs);
+	return (new_list);
+}
+
 void	ft_expand_wildcards(t_lexer **list)
 {
 	t_lexer	*tmp;
 	t_lexer	*last;
 	t_lexer	*new_list;
-	char	*data;
-	char	**tabs;
 
 	tmp = *list;
 	while (tmp)
 	{
 		if (tmp->type == WILDCARD)
 		{
-			data = wildcard(tmp->str);
-			if (!data || !*data)
+			new_list = expand_wildcards_helper(tmp);
+			if (!new_list)
 				return ;
-			tabs = ft_split(data, 32);
-			if (!tabs)
-				puts("split error");
-			new_list = create_list(tabs);
 			last = get_last_token(new_list);
 			last->next = tmp->next;
 			tmp->prev->next = new_list;
 			del_node(tmp);
-			ft_free(tabs);
-			free(data);
-			data = NULL;
 			tmp = last->next;
 		}
 		else
