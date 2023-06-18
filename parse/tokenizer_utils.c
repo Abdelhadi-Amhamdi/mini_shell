@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:37:49 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 14:38:56 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/18 17:11:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ char	*ft_variable(t_lexer **list, char *cmd, char **paths)
 	int		i;
 
 	i = 1;
-	while (cmd[i] && !is_space(cmd[i]) && cmd[i] != '&' && cmd[i] != '|')
+	while (cmd[i] && !is_space(cmd[i]) && cmd[i] != '&' && \
+	cmd[i] != '|' && cmd[i] != '\'' && cmd[i] != '"')
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
