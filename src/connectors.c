@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 10:59:27 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:02:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	wait_left(t_tree *root)
 	if (root->type == CMD && root->id > 0 && !root->is_builtin)
 	{
 		waitpid(root->id, &status, 0);
-		root->id = -1;
+		root->id = DONT_WAITPID;
 		exit_status = WEXITSTATUS(status);
 	}
 	wait_left(root->right);
