@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 16:56:17 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 14:33:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:23:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,22 @@ t_lexer	*pass_args_to_cmd(t_lexer *ar, t_parser **new_node)
 int	create_block_doc_helper(t_lexer *tmp, t_parser **parser_list, t_main *data)
 {
 	char		*file_name;
+	t_lexer		*new_node;
+	t_parser	*new_item;
 
 	file_name = start_heredoc(tmp, tmp->next->is_builtin, data);
 	if (!file_name)
 		return (1);
 	if (!ft_check_next(tmp->next->next, file_name))
 		heredoc_to_inrdir(parser_list, tmp, file_name);
+	else
+	{
+		new_node = ft_nodedup(tmp);
+		new_node->str = ft_strdup(file_name);
+		new_node->path = ft_strdup(file_name);
+		new_node->type = HEREDOC_FILE;
+		new_item = create_parser_node(new_node, 1);
+		add_node_to_list(parser_list, new_item);
+	}
 	return (0);
 }

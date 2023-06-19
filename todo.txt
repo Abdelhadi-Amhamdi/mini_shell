@@ -22,43 +22,36 @@
     - [fixed] echo "hello" > file
     - [fixed] (ls asajshas)
     - [fixed] ls | wc -l && make || (gcc -g ) file.c
-    - echo "hello|"
-    - ls && ( cat todo.txt | grep s | wc ) || ls
-    - echo "hello" "ls" "ls"
-    - file.txt
+    - [fixed] echo "hello|"
+    - [fixed] ls && ( cat todo.txt | grep s | wc ) || ls
+    - [fixed] echo "hello" "ls" "ls"
+    - [fixed] file.txt
     - [fixed] echo $var0$var1$var2
-    - <<   l"" cat
-    - echo $HOMEsdjhfk$HOME
-    - echo $HOME.sdjhfk$HOME
-    - <<$x ca
-    - ls -l | wc -l >> out && (cat out | grep 5 >> out || << del)
+    - [fixed] echo $HOMEsdjhfk$HOME
+    - [fixed] echo $HOME.sdjhfk$HOME
+	- [fixed] fix echo "$HOME"
+    - [fixed] fix echo '''$HOME'''
+    - [fixed] fix echo ''$HOME''
+    - [fixed] fix echo "'$HOME'"
+    - [fixed] fix echo $HOME
+	** [fixed] ls || ks 
+	** [fixed] echo "$HOME$HOME"
+    ** [fixed] echo "$HOME" 
+    # [fixed] ls | cd
+    - [fixed] /usr/bin/cd: line 4: cd: HOME not set
+    - [fixed] ldfsfk fgjd | ls
+    - [fixed] ls | (ls)
+    - [fixed] cd $HOME/Desktop
+    - [fixed] ./todo.txt 
+    - [fixed] 'ls'
+    - [fixed] <<   l"" cat
+    - [fixed] <<$x ca
+    - [fixed] ls -l | wc -l >> out && (cat out | grep 5 >> out || << del)
+    
+    - [fix exit status] ls | ""
+    -  echo $>
 
-#		- fix echo "$HOME"
-		- fix echo '''$HOME'''
-		- fix echo ''$HOME''
-		- fix echo "'$HOME'"
-		- fix echo $HOME
 
-
-		**  echo "$HOME" 
-				-output
-					"/Users/aagouzou"
-				-expected
-					/Users/aagouzou"
-		** ls || ks 
-		** echo "$HOME$HOME"
-
-    # ls | cd
-/usr/bin/cd: line 4: cd: HOME not set
-
-
-- ldfsfk fgjd | ls
-- ls | ""
-- echo \"dfgldgl
-- echo $>
-- ls | (ls)
-- cd $HOME/Desktop
-- ./todo.txt 
-
-=> 'ls'
-
+- > d
+- < d
+- >> d

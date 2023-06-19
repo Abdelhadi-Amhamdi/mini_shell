@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 14:58:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:25:04 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ void	executer(t_tree *root, int in, int out, t_main *data)
 	}
 	else if (root->type == PIPE)
 		run_pipeline(root, out, data);
+	else if (root->type == HEREDOC_FILE)
+		unlink(root->str);
 	else
 		exec_unknown(root, in, out, data);
 }

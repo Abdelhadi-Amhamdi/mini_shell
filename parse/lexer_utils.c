@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 14:36:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:51:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,10 @@ void	print_token_list(t_lexer *head)
 
 void	printTreeHelper(t_tree *root, int depth)
 {
-		t_lexer *tmp;
+	t_lexer *tmp;
 
 	if (root == NULL)
-	{
 		return ;
-	}
 	printTreeHelper(root->right, depth + 1);
 	for (int i = 0; i < depth; i++)
 	{
