@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 15:37:18 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:16:45 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_trim_quotes(t_lexer *node)
 	if (!tmp->str[0])
 	{
 		tmp->str = ft_strdup(" ");
-		tmp->type = UNK;
+		tmp->type = W_SPACE;
 	}
 	else if (!type)
 		tmp->type = UNK;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 20:34:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:29:01 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void				ft_expand_wildcards(t_lexer **list);
 char				*extarct_expand(char *cmd, int *i);
 char				*extract_before(char *cmd, int *i);
 char				*extarct_after(char *cmd, int *i);
-void				expander_helper(t_lexer *tmp, char *before, char *after,
+void				expander_helper(t_lexer **list ,t_lexer *tmp, char *before, char *after,
 						t_env *envp);
 // syntax analizer
 int					check_opeators(t_lexer *op);
