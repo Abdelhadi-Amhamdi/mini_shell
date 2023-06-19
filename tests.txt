@@ -1,6 +1,6 @@
 
 #----test----#
-[tofix]
+[fixed]
 ls > a | cat < A
 ls > a | cat < a
 ls > a | cat < a
@@ -10,18 +10,18 @@ ls > a | cat < a
 echo "$AAA " | cat -e
 
 #----test---#
-[tofix]
+[fixed]
 cat | cat | ls
 
 #----test---#
-[tofix]
+[fixed]
 cat  // interpt it with SIGINT OR SIGQUIT
 echo $?
 
 #-----test----#
-[tofix]
+[fixed]
 export a=123
-- fix export a="a b c"
+export a="a b c"
 export $a
 export a="1 2 3 "
 - fix export $a
@@ -44,7 +44,6 @@ ls > a && cat a
 
 ls | grep s | wc > b && cat b
 
-ls | grep s | wc < b && cat b
 
 ls > f | cat > f
 
@@ -52,6 +51,7 @@ ls > a | cat < a
 
 ls |> b
 
+$HEHEJE.sfjksjk
 ---------------------------
 
 out 5 cat 2
@@ -66,5 +66,6 @@ out -1 ls 1
 used 7 ls
 unused 6 ls
 
-$HEHEJE.sfjksjk
-echo$HOME
+- fix echo$HOME
+
+- fix ls | grep s | wc < b && cat b

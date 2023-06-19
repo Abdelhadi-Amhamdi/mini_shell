@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:04 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 13:11:35 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:12:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ t_parser	*create_blocks(t_lexer *lexer_list, t_main *data)
 			if (create_block_doc_helper(tmp, &parser_list, data))
 				return (NULL);
 			tmp = tmp->next->next;
+			while (tmp && (tmp->type == W_SPACE || !(*tmp->str)))
+				tmp = tmp->next;
 		}
 		else
 			tmp = add_new_simple_node(tmp, &parser_list);
