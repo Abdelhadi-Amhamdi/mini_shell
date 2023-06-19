@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 13:41:27 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:36:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp)
 	after = NULL;
 	while (tmp)
 	{
-		if (tmp->type == VAR)
+		if (tmp->type == VAR || (tmp->type == SQ && tmp->str[1] == '$'))
 		{
 			// printf("%s\n",tmp->str);
 			expander_helper(list,tmp, before, after, envp);

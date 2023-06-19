@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:15:55 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 15:26:32 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:05:05 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_lexer	*create_token(char *str, int len, char **paths)
 		new->path = get_path(new->str, paths);
 	new->is_builtin = is_builtin(new->str);
 	new->type = -1;
-	new->id = -1;
+	new->id = 0;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

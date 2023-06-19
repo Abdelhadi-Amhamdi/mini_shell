@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 12:00:20 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:48:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct wildcard_data
 	int			backtrack;
 }				t_wildcard_data;
 
+
 # define HEREDOC_FILENAME "/tmp/heredoc_file"
 
 // pipes && pipes utils
@@ -67,9 +68,9 @@ int				_args_size(t_lexer *list, int is_b);
 int				path_exist(char *path, char **paths);
 char			**env_list_to_tabs(t_env *list);
 char			**cmd_args_list_to_tabs(t_tree *node, t_main *data);
-char			*mini_expander(t_lexer *node, t_main *data);
+char			*exit_status_expand(t_lexer *node);
 char			*_path(t_tree *node, t_main *data);
-int				check_path_exist(char *path, t_main *data);
+int				check_path_exist(char *path, char **paths);
 void			perror_sstatus(int status, char *cmd);
 
 // redirections
@@ -96,13 +97,15 @@ void			sig_int_handler(int type);
 void			sigint_heredoc_handler(int type);
 
 // heredoc
-char	*start_heredoc(t_lexer *node,
+char			*start_heredoc(t_lexer *node,
 					t_boolean to_expand,
 					t_main *data);
-int				run_heredoc(char *del, t_boolean to_expand, int fd,
+int				run_heredoc(char *del, t_boolean to_expand, char *file_name,
 					t_main *data);
 char			*wait_heredoc(char *file_name, pid_t pid);
 char			*ft_read_line(int fd);
+void			_add_doc_to_end(t_lexer **head, t_lexer *new_item);
+t_lexer			*_create_doc(char *data, t_type type);
 
 // main
 void			wait_pids(t_tree *root);

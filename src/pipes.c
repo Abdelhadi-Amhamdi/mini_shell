@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 17:10:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:54:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exec_cmd(t_tree *node, t_main *data)
 		exit (status);
 	}
 	else
-		execve(node->args[0], node->args, NULL);
+		execve(node->args[0], node->args, env_list_to_tabs(data->env));
 }
 
 void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
@@ -99,6 +99,8 @@ void	run_pipeline(t_tree *pipe_node, int out, t_main *data)
 	t_pipe_data	p_data;
 
 	fds = malloc(sizeof(int) * 2);
+	if (!fds)
+		return ;
 	pipe(fds);
 	p_data.out = -1;
 	p_data.side = LEFT_CHILD;

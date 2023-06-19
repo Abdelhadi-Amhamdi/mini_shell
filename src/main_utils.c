@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 11:31:36 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:13:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	perror_sstatus(int status, char *cmd)
 	status = WEXITSTATUS(status);
 	if (status)
 	{
-		printf("mini-sh: %s: %s\n", cmd, strerror(status));
+		if (status == ENOENT)
+			printf("mini-sh: %s: command not found\n", cmd);
+		else
+			printf("mini-sh: %s: %s\n", cmd, strerror(status));
 		if (status == ENOENT)
 			exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
 		else if (status == EACCES)
@@ -55,5 +58,6 @@ t_main	*init(char **env, int ac, char **av)
 	data->pipes = NULL;
 	signal(SIGINT, sig_int_handler);
 	signal(SIGQUIT, SIG_IGN);
+	rl_catch_signals = 0;
 	return (data);
 }

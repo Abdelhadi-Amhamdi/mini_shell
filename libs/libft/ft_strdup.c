@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:00:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/31 16:24:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 22:09:34 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strdup(const char *s1)
 	tab_size = ft_strlen(s1);
 	p = malloc(sizeof(char) * tab_size + 1);
 	if (!p)
-		return (0);
+		return (ft_putendl_fd("Error: Malloc Failed !", 2), NULL);
 	i = 0;
 	while (i < tab_size)
 	{

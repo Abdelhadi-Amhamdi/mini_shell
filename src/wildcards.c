@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 10:58:49 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 23:36:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 21:50:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ char	*wildcard(char *condition)
 		perror("opendir");
 		return (NULL);
 	}
-	data = calloc(1, 1);
+	data = ft_calloc(1, 1);
+	if (!data)
+		return (NULL);
 	entry = readdir(dir);
 	while (entry)
 	{

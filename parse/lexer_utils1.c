@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/17 11:18:45 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:11:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_path(char *cmd, char **paths)
 
 	command = ft_strjoin("/", cmd);
 	index = 0;
-	if (!command)
+	if (!command || !paths)
 		return (NULL);
 	while (paths[index])
 	{

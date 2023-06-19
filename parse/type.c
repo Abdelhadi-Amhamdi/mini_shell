@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/18 23:02:59 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:43:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	is_file(t_lexer *node)
 		return (1);
 	if (!node->is_oper && node->str[0] != ' ' && node->str[0] != ')'
 		&& node->str[0] != '(' && node->str[0] != '>' && node->prev
-		&& (node->prev->type == RDIR || node->prev->type == APND
+		&& node->str[0] != '$' && (node->prev->type == RDIR \
+		|| node->prev->type == APND
 			|| node->prev->type == HEREDOC))
 		return (1);
 	return (0);
@@ -31,10 +32,10 @@ int	is_file(t_lexer *node)
 
 int	is_builtin(char *cmd)
 {
-	if (!ft_strncmp(cmd, "cd", 2) || !ft_strncmp(cmd, "pwd", 3)
-		|| !ft_strncmp(cmd, "echo", 4) || !ft_strncmp(cmd, "export", 6)
-		|| !ft_strncmp(cmd, "unset", 5) || !ft_strncmp(cmd, "exit", 4)
-		|| !ft_strncmp(cmd, "env", 3))
+	if (!ft_strncmp(cmd, "cd", 3) || !ft_strncmp(cmd, "pwd", 4)
+		|| !ft_strncmp(cmd, "echo", 5) || !ft_strncmp(cmd, "export", 7)
+		|| !ft_strncmp(cmd, "unset", 6) || !ft_strncmp(cmd, "exit", 5)
+		|| !ft_strncmp(cmd, "env", 4))
 		return (1);
 	return (0);
 }
@@ -70,7 +71,7 @@ t_type	check_type(t_lexer *node, char *path)
 	else if ((path || is_builtin(node->str)))
 		return (CMD);
 	else if (ft_strchr(node->str, '$') && node->str[0] != '\''
-		&& node->type != UNK)
+		&& node->type != UNK && node->prev && node->prev->type != HEREDOC && node->type != SQ)
 		return (VAR);
 	else if (is_wild_card(node))
 		return (WILDCARD);

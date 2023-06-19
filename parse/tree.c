@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:43:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/17 20:33:26 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:59:21 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ t_tree	*create_token_node(t_parser *node, t_tree *left, t_tree *right)
 	new_node->type = node->type;
 	new_node->cmd_args = NULL;
 	new_node->is_op = true;
-	new_node->id = node->id;
+	new_node->id = 0;
 	new_node->left = left;
 	new_node->right = right;
+	new_node->is_builtin = false;
 	return (new_node);
 }
 t_tree	*termx(t_parser **list);
