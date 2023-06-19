@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:04 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/18 15:01:43 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:11:35 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_lexer	*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
 	}
 	else
 		arg = arg->next->next;
+	while (arg && arg->type == W_SPACE)
+		arg = arg->next;
 	while (arg && !arg->is_oper && arg->type != CP && arg->type != OP)
 	{
 		add_token_to_end(args_list, ft_nodedup(arg));
@@ -60,7 +62,7 @@ t_lexer	*handle_heredoc_case(t_lexer *arg, t_parser **parser_list, t_main *data)
 
 	if (arg->type == HEREDOC)
 	{
-		file_name = start_heredoc(arg, arg->is_builtin, data);
+		file_name = start_heredoc(arg, arg->next->is_builtin, data);
 		if (!file_name)
 		{
 			tmp = ft_nodedup(arg);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reconstruct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 15:37:18 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:51:51 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 // get rid of quotes and check if the arg are empty
 void	ft_trim_quotes(t_lexer *node)
 {
-	int		type;
 	t_lexer	*tmp;
 	char	*str_tmp;
 
@@ -24,24 +23,11 @@ void	ft_trim_quotes(t_lexer *node)
 		return ;
 	str_tmp = tmp->str;
 	if (tmp->str[0] == '\'')
-	{
-		type = 0;
 		tmp->str = ft_strtrim(tmp->str, "'");
-	}
 	else if (tmp->str[0] == '"')
-	{
-		type = 1;
 		tmp->str = ft_strtrim(tmp->str, "\"");
-	}
 	if (!tmp->str[0])
-	{
-		tmp->str = ft_strdup(" ");
-		tmp->type = UNK;
-	}
-	else if (!type)
-		tmp->type = UNK;
-	else
-		tmp->type = check_type(node, node->path);
+		tmp->str = ft_strdup("");
 	free(str_tmp);
 }
 
@@ -61,11 +47,27 @@ int	check_qoutes(t_lexer *list)
 			index = 0;
 			data = tmp->str;
 			current = data[index];
-			while (data[++index] && data[index] != current)
-				;
+			while (data[++index] && data[index] != current);
 			if (!data[index])
 				return (ft_putendl_fd(QUOTES_ERROR_MSG, 2), 1);
 			ft_trim_quotes(tmp);
+		}
+		else if (tmp->type == HEREDOC)
+		{
+			tmp = tmp->next;
+			if (tmp->str[0] == '"' || tmp->str[0] == '\'')
+			{
+				index = 0;
+				data = tmp->str;
+				current = data[index];
+				while (data[++index] && data[index] != current);
+				if (!data[index])
+					return (ft_putendl_fd(QUOTES_ERROR_MSG, 2), 1);
+				ft_trim_quotes(tmp);
+				tmp->is_builtin = 0;
+			}
+			else
+				tmp->is_builtin = 1;
 		}
 		tmp = tmp->next;
 	}
@@ -96,6 +98,8 @@ void	join_args(t_lexer **list, char **paths)
 			str_tmp = tmp->str;
 			next_tmp = tmp->next;
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
+			if (!tmp->str)
+				return ;
 			free(str_tmp);
 			tmp->path = get_path(tmp->str, paths);
 			tmp->next = tmp->next->next;
