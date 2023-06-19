@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 11:24:22 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:43:27 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	is_all_space(char *s)
 	int	i;
 
 	i = 0;
+	if (!*s)
+		return (0);
 	while (s[i])
 	{
 		if (!is_space(s[i]))
@@ -66,7 +68,10 @@ int	ft_echo(t_tree *node, int out)
 	while (node->args[i])
 	{
 		if (is_all_space(node->args[i]))
+		{
+			puts("here");
 			ft_putstr_fd(" ", out);
+		}
 		else
 			ft_putstr_fd(node->args[i], out);
 		i++;
