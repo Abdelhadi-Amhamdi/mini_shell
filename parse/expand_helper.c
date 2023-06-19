@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 21:18:54 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/17 10:55:42 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:19:00 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,88 @@ char	*join_variables(char **before, char **var, char **after, char **str)
 	return (*var);
 }
 
-void	expander_helper(t_lexer *tmp, char *before, char *after, t_env	*envp)
+int	contain_spaces(char *string)
+{
+	int	i;
+
+	i = 0;
+	while (string[i])
+	{
+		if (is_space(string[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+// t_lexer	*find_node(t_list **list, t_lexer *node)
+// {
+// 	t_lexer	*cur;
+
+// 	cur = *list;
+// 	while (cur)
+// 	{
+// 		if (cur == node)
+// 	}
+// }
+
+void	ft_addup_to_list(t_lexer *new, t_lexer **list, t_lexer *node)
+{
+	t_lexer	*last;
+	t_lexer	*next;
+	t_lexer	*prev;
+
+	prev = node->prev;
+	next = node->next;
+	last = get_last_token(new);
+	if (!prev)
+	{
+		*list = new;
+		last->next = next;
+		if (next)
+			next->prev = last;
+	}
+	else
+	{
+		prev->next = new;
+		new->prev = prev;
+		last->next = next;
+		if(next)
+			next->prev = last;
+	}
+}
+
+void	expander_helper(t_lexer **list, t_lexer *tmp, char *before, char *after,
+		t_env *envp)
 {
 	int		i;
 	char	*temp;
 	char	*var;
+	char	*string;
+	t_lexer	*new;
 
 	i = 0;
 	before = extract_before(tmp->str, &i);
 	var = extarct_expand(tmp->str, &i);
 	after = extarct_after(tmp->str, &i);
 	temp = var;
-	var = expand(var, envp, 0);
+	var = expand(var, envp, 1);
+	// printf("%s\n",var);
 	free(temp);
 	if (!var)
-		return ;
+		tmp->str = var;
 	else
-		tmp->str = join_variables(&before, &var, &after, &(tmp->str));
+	{
+		string = join_variables(&before, &var, &after, &(tmp->str));
+		if (contain_spaces(string))
+		{
+			new = tokenizer(string, all_paths(envp));
+			set_type(&new);
+			ft_addup_to_list(new, list, tmp);
+		}
+		else
+			tmp->str = string;
+	}
 	free(before);
 	free(after);
 }

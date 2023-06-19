@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/17 11:11:05 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:41:27 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ void	ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp)
 	{
 		if (tmp->type == VAR)
 		{
-			expander_helper(tmp, before, after, envp);
+			// printf("%s\n",tmp->str);
+			expander_helper(list,tmp, before, after, envp);
 			tmp = tmp->next;
 		}
 		else

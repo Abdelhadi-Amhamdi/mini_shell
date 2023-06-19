@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 11:48:57 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:29:05 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 {
 	cmd->is_builtin = is_builtin(cmd->str);
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
+	// int i= 0;
+	// puts("========================================");
+	// while(cmd->args[i])
+	// 	printf(":%s:\n",cmd->args[i++]);
+	// return ;
 	if (cmd->is_builtin)
 	{
 		exit_status = exec_builtin(cmd, &data->env, data, out);

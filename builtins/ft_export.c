@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 20:40:50 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/18 21:19:47 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 		node = ft_new_node(key, value);
 		if (node && !is_exist(node, *env))
 			ft_add_back_env(env, node);
-		else if (node && is_exist(node, *env))
+		else if (node && is_exist(node, *env) && node->value)
 		{
 			tmp = search_node(node, *env);
 			tmp->value = value;

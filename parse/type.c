@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/17 11:30:03 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/18 23:02:59 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ t_type	rest_of_types(t_lexer *node)
 // check the type of the given arg
 t_type	check_type(t_lexer *node, char *path)
 {
-	if (is_file(node))
+	if( node && node->type == VAR && node->str[0] == '\'')
+		return(VAR);
+	else if (is_file(node))
 		return (FL);
 	else if ((path || is_builtin(node->str)))
 		return (CMD);

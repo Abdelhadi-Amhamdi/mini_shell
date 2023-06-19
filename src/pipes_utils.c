@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 23:34:15 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:13:38 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ int	_args_size(t_lexer *list, int is_b)
 	int	size;
 
 	size = 0;
-	while (list && is_b)
-	{
-		list = list->next;
-		size++;
-	}
-	while (list && !is_b)
+	// while (list && is_b)
+	// {
+	// 	list = list->next;
+	// 	size++;
+	// }
+	// !is_b
+	(void)is_b;
+	while (list)
 	{
 		if (list->type != W_SPACE)
 			size++;
