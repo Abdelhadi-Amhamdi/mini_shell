@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/18 18:16:17 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:00:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_type	check_type(t_lexer *node, char *path)
 	else if ((path || is_builtin(node->str)))
 		return (CMD);
 	else if (ft_strchr(node->str, '$') && node->str[0] != '\''
-		&& node->type != UNK)
+		&& node->type != UNK && node->prev && node->prev->type != HEREDOC)
 		return (VAR);
 	else if (is_wild_card(node))
 		return (WILDCARD);
