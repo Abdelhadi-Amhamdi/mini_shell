@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 14:11:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:59:19 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 
 	index = 0;
 	tmp = node->cmd_args;
+	ft_expand_vars(&node->cmd_args,data->env,tmp);
+	// print_token_list(node->cmd_args);
+	tmp = node->cmd_args;
 	size = _args_size(tmp, node->is_builtin);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (!cmd_args)
@@ -84,13 +87,21 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	path = _path(node, data);
 	if (path)
 		cmd_args[index++] = ft_strdup(path);
-	ft_expand_vars(&node->cmd_args, data->env, node->cmd_args);
+	tmp = node->cmd_args;
 	while (tmp)
 	{
-		if (tmp->type == VAR)
-			cmd_args[index++] = ft_strdup(exit_status_expand(tmp));
-		else
+		// printf("%s\n",tmp->str);
+		if (tmp->str && !ft_strncmp(tmp->str + 1, "?", 2))
+			cmd_args[index++] = ft_itoa(exit_status);
+		else if (tmp->str && tmp->type != W_SPACE)
 			cmd_args[index++] = ft_strdup(tmp->str);
+		// else if (!node->str)
+		// 	cmd_args[index++] = ft_strdup("");
+		// if (tmp->type == VAR)
+		// 	cmd_args[index++] 
+		// 	= ft_strdup(mini_expander(tmp, data));
+		// else if (tmp->type != W_SPACE)
+		// 		cmd_args[index++] = ft_strdup(tmp->str);
 		tmp = tmp->next;
 	}
 	cmd_args[index] = NULL;

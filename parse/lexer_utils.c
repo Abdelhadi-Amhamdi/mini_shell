@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 12:03:57 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:36:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	print_token_list(t_lexer *head)
 	cur = head;
 	while (cur != NULL)
 	{
-		printf("------------------------------");
 		printf("STR : [%s]\n", cur->str);
 		printf("IS_B: [%u]\n", cur->is_builtin);
 		printf("IS_O: [%s]\n", cur->is_oper ? "true" : "false");
@@ -37,6 +36,7 @@ void	print_token_list(t_lexer *head)
 		//  : (cur->type == 11) ? "OP": ((cur->type == 12) ? "CP": (cur->type == 15) ? "wildcard" : "UNK"));
 		// printf("type index %u\n",cur->type);
 		cur = cur->next;
+		printf("------------------------------\n");
 	}
 }
 

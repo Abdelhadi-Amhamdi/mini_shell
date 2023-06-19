@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 12:00:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:43:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,14 @@ t_type	rest_of_types(t_lexer *node)
 // check the type of the given arg
 t_type	check_type(t_lexer *node, char *path)
 {
-	if (is_file(node))
+	if( node && node->type == VAR && node->str[0] == '\'')
+		return(VAR);
+	else if (is_file(node))
 		return (FL);
 	else if ((path || is_builtin(node->str)))
 		return (CMD);
 	else if (ft_strchr(node->str, '$') && node->str[0] != '\''
-		&& node->type != UNK && node->prev && node->prev->type != HEREDOC)
+		&& node->type != UNK && node->prev && node->prev->type != HEREDOC && node->type != SQ)
 		return (VAR);
 	else if (is_wild_card(node))
 		return (WILDCARD);

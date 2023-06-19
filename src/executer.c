@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 14:14:59 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:58:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 {
 	cmd->is_builtin = is_builtin(cmd->str);
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
+	// int i= 0;
+	// puts("========================================");
+	// while(cmd->args[i])
+	// 	printf(":%s:\n",cmd->args[i++]);
+	// return ;
 	if (cmd->is_builtin)
 	{
 		exit_status = exec_builtin(cmd, &data->env, data, out);
@@ -82,8 +87,14 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 {
 	int	status;
 
+	if (cmd->type == VAR || (cmd->type == UNK && strchr(cmd->str, '$')))
+	{
+		cmd->str = expand(cmd->str, data->env, 1);
+		if (!cmd->str)
+			return ;
+	}
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
-	if (!(*cmd->args))
+	if (!(*cmd->args) || !cmd->args)
 		return ;
 	cmd->id = fork();
 	if (!cmd->id)
@@ -108,7 +119,7 @@ void	executer(t_tree *root, int in, int out, t_main *data)
 {
 	if (!root)
 		return ;
-	if (root->type == CMD || root->type == FL)
+	if (root->type == CMD)
 		run_cmd(root, in, out, data);
 	else if (root->type == RDIR || root->type == APND)
 		redirection_helper(root, in, out, data);

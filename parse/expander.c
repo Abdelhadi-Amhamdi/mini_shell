@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 13:27:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:36:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	clean_unsed_spaces(t_lexer **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP)
+		while ((tmp->type == CMD || tmp->type == OP || tmp->type == CP)
 			&& tmp->prev && tmp->prev->type == W_SPACE)
 		{
 			clean_prev_space(tmp, list);
 		}
-		if ((tmp->type == CMD || tmp->type == OP || tmp->type == CP)
+		while ((tmp->type == CMD || tmp->type == OP || tmp->type == CP)
 			&& tmp->next && tmp->next->type == W_SPACE)
 		{
 			clean_next_space(tmp);

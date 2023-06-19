@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/18 22:04:22 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:36:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ void	ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp)
 	{
 		if (tmp->type == VAR || (tmp->type == SQ && tmp->str[1] == '$'))
 		{
-			expander_helper(tmp, before, after, envp);
+			// printf("%s\n",tmp->str);
+			expander_helper(list,tmp, before, after, envp);
 			tmp = tmp->next;
 		}
 		else
