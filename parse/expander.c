@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/18 18:16:35 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:27:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	ft_expander(t_lexer *list, t_env *env)
 
 	tmp = list;
 	paths = all_paths(env);
-	ft_expand_vars(&list, env, tmp);
 	if (check_qoutes(list) || check_pths(list))
 	{
 		exit_status = SYNTAX_ERROR_EXIT_STATUS;

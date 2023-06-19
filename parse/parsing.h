@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 20:34:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:01:10 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 # define SYNTAX_ERROR_MSG "mini-sh : Syntax Error , parse error near"
 # define QUOTES_ERROR_MSG "Syntax Error , Quotes are not closed!"
 # define PARENTICIES_ERROR_MSG "Syntax Error , parentheses are not closed!"
+
+# define DEL_HERDOC_NODE -11
+# define DONT_WAITPID -12
+# define HEREDOC_EXPAND -13
 
 typedef enum s_boolean
 {

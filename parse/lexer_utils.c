@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 21:16:08 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:03:57 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	printTreeHelper(t_tree *root, int depth)
 		tmp = root->cmd_args;
 		while (tmp)
 		{
-			printf("[%s - %d]", tmp->str, tmp->type);
+			printf("[{%s} - %d]", tmp->str, tmp->type);
 			tmp = tmp->next;
 		}
 		puts("");

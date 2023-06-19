@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 17:10:58 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:19:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	wait_pids(t_tree *root)
 	if (!root)
 		return ;
 	wait_pids(root->left);
-	if (root->type == CMD)
+	if (root->type == CMD && root->id != DONT_WAITPID)
 	{
 		waitpid(root->id, &status, 0);
 		if (WIFEXITED(status))
@@ -105,6 +105,7 @@ int	main(int ac, char **av, char **envp)
 			main->ast = formater(cmd, main);
 			if (main->ast)
 			{
+				// printTree(main->ast);
 				executer(main->ast, STDIN_FILENO, STDOUT_FILENO, main);
 				wait_pids(main->ast);
 				destroy_main(main);
@@ -113,5 +114,5 @@ int	main(int ac, char **av, char **envp)
 			free(cmd);
 		}
 	}
-	return (0);
+	exit (exit_status);
 }

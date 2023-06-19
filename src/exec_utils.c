@@ -6,51 +6,61 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 23:33:53 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:11:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-int	check_path_exist(char *path, t_main *data)
+int	check_path_exist(char *path, char **paths)
 {
-	char	**paths;
-
-	paths = all_paths(data->env);
 	if (!paths)
 		return (1);
 	if (path_exist(path, paths))
-		return (ft_free(paths), 0);
-	return (ft_free(paths), 1);
+		return (0);
+	return (1);
 }
 
 char	*_path(t_tree *node, t_main *data)
 {
-	if (node->path && node->id != -1 && !node->is_builtin)
+	char	**paths;
+	char	*tmp;
+
+	paths = all_paths(data->env);
+	if (node->type == VAR)
 	{
-		if (!check_path_exist(node->path, data))
-			return (node->path);
-		else
-			return (NULL);
+		tmp = node->str;
+		node->str = expand(node->str, data->env, 1);
+		free (tmp);
 	}
-	else if ((node->id == -1 && node->path) || !node->is_builtin)
+	if (!node->path && !node->is_builtin && node->type != W_SPACE && *node->str)
 	{
-		if (node->type == VAR)
-			return (expand(node->str, data->env, 1));
-		else
+		node->path = get_path(node->str, paths);
+		ft_free(paths);
+		if (!node->path)
 			return (node->str);
+		else
+			return (node->path);
 	}
-	return (NULL);
+	else if (node->path && !node->is_builtin)
+	{
+		if (!check_path_exist(node->path, paths))
+			return (ft_free(paths), node->path);
+		else
+			return (ft_free(paths), node->str);
+	}
+	else if (node->type == W_SPACE || !(*node->str))
+		return (ft_free(paths), node->str);
+	return (ft_free(paths), NULL);
 }
 
-char	*mini_expander(t_lexer *node, t_main *data)
+char	*exit_status_expand(t_lexer *node)
 {
 	char	*value;
 
+	value = NULL;
 	if (!ft_strncmp(node->str + 1, "?", 2))
 		value = ft_itoa(exit_status);
-	else
-		value = expand(node->str, data->env, 1);
 	if (value)
 		return (value);
 	else
@@ -69,15 +79,18 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	tmp = node->cmd_args;
 	size = _args_size(tmp, node->is_builtin);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
+	if (!cmd_args)
+		return (NULL);
 	path = _path(node, data);
 	if (path)
 		cmd_args[index++] = ft_strdup(path);
+	ft_expand_vars(&node->cmd_args, data->env, node->cmd_args);
 	while (tmp)
 	{
 		if (tmp->type == VAR)
-			cmd_args[index++] = ft_strdup(mini_expander(tmp, data));
-		else if (node->is_builtin || tmp->type != W_SPACE)
-				cmd_args[index++] = ft_strdup(tmp->str);
+			cmd_args[index++] = ft_strdup(exit_status_expand(tmp));
+		else
+			cmd_args[index++] = ft_strdup(tmp->str);
 		tmp = tmp->next;
 	}
 	cmd_args[index] = NULL;

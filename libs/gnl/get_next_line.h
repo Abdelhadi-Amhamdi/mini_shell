@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:58:08 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/05/24 15:29:40 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:47:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 # define BUFFER_SIZE 42
 
-char     *ft_join(char *s1, const char *s2);
+char	*ft_join(char *s1, const char *s2);
 int		ft_search_gnl(const char *data);
-char            *get_next_line(int fd);
+char	*get_next_line(int fd);
 
 #endif

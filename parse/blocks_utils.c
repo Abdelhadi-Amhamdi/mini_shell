@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 16:56:17 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 13:09:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:33:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,8 @@ t_lexer	*add_new_simple_node(t_lexer *tmp, t_parser **parser_list)
 {
 	t_parser	*new_node;
 
-	if (tmp->type != W_SPACE)
-	{
-		new_node = create_parser_node(tmp, tmp->id);
-		add_node_to_list(parser_list, new_node);
-	}
+	new_node = create_parser_node(tmp, tmp->id);
+	add_node_to_list(parser_list, new_node);
 	tmp = tmp->next;
 	return (tmp);
 }

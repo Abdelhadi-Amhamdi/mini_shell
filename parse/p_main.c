@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 13:15:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:19:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_tree	*formater(char *cmd, t_main *data)
 	lexer_list = NULL;
 	parser_list = NULL;
 	ast_tree = NULL;
+	tmp = NULL;
 	lexer_list = lexer(cmd, data->env);
 	if (!lexer_list)
 		return (NULL);
