@@ -7,6 +7,7 @@ parsing_path = parse/
 b_path = builtins/
 srcs_path = src/
 env_path = env/
+flags = -Wuninitialized -fsanitize=address,undefined,integer -g
 
 # L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
 # I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
@@ -60,24 +61,24 @@ CFLAGS = -Wall -Wextra -Werror
 CC = cc -g
 
 $(build_path)%.o : $(srcs_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
+	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
 
 $(build_path)%.o : $(parsing_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
+	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
 
 $(build_path)%.o : $(env_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
+	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
 
 $(build_path)%.o : $(b_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
+	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
 
 $(build_path)%.o : $(gnl_path)%.c
-	$(CC) -Wall -Wextra -Werror -c $< -o $@ $(I)
+	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
 
 all: $(NAME) 
 
 $(NAME) : $(build_path) $(libft) $(objs) $(p_objs) $(env_objs) $(b_objs) $(g_objs)
-	$(CC) $(CFLAGS) $(objs) $(p_objs)  $(env_objs) $(b_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
+	$(CC) $(CFLAGS) $(flags) $(objs) $(p_objs)  $(env_objs) $(b_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
 
 $(libft):
 	make -s -C $(libft_path)
