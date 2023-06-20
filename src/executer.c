@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 14:41:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:31:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 
 	wait = cmd->id;
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
+	// int i= 0;
+	// puts("========================================");
+	// while(cmd->args[i])
+	// 	printf(":%s:\n",cmd->args[i++]);
+	// puts("========================================");
+	// return ;
 	if (cmd->is_builtin)
 	{
 		g_exit_status = exec_builtin(cmd, &data->env, data, out);

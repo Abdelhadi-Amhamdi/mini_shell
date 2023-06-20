@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/18 21:19:47 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:23:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,28 +57,46 @@ int	check_key(char *key)
 int	ft_export(t_tree *cmd, t_env **env, int out)
 {
 	t_env	*node;
+	t_env	*list;
 	t_env	*tmp;
+	t_env	*cur;
 	char	*key;
 	char	*value;
 	int		index;
+	int valid;
 
 	index = 0;
 	if (!cmd->args[index])
 		return (print_export(*env, out), 0);
+	list=NULL;
+	valid = 1;
 	while (cmd->args[index])
 	{
 		formate_env_item(&key, &value, cmd->args[index]);
 		if (check_key(key))
-			return (ft_putendl_fd("export: not a valid identifier", 2), 1);
-		node = ft_new_node(key, value);
-		if (node && !is_exist(node, *env))
-			ft_add_back_env(env, node);
-		else if (node && is_exist(node, *env) && node->value)
 		{
-			tmp = search_node(node, *env);
-			tmp->value = value;
+			printf("mini-sh: export: `%s' not a valid identifier\n",cmd->args[index]);
+			valid = 0;
 		}
+		node = ft_new_node(key, value);
+		ft_add_back_env(&list, node);
 		index++;
+	}
+	node = list;
+	if (valid)
+	{
+		while (node)
+		{
+			tmp = node->next;
+			if(node && !is_exist(node, *env))
+				ft_add_back_env(env, node);
+			else if (node && is_exist(node, *env) && node->value)
+			{
+				cur = search_node(node, *env);
+				cur->value = node->value;
+			}
+			node = tmp;
+		}
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 14:05:38 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:34:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	add_to_end(t_pipes **list, t_pipes *item)
 	}
 }
 
-int	_args_size(t_lexer *list, int is_b)
+int	_args_size(char	*cmd ,t_lexer *list, int is_b)
 {
 	int		size;
-	t_lexer	*tmp;
+	// t_lexer	*tmp;
 
-	tmp = list;
+	// tmp = list;
 	size = 0;
 	// while (list && is_b)
 	// {
@@ -53,11 +53,18 @@ int	_args_size(t_lexer *list, int is_b)
 	// }
 	// !is_b
 	(void)is_b;
-	while (tmp)
+	// if(list)
+	// 	printf("list %s", list->str);
+	while(list && !ft_strncmp(cmd, "echo", 5))
 	{
-		if (tmp->type != W_SPACE)
+		size++;
+		list = list->next;
+	}
+	while (list && ft_strncmp(cmd, "echo", 5))
+	{
+		if (list->type != W_SPACE)
 			size++;
-		tmp = tmp->next;
+		list = list->next;
 	}
 	return (size);
 }
