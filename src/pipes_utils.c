@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:09:28 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:34:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ void	add_to_end(t_pipes **list, t_pipes *item)
 
 int	_args_size(char	*cmd ,t_lexer *list, int is_b)
 {
-	int	size;
+	int		size;
+	// t_lexer	*tmp;
 
+	// tmp = list;
 	size = 0;
 	// while (list && is_b)
 	// {
@@ -79,4 +81,30 @@ int	path_exist(char *path, char **paths)
 		index++;
 	}
 	return (0);
+}
+
+void	wait_for_last(t_tree *cmd_right)
+{
+	t_tree	*cmd;
+	int		status;
+	int		signal_num;
+
+	cmd = cmd_right;
+	if (cmd_right->type == RDIR || cmd_right->type == APND)
+		cmd = cmd_right->left;
+	if (cmd->type == CMD && cmd->id != DONT_WAITPID)
+	{
+		waitpid(cmd->id, &status, 0);
+		if (WIFEXITED(status))
+			perror_sstatus(status, cmd->str);
+		else
+		{
+			signal_num = WTERMSIG(status);
+			if (signal_num == SIGQUIT)
+				printf("Quite\n");
+			else if (signal_num == SIGINT)
+				printf("\n");
+			g_exit_status = 128 + signal_num;
+		}
+	}
 }

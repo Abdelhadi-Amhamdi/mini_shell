@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:20:59 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 11:34:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:13:00 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ t_env				*get_env_vars(char **envp);
 void				formate_env_item(char **key, char **val, char *item);
 int					ft_search(char *item, char tofind);
 t_env				*ft_search_env(t_env *env_list, char *to_find);
+void				set_important_vars(t_env **env);
 
 #endif

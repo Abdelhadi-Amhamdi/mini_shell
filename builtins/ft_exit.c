@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 13:24:31 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:33:46 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,15 @@ void	ft_exit(t_tree *cmd_data, t_tree *tree)
 	if (check_args_num(cmd_data->args))
 	{
 		ft_putendl_fd("mini-sh: exit: too many arguments!", 2);
-		exit_status = 255;
-		__exit__(exit_status, tree);
+		g_exit_status = 255;
+		__exit__(g_exit_status, tree);
 	}
 	if (parse_data(data))
 	{
 		ft_putendl_fd("mini-sh: exit: numeric argument require!", 2);
-		exit_status = 255;
-		__exit__(exit_status, tree);
+		g_exit_status = 255;
+		__exit__(g_exit_status, tree);
 	}
 	else
-		__exit__((exit_status = (ft_atoi(data) % 256)), tree);
+		__exit__((g_exit_status = (ft_atoi(data) % 256)), tree);
 }

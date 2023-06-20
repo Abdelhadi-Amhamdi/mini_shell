@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:07:28 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:23:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-int				exit_status;
+int				g_exit_status;
 
 typedef struct s_pdata
 {
@@ -57,8 +57,9 @@ void			exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data);
 void			exec_cmd(t_tree *node, t_main *data);
 t_pipes			*pipe_node_create(int **pipe);
 void			add_to_end(t_pipes **list, t_pipes *item);
+void			wait_for_last(t_tree *cmd_right);
 
-// ececuteur and exec_utils
+// executeur and exec_utils
 void			executer(t_tree *root, int in, int out, t_main *data);
 void			exec_unknown(t_tree *cmd, int in, int out, t_main *data);
 int				exec_builtin(t_tree *cmd, t_env **env, t_main *data, int out);
@@ -72,6 +73,7 @@ char			*exit_status_expand(t_lexer *node);
 char			*_path(t_tree *node, t_main *data);
 int				check_path_exist(char *path, char **paths);
 void			perror_sstatus(int status, char *cmd);
+void			expand_var_to_cmd(t_tree *cmd, t_main *data);
 
 // redirections
 void			redirection_helper(t_tree *node, int in, int out, t_main *data);
@@ -113,6 +115,7 @@ void			destroy_main(t_main *main);
 void			destroy_pipes(t_pipes *list);
 void			destroy_ast_tree(t_tree *root);
 t_main			*init(char **env, int ac, char **av);
+void			wait_for_child(t_tree *cmd);
 
 // env
 int				env_list_size(t_env *list);

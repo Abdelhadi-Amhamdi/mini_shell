@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:37:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:31:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	close_all_pipes(t_main *data, int fd1, int fd2)
 
 void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 {
-	cmd->is_builtin = is_builtin(cmd->str);
+	int	wait;
+
+	wait = cmd->id;
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
 	// int i= 0;
 	// puts("========================================");
@@ -42,7 +44,7 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 	// return ;
 	if (cmd->is_builtin)
 	{
-		exit_status = exec_builtin(cmd, &data->env, data, out);
+		g_exit_status = exec_builtin(cmd, &data->env, data, out);
 		ft_free(cmd->args);
 		return ;
 	}
@@ -55,13 +57,19 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 			signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		dup2(in, STDIN_FILENO);
+		if (in)
+			close (in);
 		dup2(out, STDOUT_FILENO);
+		if (out != 1)
+			close(out);
 		close_all_pipes(data, STDIN_FILENO, STDOUT_FILENO);
 		if (execve(cmd->args[0], cmd->args, env_list_to_tabs(data->env)) == -1)
-			ft_putendl_fd("Error", 2);
+			exit (errno);
 	}
 	else
-		exit_status = -1;
+		g_exit_status = -1;
+	if (wait != DONT_WAITPID)
+		wait_for_child(cmd);
 	ft_free(cmd->args);
 }
 
@@ -86,17 +94,11 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 
 void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 {
-	int	status;
-
-	if (cmd->type == VAR || (cmd->type == UNK && strchr(cmd->str, '$')))
-	{
-		cmd->str = expand(cmd->str, data->env, 1);
-		if (!cmd->str)
-			return ;
-	}
+	expand_var_to_cmd(cmd, data);
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
 	if (!(*cmd->args) || !cmd->args)
 		return ;
+	cmd->type = CMD;
 	cmd->id = fork();
 	if (!cmd->id)
 	{
@@ -106,14 +108,17 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 			signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		dup2(in, STDIN_FILENO);
+		if (in)
+			close(in);
 		dup2(out, STDOUT_FILENO);
+		if (out > 1)
+			close(out);
 		if (execve(cmd->args[0], cmd->args, env_list_to_tabs(data->env)) == -1)
 			exit (errno);
 	}
 	else
-		exit_status = -1;
-	waitpid(cmd->id, &status, 0);
-	perror_sstatus(status, cmd->args[0]);
+		g_exit_status = -1;
+	wait_for_child(cmd);
 }
 
 void	executer(t_tree *root, int in, int out, t_main *data)
@@ -132,8 +137,6 @@ void	executer(t_tree *root, int in, int out, t_main *data)
 	}
 	else if (root->type == PIPE)
 		run_pipeline(root, out, data);
-	else if (root->type == HEREDOC_FILE)
-		unlink(root->str);
-	else
+	else if (root->type != HEREDOC_FILE)
 		exec_unknown(root, in, out, data);
 }

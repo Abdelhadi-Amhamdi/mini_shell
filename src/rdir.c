@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/16 18:27:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:34:05 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	run_redir_input(t_tree *node, int in, int out, t_main *data)
 	if (fd == -1)
 	{
 		printf("mini-sh: %s: No such file or directory\n", right->str);
-		exit_status = 1;
+		g_exit_status = 1;
+		if (node->left && node->left->type == CMD)
+			node->left->id = DONT_WAITPID;
 		return ;
 	}
 	if (in != 0)
@@ -62,6 +64,8 @@ void	run_redir_output(t_tree *node, int in, int out, t_main *data)
 		close(file_fd);
 		file_fd = out;
 	}
+	if (node->id == DONT_WAITPID && node->left)
+		node->left->id = DONT_WAITPID;
 	executer(node->left, in, file_fd, data);
 	close(file_fd);
 }
@@ -77,6 +81,8 @@ void	run_apand_function(t_tree *node, int in, int out, t_main *data)
 		return ;
 	if (out != 1)
 		file_fd = out;
+	if (node->id == DONT_WAITPID && node->left)
+		node->left->id = DONT_WAITPID;
 	executer(node->left, in, file_fd, data);
 	close(file_fd);
 }
@@ -90,8 +96,6 @@ void	redirection_helper(t_tree *node, int in, int out, t_main *data)
 		if (node->str[0] == '<')
 			run_redir_input(node, in, out, data);
 		else
-		{
 			run_redir_output(node, in, out, data);
-		}
 	}
 }

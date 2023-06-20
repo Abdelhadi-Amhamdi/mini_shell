@@ -66,6 +66,6 @@ out -1 ls 1
 used 7 ls
 unused 6 ls
 
-- fix echo$HOME
-
-- fix ls | grep s | wc < b && cat b
+- [fixed] echo$HOME
+- [fixed] ls | grep s | wc < b && cat b
+- [fixed] ls | grep s | wc < b

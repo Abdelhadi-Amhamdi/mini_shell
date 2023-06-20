@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 16:56:17 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 16:23:20 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:15:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	create_block_doc_helper(t_lexer *tmp, t_parser **parser_list, t_main *data)
 		new_node->type = HEREDOC_FILE;
 		new_item = create_parser_node(new_node, 1);
 		add_node_to_list(parser_list, new_item);
+		unlink(file_name);
 	}
 	return (0);
 }
