@@ -6,43 +6,43 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 16:47:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:34:51 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-void	wait_left(t_tree *root)
-{
-	int	status;
-
-	if (!root)
-		return ;
-	wait_left(root->left);
-	if (root->type == CMD && root->id > 0 && !root->is_builtin && root->id != DONT_WAITPID)
-	{
-		waitpid(root->id, &status, 0);
-		root->id = DONT_WAITPID;
-		exit_status = WEXITSTATUS(status);
-	}
-	wait_left(root->right);
-}
 
 void	run_connectors(t_tree *root, int in, int out, t_main *data)
 {
 	if (!ft_strncmp(root->str, "&&", ft_strlen(root->str)))
 	{
 		executer(root->left, in, out, data);
-		wait_left(root->left);
-		// printf("%d left\n");
-		if (!exit_status)
+		if (!g_exit_status)
 			executer(root->right, in, out, data);
 	}
 	else
 	{
 		executer(root->left, in, out, data);
-		wait_left(root->left);
-		if (exit_status)
+		if (g_exit_status)
 			executer(root->right, in, out, data);
+	}
+}
+
+void	wait_for_child(t_tree *cmd)
+{
+	int	status;
+	int	signal_num;
+
+	waitpid(cmd->id, &status, 0);
+	if (WIFEXITED(status))
+		perror_sstatus(status, cmd->str);
+	else
+	{
+		signal_num = WTERMSIG(status);
+		if (signal_num == SIGQUIT)
+			printf("Quite\n");
+		else if (signal_num == SIGINT)
+			printf("\n");
+		g_exit_status = 128 + signal_num;
 	}
 }

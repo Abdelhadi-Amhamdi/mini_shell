@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 16:47:27 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:19:35 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,32 +61,6 @@ void	destroy_main(t_main *main)
 	main->pipes = NULL;
 }
 
-void	wait_pids(t_tree *root)
-{
-	int	status;
-	int	signal_num;
-
-	if (!root)
-		return ;
-	wait_pids(root->left);
-	if (root->type == CMD && root->id != DONT_WAITPID)
-	{
-		waitpid(root->id, &status, 0);
-		if (WIFEXITED(status))
-			exit_status = WEXITSTATUS(status);
-		else
-		{
-			signal_num = WTERMSIG(status);
-			if (signal_num == SIGQUIT)
-				printf("Quite\n");
-			else if (signal_num == SIGINT)
-				printf("\n");
-			exit_status = 128 + signal_num;
-		}
-	}
-	wait_pids(root->right);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char	*cmd;
@@ -105,14 +79,13 @@ int	main(int ac, char **av, char **envp)
 			main->ast = formater(cmd, main);
 			if (main->ast)
 			{
-				// printTree(main->ast);
 				executer(main->ast, STDIN_FILENO, STDOUT_FILENO, main);
-				wait_pids(main->ast);
+				while (wait(0) != -1);
 				destroy_main(main);
 			}
 			add_history(cmd);
 			free(cmd);
 		}
 	}
-	exit (exit_status);
+	exit (g_exit_status);
 }
