@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 11:48:23 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:07:28 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void			exec_unknown(t_tree *cmd, int in, int out, t_main *data);
 int				exec_builtin(t_tree *cmd, t_env **env, t_main *data, int out);
 void			run_cmd(t_tree *cmd, int in, int out, t_main *data);
 void			close_all_pipes(t_main *data, int fd1, int fd2);
-int				_args_size(t_lexer *list, int is_b);
+int				_args_size(char *cmd ,t_lexer *list, int is_b);
 int				path_exist(char *path, char **paths);
 char			**env_list_to_tabs(t_env *list);
 char			**cmd_args_list_to_tabs(t_tree *node, t_main *data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 14:59:19 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:14:21 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	ft_expand_vars(&node->cmd_args,data->env,tmp);
 	// print_token_list(node->cmd_args);
 	tmp = node->cmd_args;
-	size = _args_size(tmp, node->is_builtin);
+	size = _args_size(node->str ,tmp, node->is_builtin);
+	// printf("size :%d\n",size);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (!cmd_args)
 		return (NULL);
@@ -93,7 +94,9 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 		// printf("%s\n",tmp->str);
 		if (tmp->str && !ft_strncmp(tmp->str + 1, "?", 2))
 			cmd_args[index++] = ft_itoa(exit_status);
-		else if (tmp->str && tmp->type != W_SPACE)
+		else if (tmp->str && tmp->type != W_SPACE && ft_strncmp(node->str, "echo", 5))
+			cmd_args[index++] = ft_strdup(tmp->str);
+		else if (tmp->str && !ft_strncmp(node->str, "echo", 5))
 			cmd_args[index++] = ft_strdup(tmp->str);
 		// else if (!node->str)
 		// 	cmd_args[index++] = ft_strdup("");

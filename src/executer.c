@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 16:25:04 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:37:10 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 	// puts("========================================");
 	// while(cmd->args[i])
 	// 	printf(":%s:\n",cmd->args[i++]);
+	// puts("========================================");
 	// return ;
 	if (cmd->is_builtin)
 	{
