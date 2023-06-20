@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 16:38:44 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:58:36 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	_args_size(char	*cmd ,t_lexer *list, int is_b)
 	(void)cmd;
 	while (list)
 	{
-		if (list->type != W_SPACE && list->id != PREINTABLE_SPACE)
+		if (list && (list->type != W_SPACE || list->id == PREINTABLE_SPACE))
 			size++;
 		list = list->next;
 	}

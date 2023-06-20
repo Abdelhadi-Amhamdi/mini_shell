@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 16:38:58 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:44:22 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,11 @@ int	ft_expander(t_lexer *list, t_env *env)
 	join_args(&list, paths);
 	tmp = list;
 	clean_unsed_spaces(&list);
-	// print_token_list(tmp);
 	if (syntax_analyzer(list))
 	{
 		g_exit_status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
 	}
 	ft_expand_wildcards(&list);
-	// print_token_list(list);
 	return (ft_free(paths), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:15:55 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/20 16:38:48 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:05:08 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,7 @@ int all_inside_is_sp(t_lexer *tmp)
 void	is_printable_sp(t_lexer	*tmp)
 {
 	if((tmp->type == SQ || tmp->type == DQ) && all_inside_is_sp(tmp))
-	{
 		tmp->id = PREINTABLE_SPACE;
-		printf("str :%s\n",tmp->str);
-		printf("id  :%d\n",tmp->id);
-	}
-	
 }
 
 // loop over the list and set types
