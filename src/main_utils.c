@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 14:13:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:26:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void	perror_sstatus(int status, char *cmd)
 	{
 		if (status == ENOENT)
 			printf("mini-sh: %s: command not found\n", cmd);
-		else
+		else if (status != 1)
 			printf("mini-sh: %s: %s\n", cmd, strerror(status));
 		if (status == ENOENT)
-			exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
+			g_exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
 		else if (status == EACCES)
-			exit_status = NO_PERMISSIONS_EXIT_STATUS;
+			g_exit_status = NO_PERMISSIONS_EXIT_STATUS;
 		else
-			exit_status = FAILURE_EXIT_STATUS;
+			g_exit_status = FAILURE_EXIT_STATUS;
 	}
 	else
-		exit_status = SUCCESS_EXIT_STATUS;
+		g_exit_status = SUCCESS_EXIT_STATUS;
 }
 
 t_wildcard_data	init_data(void)
@@ -49,7 +49,7 @@ t_main	*init(char **env, int ac, char **av)
 
 	(void)ac;
 	(void)av;
-	exit_status = 0;
+	g_exit_status = 0;
 	data = malloc(sizeof(t_main));
 	if (!data)
 		return (NULL);

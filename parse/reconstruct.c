@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reconstruct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 22:04:18 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:24:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	check_qoutes(t_lexer *list)
 		else if (tmp->type == HEREDOC)
 		{
 			tmp = tmp->next;
-			if (tmp->str[0] == '"' || tmp->str[0] == '\'')
+			if (tmp && (tmp->str[0] == '"' || tmp->str[0] == '\''))
 			{
 				index = 0;
 				data = tmp->str;
@@ -66,8 +66,10 @@ int	check_qoutes(t_lexer *list)
 				ft_trim_quotes(tmp);
 				tmp->is_builtin = 0;
 			}
-			else
+			else if (tmp)
 				tmp->is_builtin = 1;
+			else
+				break ;
 		}
 		tmp = tmp->next;
 	}
@@ -78,7 +80,7 @@ int	check_qoutes(t_lexer *list)
 int	to_join(t_lexer *node)
 {
 	if (node && !node->is_oper && node->type != W_SPACE && \
-		node->type != OP && node->type != CP && node->type != VAR)
+		node->type != OP && node->type != CP)
 		return (1);
 	return (0);
 }

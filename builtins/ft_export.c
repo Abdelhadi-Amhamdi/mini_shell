@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:39:09 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:23:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 		index++;
 	}
 	node = list;
-	if(valid)
+	if (valid)
 	{
-		while(node)
+		while (node)
 		{
 			tmp = node->next;
 			if(node && !is_exist(node, *env))

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/18 19:54:36 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:05:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	exec_cmd(t_tree *node, t_main *data)
 {
-	int	status ;
+	int		status ;
+	char	**env;
 
 	if (node->is_builtin)
 	{
@@ -22,12 +23,17 @@ void	exec_cmd(t_tree *node, t_main *data)
 		exit (status);
 	}
 	else
-		execve(node->args[0], node->args, env_list_to_tabs(data->env));
+	{
+		env = env_list_to_tabs(data->env);
+		if (execve(node->args[0], node->args, env) == -1)
+			exit (errno);
+	}
 }
 
 void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 {
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
+	cmd->type = CMD;
 	cmd->id = fork();
 	if (!cmd->id)
 	{
@@ -47,6 +53,7 @@ void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 
 void	exec_rdir_pipes(t_tree *cmd, int used_end, int side, t_main *data)
 {
+	cmd->id = DONT_WAITPID;
 	if (((cmd->type == RDIR && cmd->str[0] == '>') || cmd->type == APND))
 	{
 		if (side == LEFT_CHILD)
@@ -115,4 +122,6 @@ void	run_pipeline(t_tree *pipe_node, int out, t_main *data)
 		close(out);
 	close(fds[PIPE_WRITE_END]);
 	close(fds[PIPE_READ_END]);
+	if (out == 1)
+		wait_for_last(pipe_node->right);
 }

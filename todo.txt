@@ -47,11 +47,8 @@
     - [fixed] <<   l"" cat
     - [fixed] <<$x ca
     - [fixed] ls -l | wc -l >> out && (cat out | grep 5 >> out || << del)
-    
-    - [fix exit status] ls | ""
+    - [fixed] ls | ""
     -  echo $>
-
-
-- > d
-- < d
-- >> d
+    - [works] > d
+    - [works] < d
+    - [works] >> d

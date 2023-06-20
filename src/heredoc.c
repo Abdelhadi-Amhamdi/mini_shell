@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 11:47:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:36:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ char	*wait_heredoc(char *file_name, pid_t pid)
 	if (status)
 	{
 		unlink(file_name);
-		exit_status = EXIT_SUCCESS;
+		g_exit_status = EXIT_SUCCESS;
 		return (NULL);
 	}
-	exit_status = EXIT_SUCCESS;
+	g_exit_status = EXIT_SUCCESS;
 	return (file_name);
 }
 
@@ -103,6 +103,6 @@ char	*start_heredoc(t_lexer *node, t_boolean to_expand, t_main *data)
 		exit (run_heredoc(node->next->str, to_expand, file_name, data));
 	}
 	else
-		exit_status = -1;
+		g_exit_status = -1;
 	return (wait_heredoc(file_name, pid));
 }

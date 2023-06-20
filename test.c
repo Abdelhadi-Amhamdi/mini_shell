@@ -3,19 +3,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void test(char *data)
+
+void convert_to_bin(unsigned char a)
 {
-    strlcpy(data, "hello wor", 10);
+    unsigned char b = a;
+    if (!a)
+        return ;
+    convert_to_bin(b / 2);
+    printf("%c ", (a % 2) + '0');
 }
 
 int main()
 {
-    char *data;
+    unsigned char a = 90;
 
-    data = NULL;
-    data = malloc(sizeof(char) * 10);
-
-    printf("%s\n", data);
-    test(data);
-    printf("%s\n", data);
+    convert_to_bin(a);
+    puts("");
 }

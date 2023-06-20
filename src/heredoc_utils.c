@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:47:30 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 11:47:55 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:26:14 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_lexer	*_create_doc(char *data, t_type type)
 	new_node->prev = NULL;
 	return (new_node);
 }
-
 
 void	_add_doc_to_end(t_lexer **head, t_lexer *new_item)
 {
