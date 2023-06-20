@@ -3,14 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:15:55 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/18 15:05:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:53:00 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
+
+int all_inside_is_sp(t_lexer *tmp)
+{
+	int i;
+
+	i = 0;
+	if(tmp->type == SQ)
+	{
+		while (tmp->str[i])
+		{
+			if(tmp->str[i] != '\'' || !is_space(tmp->str[i]))
+				return(0);
+			i++;
+		}
+	}
+	else if (tmp->type == SQ)
+	{
+		while (tmp->str[i])
+		{
+			if(tmp->str[i] != '"' || !is_space(tmp->str[i]))
+				return(0);
+			i++;
+		}
+	}
+	return(1);
+}
+
+void	is_printable_sp(t_lexer	*tmp)
+{
+	if((tmp->type == SQ || tmp->type == DQ) && all_inside_is_sp(tmp))
+	{
+		tmp->id = PREINTABLE_SPACE;
+		printf("str :%s\n",tmp->str);
+		printf("id  :%d\n",tmp->id);
+	}
+	
+}
 
 // loop over the list and set types
 void	set_type(t_lexer **list)
@@ -21,6 +58,7 @@ void	set_type(t_lexer **list)
 	while (tmp)
 	{
 		tmp->type = check_type(tmp, tmp->path);
+		is_printable_sp(tmp);
 		tmp = tmp->next;
 	}
 }

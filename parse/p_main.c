@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 22:03:34 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:37:24 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,12 @@ t_tree	*formater(char *cmd, t_main *data)
 		return (NULL);
 	if (ft_expander(lexer_list, data->env))
 		return (ft_free_lexer_list(&lexer_list), NULL);
+	print_token_list(lexer_list);
+	// return (NULL);
 	parser_list = parser(lexer_list, data);
 	if (!parser_list)
 		return (ft_free_lexer_list(&lexer_list), NULL);
+	// print_parser_list(parser_list);
 	ft_free_lexer_list(&lexer_list);
 	tmp = parser_list;
 	ast_tree = create_tree(&tmp);

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:14:21 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:18:03 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	// print_token_list(node->cmd_args);
 	tmp = node->cmd_args;
 	size = _args_size(node->str ,tmp, node->is_builtin);
-	// printf("size :%d\n",size);
+	printf("size :%d\n",size);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (!cmd_args)
 		return (NULL);
@@ -92,12 +92,13 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	while (tmp)
 	{
 		// printf("%s\n",tmp->str);
+		//  ft_strncmp(node->str, "echo", 5)
 		if (tmp->str && !ft_strncmp(tmp->str + 1, "?", 2))
 			cmd_args[index++] = ft_itoa(exit_status);
-		else if (tmp->str && tmp->type != W_SPACE && ft_strncmp(node->str, "echo", 5))
+		else if (tmp->str && tmp->type != W_SPACE && tmp->id != PREINTABLE_SPACE)
 			cmd_args[index++] = ft_strdup(tmp->str);
-		else if (tmp->str && !ft_strncmp(node->str, "echo", 5))
-			cmd_args[index++] = ft_strdup(tmp->str);
+		// else if (tmp->str && !ft_strncmp(node->str, "echo", 5))
+		// 	cmd_args[index++] = ft_strdup(tmp->str);
 		// else if (!node->str)
 		// 	cmd_args[index++] = ft_strdup("");
 		// if (tmp->type == VAR)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 14:36:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:50:31 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define DEL_HERDOC_NODE -11
 # define DONT_WAITPID -12
 # define HEREDOC_EXPAND -13
+#	define PREINTABLE_SPACE -14
 
 typedef enum s_boolean
 {

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:09:28 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:37:07 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,11 @@ int	_args_size(char	*cmd ,t_lexer *list, int is_b)
 	int	size;
 
 	size = 0;
-	// while (list && is_b)
-	// {
-	// 	list = list->next;
-	// 	size++;
-	// }
-	// !is_b
 	(void)is_b;
-	// if(list)
-	// 	printf("list %s", list->str);
-	while(list && !ft_strncmp(cmd, "echo", 5))
+	(void)cmd;
+	while (list)
 	{
-		size++;
-		list = list->next;
-	}
-	while (list && ft_strncmp(cmd, "echo", 5))
-	{
-		if (list->type != W_SPACE)
+		if (list->type != W_SPACE && list->id != PREINTABLE_SPACE)
 			size++;
 		list = list->next;
 	}
