@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 14:36:39 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:34:05 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 	paths = all_paths(env);
 	if (check_qoutes(list) || check_pths(list))
 	{
-		exit_status = SYNTAX_ERROR_EXIT_STATUS;
+		g_exit_status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
 	}
 	set_type(&list);
@@ -84,9 +84,10 @@ int	ft_expander(t_lexer *list, t_env *env)
 	clean_unsed_spaces(&list);
 	if (syntax_analyzer(list))
 	{
-		exit_status = SYNTAX_ERROR_EXIT_STATUS;
+		g_exit_status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
 	}
 	ft_expand_wildcards(&list);
+	// print_token_list(list);
 	return (ft_free(paths), 0);
 }
