@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   blocks_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 16:56:17 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/19 17:15:26 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:50:01 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_lexer	*pass_args_to_cmd(t_lexer *ar, t_parser **new_node)
 	t_lexer		*args_list;
 
 	args_list = NULL;
-	while (ar && ar->type == W_SPACE)
+	while (ar && ar->type == W_SPACE && ar->id != PREINTABLE_SPACE)
 		ar = ar->next;
 	while (ar && !ar->is_oper && ar->type != CP && ar->type != OP)
 	{

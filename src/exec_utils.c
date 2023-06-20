@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 17:02:59 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:08:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 			tabs[index++] = ft_itoa(g_exit_status);
 		else if (tmp->str && tmp->str[0] == '$' && ft_isdigit(tmp->str[1]))
 			tabs[index++] = ft_strdup(tmp->str + 2);
-		else if (tmp->str && tmp->type != W_SPACE)
+		else if (tmp->str && (tmp->type != W_SPACE || tmp->id == -14))
 			tabs[index++] = ft_strdup(tmp->str);
 		tmp = tmp->next;
 	}

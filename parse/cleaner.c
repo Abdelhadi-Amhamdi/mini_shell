@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:50:24 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/16 15:10:22 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:38:57 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	clean_spaces(t_lexer **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->is_oper && tmp->prev && tmp->prev->type == W_SPACE)
+		if (tmp->is_oper && tmp->prev && tmp->prev->type == W_SPACE && tmp->prev->id != PREINTABLE_SPACE)
 			remove_prev_space(tmp, list);
-		if (tmp->is_oper && tmp->next && tmp->next->type == W_SPACE)
+		if (tmp->is_oper && tmp->next && tmp->next->type == W_SPACE && tmp->next->id != PREINTABLE_SPACE)
 			remove_next_space(tmp, list);
 		tmp = tmp->next;
 	}

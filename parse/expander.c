@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 16:24:15 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:44:22 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	clean_unsed_spaces(t_lexer **list)
 	while (tmp)
 	{
 		while ((tmp->type == CMD || tmp->type == OP || tmp->type == CP)
-			&& tmp->prev && tmp->prev->type == W_SPACE)
+			&& tmp->prev && tmp->prev->type == W_SPACE && tmp->prev->id != -14)
 		{
 			clean_prev_space(tmp, list);
 		}
 		while ((tmp->type == CMD || tmp->type == OP || tmp->type == CP)
-			&& tmp->next && tmp->next->type == W_SPACE)
+			&& tmp->next && tmp->next->type == W_SPACE && tmp->next->id != -14 )
 		{
 			clean_next_space(tmp);
 		}
@@ -79,6 +79,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 		g_exit_status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
 	}
+	tmp = list;
 	set_type(&list);
 	join_args(&list, paths);
 	tmp = list;
@@ -89,6 +90,5 @@ int	ft_expander(t_lexer *list, t_env *env)
 		return (ft_free(paths), 1);
 	}
 	ft_expand_wildcards(&list);
-	// print_token_list(list);
 	return (ft_free(paths), 0);
 }
