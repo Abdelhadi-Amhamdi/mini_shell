@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 11:48:22 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:24:35 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ void	set_tokens_ids(t_lexer **list)
 	index = 0;
 	while (tmp)
 	{
-		tmp->id = index;
-		index++;
+		if(tmp->id != PREINTABLE_SPACE)
+		{
+			tmp->id = index;	
+			index++;
+		}
 		tmp = tmp->next;
 	}
 }
