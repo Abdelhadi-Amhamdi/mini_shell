@@ -3,44 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:15:55 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/20 17:05:08 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:17:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-int all_inside_is_sp(t_lexer *tmp)
+int	all_inside_is_sp(t_lexer *tmp)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(tmp->type == SQ)
+	if (tmp->type == SQ)
 	{
 		while (tmp->str[i])
 		{
-			if(tmp->str[i] != '\'' || !is_space(tmp->str[i]))
-				return(0);
+			if (tmp->str[i] != '\'' && !is_space(tmp->str[i]))
+				return (0);
 			i++;
 		}
 	}
-	else if (tmp->type == SQ)
+	else if (tmp->type == DQ)
 	{
 		while (tmp->str[i])
 		{
-			if(tmp->str[i] != '"' || !is_space(tmp->str[i]))
-				return(0);
+			if (tmp->str[i] != '"' && !is_space(tmp->str[i]))
+				return (0);
 			i++;
 		}
 	}
-	return(1);
+	return (1);
 }
 
 void	is_printable_sp(t_lexer	*tmp)
 {
-	if((tmp->type == SQ || tmp->type == DQ) && all_inside_is_sp(tmp))
+	if ((tmp->type == SQ || tmp->type == DQ) && all_inside_is_sp(tmp))
 		tmp->id = PREINTABLE_SPACE;
 }
 

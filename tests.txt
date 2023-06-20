@@ -3,7 +3,6 @@
 [fixed]
 ls > a | cat < A
 ls > a | cat < a
-ls > a | cat < a
 
 #----test----#
 
@@ -25,6 +24,8 @@ export a="a b c"
 export $a
 export a="1 2 3 "
 - fix export $a
+
+# fix exit status #
 
 #----test----#
 [fixed]
@@ -49,7 +50,7 @@ ls > f | cat > f
 
 ls > a | cat < a
 
-ls |> b
+- [fix this] ls |> b
 
 $HEHEJE.sfjksjk
 ---------------------------

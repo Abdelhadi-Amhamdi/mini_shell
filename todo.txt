@@ -2,9 +2,9 @@
 
 
 # fix echo '$var'
-    - fix echo 'a'$HOME
-    - fix echo "'$HOME'"
-    - fix echo "'hello'" cat file
+
+    - [fixed] echo "'$HOME'"
+    - [fixed] echo "'hello'" cat file
     - [fixed] echo "'$HOME'"
 # [fixed] fix export type;
     - [fixed] fix quotes type;
@@ -34,9 +34,9 @@
     - [fixed] fix echo ''$HOME''
     - [fixed] fix echo "'$HOME'"
     - [fixed] fix echo $HOME
-	** [fixed] ls || ks 
-	** [fixed] echo "$HOME$HOME"
-    ** [fixed] echo "$HOME" 
+	- [fixed] ls || ks 
+	- [fixed] echo "$HOME$HOME"
+    - [fixed] echo "$HOME" 
     # [fixed] ls | cd
     - [fixed] /usr/bin/cd: line 4: cd: HOME not set
     - [fixed] ldfsfk fgjd | ls
@@ -44,11 +44,17 @@
     - [fixed] cd $HOME/Desktop
     - [fixed] ./todo.txt 
     - [fixed] 'ls'
-    - [fixed] <<   l"" cat
-    - [fixed] <<$x ca
     - [fixed] ls -l | wc -l >> out && (cat out | grep 5 >> out || << del)
-    - [fixed] ls | ""
-    -  echo $>
+    - [fixed] echo $>
     - [works] > d
     - [works] < d
     - [works] >> d
+    - [fixed] ls | ""
+
+
+    +- [tofix] <<   l"" cat
+    +- [tofix] <<$x ca
+    
+    +- echo "$AAA.gfg    " | cat -e
+    +- echo "$AAA    " | cat -e
+    +- fix echo 'a'$HOME

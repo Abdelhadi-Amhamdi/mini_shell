@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 17:02:56 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:08:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	ft_expand_vars(&node->cmd_args, data->env, tmp);
 	tmp = node->cmd_args;
 	size = _args_size(node->str, tmp, node->is_builtin);
-	// printf("size %d\n",size);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (!cmd_args)
 		return (NULL);
@@ -116,7 +115,7 @@ char	**env_list_to_tabs(t_env *list)
 	tmp = list;
 	index = 0;
 	size = env_list_size(tmp);
-	env = malloc(sizeof(char *) * size + 1);
+	env = malloc(sizeof(char *) * (size + 1));
 	if (!env)
 		return (NULL);
 	while (tmp)

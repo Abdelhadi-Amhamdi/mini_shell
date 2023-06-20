@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 17:02:52 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:02:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 
 void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 {
+	int	wait;
+
+	wait = cmd->id;
 	expand_var_to_cmd(cmd, data);
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
 	if (!(*cmd->args) || !cmd->args)
@@ -118,7 +121,8 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 	}
 	else
 		g_exit_status = -1;
-	wait_for_child(cmd);
+	if (out == 1)
+		wait_for_child(cmd);
 }
 
 void	executer(t_tree *root, int in, int out, t_main *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 21:29:06 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:06:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	compare(t_lexer *item, char *oper)
 
 int	is_file(t_lexer *node)
 {
-	if (!ft_strncmp((node->str + (ft_strlen(node->str) - 4)), ".txt", 4))
-		return (1);
 	if (!node->is_oper && node->str[0] != ' ' && node->str[0] != ')'
 		&& node->str[0] != '(' && node->str[0] != '>' && node->prev
 		&& node->str[0] != '$' && (node->prev->type == RDIR \

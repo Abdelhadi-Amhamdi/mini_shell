@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:21:48 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:24:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:16:49 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ void	sigint_heredoc_handler(int type)
 
 void	expand_var_to_cmd(t_tree *cmd, t_main *data)
 {
-	if (cmd->type == VAR || (cmd->type == UNK && strchr(cmd->str, '$')))
+	if (cmd->type == VAR || ((cmd->type == UNK || cmd->type == SQ \
+	|| cmd->type == DQ) && strchr(cmd->str, '$')))
 	{
+		// fix this i single quotes case
 		cmd->str = expand(cmd->str, data->env, 1);
 		if (!cmd->str)
 			return ;
