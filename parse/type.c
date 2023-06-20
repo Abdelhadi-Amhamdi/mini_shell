@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 14:43:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/19 21:29:06 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_type	rest_of_types(t_lexer *node)
 		return (HEREDOC);
 	else if (node->str[0] == '-')
 		return (ARGS);
-	else if (node->str[0] == 32 && node->type != UNK)
+	else if (is_all_space(node->str))
 		return (W_SPACE);
 	return (UNK);
 }
