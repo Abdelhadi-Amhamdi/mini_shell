@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:12:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:10:22 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	formate_env_item(char **key, char **val, char *item)
 	}
 	else
 	{
-		*key = ft_strdup(item);
+		if (item[ft_strlen(item) - 1] == '+')
+			*key = NULL;
+		else
+			*key = ft_strdup(item);
 		*val = NULL;
 	}
 }

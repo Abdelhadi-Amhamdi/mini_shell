@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 16:23:43 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:15:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,35 @@ int	check_key(char *key)
 	int	i;
 
 	i = 0;
-	if (key && (!ft_isalpha(key[i]) && key[i] != '_' && key[i] != '\\'))
+	if (key && (!ft_isalpha(key[i]) && key[i] != '_' && key[i] \
+	!= '\\' && key[ft_strlen(key) - 1] != '+'))
 		return (1);
 	i++;
 	while (key[i])
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_' && key[i] != '\\')
-			return (1);
+		{
+			if (key[ft_strlen(key) - 1] != '+')
+				return (1);
+		}
 		i++;
 	}
 	return (0);
+}
+
+void	_appand_var(t_env *node, t_env *env)
+{
+	t_env	*tmp_node;
+	char	*tmp;
+
+	node->key[ft_strlen(node->key) - 1] = '\0';
+	tmp_node = ft_search_env(env, node->key);
+	if (tmp_node)
+	{
+		tmp = node->value;
+		node->value = ft_strjoin(tmp_node->value, node->value);
+		free (tmp);
+	}
 }
 
 int	ft_export(t_tree *cmd, t_env **env, int out)
@@ -66,19 +85,23 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 	int valid;
 
 	index = 0;
+	list = NULL;
 	if (!cmd->args[index])
 		return (print_export(*env, out), 0);
-	list=NULL;
 	valid = 1;
 	while (cmd->args[index])
 	{
 		formate_env_item(&key, &value, cmd->args[index]);
-		if (check_key(key))
+		if (!key || check_key(key))
 		{
-			printf("mini-sh: export: `%s' not a valid identifier\n",cmd->args[index]);
+			printf("mini-sh: export: `%s' not a valid identifier\n", cmd->args[index]);
 			valid = 0;
+			if (!key)
+				return (1);
 		}
 		node = ft_new_node(key, value);
+		if (key[ft_strlen(key) - 1] == '+')
+			_appand_var(node, *env);
 		ft_add_back_env(&list, node);
 		index++;
 	}
@@ -88,7 +111,7 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 		while (node)
 		{
 			tmp = node->next;
-			if(node && !is_exist(node, *env))
+			if (node && !is_exist(node, *env))
 				ft_add_back_env(env, node);
 			else if (node && is_exist(node, *env) && node->value)
 			{
@@ -98,5 +121,7 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 			node = tmp;
 		}
 	}
+	else
+		return (1);
 	return (0);
 }

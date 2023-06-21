@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:04 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 16:12:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:29:34 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 t_lexer	*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
 		t_lexer **args_list)
 {
+	t_lexer	*tmp;
+
 	if (arg->type != HEREDOC)
 	{
 		add_node_to_list(parser_list, create_parser_node(arg, 1));
@@ -24,52 +26,53 @@ t_lexer	*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
 	}
 	else
 		arg = arg->next->next;
-	while (arg && arg->type == W_SPACE)
+	while (arg && arg->type == W_SPACE && arg->id != PREINTABLE_SPACE)
 		arg = arg->next;
 	while (arg && !arg->is_oper && arg->type != CP && arg->type != OP)
 	{
-		add_token_to_end(args_list, ft_nodedup(arg));
+		tmp = ft_nodedup(arg);
+		add_token_to_end(args_list, tmp);
 		arg = arg->next;
 	}
 	return (arg);
 }
 
-void	heredoc_to_inrdir(t_parser **list, t_lexer *node, char *file_name)
+void	heredoc_to_inrdir(t_parser **list, char *file_name)
 {
 	t_lexer		*new_node;
 	t_parser	*new_item;
 
-	new_node = ft_nodedup(node->next);
-	new_node->str = ft_strdup("<");
+	new_node = creat_lexer_node("<");
 	new_node->type = RDIR;
 	new_node->is_oper = true;
 	new_item = create_parser_node(new_node, 1);
+	del_node(new_node);
 	if (!new_item)
 		return ;
 	add_node_to_list(list, new_item);
-	new_node = ft_nodedup(node);
-	new_node->str = ft_strdup(file_name);
-	new_node->path = ft_strdup(file_name);
+	new_node = creat_lexer_node(file_name);
 	new_node->type = HEREDOC_FILE;
 	new_item = create_parser_node(new_node, 1);
+	del_node(new_node);
 	add_node_to_list(list, new_item);
 }
 
 t_lexer	*handle_heredoc_case(t_lexer *arg, t_parser **parser_list, t_main *data)
 {
-	t_lexer	*tmp;
 	char	*file_name;
+	t_lexer	*tmp;
 
 	if (arg->type == HEREDOC)
 	{
 		file_name = start_heredoc(arg, arg->next->is_builtin, data);
 		if (!file_name)
 		{
-			tmp = ft_nodedup(arg);
+			tmp = creat_lexer_node("NONE");
 			tmp->id = DEL_HERDOC_NODE;
 			return (tmp);
 		}
-		heredoc_to_inrdir(parser_list, arg, file_name);
+		heredoc_to_inrdir(parser_list, file_name);
+		free (file_name);
 		arg = arg->next->next;
 	}
 	while (arg)
@@ -116,12 +119,15 @@ t_parser	*create_blocks(t_lexer *lexer_list, t_main *data)
 		{
 			tmp = creat_blocks_helper(tmp, &parser_list, data);
 			if (tmp && tmp->id == DEL_HERDOC_NODE)
+			{
+				ft_free_parser_list(&parser_list, 1);
 				return (del_node(tmp), NULL);
+			}
 		}
 		else if (tmp->type == HEREDOC)
 		{
 			if (create_block_doc_helper(tmp, &parser_list, data))
-				return (NULL);
+				return (ft_free_parser_list(&parser_list, 1), NULL);
 			tmp = tmp->next->next;
 			while (tmp && (tmp->type == W_SPACE || !(*tmp->str)))
 				tmp = tmp->next;

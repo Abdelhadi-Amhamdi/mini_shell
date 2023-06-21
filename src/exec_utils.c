@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 17:08:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:10:03 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*_path(t_tree *node, t_main *data)
 		else
 			return (node->path);
 	}
-	else if (node->path && !node->is_builtin)
+	if (node->path && !node->is_builtin)
 	{
 		if (!check_path_exist(node->path, paths))
 			return (ft_free(paths), node->path);
@@ -99,7 +99,6 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	path = _path(node, data);
 	if (path)
 		cmd_args[index++] = ft_strdup(path);
-	tmp = node->cmd_args;
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;
 	return (cmd_args);

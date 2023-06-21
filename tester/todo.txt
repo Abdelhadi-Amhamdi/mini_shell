@@ -3,18 +3,18 @@
 
 # fix echo '$var'
 
-    - [fixed] echo "'$HOME'"
-    - [fixed] echo "'hello'" cat file
-    - [fixed] echo "'$HOME'"
+    - [fixed] echo "'$HOME'"| cat -e
+    - [fixed] echo "'hello'" cat file| cat -e
+    - [fixed] echo "'$HOME'"| cat -e
 # [fixed] fix export type;
     - [fixed] fix quotes type;
-    - [fixed] echo ""'hello'"  "'>>|'""
-    - [fixed] echo "'hello'"  "'>>|'"
-    - [fixed] echo ""'$HOME'""  
-    - [fixed] echo "'" $HOME "'"
-    - [fixed] echo " " '$HOME' ""
-    - [fixed] echo "'$HOME' """
-    - [fixed] echo "hello" | '"''
+    - [fixed] echo ""'hello'"  "'>>|'"" | cat -e
+    - [fixed] echo "'hello'"  "'>>|'" | cat -e
+    - [fixed] echo ""'$HOME'""  | cat -e
+    - [fixed] echo "'" $HOME "'"| cat -e
+    - [fixed] echo " " '$HOME' ""| cat -e
+    - [fixed] echo "'$HOME' """| cat -e
+    - [fixed] echo "hello" | '"''| cat -e
     - [fixed] ls )
     - [fixed] ls "" |wc
     - [fixed] l's
@@ -50,10 +50,10 @@
     - [works] < d
     - [works] >> d
     - [fixed] ls | ""
+    - [fixed] <<$x ca
+    - [fixed] <<   l"" cat
 
 
-    +- [tofix] <<   l"" cat
-    +- [tofix] <<$x ca
     
     +- echo "$AAA.gfg    " | cat -e
     +- echo "$AAA    " | cat -e

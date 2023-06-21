@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   blocks_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 16:56:17 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 16:50:01 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:31:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_check_next(t_lexer *node, char *file_name)
 	tmp = node;
 	while (tmp && tmp->type == W_SPACE)
 		tmp = tmp->next;
-	if (tmp && tmp->type == CMD)
+	if (tmp && (tmp->type == CMD || tmp->type == UNK))
 		return (0);
 	unlink(file_name);
 	return (1);
@@ -61,16 +61,16 @@ int	create_block_doc_helper(t_lexer *tmp, t_parser **parser_list, t_main *data)
 	if (!file_name)
 		return (1);
 	if (!ft_check_next(tmp->next->next, file_name))
-		heredoc_to_inrdir(parser_list, tmp, file_name);
+		heredoc_to_inrdir(parser_list, file_name);
 	else
 	{
-		new_node = ft_nodedup(tmp);
-		new_node->str = ft_strdup(file_name);
-		new_node->path = ft_strdup(file_name);
+		new_node = creat_lexer_node(file_name);
 		new_node->type = HEREDOC_FILE;
 		new_item = create_parser_node(new_node, 1);
+		del_node(new_node);
 		add_node_to_list(parser_list, new_item);
 		unlink(file_name);
 	}
+	free (file_name);
 	return (0);
 }
