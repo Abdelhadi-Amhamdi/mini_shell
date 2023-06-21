@@ -1,18 +1,20 @@
 
 
+    - [fixed] echo " " '$HOME' ""| cat -e
 
 # fix echo '$var'
 
     - [fixed] echo "'$HOME'"| cat -e
     - [fixed] echo "'hello'" cat file| cat -e
     - [fixed] echo "'$HOME'"| cat -e
+    -  echo "hello" | djsfbjsf | cat -e
 # [fixed] fix export type;
     - [fixed] fix quotes type;
     - [fixed] echo ""'hello'"  "'>>|'"" | cat -e
     - [fixed] echo "'hello'"  "'>>|'" | cat -e
     - [fixed] echo ""'$HOME'""  | cat -e
     - [fixed] echo "'" $HOME "'"| cat -e
-    - [fixed] echo " " '$HOME' ""| cat -e
+    - [fixed] echo "'"$HOME"'"| cat -e
     - [fixed] echo "'$HOME' """| cat -e
     - [fixed] echo "hello" | '"''| cat -e
     - [fixed] ls )

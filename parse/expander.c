@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 22:28:24 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:16:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int	ft_expander(t_lexer *list, t_env *env)
 	}
 	tmp = list;
 	set_type(&list);
-	// print_token_list(tmp);
 	join_args(&list, paths);
+	// print_token_list(list);
 	tmp = list;
 	clean_unsed_spaces(&list);
 	if (syntax_analyzer(list))

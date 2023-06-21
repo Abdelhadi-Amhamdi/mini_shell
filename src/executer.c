@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 17:58:19 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:48:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,6 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 
 void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 {
-	// int	wait;
-
-	// wait = cmd->id;
 	expand_var_to_cmd(cmd, data);
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
 	if (!cmd->args)
@@ -125,7 +122,15 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 		if (out > 1)
 			close(out);
 		if (execve(cmd->args[0], cmd->args, env_list_to_tabs(data->env)) == -1)
+		{
+			if (errno == ENOENT)
+			{
+				ft_putstr_fd("mini-sh: ", 2);
+				ft_putstr_fd(cmd->str, 2);
+				ft_putendl_fd(": command not found", 2);
+			}
 			exit (errno);
+		}
 	}
 	else
 		g_exit_status = -1;

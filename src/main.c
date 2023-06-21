@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 17:58:54 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:33:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,10 @@ int	main(int ac, char **av, char **envp)
 			main->ast = formater(cmd, main);
 			if (main->ast)
 			{
-				printTree(main->ast);
-				executer(main->ast, STDIN_FILENO, STDOUT_FILENO, main);
-				while (wait(0) != -1);
+				// printTree(main->ast);
+				// executer(main->ast, STDIN_FILENO, STDOUT_FILENO, main);
+				while ((waitpid(-1, NULL, 0)) > 0)
+				// while (wait(0) != -1);
 				destroy_main(main);
 			}
 			add_history(cmd);
