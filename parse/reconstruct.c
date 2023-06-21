@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 10:30:32 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:57:55 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	ft_trim_quotes(t_lexer *node)
 		tmp->str = ft_strtrim(tmp->str, "'");
 	else if (tmp->str[0] == '"')
 		tmp->str = ft_strtrim(tmp->str, "\"");
-	if (!tmp->str[0])
-		tmp->str = ft_strdup("");
 	free(str_tmp);
 }
 
@@ -79,8 +77,8 @@ int	check_qoutes(t_lexer *list)
 // check if the node need to be joined with the next node
 int	to_join(t_lexer *node)
 {
-	if (node && !node->is_oper && (node->type != W_SPACE || node->id == -14) && \
-		node->type != OP && node->type != CP)
+	if (node && !node->is_oper && node->type != W_SPACE && \
+		node->type != OP && node->type != CP && *node->str)
 		return (1);
 	return (0);
 }

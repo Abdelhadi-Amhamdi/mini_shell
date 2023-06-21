@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 11:36:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:17:56 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*wait_heredoc(char *file_name, pid_t pid)
 	{
 		unlink(file_name);
 		g_exit_status = EXIT_SUCCESS;
+		free (file_name);
 		return (NULL);
 	}
 	g_exit_status = EXIT_SUCCESS;

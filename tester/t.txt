@@ -1,0 +1,42 @@
+echo "'$HOME'"| cat -e
+echo "'hello'" cat file| cat -e
+echo "'$HOME'"| cat -e
+echo ""'hello'"  "'>>|'"" | cat -e
+echo "'hello'"  "'>>|'" | cat -e
+echo ""'$HOME'""  | cat -e
+echo "'" $HOME "'"| cat -e
+echo " " '$HOME' ""| cat -e
+echo "'$HOME' """| cat -e
+echo "hello" | '"''| cat -e
+ls )
+ls "" |wc
+l's
+(echo "hello" > out) && ls
+echo "hello" > file
+(ls asajshas)
+ls | wc -l && make || (gcc -g ) file.c
+echo "hello|"
+ls && ( cat todo.txt | grep s | wc ) || ls
+echo "hello" "ls" "ls"
+file.txt
+echo $var0$var1$var2
+echo $HOMEsdjhfk$HOME
+echo $HOME.sdjhfk$HOME
+echo "$HOME"
+echo '''$HOME'''
+echo ''$HOME''
+echo "'$HOME'"
+echo $HOME
+ls || ks 
+echo "$HOME$HOME"
+echo "$HOME"
+ldfsfk fgjd | ls
+ls | (ls)
+cd $HOME/Desktop
+./todo.txt 
+'ls'
+ls -l | wc -l >> out && (cat out | grep 5 >> out || << del)
+echo $>
+ls | ""
+<<$x ca
+<<   l"" cat
