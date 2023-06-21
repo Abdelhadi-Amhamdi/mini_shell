@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reconstruct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 14:14:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:57:55 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,9 @@ void	join_args(t_lexer **list, char **paths)
 				return ;
 			free(str_tmp);
 			tmp->path = get_path(tmp->str, paths);
+			tmp->type = check_type(tmp, tmp->path);
 			tmp->next = tmp->next->next;
-			tmp->type = UNK;
+			
 			del_node(next_tmp);
 		}
 		tmp = tmp->next;

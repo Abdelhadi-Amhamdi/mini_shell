@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 21:18:54 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 14:36:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:06:11 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,17 @@ void	expander_helper(t_lexer **list, t_lexer *tmp, char *before, char *after, t_
 	after = extarct_after(tmp->str, &i);
 	temp = var;
 	var = expand(var, envp, 1);
-	// printf("%s\n",var);
 	free(temp);
 	if (!var)
+	{
+		temp = tmp->str;
 		tmp->str = var;
+		free(temp);
+	}
 	else
 	{
 		string = join_variables(&before, &var, &after, &(tmp->str));
-		if (contain_spaces(string))
+		if (contain_spaces(string) && tmp->id != DONT_REMOVESP)
 		{
 			new = tokenizer(string, all_paths(envp));
 			set_type(&new);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:50:24 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/20 23:05:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:57:49 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_free(char **tabs)
 	int	index;
 
 	index = 0;
-	if (!tabs || !*tabs)
+	if (!tabs)
 		return ;
 	while (tabs[index])
 	{
