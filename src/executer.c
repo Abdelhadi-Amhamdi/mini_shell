@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 19:02:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:19:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,19 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 
 void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 {
-	int	wait;
+	// int	wait;
 
-	wait = cmd->id;
+	// wait = cmd->id;
 	expand_var_to_cmd(cmd, data);
 	cmd->args = cmd_args_list_to_tabs(cmd, data);
-	if (!(*cmd->args) || !cmd->args)
+	if (!cmd->args)
 		return ;
 	cmd->type = CMD;
+	if (cmd->is_builtin)
+	{
+		g_exit_status = exec_builtin(cmd, &data->env, data, 1);
+		return ;
+	}
 	cmd->id = fork();
 	if (!cmd->id)
 	{
@@ -121,6 +126,8 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 	}
 	else
 		g_exit_status = -1;
+	ft_free(cmd->args);
+	cmd->args = NULL;
 	if (out == 1)
 		wait_for_child(cmd);
 }
