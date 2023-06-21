@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/20 16:24:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:19:54 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,12 @@ char	*get_string(char *s, int *index, t_env *envp, int last)
 	str = ft_get_expand_val(var + 1, envp);
 	if (var && (!var[1] || (var[0] == '$' && !ft_isalpha(var[1]))))
 		return (var);
+	old = var;
 	if (var[0] == '$' && str)
-	{
-		old = var;
 		var = ft_strdup(str);
-		free(old);
-	}
 	else if (!str && last && s[start] == '$')
 		var = NULL;
+	free(old);
 	free(str);
 	return (var);
 }
@@ -91,6 +89,7 @@ char	*expand(char *var, t_env *envp, int last)
 		free(old);
 		free(new);
 	}
+	// while(1);
 	return (str);
 }
 
@@ -105,7 +104,8 @@ void	ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp)
 	after = NULL;
 	while (tmp)
 	{
-		if (tmp->type == VAR || (tmp->type == SQ && tmp->str[1] == '$'))
+		// || (tmp->type == SQ && tmp->str[1] == '$')
+		if (tmp->type == VAR)
 		{
 			expander_helper(list,tmp, before, after, envp);
 			tmp = tmp->next;

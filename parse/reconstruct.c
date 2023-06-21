@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reconstruct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/20 16:24:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/21 10:30:32 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	check_qoutes(t_lexer *list)
 // check if the node need to be joined with the next node
 int	to_join(t_lexer *node)
 {
-	if (node && !node->is_oper && node->type != W_SPACE && \
+	if (node && !node->is_oper && (node->type != W_SPACE || node->id == -14) && \
 		node->type != OP && node->type != CP)
 		return (1);
 	return (0);
@@ -104,8 +104,9 @@ void	join_args(t_lexer **list, char **paths)
 				return ;
 			free(str_tmp);
 			tmp->path = get_path(tmp->str, paths);
+			tmp->type = check_type(tmp, tmp->path);
 			tmp->next = tmp->next->next;
-			tmp->type = UNK;
+			
 			del_node(next_tmp);
 		}
 		tmp = tmp->next;

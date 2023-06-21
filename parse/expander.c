@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 16:44:22 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/20 22:28:24 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 	}
 	tmp = list;
 	set_type(&list);
+	// print_token_list(tmp);
 	join_args(&list, paths);
 	tmp = list;
 	clean_unsed_spaces(&list);

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 15:24:35 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/21 10:35:27 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	set_tokens_ids(t_lexer **list)
 	index = 0;
 	while (tmp)
 	{
-		if(tmp->id != PREINTABLE_SPACE)
+		if(tmp->id != PREINTABLE_SPACE && tmp->id != DONT_REMOVESP)
 		{
 			tmp->id = index;	
 			index++;

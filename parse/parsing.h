@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:50:31 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/21 10:39:29 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define DONT_WAITPID -12
 # define HEREDOC_EXPAND -13
 #	define PREINTABLE_SPACE -14
+#	define DONT_REMOVESP -15
 
 typedef enum s_boolean
 {
@@ -192,6 +193,7 @@ char				*extract_before(char *cmd, int *i);
 char				*extarct_after(char *cmd, int *i);
 void				expander_helper(t_lexer **list ,t_lexer *tmp, char *before, char *after,
 						t_env *envp);
+int	contain_spaces(char *string);
 // syntax analizer
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);
