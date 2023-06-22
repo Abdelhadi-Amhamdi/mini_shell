@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 18:45:22 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:45:08 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,12 @@ char	*get_string(char *s, int *index, t_env *envp, int last)
 		return (var);
 	old = var;
 	if (var[0] == '$' && str)
+	{
 		var = ft_strdup(str);
-	else if (!str && last && s[start] == '$')
+		free(old);
+	}
+	if (!str && last && s[start] == '$')
 		var = NULL;
-	free(old);
 	free(str);
 	return (var);
 }
@@ -89,7 +91,6 @@ char	*expand(char *var, t_env *envp, int last)
 		free(old);
 		free(new);
 	}
-	// while(1);
 	return (str);
 }
 
