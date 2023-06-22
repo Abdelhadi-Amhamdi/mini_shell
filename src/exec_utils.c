@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 14:45:02 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/22 17:06:35 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ char	*_path(t_tree *node, t_main *data)
 	char	**paths;
 
 	paths = all_paths(data->env);
+	if (!node->str)
+	{
+		if (node->cmd_args)
+		{
+			node->str = ft_strdup(node->cmd_args->str);
+			return (node->str);
+		}
+		return (NULL);
+	}
 	if (!node->path && !node->is_builtin && node->type != W_SPACE && *node->str)
 	{
 		node->path = get_path(node->str, paths);
@@ -101,6 +110,7 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	if (!cmd_args)
 		return (NULL);
 	path = _path(node, data);
+	// printf("[%s]\n", path);
 	if (path)
 		cmd_args[index++] = ft_strdup(path);
 	copy_args_(node->cmd_args, cmd_args, &index);

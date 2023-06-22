@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 15:47:41 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:45:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_cd(t_env *env, t_tree *path)
 		if (path->args[0][0] == '~')
 			path->args[0] = update_path(&path->args[0][1], home->value);
 		if (chdir(path->args[0]) == -1)
-			return (perror("cd"), -1);
+			return (perror("cd"), 1);
 	}
 	if (pwd)
 	{

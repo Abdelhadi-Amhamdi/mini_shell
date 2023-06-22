@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 20:33:59 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:47:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,9 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 		formate_env_item(&key, &value, cmd->args[index]);
 		if (!key || check_key(key))
 		{
-			printf("mini-sh: export: `%s' not a valid identifier\n", cmd->args[index]);
+			ft_putstr_fd("mini-sh: export: `", 2);
+			ft_putstr_fd(cmd->args[index], 2);
+			ft_putendl_fd("'not a valid identifier", 2);
 			exit_s = 1;
 		}
 		else

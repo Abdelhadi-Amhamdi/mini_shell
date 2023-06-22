@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 14:44:57 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:46:07 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 	cmd->id = fork();
 	if (!cmd->id)
 	{
-		if (!ft_strncmp(cmd->str, "app", 3))
+		if (!ft_strncmp(cmd->str, "./app", 6))
 			signal(SIGINT, sig_int_handler);
 		else
 			signal(SIGINT, SIG_DFL);
@@ -133,7 +133,10 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 		}
 	}
 	else
-		g_exit_status = -1;
+	{
+		if (!ft_strncmp(cmd->str, "./app", 6))
+			g_exit_status = -1;
+	}
 	ft_free(cmd->args);
 	cmd->args = NULL;
 	if (out == 1)

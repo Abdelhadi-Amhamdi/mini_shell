@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 14:34:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:52:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	run_redir_input(t_tree *node, int in, int out, t_main *data)
 	t_tree	*right;
 	int		fd;
 
+	puts("3");
 	right = node->right;
 	fd = open(right->str, O_RDONLY, 0644);
 	if (fd == -1)

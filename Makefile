@@ -7,14 +7,13 @@ parsing_path = parse/
 b_path = builtins/
 srcs_path = src/
 env_path = env/
-flags = 
-# -Wuninitialized -fsanitize=address,undefined,integer -g
+flags = -Wuninitialized -fsanitize=address,undefined,integer -g
 
-L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
-I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
+# L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
+# I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
 
-# L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
-# I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
+L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
 
 header = parsing.h
 

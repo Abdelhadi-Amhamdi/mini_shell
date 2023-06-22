@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:27:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 21:35:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:05:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ char	*ft_word(t_lexer **list, char *cmd, char **paths)
 t_lexer	*tokenizer(char *cmd, char **paths)
 {
 	t_lexer	*list;
+	size_t size ;
 
 	list = NULL;
 	while (*cmd && is_space(*cmd))
 		cmd++;
-	while (*cmd)
+	size = ft_strlen(cmd);
+	while (*cmd != '\0' && size--)
 	{
 		if (is_space(*cmd))
 			cmd = ft_spaces(&list, cmd, paths);
