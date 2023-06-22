@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 17:58:17 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:53:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	// print_token_list(tmp);
 	tmp = node->cmd_args;
 	size = _args_size(node->str, tmp, node->is_builtin);
+	// printf("%d size\n", size);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (!cmd_args)
 		return (NULL);

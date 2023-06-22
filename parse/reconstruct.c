@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reconstruct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 17:57:55 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/22 11:44:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ int	check_qoutes(t_lexer *list)
 // check if the node need to be joined with the next node
 int	to_join(t_lexer *node)
 {
-	if (node && !node->is_oper && node->type != W_SPACE && \
+	if (node && strchr(node->str, '$') && node->type == UNK)
+		node->id = DONT_EXPAND;
+	if (node && !node->is_oper && (node->type != W_SPACE || node->id == -14) && \
 		node->type != OP && node->type != CP && *node->str)
 		return (1);
 	return (0);
@@ -93,7 +95,7 @@ void	join_args(t_lexer **list, char **paths)
 	tmp = *list;
 	while (tmp)
 	{
-		if (to_join(tmp) && to_join(tmp->next))
+		if (to_join(tmp) && tmp->next && to_join(tmp->next))
 		{
 			str_tmp = tmp->str;
 			next_tmp = tmp->next;
@@ -101,13 +103,20 @@ void	join_args(t_lexer **list, char **paths)
 			if (!tmp->str)
 				return ;
 			free(str_tmp);
+			if (tmp->path)
+				free(tmp->path);
 			tmp->path = get_path(tmp->str, paths);
 			tmp->type = check_type(tmp, tmp->path);
+			if ((tmp->type == SQ && tmp->next->type == VAR) \
+			|| (tmp->type == VAR && tmp->next->type == SQ))
+				tmp->type = VAR;
+			if (tmp->next->id == DONT_EXPAND)
+				tmp->id = DONT_EXPAND;
 			tmp->next = tmp->next->next;
-			
 			del_node(next_tmp);
 		}
-		tmp = tmp->next;
+		else
+			tmp = tmp->next;
 	}
 }
 

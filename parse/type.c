@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/20 22:27:07 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/22 11:58:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ t_type	rest_of_types(t_lexer *node)
 		return (APND);
 	else if (node->is_oper && !compare(node, "<<"))
 		return (HEREDOC);
-	else if (node->str[0] == '-')
-		return (ARGS);
 	else if (is_all_space(node->str))
 		return (W_SPACE);
 	return (UNK);
+	// else if (node->str[0] == '-')
+	// 	return (ARGS);
 }
 
 // check the type of the given arg

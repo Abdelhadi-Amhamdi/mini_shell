@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:15:55 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 18:46:38 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:17:53 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int contain_only_qs(t_lexer	*tmp)
 		int	i;
 
 	i = 0;
-	if(!*tmp->str)
+	if(!(*tmp->str))
 		return (1);
 	if (tmp->type == SQ)
 	{
@@ -67,11 +67,9 @@ int contain_only_qs(t_lexer	*tmp)
 
 void	is_printable_sp(t_lexer	*tmp)
 {
-	// && !contain_only_qs(tmp)
-// && !contain_only_qs(tmp)
-	if (tmp->type == SQ && all_inside_is_sp(tmp) && !contain_only_qs(tmp) )
+	if (tmp->type == SQ && all_inside_is_sp(tmp) && contain_only_qs(tmp))
 		tmp->id = PREINTABLE_SPACE;
-	else if (tmp->type == DQ && all_inside_is_sp(tmp) && !contain_only_qs(tmp))
+	else if (tmp->type == DQ && all_inside_is_sp(tmp) && contain_only_qs(tmp))
 		tmp->id = PREINTABLE_SPACE;
 }
 
