@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 11:44:21 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:18:02 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 	char	**paths;
 
 	tmp = list;
+	// print_token_list(tmp);
 	paths = all_paths(env);
 	if (check_qoutes(list) || check_pths(list))
 	{
