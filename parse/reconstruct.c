@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 19:00:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 11:44:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	join_args(t_lexer **list, char **paths)
 			if (!tmp->str)
 				return ;
 			free(str_tmp);
+			if (tmp->path)
+				free(tmp->path);
 			tmp->path = get_path(tmp->str, paths);
 			tmp->type = check_type(tmp, tmp->path);
 			if ((tmp->type == SQ && tmp->next->type == VAR) \

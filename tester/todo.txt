@@ -1,12 +1,14 @@
 
-
-    - [fixed] echo " " '$HOME' ""| cat -e
+    - echo $HOME.sdjhfk$HOME
+    - echo ""'$HOME'""| cat -e
+    - cd $HOME/Desktop
 
 # fix echo '$var'
 
     - [fixed] echo "'$HOME'"| cat -e
+    - [fixed] echo " " '$HOME' ""| cat -e
     - [fixed] echo "'hello'" cat file| cat -e
-    - [fixed] echo "'$HOME'"| cat -e
+    - [fixed] echo "'$HOME' "| cat -e
     -  echo "hello" | djsfbjsf | cat -e
 # [fixed] fix export type;
     - [fixed] fix quotes type;

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 20:48:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:49:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 	}
 	else
 		g_exit_status = -1;
+	ft_free(cmd->args);
 	if (wait != DONT_WAITPID)
 		wait_for_child(cmd);
-	ft_free(cmd->args);
 }
 
 int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)

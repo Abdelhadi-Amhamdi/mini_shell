@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 21:33:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:52:59 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	destroy_ast_tree(t_tree *root)
 	right = NULL;
 	destroy_ast_tree(root->left);
 	right = root->right;
-	if (!root->is_op && root->cmd_args)
+	if (root->cmd_args)
 		ft_free_lexer_list(&root->cmd_args);
-	if (root->type == CMD && root->path)
+	if (!root->is_op && root->path)
 		free(root->path);
 	if (root->type == HEREDOC_FILE)
 		unlink(root->str);
@@ -80,14 +80,13 @@ int	main(int ac, char **av, char **envp)
 			if (main->ast)
 			{
 				// printTree(main->ast);
-				// executer(main->ast, STDIN_FILENO, STDOUT_FILENO, main);
-				while ((waitpid(-1, NULL, 0)) > 0)
-				// while (wait(0) != -1);
+				executer(main->ast, STDIN_FILENO, STDOUT_FILENO, main);
+				while ((waitpid(-1, NULL, 0)) > 0);
 				destroy_main(main);
 			}
 			add_history(cmd);
-			free(cmd);
 		}
+		free(cmd);
 	}
 	exit (g_exit_status);
 }
