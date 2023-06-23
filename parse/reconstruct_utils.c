@@ -6,16 +6,17 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 23:14:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 23:15:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:58:14 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-void	check_and_trim(t_lexer *tmp)
+int	check_and_trim(t_lexer *tmp)
 {
 	int		index;
 	char	*data;
+	char	current;
 
 	index = 1;
 	data = tmp->str;
@@ -25,11 +26,11 @@ void	check_and_trim(t_lexer *tmp)
 	if (!data[index])
 		return (ft_putendl_fd(QUOTES_ERROR_MSG, 2), 1);
 	ft_trim_quotes(tmp);
+	return (0);
 }
 
 void	_rebuild_node(t_lexer *tmp, char **paths)
 {
-	free(str_tmp);
 	if (tmp->path)
 		free(tmp->path);
 	tmp->path = get_path(tmp->str, paths);

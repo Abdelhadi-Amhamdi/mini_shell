@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 23:14:51 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:58:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,22 @@ void	ft_trim_quotes(t_lexer *node)
 int	check_qoutes(t_lexer *list)
 {
 	t_lexer	*tmp;
-	char	current;
 
 	tmp = list;
 	while (tmp)
 	{
 		if (tmp->str[0] == '"' || tmp->str[0] == '\'')
-			check_and_trim(tmp);
+		{
+			if (check_and_trim(tmp))
+				return (1);
+		}	
 		else if (tmp->type == HEREDOC)
 		{
 			tmp = tmp->next;
 			if (tmp && (tmp->str[0] == '"' || tmp->str[0] == '\''))
 			{
-				check_and_trim(tmp);
+				if (check_and_trim(tmp))
+					return (1);
 				tmp->is_builtin = 0;
 			}
 			else
@@ -84,6 +87,7 @@ void	join_args(t_lexer **list, char **paths)
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
 			if (!tmp->str)
 				return ;
+			free(str_tmp);
 			_rebuild_node(tmp, paths);
 			tmp->next = tmp->next->next;
 			del_node(next_tmp);

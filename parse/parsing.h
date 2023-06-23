@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 23:24:58 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:56:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void				del_node(t_lexer *node);
 void				clean_spaces(t_lexer **list);
 int					is_space(char c);
 int					is_wild_card(t_lexer *node);
-void				check_and_trim(t_lexer *tmp);
+int					check_and_trim(t_lexer *tmp);
 void				_rebuild_node(t_lexer *tmp, char **paths);
 
 //tokenizer functions
