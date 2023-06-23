@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/22 11:58:36 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:09:02 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ int	is_file(t_lexer *node)
 {
 	if (!node->is_oper && node->str[0] != ' ' && node->str[0] != ')'
 		&& node->str[0] != '(' && node->str[0] != '>' && node->prev
-		&& node->str[0] != '$' && (node->prev->type == RDIR \
-		|| node->prev->type == APND
-			|| node->prev->type == HEREDOC))
+		&& node->str[0] != '$' && (node->prev->type == RDIR
+			|| node->prev->type == APND || node->prev->type == HEREDOC))
 		return (1);
 	return (0);
 }
@@ -55,21 +54,20 @@ t_type	rest_of_types(t_lexer *node)
 	else if (is_all_space(node->str))
 		return (W_SPACE);
 	return (UNK);
-	// else if (node->str[0] == '-')
-	// 	return (ARGS);
 }
 
 // check the type of the given arg
 t_type	check_type(t_lexer *node, char *path)
 {
-	if(node && node->type == VAR && node->str[0] == '\'')
-		return(VAR);
+	if (node && node->type == VAR && node->str[0] == '\'')
+		return (VAR);
 	else if (is_file(node))
 		return (FL);
 	else if ((path || is_builtin(node->str)))
 		return (CMD);
-	else if (ft_strchr(node->str, '$') && node->type != SQ && node->str[0] != '\''
-		&& node->prev && node->prev->type != HEREDOC && node->type != SQ)
+	else if (ft_strchr(node->str, '$') && node->type != SQ
+		&& node->str[0] != '\'' && node->prev && node->prev->type != HEREDOC
+		&& node->type != SQ)
 		return (VAR);
 	else if (is_wild_card(node))
 		return (WILDCARD);

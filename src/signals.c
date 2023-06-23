@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:21:48 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 14:57:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:39:48 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	expand_var_to_cmd(t_tree *cmd, t_main *data)
 		// fix this in single quotes case+
 		tmp = cmd->str;
 		cmd->str = expand(cmd->str, data->env, 1);
+		printf("%s\n",cmd->str);
 		free(tmp);
 		if (!cmd->str)
 			return ;

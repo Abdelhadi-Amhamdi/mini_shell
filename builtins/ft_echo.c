@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 21:19:55 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 00:43:29 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,10 @@ int	ft_echo(t_tree *node, int out)
 	}
 	while (node->args[i])
 	{
-		// if (is_all_space(node->args[i]))
-		// 	ft_putstr_fd(" ", out);
-		// else
-		if(*(node->args[i]))
+		if (*(node->args[i]))
 			ft_putstr_fd(node->args[i], out);
-		if(node->args[i + 1] && *(node->args[i]))
-			ft_putchar_fd(' ',out);
+		if (node->args[i + 1] && *(node->args[i]) && *(node->args[i + 1]))
+			ft_putchar_fd(' ', out);
 		i++;
 	}
 	if (new_line)

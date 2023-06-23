@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 18:47:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:06:20 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,10 @@ void				del_node(t_lexer *node);
 void				clean_spaces(t_lexer **list);
 int					is_space(char c);
 int					is_wild_card(t_lexer *node);
-
+int					all_inside_is_sp(t_lexer *tmp);
+int					contain_only_qs(t_lexer *tmp);
+void				is_printable_sp(t_lexer *tmp);
+void				will_remove_sp(t_lexer *tmp);
 //tokenizer functions
 t_lexer				*tokenizer(char *cmd, char **paths);
 char				*ft_spaces(t_lexer **list, char *cmd, char **paths);
@@ -175,13 +178,15 @@ void				add_node_to_list(t_parser **list, t_parser *item);
 t_parser			*create_parser_node(t_lexer *l_node, int id);
 void				ft_free_parser_list(t_parser **list, int t);
 t_parser			*create_blocks(t_lexer *lexer_list, t_main *data);
-int					create_block_doc_helper(t_lexer *tmp, \
-t_parser **parser_list, t_main *data);
+int	create_block_doc_helper(t_lexer *tmp,
+							t_parser **parser_list,
+							t_main *data);
 t_lexer				*pass_args_to_cmd(t_lexer *ar, t_parser **new_node);
 t_lexer				*add_new_simple_node(t_lexer *tmp, t_parser **parser_list);
 int					ft_check_next(t_lexer *node, char *file_name);
 void				heredoc_to_inrdir(t_parser **list, char *file_name);
-
+t_lexer				*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
+						t_lexer **args_list);
 // expander function
 int					ft_expander(t_lexer *list, t_env *env);
 char				*expand(char *var, t_env *envp, int last);
@@ -191,9 +196,8 @@ void				ft_expand_wildcards(t_lexer **list);
 char				*extarct_expand(char *cmd, int *i);
 char				*extract_before(char *cmd, int *i);
 char				*extarct_after(char *cmd, int *i);
-void				expander_helper(t_lexer **list ,t_lexer *tmp, char *before, char *after,
-						t_env *envp);
-int	contain_spaces(char *string);
+void				expander_helper(t_lexer **list, t_lexer *tmp, char *var, t_env *envp);
+int					contain_spaces(char *string);
 // syntax analizer
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);
@@ -203,8 +207,8 @@ int					check_qoutes(t_lexer *list);
 
 // ast
 t_tree				*create_node(t_parser *item);
-t_tree				*create_token_node(t_parser *node, t_tree *left, \
-t_tree *right);
+t_tree				*create_token_node(t_parser *node, t_tree *left,
+						t_tree *right);
 t_tree				*factor(t_parser **list);
 t_tree				*create_tree(t_parser **list);
 t_tree				*term(t_parser **list);

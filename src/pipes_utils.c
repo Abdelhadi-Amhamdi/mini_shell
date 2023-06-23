@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 20:50:04 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:44:03 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,11 @@ void	add_to_end(t_pipes **list, t_pipes *item)
 	}
 }
 
-int	_args_size(char	*cmd ,t_lexer *list, int is_b)
+int	_args_size(t_lexer *list)
 {
 	int		size;
-	// t_lexer	*tmp;
 
-	// tmp = list;
 	size = 0;
-	(void)is_b;
-	(void)cmd;
 	while (list)
 	{
 		if (list && (list->type != W_SPACE || list->id == PREINTABLE_SPACE))

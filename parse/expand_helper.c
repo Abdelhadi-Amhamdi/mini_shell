@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 21:18:54 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/22 14:49:06 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:05:23 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,6 @@ int	contain_spaces(char *string)
 	return (0);
 }
 
-// t_lexer	*find_node(t_list **list, t_lexer *node)
-// {
-// 	t_lexer	*cur;
-
-// 	cur = *list;
-// 	while (cur)
-// 	{
-// 		if (cur == node)
-// 	}
-// }
-
 void	ft_addup_to_list(t_lexer *new, t_lexer **list, t_lexer *node)
 {
 	t_lexer	*last;
@@ -72,18 +61,38 @@ void	ft_addup_to_list(t_lexer *new, t_lexer **list, t_lexer *node)
 		prev->next = new;
 		new->prev = prev;
 		last->next = next;
-		if(next)
+		if (next)
 			next->prev = last;
 	}
 }
 
-void	expander_helper(t_lexer **list, t_lexer *tmp, char *before, char *after, t_env *envp)
+void	normal_case_handler(char *string, t_lexer **list, t_lexer *tmp,
+		t_env *envp)
+{
+	char	**paths;
+	t_lexer	*new;
+
+	paths = all_paths(envp);
+	if (contain_spaces(string) && tmp->id != DONT_REMOVESP)
+	{
+		new = tokenizer(string, paths);
+		set_type(&new);
+		ft_addup_to_list(new, list, tmp);
+		free(string);
+	}
+	else
+		tmp->str = string;
+	ft_free(paths);
+}
+
+void	expander_helper(t_lexer **list, t_lexer *tmp, char *var,
+		t_env *envp)
 {
 	int		i;
 	char	*temp;
-	char	*var;
+	char	*before;
+	char	*after;
 	char	*string;
-	t_lexer	*new;
 
 	i = 0;
 	before = extract_before(tmp->str, &i);
@@ -101,14 +110,7 @@ void	expander_helper(t_lexer **list, t_lexer *tmp, char *before, char *after, t_
 	else
 	{
 		string = join_variables(&before, &var, &after, &(tmp->str));
-		if (contain_spaces(string) && tmp->id != DONT_REMOVESP)
-		{
-			new = tokenizer(string, all_paths(envp));
-			set_type(&new);
-			ft_addup_to_list(new, list, tmp);
-		}
-		else
-			tmp->str = string;
+		normal_case_handler(string, list, tmp, envp);
 	}
 	free(before);
 	free(after);

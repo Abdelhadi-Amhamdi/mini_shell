@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 15:47:41 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:25:47 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@ int	ft_cd(t_env *env, t_tree *path)
 	t_env	*home;
 	t_env	*oldpwd;
 	t_env	*pwd;
-	char *old;
+	char	*old;
 
 	home = ft_search_env(env, "HOME");
 	oldpwd = ft_search_env(env, "OLDPWD");
 	pwd = ft_search_env(env, "PWD");
 	if (oldpwd)
 	{
-		old = oldpwd->value;		
+		old = oldpwd->value;
 		oldpwd->value = getcwd(NULL, 0);
-		free(old);
+		if(oldpwd->value)
+			free(old);
 	}
 	if (!path->args[0] && home)
 		chdir(home->value);
@@ -63,7 +64,8 @@ int	ft_cd(t_env *env, t_tree *path)
 	{
 		old = pwd->value;
 		pwd->value = getcwd(NULL, 0);
-		free(old);
+		if(pwd->value)
+			free(old);
 	}
 	return (0);
 }

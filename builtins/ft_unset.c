@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 15:47:25 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 00:44:08 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_env	*env_search(char *arg, t_env *env)
 	return (NULL);
 }
 
-void	del_env_node(t_env	*node)
+void	del_env_node(t_env *node)
 {
-	if(!node)
+	if (!node)
 		return ;
 	free(node->key);
 	free(node->value);
@@ -57,7 +57,7 @@ t_env	*ft_unset(t_tree *node, t_env *env)
 			}
 			else
 				prev->next = cur->next;
-			del_env_node (cur);
+			del_env_node(cur);
 		}
 		i++;
 	}
