@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:15:55 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 23:25:26 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:17:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,48 +36,6 @@ int	all_inside_is_sp(t_lexer *tmp)
 		}
 	}
 	return (1);
-}
-
-int	contain_only_qs(t_lexer	*tmp)
-{
-	int	i;
-
-	i = 0;
-	if (!(*tmp->str))
-		return (1);
-	if (tmp->type == SQ)
-	{
-		while (tmp->str[i])
-		{
-			if (tmp->str[i] != '\'')
-				return (1);
-			i++;
-		}
-	}
-	else if (tmp->type == DQ)
-	{
-		while (tmp->str[i])
-		{
-			if (tmp->str[i] != '"')
-				return (1);
-			i++;
-		}
-	}
-	return (0);
-}
-
-void	is_printable_sp(t_lexer	*tmp)
-{
-	if (tmp->type == SQ && all_inside_is_sp(tmp) && contain_only_qs(tmp))
-		tmp->id = PREINTABLE_SPACE;
-	else if (tmp->type == DQ && all_inside_is_sp(tmp) && contain_only_qs(tmp))
-		tmp->id = PREINTABLE_SPACE;
-}
-
-void	will_remove_sp(t_lexer *tmp)
-{
-	if (contain_spaces(tmp->str))
-		tmp->id = DONT_REMOVESP;
 }
 
 // loop over the list and set types

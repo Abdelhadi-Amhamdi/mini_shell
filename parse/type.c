@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 23:21:59 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:18:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ int	is_file(t_lexer *node)
 {
 	if (!node->is_oper && node->str[0] != ' ' && node->str[0] != ')'
 		&& node->str[0] != '(' && node->str[0] != '>' && node->prev
-		&& node->str[0] != '$' && (node->prev->type == RDIR \
-		|| node->prev->type == APND
-			|| node->prev->type == HEREDOC))
+		&& node->str[0] != '$' && (node->prev->type == RDIR
+			|| node->prev->type == APND || node->prev->type == HEREDOC))
 		return (1);
 	return (0);
 }

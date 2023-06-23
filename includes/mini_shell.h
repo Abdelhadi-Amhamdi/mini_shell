@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 23:53:26 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:16:04 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void			executer_helper(t_tree *root, int in, int out, t_main *data);
 void			exec_unknown(t_tree *cmd, int in, int out, t_main *data);
 int				exec_builtin(t_tree *cmd, t_env **env, t_main *data, int out);
 void			run_cmd(t_tree *cmd, int in, int out, t_main *data);
-int				_args_size(char *cmd, t_lexer *list, int is_b);
+int				_args_size(t_lexer *list);
 int				path_exist(char *path, char **paths);
 char			**env_tabs(t_env *list);
 char			**_args_tabs(t_tree *node, t_main *data);

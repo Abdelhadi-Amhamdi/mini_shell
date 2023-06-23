@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   blocks_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 16:56:17 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 14:31:23 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:28:03 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
+
+t_lexer	*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
+		t_lexer **args_list)
+{
+	t_lexer	*tmp;
+
+	if (arg->type != HEREDOC)
+	{
+		add_node_to_list(parser_list, create_parser_node(arg, 1));
+		arg = arg->next;
+		add_node_to_list(parser_list, create_parser_node(arg, 1));
+		arg = arg->next;
+	}
+	else
+		arg = arg->next->next;
+	while (arg && arg->type == W_SPACE && arg->id != PREINTABLE_SPACE)
+		arg = arg->next;
+	while (arg && !arg->is_oper && arg->type != CP && arg->type != OP)
+	{
+		tmp = ft_nodedup(arg);
+		add_token_to_end(args_list, tmp);
+		arg = arg->next;
+	}
+	return (arg);
+}
 
 int	ft_check_next(t_lexer *node, char *file_name)
 {

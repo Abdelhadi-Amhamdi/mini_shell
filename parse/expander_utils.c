@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 23:26:23 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:17:47 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ char	*get_string(char *s, int *index, t_env *envp, int last)
 		free(old);
 	}
 	if (!str && last && s[start] == '$')
+	{
+		free(old);
 		var = NULL;
+	}
 	free(str);
 	return (var);
 }
@@ -97,17 +100,15 @@ char	*expand(char *var, t_env *envp, int last)
 //expand variables
 void	ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp)
 {
-	char	*before;
-	char	*after;
+	char	*var;
 
 	tmp = *list;
-	before = NULL;
-	after = NULL;
+	var = NULL;
 	while (tmp)
 	{
 		if (tmp->type == VAR && tmp->id != DONT_EXPAND)
 		{
-			expander_helper(list, tmp, before, after, envp);
+			expander_helper(list,tmp, var, envp);
 			tmp = tmp->next;
 		}
 		else
