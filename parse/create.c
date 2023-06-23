@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:15:55 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/22 13:17:53 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:25:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,13 @@ int	all_inside_is_sp(t_lexer *tmp)
 	}
 	return (1);
 }
-int contain_only_qs(t_lexer	*tmp)
+
+int	contain_only_qs(t_lexer	*tmp)
 {
-		int	i;
+	int	i;
 
 	i = 0;
-	if(!(*tmp->str))
+	if (!(*tmp->str))
 		return (1);
 	if (tmp->type == SQ)
 	{
@@ -73,10 +74,9 @@ void	is_printable_sp(t_lexer	*tmp)
 		tmp->id = PREINTABLE_SPACE;
 }
 
-
 void	will_remove_sp(t_lexer *tmp)
 {
-	if(contain_spaces(tmp->str))
+	if (contain_spaces(tmp->str))
 		tmp->id = DONT_REMOVESP;
 }
 
@@ -90,7 +90,7 @@ void	set_type(t_lexer **list)
 	{
 		tmp->type = check_type(tmp, tmp->path);
 		is_printable_sp(tmp);
-		if(tmp->type == VAR)
+		if (tmp->type == VAR)
 			will_remove_sp(tmp);
 		tmp = tmp->next;
 	}

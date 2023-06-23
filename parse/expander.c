@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 13:18:02 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:26:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	clean_unsed_spaces(t_lexer **list)
 			clean_prev_space(tmp, list);
 		}
 		while ((tmp->type == CMD || tmp->type == OP || tmp->type == CP)
-			&& tmp->next && tmp->next->type == W_SPACE && tmp->next->id != -14 )
+			&& tmp->next && tmp->next->type == W_SPACE && tmp->next->id != -14)
 		{
 			clean_next_space(tmp);
 		}
@@ -73,7 +73,6 @@ int	ft_expander(t_lexer *list, t_env *env)
 	char	**paths;
 
 	tmp = list;
-	// print_token_list(tmp);
 	paths = all_paths(env);
 	if (check_qoutes(list) || check_pths(list))
 	{

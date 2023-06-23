@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 18:47:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:24:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,8 @@ void				del_node(t_lexer *node);
 void				clean_spaces(t_lexer **list);
 int					is_space(char c);
 int					is_wild_card(t_lexer *node);
+void				check_and_trim(t_lexer *tmp);
+void				_rebuild_node(t_lexer *tmp, char **paths);
 
 //tokenizer functions
 t_lexer				*tokenizer(char *cmd, char **paths);
@@ -191,9 +193,9 @@ void				ft_expand_wildcards(t_lexer **list);
 char				*extarct_expand(char *cmd, int *i);
 char				*extract_before(char *cmd, int *i);
 char				*extarct_after(char *cmd, int *i);
-void				expander_helper(t_lexer **list ,t_lexer *tmp, char *before, char *after,
-						t_env *envp);
-int	contain_spaces(char *string);
+void				expander_helper(t_lexer **list, t_lexer *tmp, \
+char *before, char *after, t_env *envp);
+int					contain_spaces(char *string);
 // syntax analizer
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);

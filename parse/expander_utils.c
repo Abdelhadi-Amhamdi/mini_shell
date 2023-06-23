@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/22 14:45:08 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:26:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp)
 	{
 		if (tmp->type == VAR && tmp->id != DONT_EXPAND)
 		{
-			expander_helper(list,tmp, before, after, envp);
+			expander_helper(list, tmp, before, after, envp);
 			tmp = tmp->next;
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 21:18:54 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/22 14:49:06 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:25:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,13 @@ void	ft_addup_to_list(t_lexer *new, t_lexer **list, t_lexer *node)
 		prev->next = new;
 		new->prev = prev;
 		last->next = next;
-		if(next)
+		if (next)
 			next->prev = last;
 	}
 }
 
-void	expander_helper(t_lexer **list, t_lexer *tmp, char *before, char *after, t_env *envp)
+void	expander_helper(t_lexer **list, t_lexer *tmp, \
+char *before, char *after, t_env *envp)
 {
 	int		i;
 	char	*temp;

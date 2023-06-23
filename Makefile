@@ -21,7 +21,7 @@ header = parsing.h
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c \
 lexer_utils1.c lexer_utils2.c expander_utils.c tokenizer.c tokenizer_utils.c \
 cleaner.c create.c reconstruct.c free.c tree.c analyzer.c blocks.c \
-expand_wildcard.c expand_helper.c type.c blocks_utils.c tree_utils.c 
+expand_wildcard.c expand_helper.c type.c blocks_utils.c tree_utils.c reconstruct_utils.c
 
 # env files
 env_src = env_main.c utils_env.c

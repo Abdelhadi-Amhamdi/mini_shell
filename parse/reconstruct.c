@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/22 11:44:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:14:51 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,40 +34,22 @@ int	check_qoutes(t_lexer *list)
 {
 	t_lexer	*tmp;
 	char	current;
-	char	*data;
-	int		index;
 
 	tmp = list;
 	while (tmp)
 	{
 		if (tmp->str[0] == '"' || tmp->str[0] == '\'')
-		{
-			index = 0;
-			data = tmp->str;
-			current = data[index];
-			while (data[++index] && data[index] != current);
-			if (!data[index])
-				return (ft_putendl_fd(QUOTES_ERROR_MSG, 2), 1);
-			ft_trim_quotes(tmp);
-		}
+			check_and_trim(tmp);
 		else if (tmp->type == HEREDOC)
 		{
 			tmp = tmp->next;
 			if (tmp && (tmp->str[0] == '"' || tmp->str[0] == '\''))
 			{
-				index = 0;
-				data = tmp->str;
-				current = data[index];
-				while (data[++index] && data[index] != current);
-				if (!data[index])
-					return (ft_putendl_fd(QUOTES_ERROR_MSG, 2), 1);
-				ft_trim_quotes(tmp);
+				check_and_trim(tmp);
 				tmp->is_builtin = 0;
 			}
-			else if (tmp)
-				tmp->is_builtin = 1;
 			else
-				break ;
+				tmp->is_builtin = 1;
 		}
 		tmp = tmp->next;
 	}
@@ -102,16 +84,7 @@ void	join_args(t_lexer **list, char **paths)
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
 			if (!tmp->str)
 				return ;
-			free(str_tmp);
-			if (tmp->path)
-				free(tmp->path);
-			tmp->path = get_path(tmp->str, paths);
-			tmp->type = check_type(tmp, tmp->path);
-			if ((tmp->type == SQ && tmp->next->type == VAR) \
-			|| (tmp->type == VAR && tmp->next->type == SQ))
-				tmp->type = VAR;
-			if (tmp->next->id == DONT_EXPAND)
-				tmp->id = DONT_EXPAND;
+			_rebuild_node(tmp, paths);
 			tmp->next = tmp->next->next;
 			del_node(next_tmp);
 		}
