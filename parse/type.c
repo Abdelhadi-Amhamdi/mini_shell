@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 20:09:02 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:18:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ t_type	check_type(t_lexer *node, char *path)
 		return (FL);
 	else if ((path || is_builtin(node->str)))
 		return (CMD);
-	else if (ft_strchr(node->str, '$') && node->type != SQ
-		&& node->str[0] != '\'' && node->prev && node->prev->type != HEREDOC
-		&& node->type != SQ)
+	else if (ft_strchr(node->str, '$') && node->type != SQ \
+	&& node->str[0] != '\'' && node->prev \
+	&& node->prev->type != HEREDOC && node->type != SQ)
 		return (VAR);
 	else if (is_wild_card(node))
 		return (WILDCARD);

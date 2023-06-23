@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 22:06:20 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:18:04 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,9 @@ void				del_node(t_lexer *node);
 void				clean_spaces(t_lexer **list);
 int					is_space(char c);
 int					is_wild_card(t_lexer *node);
+int					check_and_trim(t_lexer *tmp);
+void				_rebuild_node(t_lexer *tmp, char **paths);
+
 int					all_inside_is_sp(t_lexer *tmp);
 int					contain_only_qs(t_lexer *tmp);
 void				is_printable_sp(t_lexer *tmp);

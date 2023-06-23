@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 20:24:20 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:00:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,32 @@ void	wait_for_child(t_tree *cmd)
 			printf("\n");
 		g_exit_status = 128 + signal_num;
 	}
+}
+
+int	*_ft_pipe(t_main *data)
+{
+	t_pipes	*p;
+	int		*fds;
+
+	fds = malloc(sizeof(int) * 2);
+	if (!fds)
+		return (ft_putendl_fd("MALLOC FAILED!", 2), NULL);
+	if (pipe(fds) == -1)
+		return (ft_putendl_fd("PIPE FAILED!", 2), free (fds), NULL);
+	p = pipe_node_create(&fds);
+	if (!p)
+		return (ft_putendl_fd("MALLOC FAILED!", 2), free (fds), NULL);
+	add_to_end(&data->pipes, p);
+	return (fds);
+}
+
+int	_ft_dup2(int new, int old)
+{
+	if (new < 0 || old < 0)
+		return (0);
+	if (dup2(new, old) == -1)
+		return (ft_putendl_fd("DUP2 FAILED!", 2), 1);
+	if (new > 1)
+		close (new);
+	return (0);
 }
