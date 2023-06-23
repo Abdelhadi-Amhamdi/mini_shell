@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 20:49:12 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:08:47 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,47 +44,49 @@ typedef struct wildcard_data
 	int			backtrack;
 }				t_wildcard_data;
 
-
 # define HEREDOC_FILENAME "/tmp/heredoc_file"
 
 // pipes && pipes utils
 void			run_pipeline(t_tree *pipe_node, int out, t_main *data);
 void			run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data,
 					t_main *data);
-void			exec_rdir_pipes(t_tree *cmd, int used_end, int side,
-					t_main *data);
+void			exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data);
 void			exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data);
 void			exec_cmd(t_tree *node, t_main *data);
 t_pipes			*pipe_node_create(int **pipe);
 void			add_to_end(t_pipes **list, t_pipes *item);
 void			wait_for_last(t_tree *cmd_right);
+void			close_all_pipes(t_main *data, int fd1, int fd2);
 
 // executeur and exec_utils
-void			executer(t_tree *root, int in, int out, t_main *data);
+void			executer(t_tree *root, t_main *data);
+void			executer_helper(t_tree *root, int in, int out, t_main *data);
 void			exec_unknown(t_tree *cmd, int in, int out, t_main *data);
 int				exec_builtin(t_tree *cmd, t_env **env, t_main *data, int out);
 void			run_cmd(t_tree *cmd, int in, int out, t_main *data);
-void			close_all_pipes(t_main *data, int fd1, int fd2);
-int				_args_size(char *cmd ,t_lexer *list, int is_b);
+int				_args_size(char *cmd, t_lexer *list, int is_b);
 int				path_exist(char *path, char **paths);
-char			**env_list_to_tabs(t_env *list);
-char			**cmd_args_list_to_tabs(t_tree *node, t_main *data);
+char			**env_tabs(t_env *list);
+char			**_args_tabs(t_tree *node, t_main *data);
 char			*exit_status_expand(t_lexer *node);
 char			*_path(t_tree *node, t_main *data);
 int				check_path_exist(char *path, char **paths);
-void			perror_sstatus(int status, char *cmd);
 void			expand_var_to_cmd(t_tree *cmd, t_main *data);
+void			_files(t_tree *root, int t);
+char			*none_str(t_tree *node);
+void			_exec_unk(t_tree *cmd, int in, int out, t_main *data);
+void			_exec(t_tree *cmd, int in, int out, t_main *data);
+
+// error handling
+void			perror_sstatus(int status, char *cmd);
 
 // redirections
-void			redirection_helper(t_tree *node, int in, int out, t_main *data);
-void			run_apand_function(t_tree *node, int in, int out, t_main *data);
-void			run_redir_output(t_tree *node, int in, int out, t_main *data);
-void			run_redir_input(t_tree *node, int in, int out, t_main *data);
+int				_get_rdir_file_fd(t_tree *node);
 t_lexer			*creat_lexer_node(char *data);
+void			rdir_helper(t_tree *root, int in, int out, t_main *data);
 
 // connectors
 void			run_connectors(t_tree *root, int in, int out, t_main *data);
-void			wait_left(t_tree *root);
 
 // wildcards
 char			*wildcard(char *condition);
