@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 16:44:03 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:16:21 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	wait_for_last(t_tree *cmd_right)
 	cmd = cmd_right;
 	if (cmd_right->type == RDIR || cmd_right->type == APND)
 		cmd = cmd_right->left;
-	if (cmd->type == CMD && cmd->id != DONT_WAITPID)
+	if (!cmd)
+		g_exit_status = -1;
+	else if (cmd->type == CMD && cmd->id != DONT_WAITPID)
 	{
 		waitpid(cmd->id, &status, 0);
 		if (WIFEXITED(status))

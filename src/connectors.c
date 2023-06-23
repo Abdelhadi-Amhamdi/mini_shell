@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 20:47:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:24:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	run_connectors(t_tree *root, int in, int out, t_main *data)
 {
 	if (!ft_strncmp(root->str, "&&", ft_strlen(root->str)))
 	{
-		executer(root->left, in, out, data);
+		executer_helper(root->left, in, out, data);
 		if (!g_exit_status)
-			executer(root->right, in, out, data);
+			executer_helper(root->right, in, out, data);
 	}
 	else
 	{
-		executer(root->left, in, out, data);
+		executer_helper(root->left, in, out, data);
 		if (g_exit_status)
-			executer(root->right, in, out, data);
+			executer_helper(root->right, in, out, data);
 	}
 }
 

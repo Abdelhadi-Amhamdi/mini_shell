@@ -6,26 +6,19 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 23:11:30 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:17:37 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-int	check_path_exist(char *path, char **paths)
-{
-	if (!paths)
-		return (1);
-	if (path_exist(path, paths))
-		return (0);
-	return (1);
-}
 
 char	*_path(t_tree *node, t_main *data)
 {
 	char	**paths;
 
 	paths = all_paths(data->env);
+	if (!node->str)
+		return (none_str(node));
 	if (!node->path && !node->is_builtin && node->type != W_SPACE && *node->str)
 	{
 		node->path = get_path(node->str, paths);
@@ -80,7 +73,7 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 	*i = index;
 }
 
-char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
+char	**_args_tabs(t_tree *node, t_main *data)
 {
 	char	**cmd_args;
 	t_lexer	*tmp;
@@ -89,6 +82,8 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	char	*path;
 
 	index = 0;
+	if (!node)
+		return (NULL);
 	tmp = node->cmd_args;
 	ft_expand_vars(&node->cmd_args, data->env, tmp);
 	tmp = node->cmd_args;
@@ -104,7 +99,7 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	return (cmd_args);
 }
 
-char	**env_list_to_tabs(t_env *list)
+char	**env_tabs(t_env *list)
 {
 	t_env	*tmp;
 	char	**env;

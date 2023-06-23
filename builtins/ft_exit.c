@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 11:33:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:59:39 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 int	parse_data(char *data)
 {
+	if (data[0] == '+' || data[0] == '-')
+		data++;
 	if (check_digits(data))
 		return (1);
+	// if ()
 	return (0);
 }
 
@@ -72,10 +75,10 @@ void	ft_exit(t_tree *cmd_data, t_tree *tree)
 	}
 	if (parse_data(data))
 	{
-		ft_putendl_fd("mini-sh: exit: numeric argument require!", 2);
+		ft_putendl_fd("mini-sh: exit: numeric argument required!", 2);
 		g_exit_status = 255;
 		__exit__(g_exit_status, tree);
 	}
 	else
-		__exit__((g_exit_status = (ft_atoi(data) % 256)), tree);
+		__exit__(g_exit_status = (ft_atoi(data) % 256), tree);
 }
