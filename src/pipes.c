@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 22:04:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:03:35 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,23 @@ void	exec_cmd(t_tree *node, t_main *data)
 	}
 	else
 	{
-		env = env_list_to_tabs(data->env);
+		env = env_tabs(data->env);
 		if (execve(node->args[0], node->args, env) == -1)
+		{
+			if (errno == ENOENT)
+			{
+				ft_putstr_fd("mini-sh: ", 2);
+				ft_putstr_fd(node->str, 2);
+				ft_putendl_fd(": command not found", 2);
+			}
 			exit (errno);
+		}
 	}
 }
 
 void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 {
-	cmd->args = cmd_args_list_to_tabs(cmd, data);
+	cmd->args = _args_tabs(cmd, data);
 	cmd->type = CMD;
 	cmd->id = fork();
 	if (!cmd->id)
@@ -51,29 +59,26 @@ void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 	ft_free(cmd->args);
 }
 
-void	exec_rdir_pipes(t_tree *cmd, int used_end, int side, t_main *data)
+void	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
 {
-	cmd->id = DONT_WAITPID;
-	if (((cmd->type == RDIR && cmd->str[0] == '>') || cmd->type == APND))
+	int	fd;
+
+	fd = _get_rdir_file_fd(cmd);
+	if (p_data.side == LEFT_CHILD && cmd->str[0] == '<')
 	{
-		if (side == LEFT_CHILD)
-		{
-			close(used_end);
-			redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data);
-		}
-		else
-			redirection_helper(cmd, used_end, STDOUT_FILENO, data);
+		p_data.std_file = STDIN_FILENO;
+		p_data.out = p_data.used_end;
+		p_data.used_end = fd;
 	}
-	else if (cmd->type == RDIR && cmd->str[0] == '<')
-	{
-		if (side == RIGHT_CHILD)
-		{
-			close(used_end);
-			redirection_helper(cmd, STDIN_FILENO, STDOUT_FILENO, data);
-		}
-		else
-			redirection_helper(cmd, STDIN_FILENO, used_end, data);
-	}
+	else if (p_data.side == RIGHT_CHILD && cmd->str[0] == '>')
+		p_data.out = fd;
+	else
+		p_data.used_end = fd;
+	if (fd == -1)
+		return ;
+	if (cmd->left)
+		exec_pipe_cmd(cmd->left, p_data, data);
+	close(fd);
 }
 
 void	run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data, t_main *data)
@@ -90,10 +95,10 @@ void	run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data, t_main *data)
 	if (cmd->type == CMD)
 		exec_pipe_cmd(cmd, p_data, data);
 	else if (cmd->type == RDIR || cmd->type == APND)
-		exec_rdir_pipes(cmd, p_data.used_end, p_data.side, data);
+		exec_rdir_pipes(p_data, cmd, data);
 	else
 	{
-		executer(cmd, STDIN_FILENO, p_data.used_end, data);
+		executer_helper(cmd, STDIN_FILENO, p_data.used_end, data);
 		close(p_data.used_end);
 		if (p_data.out != 1)
 			close(p_data.out);
@@ -112,16 +117,18 @@ void	run_pipeline(t_tree *pipe_node, int out, t_main *data)
 	p_data.out = -1;
 	p_data.side = LEFT_CHILD;
 	add_to_end(&data->pipes, pipe_node_create(&fds));
-	if (pipe_node->left)
-		run_pipe(pipe_node->left, fds, p_data, data);
+	run_pipe(pipe_node->left, fds, p_data, data);
 	p_data.side = RIGHT_CHILD;
 	p_data.out = out;
-	if (pipe_node->right)
-		run_pipe(pipe_node->right, fds, p_data, data);
+	run_pipe(pipe_node->right, fds, p_data, data);
 	if (out != STDOUT_FILENO)
 		close(out);
 	close(fds[PIPE_WRITE_END]);
 	close(fds[PIPE_READ_END]);
 	if (out == 1)
+	{
 		wait_for_last(pipe_node->right);
+		if (g_exit_status == -1)
+			g_exit_status = 0;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 20:50:04 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:34:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,10 @@ void	add_to_end(t_pipes **list, t_pipes *item)
 	}
 }
 
-int	_args_size(char	*cmd ,t_lexer *list, int is_b)
+int	_args_size(char	*cmd, t_lexer *list, int is_b)
 {
 	int		size;
-	// t_lexer	*tmp;
 
-	// tmp = list;
 	size = 0;
 	(void)is_b;
 	(void)cmd;
@@ -80,7 +78,9 @@ void	wait_for_last(t_tree *cmd_right)
 	cmd = cmd_right;
 	if (cmd_right->type == RDIR || cmd_right->type == APND)
 		cmd = cmd_right->left;
-	if (cmd->type == CMD && cmd->id != DONT_WAITPID)
+	if (!cmd)
+		g_exit_status = -1;
+	else if (cmd->type == CMD && cmd->id != DONT_WAITPID)
 	{
 		waitpid(cmd->id, &status, 0);
 		if (WIFEXITED(status))

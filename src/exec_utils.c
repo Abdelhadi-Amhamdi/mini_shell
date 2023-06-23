@@ -6,20 +6,11 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 17:06:35 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 22:04:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-int	check_path_exist(char *path, char **paths)
-{
-	if (!paths)
-		return (1);
-	if (path_exist(path, paths))
-		return (0);
-	return (1);
-}
 
 char	*_path(t_tree *node, t_main *data)
 {
@@ -27,14 +18,7 @@ char	*_path(t_tree *node, t_main *data)
 
 	paths = all_paths(data->env);
 	if (!node->str)
-	{
-		if (node->cmd_args)
-		{
-			node->str = ft_strdup(node->cmd_args->str);
-			return (node->str);
-		}
-		return (NULL);
-	}
+		return (none_str(node));
 	if (!node->path && !node->is_builtin && node->type != W_SPACE && *node->str)
 	{
 		node->path = get_path(node->str, paths);
@@ -89,7 +73,7 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 	*i = index;
 }
 
-char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
+char	**_args_tabs(t_tree *node, t_main *data)
 {
 	char	**cmd_args;
 	t_lexer	*tmp;
@@ -98,19 +82,16 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	char	*path;
 
 	index = 0;
+	if (!node)
+		return (NULL);
 	tmp = node->cmd_args;
 	ft_expand_vars(&node->cmd_args, data->env, tmp);
-	// tmp = node->cmd_args;
-	// print_token_list(tmp);
-	// return (NULL);
 	tmp = node->cmd_args;
 	size = _args_size(node->str, tmp, node->is_builtin);
-	// printf("%d size\n", size);
 	cmd_args = malloc(sizeof(char *) * (size + 2));
 	if (!cmd_args)
 		return (NULL);
 	path = _path(node, data);
-	// printf("[%s]\n", path);
 	if (path)
 		cmd_args[index++] = ft_strdup(path);
 	copy_args_(node->cmd_args, cmd_args, &index);
@@ -118,7 +99,7 @@ char	**cmd_args_list_to_tabs(t_tree *node, t_main *data)
 	return (cmd_args);
 }
 
-char	**env_list_to_tabs(t_env *list)
+char	**env_tabs(t_env *list)
 {
 	t_env	*tmp;
 	char	**env;

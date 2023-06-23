@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 18:46:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 23:17:04 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	perror_sstatus(int status, char *cmd)
 		g_exit_status = status;
 	else if (status && g_exit_status != -1)
 	{
-		puts("1");
 		if (status != 1 && status != ENOENT)
 			printf("mini-sh: %s: %s\n", cmd, strerror(status));
 		if (status == ENOENT)

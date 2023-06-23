@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 21:46:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:42:46 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,34 @@ void	destroy_main(t_main *main)
 	main->pipes = NULL;
 }
 
+void	_files(t_tree *root, int t)
+{
+	int	fd;
+
+	if (!root)
+		return ;
+	fd = -1;
+	_files(root->left, t);
+	if ((root->type == RDIR || root->type == APND) && t == 1)
+	{
+		if (root->type == RDIR && root->str[0] == '>')
+			fd = open(root->right->str, O_CREAT | O_TRUNC | O_RDWR, 0644);
+		else if (root->type == RDIR && root->str[0] == '<')
+			fd = open(root->right->str, O_RDONLY, 0644);
+		else if (root->type == APND)
+			fd = open(root->right->str, O_CREAT | O_RDWR | O_APPEND, 0644);
+		if (fd == -1)
+		{
+			printf("mini-sh: %s: No such file or directory\n", root->right->str);
+			g_exit_status = 1;
+		}
+		root->right->id = fd;
+	}
+	if ((root->type == RDIR || root->type == APND) && t == 2)
+		close(root->right->id);
+	_files(root->right, t);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*cmd;
@@ -79,9 +107,7 @@ int	main(int ac, char **av, char **envp)
 			main->ast = formater(cmd, main);
 			if (main->ast)
 			{
-				printTree(main->ast);
-				executer(main->ast, STDIN_FILENO, STDOUT_FILENO, main);
-				// while ((waitpid(-1, NULL, 0)) > 0);
+				executer(main->ast, main);
 				destroy_main(main);
 			}
 			add_history(cmd);
