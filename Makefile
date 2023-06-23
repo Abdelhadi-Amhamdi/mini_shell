@@ -7,14 +7,13 @@ parsing_path = parse/
 b_path = builtins/
 srcs_path = src/
 env_path = env/
-flags = 
-# -Wuninitialized -fsanitize=address,undefined,integer -g
+flags =   # -Wuninitialized -fsanitize=address,undefined,integer -g
 
-L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
-I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
+# L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
+# I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
 
-# L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
-# I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
+L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
 
 header = parsing.h
 
@@ -29,7 +28,8 @@ env_src = env_main.c utils_env.c
 
 # main files
 src = main.c executer.c exec_utils.c  connectors.c heredoc.c rdir.c \
-pipes.c signals.c wildcards.c main_utils.c pipes_utils.c heredoc_utils.c
+pipes.c signals.c wildcards.c main_utils.c pipes_utils.c heredoc_utils.c \
+exec_utils1.c
 
 # get next line files
 g_src = get_next_line.c get_next_line_utils.c

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:47:30 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 13:26:14 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:50:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_lexer	*_create_doc(char *data, t_type type)
 	new_node->str = ft_strdup(data);
 	new_node->type = type;
 	new_node->path = NULL;
-	new_node->id = 0;
+	new_node->id = DONT_REMOVESP;
 	new_node->is_builtin = 0;
 	new_node->is_oper = 0;
 	new_node->next = NULL;

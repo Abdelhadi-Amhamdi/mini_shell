@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/20 14:34:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:33:59 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,73 +29,53 @@ t_lexer	*creat_lexer_node(char *data)
 	return (node);
 }
 
-void	run_redir_input(t_tree *node, int in, int out, t_main *data)
+int	_get_rdir_file_fd(t_tree *node)
 {
 	t_tree	*right;
-	int		fd;
 
-	right = node->right;
-	fd = open(right->str, O_RDONLY, 0644);
+	if (node && node->right)
+	{
+		right = node->right;
+		return (right->id);
+	}
+	return (-1);
+}
+
+void	rdir_helper(t_tree *root, int in, int out, t_main *data)
+{
+	int	fd;
+
+	fd = _get_rdir_file_fd(root);
 	if (fd == -1)
+		return ;
+	if (root->str[0] == '>')
 	{
-		printf("mini-sh: %s: No such file or directory\n", right->str);
-		g_exit_status = 1;
-		if (node->left && node->left->type == CMD)
-			node->left->id = DONT_WAITPID;
-		return ;
+		if (out != 1)
+			fd = out;
+		executer_helper(root->left, 0, fd, data);
 	}
-	if (in != 0)
-		fd = in;
-	executer(node->left, fd, out, data);
-	close(fd);
-}
-
-void	run_redir_output(t_tree *node, int in, int out, t_main *data)
-{
-	int		file_fd;
-	char	*file_name;
-
-	file_name = node->right->str;
-	file_fd = open(file_name, O_CREAT | O_TRUNC | O_RDWR, 0644);
-	if (file_fd == -1)
-		return ;
-	if (out != 1)
-	{
-		close(file_fd);
-		file_fd = out;
-	}
-	if (node->id == DONT_WAITPID && node->left)
-		node->left->id = DONT_WAITPID;
-	executer(node->left, in, file_fd, data);
-	close(file_fd);
-}
-
-void	run_apand_function(t_tree *node, int in, int out, t_main *data)
-{
-	int		file_fd;
-	char	*file_name;
-
-	file_name = node->right->str;
-	file_fd = open(file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (file_fd == -1)
-		return ;
-	if (out != 1)
-		file_fd = out;
-	if (node->id == DONT_WAITPID && node->left)
-		node->left->id = DONT_WAITPID;
-	executer(node->left, in, file_fd, data);
-	close(file_fd);
-}
-
-void	redirection_helper(t_tree *node, int in, int out, t_main *data)
-{
-	if (node->type == APND)
-		run_apand_function(node, in, out, data);
 	else
 	{
-		if (node->str[0] == '<')
-			run_redir_input(node, in, out, data);
-		else
-			run_redir_output(node, in, out, data);
+		if (in != 0)
+			fd = in;
+		executer_helper(root->left, fd, 1, data);
+	}
+}
+
+void	close_all_pipes(t_main *data, int fd1, int fd2)
+{
+	t_pipes	*p_tmp;
+
+	if (data->pipes)
+	{
+		p_tmp = data->pipes;
+		while (p_tmp)
+		{
+			if (p_tmp->pipe[0] != fd1 && p_tmp->pipe[0] != fd2)
+				close(p_tmp->pipe[0]);
+			if (p_tmp->pipe[1] != fd1 && p_tmp->pipe[1] != fd2)
+				close(p_tmp->pipe[1]);
+			p_tmp = p_tmp->next;
+		}
 	}
 }
