@@ -3,39 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   blocks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:04 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/21 14:29:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:27:57 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-t_lexer	*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
-		t_lexer **args_list)
-{
-	t_lexer	*tmp;
-
-	if (arg->type != HEREDOC)
-	{
-		add_node_to_list(parser_list, create_parser_node(arg, 1));
-		arg = arg->next;
-		add_node_to_list(parser_list, create_parser_node(arg, 1));
-		arg = arg->next;
-	}
-	else
-		arg = arg->next->next;
-	while (arg && arg->type == W_SPACE && arg->id != PREINTABLE_SPACE)
-		arg = arg->next;
-	while (arg && !arg->is_oper && arg->type != CP && arg->type != OP)
-	{
-		tmp = ft_nodedup(arg);
-		add_token_to_end(args_list, tmp);
-		arg = arg->next;
-	}
-	return (arg);
-}
 
 void	heredoc_to_inrdir(t_parser **list, char *file_name)
 {
