@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 22:03:35 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:46:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,15 @@ void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		close(p_data.unused_end);
-		dup2(p_data.used_end, p_data.std_file);
-		close(p_data.used_end);
-		dup2(p_data.out, STDOUT_FILENO);
-		if (p_data.out > 1)
-			close(p_data.out);
+		// dup2(p_data.used_end, p_data.std_file);
+		// dup2(p_data.out, STDOUT_FILENO);
+		// close(p_data.used_end);
+		// if (p_data.out > 1)
+		// 	close(p_data.out);
+		if (_ft_dup2(p_data.used_end, p_data.std_file))
+			return ;
+		if (_ft_dup2(p_data.out, STDOUT_FILENO))
+			return ;
 		close_all_pipes(data, p_data.used_end, p_data.unused_end);
 		exec_cmd(cmd, data);
 	}
@@ -110,13 +114,11 @@ void	run_pipeline(t_tree *pipe_node, int out, t_main *data)
 	int			*fds;
 	t_pipe_data	p_data;
 
-	fds = malloc(sizeof(int) * 2);
+	fds = _ft_pipe(data);
 	if (!fds)
 		return ;
-	pipe(fds);
 	p_data.out = -1;
 	p_data.side = LEFT_CHILD;
-	add_to_end(&data->pipes, pipe_node_create(&fds));
 	run_pipe(pipe_node->left, fds, p_data, data);
 	p_data.side = RIGHT_CHILD;
 	p_data.out = out;

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 22:08:47 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:53:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,8 @@ void			wait_for_child(t_tree *cmd);
 
 // env
 int				env_list_size(t_env *list);
+
+int				*_ft_pipe(t_main *data);
+int				_ft_dup2(int new, int old);
 
 #endif
