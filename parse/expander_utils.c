@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 00:17:47 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:55:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*expand(char *var, t_env *envp, int last)
 
 	i = 0;
 	str = NULL;
-	while (var[i])
+	while (var && var[i])
 	{
 		old = str;
 		new = get_string(var, &i, envp, last);

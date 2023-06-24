@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 10:41:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:10:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,17 @@ int	check_qoutes(t_lexer *list)
 		if (tmp->str[0] == '"' || tmp->str[0] == '\'')
 		{
 			if (check_and_trim(tmp))
-				return (1);
-			tmp->path = get_path(tmp->str, paths);
-		}	
+				return (ft_free(paths), 1);
+			if (tmp->str && *tmp->str)
+				tmp->path = get_path(tmp->str, paths);
+		}
 		else if (tmp->type == HEREDOC)
 		{
 			tmp = tmp->next;
 			if (tmp && (tmp->str[0] == '"' || tmp->str[0] == '\''))
 			{
 				if (check_and_trim(tmp))
-					return (1);
+					return (ft_free(paths), 1);
 				tmp->is_builtin = 0;
 			}
 			else
@@ -71,7 +72,7 @@ int	check_qoutes(t_lexer *list)
 		}
 		tmp = tmp->next;
 	}
-	return (0);
+	return (ft_free(paths), 0);
 }
 
 // check if the node need to be joined with the next node
