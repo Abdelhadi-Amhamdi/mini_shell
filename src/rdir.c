@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 20:33:59 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:09:04 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,26 @@ void	close_all_pipes(t_main *data, int fd1, int fd2)
 			p_tmp = p_tmp->next;
 		}
 	}
+}
+
+void	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
+{
+	int	fd;
+
+	fd = _get_rdir_file_fd(cmd);
+	if (p_data.side == LEFT_CHILD && cmd->str[0] == '<')
+	{
+		p_data.std_file = STDIN_FILENO;
+		p_data.out = p_data.used_end;
+		p_data.used_end = fd;
+	}
+	else if (p_data.side == RIGHT_CHILD && cmd->str[0] == '>')
+		p_data.out = fd;
+	else
+		p_data.used_end = fd;
+	if (fd == -1)
+		return ;
+	if (cmd->left)
+		exec_pipe_cmd(cmd->left, p_data, data);
+	close(fd);
 }

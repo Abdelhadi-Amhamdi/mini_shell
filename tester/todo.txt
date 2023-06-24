@@ -29,6 +29,7 @@
     - [fixed] echo "hello|"
     - [fixed] ls && ( cat todo.txt | grep s | wc ) || ls
     - [fixed] echo "hello" "ls" "ls"
+    -                               echo "hello" | "cat" | "cat"
     - [fixed] file.txt
     - [fixed] echo $var0$var1$var2
     - [fixed] echo $HOMEsdjhfk$HOME
