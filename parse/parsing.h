@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:05:03 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:41:24 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ char				*extarct_after(char *cmd, int *i);
 void				expander_helper(t_lexer **list, t_lexer *tmp, char *var,
 						t_env *envp);
 int					contain_spaces(char *string);
+char				*ft_get_expand_val(char *var, t_env *envp);
 // syntax analizer
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);

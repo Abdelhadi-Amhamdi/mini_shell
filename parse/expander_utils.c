@@ -6,28 +6,22 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 11:07:19 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:53:15 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-char	*ft_get_expand_val(char *var, t_env *envp)
-{
-	while (envp)
-	{
-		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key) + 1))
-			return (ft_strdup(envp->value));
-		envp = envp->next;
-	}
-	return (NULL);
-}
 
 int	get_lenght(char *s, int *index)
 {
 	int	len;
 
 	len = 0;
+	if (s[*index] == '$' && s[*index + 1] == '?')
+	{
+		*index = *index + 2;
+		return (2);
+	}
 	if (s[*index] == '$' || s[*index] == '/' || s[*index] == '.'
 		|| s[*index] == 32 || s[*index] == '-' || s[*index] == '='
 		|| s[*index] == '+')
@@ -77,9 +71,12 @@ char	*get_string(char *s, int *index, t_env *envp)
 		return (ft_putendl_fd("Malloc Failed\n", 2), NULL);
 	ft_strlcpy(var, &s[start], len + 1);
 	str = ft_get_expand_val(var + 1, envp);
-	if (var && (!var[1] || (var[0] == '$' && !ft_isalpha(var[1]))))
+	if (var && !ft_strncmp(var, "$?", 3))
+		var = ft_itoa(g_exit_status);
+	else if (var && (!var[1] || (var[0] == '$' && !ft_isalpha(var[1]))))
 		return (var);
-	var = get_str_helper(var, str, start, s);
+	else
+		var = get_str_helper(var, str, start, s);
 	free(str);
 	return (var);
 }
