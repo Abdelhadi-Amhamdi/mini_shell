@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 22:16:59 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:00:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 {
 	expand_var_to_cmd(cmd, data);
 	cmd->args = _args_tabs(cmd, data);
-	if (!cmd->args)
+	if (!cmd->args || !cmd->str)
 		return ;
 	cmd->type = CMD;
 	if (cmd->is_builtin)
