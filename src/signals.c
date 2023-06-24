@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:21:48 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 22:26:22 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:05:13 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	expand_var_to_cmd(t_tree *cmd, t_main *data)
 	|| cmd->type == DQ) && strchr(cmd->str, '$')))
 	{
 		tmp = cmd->str;
-		cmd->str = expand(cmd->str, data->env, 1);
+		cmd->str = expand(cmd->str, data->env);
 		free(tmp);
 		if (!cmd->str)
 			return ;
