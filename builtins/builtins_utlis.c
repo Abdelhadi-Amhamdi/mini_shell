@@ -6,11 +6,30 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 13:19:06 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/17 13:24:25 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:56:25 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+int	is_exist(t_env *node, t_env *env)
+{
+	while (env)
+	{
+		if ((!ft_strncmp(node->key, env->key, ft_strlen(node->key))))
+			return (1);
+		env = env->next;
+	}
+	return (0);
+}
+
+void	print_err(char *string, int *exit_s)
+{
+	ft_putstr_fd("mini-sh: export: `", 2);
+	ft_putstr_fd(string, 2);
+	ft_putendl_fd("'not a valid identifier", 2);
+	*exit_s = 1;
+}
 
 int	check_digits(char *data)
 {

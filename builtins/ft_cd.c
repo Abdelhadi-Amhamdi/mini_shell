@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 22:19:06 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:45:18 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,29 @@ char	*update_path(char *str, char *path)
 	return (path);
 }
 
+void	change_old_value(t_env *node)
+{
+	char	*old;
+	char	*new;
+
+	old = node->value;
+	new = getcwd(NULL, 0);
+	node->value = ft_strdup(new);
+	free(old);
+	free(new);
+}
+
 int	ft_cd(t_env *env, t_tree *path)
 {
 	t_env	*home;
 	t_env	*oldpwd;
 	t_env	*pwd;
-	char	*old;
 
 	home = ft_search_env(env, "HOME");
 	oldpwd = ft_search_env(env, "OLDPWD");
 	pwd = ft_search_env(env, "PWD");
 	if (oldpwd)
-	{
-		old = oldpwd->value;
-		oldpwd->value = getcwd(NULL, 0);
-		if(oldpwd->value)
-			free(old);
-	}
+		change_old_value(oldpwd);
 	if (!path->args[0] && home)
 		chdir(home->value);
 	else if (!path->args[0] && !home)
@@ -61,11 +67,6 @@ int	ft_cd(t_env *env, t_tree *path)
 			return (perror("cd"), 1);
 	}
 	if (pwd)
-	{
-		old = pwd->value;
-		pwd->value = getcwd(NULL, 0);
-		if(pwd->value)
-			free(old);
-	}
+		change_old_value(pwd);
 	return (0);
 }
