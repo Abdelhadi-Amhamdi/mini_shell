@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:36:58 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 21:38:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:15:59 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*none_str(t_tree *node, t_main *data, char **paths)
 		{
 			if (tmp->str && tmp->type != W_SPACE && strchr(tmp->str, '$'))
 			{
-				node->str = expand(tmp->str, data->env, 1);
+				node->str = expand(tmp->str, data->env);
 				if (node->str)
 				{
 					if (tmp->path)

@@ -6,28 +6,22 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 17:55:36 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:14:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-char	*ft_get_expand_val(char *var, t_env *envp)
-{
-	while (envp)
-	{
-		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key) + 1))
-			return (ft_strdup(envp->value));
-		envp = envp->next;
-	}
-	return (NULL);
-}
 
 int	get_lenght(char *s, int *index)
 {
 	int	len;
 
 	len = 0;
+	if (s[*index] == '$' && s[*index + 1] == '?')
+	{
+		*index = *index + 2;
+		return (2);
+	}
 	if (s[*index] == '$' || s[*index] == '/' || s[*index] == '.'
 		|| s[*index] == 32 || s[*index] == '-' || s[*index] == '='
 		|| s[*index] == '+')
@@ -45,9 +39,26 @@ int	get_lenght(char *s, int *index)
 	return (len);
 }
 
-char	*get_string(char *s, int *index, t_env *envp, int last)
+char	*get_str_helper(char *var, char *str, int start, char *s)
 {
 	char	*old;
+
+	old = var;
+	if (var[0] == '$' && str)
+	{
+		var = ft_strdup(str);
+		free(old);
+	}
+	if (!str && s[start] == '$')
+	{
+		free(old);
+		var = NULL;
+	}
+	return (var);
+}
+
+char	*get_string(char *s, int *index, t_env *envp)
+{
 	char	*var;
 	int		start;
 	int		len;
@@ -60,24 +71,17 @@ char	*get_string(char *s, int *index, t_env *envp, int last)
 		return (ft_putendl_fd("Malloc Failed\n", 2), NULL);
 	ft_strlcpy(var, &s[start], len + 1);
 	str = ft_get_expand_val(var + 1, envp);
-	if (var && (!var[1] || (var[0] == '$' && !ft_isalpha(var[1]))))
+	if (var && !ft_strncmp(var, "$?", 3))
+		var = ft_itoa(g_exit_status);
+	else if (var && (!var[1] || (var[0] == '$' && !ft_isalpha(var[1]))))
 		return (var);
-	old = var;
-	if (var[0] == '$' && str)
-	{
-		var = ft_strdup(str);
-		free(old);
-	}
-	if (!str && last && s[start] == '$')
-	{
-		free(old);
-		var = NULL;
-	}
+	else
+		var = get_str_helper(var, str, start, s);
 	free(str);
 	return (var);
 }
 
-char	*expand(char *var, t_env *envp, int last)
+char	*expand(char *var, t_env *envp)
 {
 	int		i;
 	char	*str;
@@ -89,7 +93,7 @@ char	*expand(char *var, t_env *envp, int last)
 	while (var && var[i])
 	{
 		old = str;
-		new = get_string(var, &i, envp, last);
+		new = get_string(var, &i, envp);
 		str = ft_strjoin(str, new);
 		free(old);
 		free(new);
@@ -108,7 +112,7 @@ void	ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp)
 	{
 		if (tmp->type == VAR && tmp->id != DONT_EXPAND)
 		{
-			expander_helper(list,tmp, var, envp);
+			expander_helper(list, tmp, var, envp);
 			tmp = tmp->next;
 		}
 		else

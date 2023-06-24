@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 21:38:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:14:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,6 @@ char	*_path(t_tree *node, t_main *data)
 	return (ft_free(paths), NULL);
 }
 
-char	*exit_status_expand(t_lexer *node)
-{
-	char	*value;
-
-	value = NULL;
-	if (!ft_strncmp(node->str + 1, "?", 2))
-		value = ft_itoa(g_exit_status);
-	if (value)
-		return (value);
-	else
-		return (ft_strdup("\0"));
-}
-
 void	copy_args_(t_lexer *list, char **tabs, int *i)
 {
 	t_lexer	*tmp;
@@ -65,9 +52,7 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 	tmp = list;
 	while (tmp)
 	{
-		if (tmp->str && !ft_strncmp(tmp->str, "$?", 3))
-			tabs[index++] = ft_itoa(g_exit_status);
-		else if (tmp->str && tmp->str[0] == '$' && ft_isdigit(tmp->str[1]))
+		if (tmp->str && tmp->str[0] == '$' && ft_isdigit(tmp->str[1]))
 			tabs[index++] = ft_strdup(tmp->str + 2);
 		else if (tmp->str && (tmp->type != W_SPACE || tmp->id == -14))
 			tabs[index++] = ft_strdup(tmp->str);
