@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:00:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:38:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 	expand_var_to_cmd(cmd, data);
 	cmd->args = _args_tabs(cmd, data);
 	if (!cmd->args || !cmd->str)
+	{
+		ft_free (cmd->args);
 		return ;
+	}
 	cmd->type = CMD;
 	if (cmd->is_builtin)
 		g_exit_status = exec_builtin(cmd, &data->env, data, 1);
@@ -67,7 +70,6 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 			if (!ft_strncmp(cmd->str, "./app", 6))
 				g_exit_status = -1;
 		}
-		cmd->args = NULL;
 		if (out == 1)
 			wait_for_child(cmd);
 	}
@@ -83,11 +85,7 @@ void	executer_helper(t_tree *root, int in, int out, t_main *data)
 	else if (root->type == RDIR || root->type == APND)
 		rdir_helper(root, in, out, data);
 	else if (root->type == AND || root->type == OR)
-	{
-		if (out != STDOUT_FILENO)
-			out = STDOUT_FILENO;
-		run_connectors(root, in, out, data);
-	}
+		run_connectors(root, STDIN_FILENO, STDOUT_FILENO, data);
 	else if (root->type == PIPE)
 		run_pipeline(root, out, data);
 	else if (root->type != HEREDOC_FILE)

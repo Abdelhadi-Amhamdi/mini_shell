@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:09:04 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:18:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void	rdir_helper(t_tree *root, int in, int out, t_main *data)
 	{
 		if (out != 1)
 			fd = out;
-		executer_helper(root->left, 0, fd, data);
+		executer_helper(root->left, in, fd, data);
 	}
 	else
 	{
 		if (in != 0)
 			fd = in;
-		executer_helper(root->left, fd, 1, data);
+		executer_helper(root->left, fd, out, data);
 	}
 }
 
