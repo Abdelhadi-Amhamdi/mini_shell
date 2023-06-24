@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 23:46:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:08:56 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		close(p_data.unused_end);
-		// dup2(p_data.used_end, p_data.std_file);
-		// dup2(p_data.out, STDOUT_FILENO);
-		// close(p_data.used_end);
-		// if (p_data.out > 1)
-		// 	close(p_data.out);
 		if (_ft_dup2(p_data.used_end, p_data.std_file))
 			return ;
 		if (_ft_dup2(p_data.out, STDOUT_FILENO))
@@ -63,26 +58,27 @@ void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 	ft_free(cmd->args);
 }
 
-void	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
+void	exec_pipe_unk(t_tree *cmd, t_pipe_data p_data, t_main *data)
 {
-	int	fd;
-
-	fd = _get_rdir_file_fd(cmd);
-	if (p_data.side == LEFT_CHILD && cmd->str[0] == '<')
-	{
-		p_data.std_file = STDIN_FILENO;
-		p_data.out = p_data.used_end;
-		p_data.used_end = fd;
-	}
-	else if (p_data.side == RIGHT_CHILD && cmd->str[0] == '>')
-		p_data.out = fd;
-	else
-		p_data.used_end = fd;
-	if (fd == -1)
+	expand_var_to_cmd(cmd, data);
+	cmd->args = _args_tabs(cmd, data);
+	if (!cmd->args || !cmd->str)
 		return ;
-	if (cmd->left)
-		exec_pipe_cmd(cmd->left, p_data, data);
-	close(fd);
+	cmd->type = CMD;
+	cmd->id = fork();
+	if (!cmd->id)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		close(p_data.unused_end);
+		if (_ft_dup2(p_data.used_end, p_data.std_file))
+			return ;
+		if (_ft_dup2(p_data.out, STDOUT_FILENO))
+			return ;
+		close_all_pipes(data, p_data.used_end, p_data.unused_end);
+		exec_cmd(cmd, data);
+	}
+	ft_free(cmd->args);
 }
 
 void	run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data, t_main *data)
@@ -100,9 +96,14 @@ void	run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data, t_main *data)
 		exec_pipe_cmd(cmd, p_data, data);
 	else if (cmd->type == RDIR || cmd->type == APND)
 		exec_rdir_pipes(p_data, cmd, data);
+	else if (cmd->type == UNK || cmd->type == VAR)
+		exec_pipe_unk(cmd, p_data, data);
 	else
 	{
-		executer_helper(cmd, STDIN_FILENO, p_data.used_end, data);
+		if (p_data.side == LEFT_CHILD)
+			executer_helper(cmd, STDIN_FILENO, p_data.used_end, data);
+		else
+			executer_helper(cmd, p_data.used_end, STDOUT_FILENO, data);
 		close(p_data.used_end);
 		if (p_data.out != 1)
 			close(p_data.out);
