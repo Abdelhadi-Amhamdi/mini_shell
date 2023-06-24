@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 23:45:18 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:53:13 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	change_old_value(t_env *node)
 
 	old = node->value;
 	new = getcwd(NULL, 0);
-	node->value = ft_strdup(new);
+		node->value = ft_strdup(new);
 	free(old);
 	free(new);
 }

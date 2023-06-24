@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 23:56:17 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 09:31:55 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,11 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 	{
 		formate_env_item(&key, &value, cmd->args[index]);
 		if (!key || check_key(key))
+		{
 			print_err(cmd->args[index], &exit_s);
+			free(key);
+			free(value);
+		}
 		else
 			add_new_env_node(key, value, env);
 		index++;

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 21:18:54 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 22:05:23 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:05:26 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	expander_helper(t_lexer **list, t_lexer *tmp, char *var,
 	var = extarct_expand(tmp->str, &i);
 	after = extarct_after(tmp->str, &i);
 	temp = var;
-	var = expand(var, envp, 1);
+	var = expand(var, envp);
 	free(temp);
 	if (!var)
 	{

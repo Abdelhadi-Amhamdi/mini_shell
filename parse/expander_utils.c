@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 22:06:37 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:07:19 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,26 @@ int	get_lenght(char *s, int *index)
 	return (len);
 }
 
-char	*get_string(char *s, int *index, t_env *envp, int last)
+char	*get_str_helper(char *var, char *str, int start, char *s)
 {
 	char	*old;
+
+	old = var;
+	if (var[0] == '$' && str)
+	{
+		var = ft_strdup(str);
+		free(old);
+	}
+	if (!str && s[start] == '$')
+	{
+		free(old);
+		var = NULL;
+	}
+	return (var);
+}
+
+char	*get_string(char *s, int *index, t_env *envp)
+{
 	char	*var;
 	int		start;
 	int		len;
@@ -62,22 +79,12 @@ char	*get_string(char *s, int *index, t_env *envp, int last)
 	str = ft_get_expand_val(var + 1, envp);
 	if (var && (!var[1] || (var[0] == '$' && !ft_isalpha(var[1]))))
 		return (var);
-	old = var;
-	if (var[0] == '$' && str)
-	{
-		var = ft_strdup(str);
-		free(old);
-	}
-	if (!str && last && s[start] == '$')
-	{
-		free(old);
-		var = NULL;
-	}
+	var = get_str_helper(var, str, start, s);
 	free(str);
 	return (var);
 }
 
-char	*expand(char *var, t_env *envp, int last)
+char	*expand(char *var, t_env *envp)
 {
 	int		i;
 	char	*str;
@@ -89,7 +96,7 @@ char	*expand(char *var, t_env *envp, int last)
 	while (var[i])
 	{
 		old = str;
-		new = get_string(var, &i, envp, last);
+		new = get_string(var, &i, envp);
 		str = ft_strjoin(str, new);
 		free(old);
 		free(new);
@@ -108,7 +115,7 @@ void	ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp)
 	{
 		if (tmp->type == VAR && tmp->id != DONT_EXPAND)
 		{
-			expander_helper(list,tmp, var, envp);
+			expander_helper(list, tmp, var, envp);
 			tmp = tmp->next;
 		}
 		else

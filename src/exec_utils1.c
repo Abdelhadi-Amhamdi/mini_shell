@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:36:58 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 21:56:00 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:50:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,16 @@ void	_exec_unk(t_tree *cmd, int in, int out, t_main *data)
 	else
 		signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	dup2(in, STDIN_FILENO);
-	if (in)
-		close(in);
-	dup2(out, STDOUT_FILENO);
-	if (out > 1)
-		close(out);
+	if (_ft_dup2(in, STDIN_FILENO))
+			return ;
+	if (_ft_dup2(out, STDOUT_FILENO))
+			return ;
+	// dup2(in, STDIN_FILENO);
+	// if (in)
+	// 	close(in);
+	// dup2(out, STDOUT_FILENO);
+	// if (out > 1)
+	// 	close(out);
 	if (execve(cmd->args[0], cmd->args, env_tabs(data->env)) == -1)
 	{
 		if (errno == ENOENT)
@@ -60,11 +64,15 @@ void	_exec(t_tree *cmd, int in, int out, t_main *data)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	dup2(in, STDIN_FILENO);
-	if (in)
-		close (in);
-	dup2(out, STDOUT_FILENO);
-	close_all_pipes(data, STDIN_FILENO, STDOUT_FILENO);
+	if (_ft_dup2(in, STDIN_FILENO))
+		return ;
+	if (_ft_dup2(out, STDOUT_FILENO))
+		return ;
+	// dup2(in, STDIN_FILENO);
+	// if (in)
+	// 	close (in);
+	// dup2(out, STDOUT_FILENO);
+	// close_all_pipes(data, STDIN_FILENO, STDOUT_FILENO);
 	if (execve(cmd->args[0], cmd->args, env_tabs(data->env)) == -1)
 		exit (errno);
 }

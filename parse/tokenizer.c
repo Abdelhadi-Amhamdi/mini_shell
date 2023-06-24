@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:27:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/22 21:05:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 09:21:51 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,11 @@ char	*ft_word(t_lexer **list, char *cmd, char **paths)
 t_lexer	*tokenizer(char *cmd, char **paths)
 {
 	t_lexer	*list;
-	size_t size ;
 
 	list = NULL;
 	while (*cmd && is_space(*cmd))
 		cmd++;
-	size = ft_strlen(cmd);
-	while (*cmd != '\0' && size--)
+	while (*cmd != '\0')
 	{
 		if (is_space(*cmd))
 			cmd = ft_spaces(&list, cmd, paths);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaner.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:50:24 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 19:30:53 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:17:01 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ void	clean_spaces(t_lexer **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->is_oper && tmp->prev && tmp->prev->type == W_SPACE
-			&& tmp->prev->id != PREINTABLE_SPACE)
+		if (tmp->is_oper && tmp->prev && tmp->prev->type == W_SPACE \
+		&& tmp->prev->id != PREINTABLE_SPACE)
 			remove_prev_space(tmp, list);
-		if (tmp->is_oper && tmp->next && tmp->next->type == W_SPACE
-			&& tmp->next->id != PREINTABLE_SPACE)
+		if (tmp->is_oper && tmp->next && tmp->next->type == W_SPACE \
+		&& tmp->next->id != PREINTABLE_SPACE)
 			remove_next_space(tmp, list);
 		tmp = tmp->next;
 	}
