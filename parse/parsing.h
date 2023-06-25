@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 16:37:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:55:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 
 # define DEL_HERDOC_NODE -11
 # define DONT_WAITPID -12
-# define HEREDOC_EXPAND -13
 # define PREINTABLE_SPACE -14
 # define DONT_REMOVESP -15
 # define DONT_EXPAND -16
@@ -122,6 +121,10 @@ typedef struct main
 	t_pipes			*pipes;
 }					t_main;
 
+
+
+
+
 // main
 t_tree				*formater(char *cmd, t_main *data);
 int					ft_error(char *str);
@@ -192,7 +195,7 @@ void				heredoc_to_inrdir(t_parser **list, char *file_name);
 t_lexer				*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
 						t_lexer **args_list);
 // expander function
-int					ft_expander(t_lexer *list, t_env *env);
+int					ft_expander(t_lexer **list, t_env *env);
 char				*expand(char *var, t_env *envp);
 int					validate_cmd(char *cmd);
 void				ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp);

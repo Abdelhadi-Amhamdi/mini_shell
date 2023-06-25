@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:50:24 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 18:41:39 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 00:45:31 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	ft_free(char **tabs)
 		index++;
 	}
 	free(tabs);
-	*tabs = NULL;
-	tabs = NULL;
 }
 
 //remove a node

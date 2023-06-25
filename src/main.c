@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 21:54:59 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 00:48:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,25 @@ void	destroy_ast_tree(t_tree *root)
 	destroy_ast_tree(right);
 }
 
-void	destroy_main(t_main *main)
+void	destroy_env(t_env *env)
+{
+	t_env	*tmp;
+	t_env	*next;
+
+	tmp = env;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->key);
+		tmp->key = NULL;
+		free(tmp->value);
+		tmp->value = NULL;
+		free (tmp);
+		tmp = next;
+	}
+}
+
+void	destroy_main(t_main *main, int t)
 {
 	if (main->ast)
 		destroy_ast_tree(main->ast);
@@ -46,6 +64,13 @@ void	destroy_main(t_main *main)
 	if (main->pipes)
 		destroy_pipes(main->pipes);
 	main->pipes = NULL;
+	if (t == 1)
+	{
+		destroy_env(main->env);
+		main->env = NULL;
+		free(main);
+		main = NULL;
+	}
 }
 
 int	expand_vars(t_tree *file, t_main *data)
@@ -103,11 +128,17 @@ void	_files(t_tree *root, int t, t_main *data)
 	_files(root->right, t, data);
 }
 
+void test()
+{
+	system("leaks minishell");
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*cmd;
 	t_main	*main;
 
+	atexit(test);
 	main = init(envp, ac, av);
 	if (!main)
 		return (0);
@@ -122,11 +153,12 @@ int	main(int ac, char **av, char **envp)
 			if (main->ast)
 			{
 				executer(main->ast, main);
-				destroy_main(main);
+				destroy_main(main, 0);
 			}
 			add_history(cmd);
 		}
 		free(cmd);
 	}
+	destroy_main(main, 1);
 	exit (g_exit_status);
 }

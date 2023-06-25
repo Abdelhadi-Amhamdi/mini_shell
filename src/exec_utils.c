@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 22:05:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 00:55:03 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,35 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 	*i = index;
 }
 
+int	is_dir(char *str)
+{
+	struct stat	file_stat;
+
+	if (stat(str, &file_stat) == 0)
+	{
+		if (S_ISDIR(file_stat.st_mode))
+		{
+			ft_putstr_fd("mini-sh: ", 2);
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd(" : is a directory\n", 2);
+			if (str[0] == '.' || str[0] == '/')
+				g_exit_status = 126;
+			else
+				g_exit_status = 127;
+			return (1);
+		}
+		else if (S_ISREG(file_stat.st_mode))
+		{
+			ft_putstr_fd("mini-sh: ", 2);
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd(" : command not found\n", 2);
+			g_exit_status = 127;
+			return (1);
+		}
+	}
+	return (0);
+}
+
 char	**_args_tabs(t_tree *node, t_main *data)
 {
 	char	**cmd_args;
@@ -73,12 +102,14 @@ char	**_args_tabs(t_tree *node, t_main *data)
 	ft_expand_vars(&node->cmd_args, data->env, tmp);
 	tmp = node->cmd_args;
 	size = _args_size(tmp);
-	cmd_args = malloc(sizeof(char *) * (size + 1 + !node->is_builtin));
+	cmd_args = malloc(sizeof(char *) * (size + 1 + (!node->is_builtin)));
 	if (!cmd_args)
 		return (NULL);
 	path = _path(node, data);
 	if (path)
 		cmd_args[index++] = path;
+	if (node->str && is_dir(node->str))
+		return (NULL);
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;
 	return (cmd_args);

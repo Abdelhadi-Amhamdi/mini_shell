@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 18:52:43 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:43:31 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_lexer			*_create_doc(char *data, t_type type);
 
 // main
 void			wait_pids(t_tree *root);
-void			destroy_main(t_main *main);
+void			destroy_main(t_main *main, int t);
 void			destroy_pipes(t_pipes *list);
 void			destroy_ast_tree(t_tree *root);
 t_main			*init(char **env, int ac, char **av);

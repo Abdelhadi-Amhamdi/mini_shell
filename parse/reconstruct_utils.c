@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 23:14:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 22:05:14 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:23:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	check_and_trim(t_lexer *tmp, char **paths)
 	if (!data[index])
 		return (ft_putendl_fd(QUOTES_ERROR_MSG, 2), 1);
 	ft_trim_quotes(tmp);
-	if (tmp->str && *tmp->str && paths)
+	tmp->is_builtin = is_builtin(tmp->str);
+	if (tmp->str && *tmp->str && paths && !tmp->is_builtin)
 		tmp->path = get_path(tmp->str, paths);
 	return (0);
 }
