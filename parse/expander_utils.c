@@ -6,38 +6,11 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 23:14:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:36:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-int	get_lenght(char *s, int *index)
-{
-	int	len;
-
-	len = 0;
-	if (s[*index] == '$' && s[*index + 1] == '?')
-	{
-		*index = *index + 2;
-		return (2);
-	}
-	if (s[*index] == '$' || s[*index] == '/' || s[*index] == '.'
-		|| s[*index] == 32 || s[*index] == '-' || s[*index] == '='
-		|| s[*index] == '+')
-	{
-		len++;
-		*index = *index + 1;
-	}
-	while (s[*index] && s[*index] != 32 && s[*index] != '/' && s[*index] != '.'
-		&& s[*index] != '$' && s[*index] != '=' && s[*index] != '-'
-		&& s[*index] != '+')
-	{
-		len++;
-		*index = *index + 1;
-	}
-	return (len);
-}
 
 char	*get_str_helper(char *var, char *str, int start, char *s)
 {
@@ -63,6 +36,7 @@ char	*get_string(char *s, int *index, t_env *envp)
 	int		start;
 	int		len;
 	char	*str;
+	char	*tmp;
 
 	start = *index;
 	len = get_lenght(s, index);
@@ -72,7 +46,11 @@ char	*get_string(char *s, int *index, t_env *envp)
 	ft_strlcpy(var, &s[start], len + 1);
 	str = ft_get_expand_val(var + 1, envp);
 	if (var && !ft_strncmp(var, "$?", 3))
+	{
+		tmp = var;
 		var = ft_itoa(g_exit_status);
+		free(tmp);
+	}
 	else if (var && (!var[1] || (var[0] == '$' && !ft_isalpha(var[1]))))
 		return (var);
 	else
@@ -99,6 +77,32 @@ char	*expand(char *var, t_env *envp)
 		free(new);
 	}
 	return (str);
+}
+
+void	expander_helper(t_lexer **list, t_lexer *tmp, char *var, t_env *envp)
+{
+	int		i;
+	char	*temp;
+	char	*before;
+	char	*after;
+	char	*string;
+
+	i = 0;
+	before = extract_before(tmp->str, &i);
+	var = extarct_expand(tmp->str, &i);
+	after = extarct_after(tmp->str, &i);
+	temp = var;
+	var = expand(var, envp);
+	free(temp);
+	if (!var)
+		set_null_value(tmp);
+	else
+	{
+		string = join_variables(&before, &var, &after, &(tmp->str));
+		normal_case_handler(string, list, tmp, envp);
+	}
+	free(before);
+	free(after);
 }
 
 //expand variables

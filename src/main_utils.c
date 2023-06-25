@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 23:17:04 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:19:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ void	perror_sstatus(int status, char *cmd)
 		if (status != 1 && status != ENOENT)
 			printf("mini-sh: %s: %s\n", cmd, strerror(status));
 		if (status == ENOENT)
+		{
 			g_exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
+		}
 		else if (status == EACCES)
 			g_exit_status = NO_PERMISSIONS_EXIT_STATUS;
 		else

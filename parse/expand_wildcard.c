@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:52:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 14:14:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:14:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,7 @@ int	ft_expand_wildcards(t_lexer **list)
 				return (1);
 			if (tmp->prev && tmp->prev->type == RDIR \
 			&& _args_size(new_list) > 1)
-			{
-				ft_putstr_fd("min-sh: ", 2);
-				ft_putstr_fd(tmp->str, 2);
-				ft_putendl_fd(" : ambiguous redirect", 2);
-				g_exit_status = 1;
-				return (1);
-			}
+				return (p_error(AME, tmp, 1), 1);
 			last = get_last_token(new_list);
 			last->next = tmp->next;
 			tmp->prev->next = new_list;
@@ -90,4 +84,13 @@ int	ft_expand_wildcards(t_lexer **list)
 			tmp = tmp->next;
 	}
 	return (0);
+}
+
+void	set_null_value(t_lexer	*tmp)
+{
+	char	*temp;
+
+	temp = tmp->str;
+	tmp->str = NULL;
+	free(temp);
 }

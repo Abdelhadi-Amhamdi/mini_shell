@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/18 16:11:20 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:28:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_path(char *cmd, char **paths)
 	command = ft_strjoin("/", cmd);
 	index = 0;
 	if (!command || !paths)
-		return (NULL);
+		return (free(command), NULL);
 	while (paths[index])
 	{
 		full_path = ft_strjoin(paths[index], command);
@@ -82,12 +82,4 @@ int	ft_last_char_search(char *str, char c)
 		index--;
 	}
 	return (-1);
-}
-
-int	is_wild_card(t_lexer *node)
-{
-	if (node->str[0] != '"' && node->str[0] != '\'' && \
-		ft_char_search(node->str, '*') != -1)
-		return (1);
-	return (0);
 }

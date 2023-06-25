@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 23:14:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:56:46 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ char	*_path(t_tree *node, t_main *data)
 
 	paths = all_paths(data->env);
 	if (!node->str)
-	{
-		char *d = none_str(node, data, paths);
-		return (ft_free(paths), d);
-	}
+		return (none_str(node, data, paths));
 	if (!node->path && !node->is_builtin && node->type != W_SPACE && *node->str)
 	{
 		node->path = get_path(node->str, paths);

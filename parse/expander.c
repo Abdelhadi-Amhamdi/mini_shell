@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 14:15:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:11:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	clean_unsed_spaces(t_lexer **list)
 	tmp = *list;
 	while (tmp)
 	{
-		while ((tmp->type == CMD || tmp->type == OP || tmp->type == CP)
+		while ((tmp && (tmp->type == CMD || tmp->type == OP || tmp->type == CP))
 			&& tmp->prev && tmp->prev->type == W_SPACE && tmp->prev->id != -14)
 		{
 			clean_prev_space(tmp, list);
@@ -96,7 +96,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 
 	tmp = list;
 	paths = all_paths(env);
-	if (check_qoutes(list) || check_pths(list))
+	if (check_qoutes(list, paths) || check_pths(list))
 	{
 		g_exit_status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);

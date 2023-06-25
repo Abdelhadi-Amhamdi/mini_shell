@@ -63,3 +63,12 @@
     +- echo "$AAA.gfg    " | cat -e
     +- echo "$AAA    " | cat -e
     +- fix echo 'a'$HOME
+
+
+		leaks:
+
+		- export PATH=''
+		- export a="a b c"
+		- export $a
+
+    - export a="ls -la"

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 13:26:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:09:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,6 @@ void	destroy_ast_tree(t_tree *root)
 	destroy_ast_tree(right);
 }
 
-void	destroy_pipes(t_pipes *list)
-{
-	t_pipes	*tmp;
-	t_pipes	*next;
-
-	tmp = list;
-	while (tmp)
-	{
-		free(tmp->pipe);
-		tmp->pipe = NULL;
-		next = tmp->next;
-		free(tmp);
-		tmp = next;
-	}
-}
-
 void	destroy_main(t_main *main)
 {
 	if (main->ast)
@@ -64,7 +48,7 @@ void	destroy_main(t_main *main)
 int	expand_vars(t_tree *file, t_main *data)
 {
 	char		*tmp;
-	struct stat	fileStat;
+	struct stat	file_stat;
 
 	if (file && file->type == VAR)
 	{
@@ -73,29 +57,16 @@ int	expand_vars(t_tree *file, t_main *data)
 		if (!file->str)
 		{
 			file->id = -1;
-			free (tmp);
-			return (1);
+			return (free (tmp), 1);
 		}
 		else if (contain_spaces(file->str))
-		{
-			ft_putstr_fd("min-sh: ", 2);
-			ft_putstr_fd(tmp, 2);
-			ft_putendl_fd(" : ambiguous redirect", 2);
-			file->id = -1;
-			free(tmp);
-			return (1);
-		}
+			return (ft_p_error(AME, file, -1), free(tmp), 1);
 		else
 		{
-			if (stat(file->str, &fileStat) == 0)
+			if (stat(file->str, &file_stat) == 0)
 			{
-				if (S_ISDIR(fileStat.st_mode))
-				{
-					printf("%s is a directory.\n", file->str);
-					file->id = -1;
-					free(tmp);
-					return (1);
-				}
+				if (S_ISDIR(file_stat.st_mode))
+					return (ft_p_error(ISD, file, -1), free(tmp), 1);
 			}
 		}
 	}
@@ -121,10 +92,7 @@ void	_files(t_tree *root, int t, t_main *data)
 		else if (root->type == APND)
 			fd = open(root->right->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 		if (fd == -1)
-		{
-			printf("mini-sh: %s: No such file or directory\n", root->right->str);
-			g_exit_status = 1;
-		}
+			ft_p_error(NFD, root->right, 1);
 		root->right->id = fd;
 	}
 	if ((root->type == RDIR || root->type == APND) && t == 2)
@@ -150,7 +118,6 @@ int	main(int ac, char **av, char **envp)
 			main->ast = formater(cmd, main);
 			if (main->ast)
 			{
-				// printTree(main->ast);
 				executer(main->ast, main);
 				destroy_main(main);
 			}

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:21:48 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 10:16:53 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:06:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,31 +50,40 @@ void	expand_var_to_cmd(t_tree *cmd, t_main *data)
 		if (cmd->str && contain_spaces(cmd->str) && \
 		(!is_match(cmd->str, "* ") || !is_match(cmd->str, " *")))
 		{
+			new_list = lexer(cmd->str, data->env);
+			ft_expander(new_list, data->env);
+			free(cmd->str);
+			cmd->str = ft_strdup(new_list->str);
 			if (!cmd->cmd_args)
-			{
-				new_list = lexer(cmd->str, data->env);
-				ft_expander(new_list, data->env);
-				free(cmd->str);
-				cmd->str = ft_strdup(new_list->str);
 				cmd->cmd_args = new_list->next;
-				del_node(new_list);
-			}
 			else
 			{
-				new_list = lexer(cmd->str, data->env);
-				ft_expander(new_list, data->env);
 				args_tmp = cmd->cmd_args;
 				while (args_tmp->next)
 					args_tmp = args_tmp->next;
-				free(cmd->str);
-				cmd->str = ft_strdup(new_list->str);
 				args_tmp->next = new_list->next;
-				del_node(new_list);
 			}
+			del_node(new_list);
 		}
 		free(tmp);
 		if (!cmd->str)
 			return ;
 		cmd->is_builtin = is_builtin(cmd->str);
+	}
+}
+
+void	destroy_pipes(t_pipes *list)
+{
+	t_pipes	*tmp;
+	t_pipes	*next;
+
+	tmp = list;
+	while (tmp)
+	{
+		free(tmp->pipe);
+		tmp->pipe = NULL;
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
 }
