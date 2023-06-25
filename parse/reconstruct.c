@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 23:14:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:00:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,25 @@ void	check_del(t_lexer *tmp)
 }
 
 // check if the quotes are closed and get rid of them
-int	check_qoutes(t_lexer *list)
+int	check_qoutes(t_lexer *list, char **paths)
 {
 	t_lexer	*tmp;
-	char	**paths;
 
-	paths = ft_split(getenv("PATH"), ':');
 	tmp = list;
 	while (tmp)
 	{
 		if (tmp->str[0] == '"' || tmp->str[0] == '\'')
 		{
-			if (check_and_trim(tmp))
-				return (ft_free(paths), 1);
-			if (tmp->str && *tmp->str)
-				tmp->path = get_path(tmp->str, paths);
+			if (check_and_trim(tmp, paths))
+				return (1);
 		}
 		else if (tmp->type == HEREDOC)
 		{
 			tmp = tmp->next;
 			if (tmp && (tmp->str[0] == '"' || tmp->str[0] == '\''))
 			{
-				if (check_and_trim(tmp))
-					return (ft_free(paths), 1);
+				if (check_and_trim(tmp, NULL))
+					return (1);
 				tmp->is_builtin = 0;
 			}
 			else
@@ -72,7 +68,7 @@ int	check_qoutes(t_lexer *list)
 		}
 		tmp = tmp->next;
 	}
-	return (ft_free(paths), 0);
+	return (0);
 }
 
 // check if the node need to be joined with the next node
@@ -111,26 +107,4 @@ void	join_args(t_lexer **list, char **paths)
 		else
 			tmp = tmp->next;
 	}
-}
-
-int	check_pths(t_lexer *list)
-{
-	int	op;
-	int	cp;
-
-	op = 0;
-	cp = 0;
-	while (list)
-	{
-		if (list->type == OP)
-			op++;
-		else if (list->type == CP)
-			cp++;
-		list = list->next;
-		if (op - cp < 0)
-			break ;
-	}
-	if (op - cp != 0)
-		return (ft_putendl_fd(PARENTICIES_ERROR_MSG, 2), 1);
-	return (0);
 }

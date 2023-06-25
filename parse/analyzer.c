@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:25:59 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 13:22:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:37:56 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	check_pth(t_lexer *pt)
 
 int	check_redir(t_lexer *rdir)
 {
-	if (!rdir->next || (rdir->next->type != UNK && rdir->next->type != FL))
+	if (!rdir->next || (rdir->next->type != UNK && rdir->next->type \
+	!= FL && rdir->next->type != WILDCARD && rdir->next->type != VAR))
 		return (ft_error(rdir->str));
 	return (0);
 }
@@ -69,5 +70,27 @@ int	syntax_analyzer(t_lexer *list)
 			return (1);
 		tmp = tmp->next;
 	}
+	return (0);
+}
+
+int	check_pths(t_lexer *list)
+{
+	int	op;
+	int	cp;
+
+	op = 0;
+	cp = 0;
+	while (list)
+	{
+		if (list->type == OP)
+			op++;
+		else if (list->type == CP)
+			cp++;
+		list = list->next;
+		if (op - cp < 0)
+			break ;
+	}
+	if (op - cp != 0)
+		return (ft_putendl_fd(PARENTICIES_ERROR_MSG, 2), 1);
 	return (0);
 }

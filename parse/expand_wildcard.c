@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:52:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/17 21:53:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:39:06 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_lexer	*expand_wildcards_helper(t_lexer *tmp)
 	return (new_list);
 }
 
-void	ft_expand_wildcards(t_lexer **list)
+int	ft_expand_wildcards(t_lexer **list)
 {
 	t_lexer	*tmp;
 	t_lexer	*last;
@@ -70,7 +70,10 @@ void	ft_expand_wildcards(t_lexer **list)
 		{
 			new_list = expand_wildcards_helper(tmp);
 			if (!new_list)
-				return ;
+				return (1);
+			if (tmp->prev && tmp->prev->type == RDIR \
+			&& _args_size(new_list) > 1)
+				return (p_error(AME, tmp, 1), _free_lexer(&new_list), 1);
 			last = get_last_token(new_list);
 			last->next = tmp->next;
 			tmp->prev->next = new_list;
@@ -80,4 +83,14 @@ void	ft_expand_wildcards(t_lexer **list)
 		else
 			tmp = tmp->next;
 	}
+	return (0);
+}
+
+void	set_null_value(t_lexer	*tmp)
+{
+	char	*temp;
+
+	temp = tmp->str;
+	tmp->str = NULL;
+	free(temp);
 }

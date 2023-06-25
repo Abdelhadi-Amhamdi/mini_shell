@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:08:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:40:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 {
 	cmd->args = _args_tabs(cmd, data);
 	cmd->type = CMD;
-	cmd->id = fork();
+	cmd->id = _ft_fork();
+	if (cmd->id == -1)
+		return ;
 	if (!cmd->id)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -55,7 +57,6 @@ void	exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data)
 		close_all_pipes(data, p_data.used_end, p_data.unused_end);
 		exec_cmd(cmd, data);
 	}
-	ft_free(cmd->args);
 }
 
 void	exec_pipe_unk(t_tree *cmd, t_pipe_data p_data, t_main *data)
@@ -65,7 +66,9 @@ void	exec_pipe_unk(t_tree *cmd, t_pipe_data p_data, t_main *data)
 	if (!cmd->args || !cmd->str)
 		return ;
 	cmd->type = CMD;
-	cmd->id = fork();
+	cmd->id = _ft_fork();
+	if (cmd->id == -1)
+		return ;
 	if (!cmd->id)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -78,7 +81,6 @@ void	exec_pipe_unk(t_tree *cmd, t_pipe_data p_data, t_main *data)
 		close_all_pipes(data, p_data.used_end, p_data.unused_end);
 		exec_cmd(cmd, data);
 	}
-	ft_free(cmd->args);
 }
 
 void	run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data, t_main *data)

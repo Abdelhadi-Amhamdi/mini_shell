@@ -6,19 +6,48 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:36:58 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 23:15:59 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:21:57 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-int	check_path_exist(char *path, char **paths)
+char	*get_var_from_args(t_lexer *tmp, \
+t_tree *node, char **paths, t_main *data)
 {
-	if (!paths)
-		return (1);
-	if (path_exist(path, paths))
-		return (0);
-	return (1);
+	t_lexer	*tmp_list;
+
+	node->str = expand(tmp->str, data->env);
+	if (node->str)
+	{
+		if (tmp->path)
+			node->path = ft_strdup(tmp->path);
+		else
+			node->path = get_path(node->str, paths);
+		tmp_list = tmp->next;
+		del_node(tmp);
+		node->cmd_args = tmp_list;
+		return (ft_free(paths), ft_strdup(node->str));
+	}
+	return (ft_free(paths), NULL);
+}
+
+char	*get_cmd_from_args(t_lexer *tmp, \
+t_tree *node, char **paths)
+{
+	t_lexer	*tmp_list;
+
+	node->str = ft_strdup(tmp->str);
+	if (tmp->path)
+		node->path = ft_strdup(tmp->path);
+	else
+		node->path = get_path(node->str, paths);
+	tmp_list = tmp->next;
+	if (!node->path)
+		node->path = ft_strdup(tmp->str);
+	del_node(tmp);
+	node->cmd_args = tmp_list;
+	return (ft_free(paths), ft_strdup(node->path));
 }
 
 char	*none_str(t_tree *node, t_main *data, char **paths)
@@ -32,41 +61,16 @@ char	*none_str(t_tree *node, t_main *data, char **paths)
 		while (tmp)
 		{
 			if (tmp->str && tmp->type != W_SPACE && strchr(tmp->str, '$'))
-			{
-				node->str = expand(tmp->str, data->env);
-				if (node->str)
-				{
-					if (tmp->path)
-						node->path = ft_strdup(tmp->path);
-					else
-						node->path = get_path(node->str, paths);
-					tmp_list = tmp->next;
-					del_node(tmp);
-					node->cmd_args = tmp_list;
-					return (ft_strdup(node->str));
-				}
-			}
+				return (get_var_from_args(tmp, node, paths, data));
 			else if (tmp->str && tmp->type != W_SPACE)
-			{
-				node->str = ft_strdup(tmp->str);
-				if (tmp->path)
-					node->path = ft_strdup(tmp->path);
-				else
-					node->path = get_path(node->str, paths);
-				tmp_list = tmp->next;
-				if (!node->path)
-					node->path = ft_strdup(tmp->str);
-				del_node(tmp);
-				node->cmd_args = tmp_list;
-				return (ft_strdup(node->path));
-			}
+				return (get_cmd_from_args(tmp, node, paths));
 			tmp_list = tmp;
 			tmp = tmp->next;
 			del_node(tmp_list);
 		}
 	}
 	node->cmd_args = NULL;
-	return (NULL);
+	return (ft_free(paths), NULL);
 }
 
 void	_exec_unk(t_tree *cmd, int in, int out, t_main *data)

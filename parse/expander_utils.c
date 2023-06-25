@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 14:18:12 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:36:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,6 @@ char	*expand(char *var, t_env *envp)
 		free(new);
 	}
 	return (str);
-}
-
-void	set_null_value(t_lexer	*tmp)
-{
-	char	*temp;
-
-	temp = tmp->str;
-	tmp->str = NULL;
-	free(temp);
 }
 
 void	expander_helper(t_lexer **list, t_lexer *tmp, char *var, t_env *envp)
