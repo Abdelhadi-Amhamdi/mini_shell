@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:25:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 14:33:41 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:37:51 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ char	*get_cwd(t_env *envp)
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->key, "PWD", 3))
-			break ;
+			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
-	return (tmp->value);
+	return(NULL);
 }
 
 int	ft_pwd(t_env *envp, int out)
@@ -39,8 +39,11 @@ int	ft_pwd(t_env *envp, int out)
 	else
 	{
 		path = get_cwd(envp);
-		ft_putendl_fd(path, out);
-		free(path);
+		if(path)
+		{
+			ft_putendl_fd(path, out);
+			free(path);
+		}
 	}
 	return (0);
 }

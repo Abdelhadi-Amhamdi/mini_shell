@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 15:53:15 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:39:50 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*get_string(char *s, int *index, t_env *envp)
 	int		start;
 	int		len;
 	char	*str;
-
+	char	*tmp;
 	start = *index;
 	len = get_lenght(s, index);
 	var = malloc(len + 1);
@@ -72,7 +72,11 @@ char	*get_string(char *s, int *index, t_env *envp)
 	ft_strlcpy(var, &s[start], len + 1);
 	str = ft_get_expand_val(var + 1, envp);
 	if (var && !ft_strncmp(var, "$?", 3))
+	{
+		tmp = var;
 		var = ft_itoa(g_exit_status);
+		free(tmp);
+	}
 	else if (var && (!var[1] || (var[0] == '$' && !ft_isalpha(var[1]))))
 		return (var);
 	else
