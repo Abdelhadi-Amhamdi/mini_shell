@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 23:14:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 16:25:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:05:14 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_and_trim(t_lexer *tmp, char **paths)
 
 	index = 1;
 	data = tmp->str;
-	current = data[index];
+	current = data[0];
 	while (data[index] && data[index] != current)
 		index++;
 	if (!data[index])

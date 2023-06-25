@@ -63,6 +63,9 @@
     +- echo "$AAA.gfg    " | cat -e
     +- echo "$AAA    " | cat -e
     +- fix echo 'a'$HOME
+    - echo -n
+    - export a="ls
+    - 'ls"
 
 
 		leaks:
@@ -72,7 +75,7 @@
 		- export $a
 
     - export a="ls -la"
-    - echo -n
-    - export a="ls
     - $a | $b sdas
-    - 'ls"
+    - MAkefile relink
+    - unk to cmd builtins
+    

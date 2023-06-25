@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 12:58:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:52:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ int				env_list_size(t_env *list);
 
 int				*_ft_pipe(t_main *data);
 int				_ft_dup2(int new, int old);
+int				_ft_fork(void);
 
 #endif

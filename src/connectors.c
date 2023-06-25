@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 11:38:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:00:14 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,17 @@ int	_ft_dup2(int new, int old)
 	if (new > 1)
 		close (new);
 	return (0);
+}
+
+int	_ft_fork(void)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		ft_putendl_fd("FORK FAILED", 2);
+		return (-1);
+	}
+	return (pid);
 }
