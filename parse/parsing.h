@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:41:24 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:18:47 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,8 +181,8 @@ void				add_node_to_list(t_parser **list, t_parser *item);
 t_parser			*create_parser_node(t_lexer *l_node, int id);
 void				ft_free_parser_list(t_parser **list, int t);
 t_parser			*create_blocks(t_lexer *lexer_list, t_main *data);
-int					create_block_doc_helper(t_lexer *tmp, \
-t_parser**parser_list, t_main *data);
+int					create_block_doc_helper(t_lexer *tmp,
+						t_parser **parser_list, t_main *data);
 t_lexer				*pass_args_to_cmd(t_lexer *ar, t_parser **new_node);
 t_lexer				*add_new_simple_node(t_lexer *tmp, t_parser **parser_list);
 int					ft_check_next(t_lexer *node, char *file_name);
@@ -202,6 +202,13 @@ void				expander_helper(t_lexer **list, t_lexer *tmp, char *var,
 						t_env *envp);
 int					contain_spaces(char *string);
 char				*ft_get_expand_val(char *var, t_env *envp);
+char				*join_variables(char **before, char **var, char **after,
+						char **str);
+void				normal_case_handler(char *string, t_lexer **list,
+						t_lexer *tmp, t_env *envp);
+void				ft_addup_to_list(t_lexer *new, t_lexer **list,
+						t_lexer *node);
+int					get_lenght(char *s, int *index);
 // syntax analizer
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);

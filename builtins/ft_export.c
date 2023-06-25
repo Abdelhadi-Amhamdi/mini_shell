@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 09:31:55 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 13:25:16 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ void	add_new_env_node(char *key, char *value, t_env **env)
 	else if (node && is_exist(node, *env) && node->value)
 	{
 		cur = search_node(node, *env);
+		tmp = cur->value;
 		cur->value = ft_strdup(node->value);
+		free(tmp);
 		del_env_node(node);
 	}
 }

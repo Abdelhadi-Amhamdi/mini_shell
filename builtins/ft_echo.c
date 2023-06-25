@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 00:43:29 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 09:28:19 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_echo(t_tree *node, int out)
 	{
 		if (*(node->args[i]))
 			ft_putstr_fd(node->args[i], out);
-		if (node->args[i + 1] && *(node->args[i]) && *(node->args[i + 1]))
+		if (node->args[i + 1])
 			ft_putchar_fd(' ', out);
 		i++;
 	}
@@ -77,3 +77,4 @@ int	ft_echo(t_tree *node, int out)
 		ft_putendl_fd("", out);
 	return (0);
 }
+// && *(node->args[i]) && *(node->args[i + 1])
