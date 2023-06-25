@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 18:39:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:33:23 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 	else if (!ft_strncmp(cmd->str, "pwd", 3))
 		return (ft_pwd(*env, out));
 	else if (!ft_strncmp(cmd->str, "exit", 5))
-		ft_exit(cmd, data->ast);
+		ft_exit(cmd, data);
 	return (0);
 }
 
