@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 21:38:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 12:58:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ void	executer(t_tree *root, t_main *data)
 {
 	pid_t	pid;
 
-	_files(root, 1);
+	_files(root, 1, data);
 	executer_helper(root, STDIN_FILENO, STDOUT_FILENO, data);
 	pid = waitpid(-1, NULL, 0);
 	while (pid > 0)
 		pid = waitpid(-1, NULL, 0);
-	_files(root, 2);
+	_files(root, 2, data);
 }

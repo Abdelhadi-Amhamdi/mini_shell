@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:21:48 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 23:15:49 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 10:16:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	expand_var_to_cmd(t_tree *cmd, t_main *data)
 	{
 		tmp = cmd->str;
 		cmd->str = expand(cmd->str, data->env);
-		if (cmd->str && contain_spaces(cmd->str))
+		if (cmd->str && contain_spaces(cmd->str) && \
+		(!is_match(cmd->str, "* ") || !is_match(cmd->str, " *")))
 		{
 			if (!cmd->cmd_args)
 			{

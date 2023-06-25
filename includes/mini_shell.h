@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 20:13:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 12:58:01 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char			*exit_status_expand(t_lexer *node);
 char			*_path(t_tree *node, t_main *data);
 int				check_path_exist(char *path, char **paths);
 void			expand_var_to_cmd(t_tree *cmd, t_main *data);
-void			_files(t_tree *root, int t);
+void			_files(t_tree *root, int t, t_main *data);
 char			*none_str(t_tree *node, t_main *data, char **paths);
 void			_exec_unk(t_tree *cmd, int in, int out, t_main *data);
 void			_exec(t_tree *cmd, int in, int out, t_main *data);

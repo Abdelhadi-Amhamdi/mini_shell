@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:25:59 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 13:22:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 11:51:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	check_pth(t_lexer *pt)
 
 int	check_redir(t_lexer *rdir)
 {
-	if (!rdir->next || (rdir->next->type != UNK && rdir->next->type != FL))
+	if (!rdir->next || (rdir->next->type != UNK && rdir->next->type \
+	!= FL && rdir->next->type != WILDCARD && rdir->next->type != VAR))
 		return (ft_error(rdir->str));
 	return (0);
 }

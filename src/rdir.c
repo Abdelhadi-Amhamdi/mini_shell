@@ -6,11 +6,12 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 22:18:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 10:12:49 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
+#include <sys/wait.h>
 
 t_lexer	*creat_lexer_node(char *data)
 {

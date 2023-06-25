@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 22:16:21 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 10:28:01 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	wait_for_last(t_tree *cmd_right)
 		waitpid(cmd->id, &status, 0);
 		if (WIFEXITED(status))
 			perror_sstatus(status, cmd->str);
-		else
+		else if (WIFSIGNALED (status))
 		{
 			signal_num = WTERMSIG(status);
 			if (signal_num == SIGQUIT)

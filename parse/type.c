@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 10:20:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 11:44:57 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	is_file(t_lexer *node)
 {
 	if (!node->is_oper && node->str[0] != ' ' && node->str[0] != ')'
 		&& node->str[0] != '(' && node->str[0] != '>' && node->prev
-		&& node->str[0] != '$' && (node->prev->type == RDIR
-			|| node->prev->type == APND))
+		&& node->str[0] != '$' && ((node->prev->type == RDIR
+		|| node->prev->type == APND) && (node->type == DQ || node->type == SQ || node->str[0] != '*')))
 		return (1);
 	return (0);
 }
@@ -59,6 +59,7 @@ t_type	rest_of_types(t_lexer *node)
 // check the type of the given arg
 t_type	check_type(t_lexer *node, char *path)
 {
+	// else if (is_wild_card(node))
 	if (node && node->type == VAR && node->str[0] == '\'')
 		return (VAR);
 	else if (is_file(node))
@@ -69,7 +70,7 @@ t_type	check_type(t_lexer *node, char *path)
 	&& node->str[0] != '\'' && node->prev \
 	&& node->prev->type != HEREDOC && node->type != SQ)
 		return (VAR);
-	else if (is_wild_card(node))
+	else if (node->str[0] == '*' && node->type != SQ && node->type != DQ)
 		return (WILDCARD);
 	else if (node->str[0] == '\'')
 		return (SQ);

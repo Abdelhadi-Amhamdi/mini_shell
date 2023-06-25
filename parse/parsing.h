@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:41:24 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 13:27:14 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int					ft_expander(t_lexer *list, t_env *env);
 char				*expand(char *var, t_env *envp);
 int					validate_cmd(char *cmd);
 void				ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp);
-void				ft_expand_wildcards(t_lexer **list);
+int					ft_expand_wildcards(t_lexer **list);
 char				*extarct_expand(char *cmd, int *i);
 char				*extract_before(char *cmd, int *i);
 char				*extarct_after(char *cmd, int *i);
