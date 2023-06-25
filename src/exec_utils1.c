@@ -6,20 +6,11 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:36:58 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 15:10:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:21:57 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-int	check_path_exist(char *path, char **paths)
-{
-	if (!paths)
-		return (1);
-	if (path_exist(path, paths))
-		return (0);
-	return (1);
-}
 
 char	*get_var_from_args(t_lexer *tmp, \
 t_tree *node, char **paths, t_main *data)

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:52:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 15:14:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:39:06 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_expand_wildcards(t_lexer **list)
 				return (1);
 			if (tmp->prev && tmp->prev->type == RDIR \
 			&& _args_size(new_list) > 1)
-				return (p_error(AME, tmp, 1), 1);
+				return (p_error(AME, tmp, 1), _free_lexer(&new_list), 1);
 			last = get_last_token(new_list);
 			last->next = tmp->next;
 			tmp->prev->next = new_list;

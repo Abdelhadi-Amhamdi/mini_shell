@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 15:09:30 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:37:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	destroy_ast_tree(t_tree *root)
 	destroy_ast_tree(root->left);
 	right = root->right;
 	if (root->cmd_args)
-		ft_free_lexer_list(&root->cmd_args);
+		_free_lexer(&root->cmd_args);
 	if (!root->is_op && root->path)
 		free(root->path);
 	if (root->type == HEREDOC_FILE)

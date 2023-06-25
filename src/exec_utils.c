@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 14:56:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:22:12 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,13 @@ char	**env_tabs(t_env *list)
 	}
 	env[index] = NULL;
 	return (env);
+}
+
+int	check_path_exist(char *path, char **paths)
+{
+	if (!paths)
+		return (1);
+	if (path_exist(path, paths))
+		return (0);
+	return (1);
 }

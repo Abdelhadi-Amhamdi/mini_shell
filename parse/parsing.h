@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 15:14:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:37:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ typedef struct main
 // main
 t_tree				*formater(char *cmd, t_main *data);
 int					ft_error(char *str);
-void				ft_free_lexer_list(t_lexer **list);
+void				_free_lexer(t_lexer **list);
 
 // lexer functions
 t_lexer				*lexer(char *args, t_env *env);
@@ -158,7 +158,7 @@ void				del_node(t_lexer *node);
 void				clean_spaces(t_lexer **list);
 int					is_space(char c);
 int					is_wild_card(t_lexer *node);
-int					check_and_trim(t_lexer *tmp);
+int					check_and_trim(t_lexer *tmp, char **paths);
 void				_rebuild_node(t_lexer *tmp, char **paths);
 
 int					all_inside_is_sp(t_lexer *tmp);
@@ -181,7 +181,7 @@ t_parser			*create_blocks(t_lexer *lexer_list, t_main *data);
 t_lexer				*ft_nodedup(t_lexer *node);
 void				add_node_to_list(t_parser **list, t_parser *item);
 t_parser			*create_parser_node(t_lexer *l_node, int id);
-void				ft_free_parser_list(t_parser **list, int t);
+void				_free_parser(t_parser **list, int t);
 t_parser			*create_blocks(t_lexer *lexer_list, t_main *data);
 int					create_block_doc_helper(t_lexer *tmp,
 						t_parser **parser_list, t_main *data);

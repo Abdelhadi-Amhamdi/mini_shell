@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 15:11:12 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:38:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	check_heredoc_max(t_lexer *list)
 		if (count > 16)
 		{
 			ft_putendl_fd("mini-sh: maximum here-document count exceeded", 2);
-			ft_free_lexer_list(&list);
+			_free_lexer(&list);
 			exit(2);
 		}
 		tmp = tmp->next;

@@ -6,13 +6,13 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 23:14:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 23:58:14 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:25:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-int	check_and_trim(t_lexer *tmp)
+int	check_and_trim(t_lexer *tmp, char **paths)
 {
 	int		index;
 	char	*data;
@@ -26,6 +26,8 @@ int	check_and_trim(t_lexer *tmp)
 	if (!data[index])
 		return (ft_putendl_fd(QUOTES_ERROR_MSG, 2), 1);
 	ft_trim_quotes(tmp);
+	if (tmp->str && *tmp->str && paths)
+		tmp->path = get_path(tmp->str, paths);
 	return (0);
 }
 
