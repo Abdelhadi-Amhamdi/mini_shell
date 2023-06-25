@@ -3,35 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 15:53:24 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 21:58:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-// void	print_token_list(t_lexer *head)
-// {
-// 	t_lexer	*cur;
+void	print_token_list(t_lexer *head)
+{
+	t_lexer	*cur;
 
-// 	cur = head;
-// 	while (cur != NULL)
-// 	{
-// 		printf("STR : [%s]\n", cur->str);
-// 		printf("IS_B: [%u]\n", cur->is_builtin);
-// 		printf("IS_O: [%s]\n", cur->is_oper ? "true" : "false");
-// 		printf("ID: [%d]\n", cur->id);
-// 		if (cur->type == 7)
-// 			printf("TYPE: VAR\n");
-// 		else
-// 			printf("TYPE: [%u]\n", cur->type);
-// 		printf("PATH: [%s]\n", cur->path);
-// 		cur = cur->next;
-// 		printf("------------------------------\n");
-// 	}
-// }
+	cur = head;
+	while (cur != NULL)
+	{
+		printf("STR : [%s]\n", cur->str);
+		printf("IS_B: [%u]\n", cur->is_builtin);
+		printf("IS_O: [%s]\n", cur->is_oper ? "true" : "false");
+		printf("ID: [%d]\n", cur->id);
+		if (cur->type == 7)
+			printf("TYPE: VAR\n");
+		else
+			printf("TYPE: [%u]\n", cur->type);
+		printf("PATH: [%s]\n", cur->path);
+		cur = cur->next;
+		printf("------------------------------\n");
+	}
+}
 
 // void	printTreeHelper(t_tree *root, int depth)
 // {

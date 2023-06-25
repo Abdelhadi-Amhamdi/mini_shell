@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 23:14:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:05:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ char	*_path(t_tree *node, t_main *data)
 
 	paths = all_paths(data->env);
 	if (!node->str)
-	{
-		char *d = none_str(node, data, paths);
-		return (ft_free(paths), d);
-	}
+		return (none_str(node, data, paths));
 	if (!node->path && !node->is_builtin && node->type != W_SPACE && *node->str)
 	{
 		node->path = get_path(node->str, paths);
@@ -76,7 +73,7 @@ char	**_args_tabs(t_tree *node, t_main *data)
 	ft_expand_vars(&node->cmd_args, data->env, tmp);
 	tmp = node->cmd_args;
 	size = _args_size(tmp);
-	cmd_args = malloc(sizeof(char *) * (size + 2));
+	cmd_args = malloc(sizeof(char *) * (size + 1 + !node->is_builtin));
 	if (!cmd_args)
 		return (NULL);
 	path = _path(node, data);
@@ -109,4 +106,13 @@ char	**env_tabs(t_env *list)
 	}
 	env[index] = NULL;
 	return (env);
+}
+
+int	check_path_exist(char *path, char **paths)
+{
+	if (!paths)
+		return (1);
+	if (path_exist(path, paths))
+		return (0);
+	return (1);
 }

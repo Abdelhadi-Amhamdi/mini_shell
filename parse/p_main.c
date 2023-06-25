@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 23:20:05 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:05:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,28 @@ int	ft_tabs_len(char **tabs)
 	while (tabs[index])
 		index++;
 	return (index);
+}
+
+void	ft_p_error(char *str, t_tree *tmp, int status)
+{
+	ft_putstr_fd("min-sh: ", 2);
+	ft_putstr_fd(tmp->str, 2);
+	ft_putendl_fd(str, 2);
+	if (status >= 0)
+		g_exit_status = status;
+	else if (status == -1)
+		tmp->id = status;
+}
+
+void	p_error(char *str, t_lexer *tmp, int status)
+{
+	ft_putstr_fd("min-sh: ", 2);
+	ft_putstr_fd(tmp->str, 2);
+	ft_putendl_fd(str, 2);
+	if (status >= 0)
+		g_exit_status = status;
+	else if (status == -1)
+		tmp->id = status;
 }
 
 int	ft_error(char *str)
@@ -42,13 +64,13 @@ t_tree	*formater(char *cmd, t_main *data)
 	if (!lexer_list)
 		return (NULL);
 	if (ft_expander(lexer_list, data->env))
-		return (ft_free_lexer_list(&lexer_list), NULL);
+		return (_free_lexer(&lexer_list), NULL);
 	parser_list = parser(lexer_list, data);
 	if (!parser_list)
-		return (ft_free_lexer_list(&lexer_list), NULL);
-	ft_free_lexer_list(&lexer_list);
+		return (_free_lexer(&lexer_list), NULL);
+	_free_lexer(&lexer_list);
 	tmp = parser_list;
 	ast_tree = create_tree(&tmp);
-	ft_free_parser_list(&parser_list, 0);
+	_free_parser(&parser_list, 0);
 	return (ast_tree);
 }

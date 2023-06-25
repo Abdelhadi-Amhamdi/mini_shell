@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 09:46:45 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:28:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,4 @@ int	ft_last_char_search(char *str, char c)
 		index--;
 	}
 	return (-1);
-}
-
-int	is_wild_card(t_lexer *node)
-{
-	if (node->str[0] != '"' && node->str[0] != '\'' && \
-		ft_char_search(node->str, '*') != -1)
-		return (1);
-	return (0);
 }

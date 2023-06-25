@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 14:17:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:04:07 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_write_infile(t_lexer *list, char *file_name)
 		tmp = tmp->next;
 	}
 	close(fd);
-	ft_free_lexer_list(&list);
+	_free_lexer(&list);
 }
 
 int	run_heredoc(char *del, t_boolean to_expand, char *file_name, t_main *data)
@@ -96,7 +96,9 @@ char	*start_heredoc(t_lexer *node, t_boolean to_expand, t_main *data)
 	char_id = ft_itoa(node->id);
 	file_name = ft_strjoin(HEREDOC_FILENAME, char_id);
 	free(char_id);
-	pid = fork();
+	pid = _ft_fork();
+	if (pid == -1)
+		return (free (file_name), NULL);
 	if (!pid)
 	{
 		signal(SIGINT, sigint_heredoc_handler);

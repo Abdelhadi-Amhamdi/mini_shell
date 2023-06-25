@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 09:23:16 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:38:38 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	check_heredoc_max(t_lexer *list)
 		if (count > 16)
 		{
 			ft_putendl_fd("mini-sh: maximum here-document count exceeded", 2);
-			ft_free_lexer_list(&list);
+			_free_lexer(&list);
 			exit(2);
 		}
 		tmp = tmp->next;
@@ -96,7 +96,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 
 	tmp = list;
 	paths = all_paths(env);
-	if (check_qoutes(list) || check_pths(list))
+	if (check_qoutes(list, paths) || check_pths(list))
 	{
 		g_exit_status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
@@ -113,6 +113,7 @@ int	ft_expander(t_lexer *list, t_env *env)
 	}
 	if (check_heredoc_max(list))
 		return (ft_free(paths), 1);
-	ft_expand_wildcards(&list);
+	if (ft_expand_wildcards(&list))
+		return (ft_free(paths), 1);
 	return (ft_free(paths), 0);
 }
