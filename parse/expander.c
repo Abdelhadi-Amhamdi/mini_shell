@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 22:08:42 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 09:23:16 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,28 @@ void	clean_unsed_spaces(t_lexer **list)
 	}
 }
 
+int	check_heredoc_max(t_lexer *list)
+{
+	t_lexer	*tmp;
+	int		count;
+
+	count = 0;
+	tmp = list;
+	while (tmp)
+	{
+		if (tmp->type == HEREDOC)
+			count++;
+		if (count > 16)
+		{
+			ft_putendl_fd("mini-sh: maximum here-document count exceeded", 2);
+			ft_free_lexer_list(&list);
+			exit(2);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 int	ft_expander(t_lexer *list, t_env *env)
 {
 	t_lexer	*tmp;
@@ -89,6 +111,8 @@ int	ft_expander(t_lexer *list, t_env *env)
 		g_exit_status = SYNTAX_ERROR_EXIT_STATUS;
 		return (ft_free(paths), 1);
 	}
+	if (check_heredoc_max(list))
+		return (ft_free(paths), 1);
 	ft_expand_wildcards(&list);
 	return (ft_free(paths), 0);
 }

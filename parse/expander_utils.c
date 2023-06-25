@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 21:39:50 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 09:23:09 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*expand(char *var, t_env *envp)
 
 	i = 0;
 	str = NULL;
-	while (var[i])
+	while (var && var[i])
 	{
 		old = str;
 		new = get_string(var, &i, envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   blocks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:04 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 19:27:57 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:22:07 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,24 @@ t_lexer	*handle_heredoc_case(t_lexer *arg, t_parser **parser_list, t_main *data)
 	char	*file_name;
 	t_lexer	*tmp;
 
+	file_name = NULL;
 	if (arg->type == HEREDOC)
 	{
-		file_name = start_heredoc(arg, arg->next->is_builtin, data);
-		if (!file_name)
+		if (file_name)
+			free(file_name);
+		while (arg && arg->type == HEREDOC)
 		{
-			tmp = creat_lexer_node("NONE");
-			tmp->id = DEL_HERDOC_NODE;
-			return (tmp);
+			file_name = start_heredoc(arg, arg->next->is_builtin, data);
+			if (!file_name)
+			{
+				tmp = creat_lexer_node("NONE");
+				tmp->id = DEL_HERDOC_NODE;
+				return (tmp);
+			}
+			arg = arg->next->next;
 		}
 		heredoc_to_inrdir(parser_list, file_name);
 		free (file_name);
-		arg = arg->next->next;
 	}
 	while (arg)
 	{

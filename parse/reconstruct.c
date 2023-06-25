@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reconstruct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 14:49:42 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:14:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ int	check_qoutes(t_lexer *list)
 		{
 			if (check_and_trim(tmp))
 				return (ft_free(paths), 1);
-			tmp->path = get_path(tmp->str, paths);
-		}	
+			if (tmp->str && *tmp->str)
+				tmp->path = get_path(tmp->str, paths);
+		}
 		else if (tmp->type == HEREDOC)
 		{
 			tmp = tmp->next;

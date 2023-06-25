@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:21:48 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:05:13 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:15:49 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,39 @@ void	sigint_heredoc_handler(int type)
 void	expand_var_to_cmd(t_tree *cmd, t_main *data)
 {
 	char	*tmp;
+	t_lexer	*args_tmp;
+	t_lexer	*new_list;
 
+	new_list = NULL;
 	if (cmd->type == VAR || ((cmd->type == UNK || cmd->type == SQ \
 	|| cmd->type == DQ) && strchr(cmd->str, '$')))
 	{
 		tmp = cmd->str;
 		cmd->str = expand(cmd->str, data->env);
+		if (cmd->str && contain_spaces(cmd->str))
+		{
+			if (!cmd->cmd_args)
+			{
+				new_list = lexer(cmd->str, data->env);
+				ft_expander(new_list, data->env);
+				free(cmd->str);
+				cmd->str = ft_strdup(new_list->str);
+				cmd->cmd_args = new_list->next;
+				del_node(new_list);
+			}
+			else
+			{
+				new_list = lexer(cmd->str, data->env);
+				ft_expander(new_list, data->env);
+				args_tmp = cmd->cmd_args;
+				while (args_tmp->next)
+					args_tmp = args_tmp->next;
+				free(cmd->str);
+				cmd->str = ft_strdup(new_list->str);
+				args_tmp->next = new_list->next;
+				del_node(new_list);
+			}
+		}
 		free(tmp);
 		if (!cmd->str)
 			return ;

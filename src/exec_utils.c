@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 15:52:24 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:14:48 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,28 @@ char	*_path(t_tree *node, t_main *data)
 
 	paths = all_paths(data->env);
 	if (!node->str)
-		return (none_str(node));
+	{
+		char *d = none_str(node, data, paths);
+		return (ft_free(paths), d);
+	}
 	if (!node->path && !node->is_builtin && node->type != W_SPACE && *node->str)
 	{
 		node->path = get_path(node->str, paths);
 		ft_free(paths);
 		if (!node->path)
-			return (node->str);
+			return (ft_strdup(node->str));
 		else
 			return (node->path);
 	}
 	if (node->path && !node->is_builtin)
 	{
 		if (!check_path_exist(node->path, paths))
-			return (ft_free(paths), node->path);
+			return (ft_free(paths), ft_strdup(node->path));
 		else
-			return (ft_free(paths), node->str);
+			return (ft_free(paths), ft_strdup(node->str));
 	}
 	else if (node->type == W_SPACE || !(*node->str))
-		return (ft_free(paths), node->str);
+		return (ft_free(paths), ft_strdup(node->str));
 	return (ft_free(paths), NULL);
 }
 
@@ -78,7 +81,7 @@ char	**_args_tabs(t_tree *node, t_main *data)
 		return (NULL);
 	path = _path(node, data);
 	if (path)
-		cmd_args[index++] = ft_strdup(path);
+		cmd_args[index++] = path;
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;
 	return (cmd_args);

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:36:58 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:07:39 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:15:59 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,51 @@ int	check_path_exist(char *path, char **paths)
 	return (1);
 }
 
-char	*none_str(t_tree *node)
+char	*none_str(t_tree *node, t_main *data, char **paths)
 {
+	t_lexer	*tmp;
+	t_lexer	*tmp_list;
+
 	if (node->cmd_args)
 	{
-		node->str = ft_strdup(node->cmd_args->str);
-		return (node->str);
+		tmp = node->cmd_args;
+		while (tmp)
+		{
+			if (tmp->str && tmp->type != W_SPACE && strchr(tmp->str, '$'))
+			{
+				node->str = expand(tmp->str, data->env);
+				if (node->str)
+				{
+					if (tmp->path)
+						node->path = ft_strdup(tmp->path);
+					else
+						node->path = get_path(node->str, paths);
+					tmp_list = tmp->next;
+					del_node(tmp);
+					node->cmd_args = tmp_list;
+					return (ft_strdup(node->str));
+				}
+			}
+			else if (tmp->str && tmp->type != W_SPACE)
+			{
+				node->str = ft_strdup(tmp->str);
+				if (tmp->path)
+					node->path = ft_strdup(tmp->path);
+				else
+					node->path = get_path(node->str, paths);
+				tmp_list = tmp->next;
+				if (!node->path)
+					node->path = ft_strdup(tmp->str);
+				del_node(tmp);
+				node->cmd_args = tmp_list;
+				return (ft_strdup(node->path));
+			}
+			tmp_list = tmp;
+			tmp = tmp->next;
+			del_node(tmp_list);
+		}
 	}
+	node->cmd_args = NULL;
 	return (NULL);
 }
 
