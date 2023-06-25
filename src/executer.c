@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 21:38:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:05:49 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 {
 	cmd->args = _args_tabs(cmd, data);
+	return ;
 	if (cmd->is_builtin)
 		g_exit_status = exec_builtin(cmd, &data->env, data, out);
 	else
