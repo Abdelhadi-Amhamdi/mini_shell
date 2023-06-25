@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:25:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 20:37:51 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 13:32:19 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_cwd(t_env *envp)
 			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
-	return(NULL);
+	return (NULL);
 }
 
 int	ft_pwd(t_env *envp, int out)
@@ -39,7 +39,7 @@ int	ft_pwd(t_env *envp, int out)
 	else
 	{
 		path = get_cwd(envp);
-		if(path)
+		if (path)
 		{
 			ft_putendl_fd(path, out);
 			free(path);

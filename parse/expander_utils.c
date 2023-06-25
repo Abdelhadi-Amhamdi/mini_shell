@@ -6,38 +6,11 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 09:23:09 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:18:12 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-int	get_lenght(char *s, int *index)
-{
-	int	len;
-
-	len = 0;
-	if (s[*index] == '$' && s[*index + 1] == '?')
-	{
-		*index = *index + 2;
-		return (2);
-	}
-	if (s[*index] == '$' || s[*index] == '/' || s[*index] == '.'
-		|| s[*index] == 32 || s[*index] == '-' || s[*index] == '='
-		|| s[*index] == '+')
-	{
-		len++;
-		*index = *index + 1;
-	}
-	while (s[*index] && s[*index] != 32 && s[*index] != '/' && s[*index] != '.'
-		&& s[*index] != '$' && s[*index] != '=' && s[*index] != '-'
-		&& s[*index] != '+')
-	{
-		len++;
-		*index = *index + 1;
-	}
-	return (len);
-}
 
 char	*get_str_helper(char *var, char *str, int start, char *s)
 {
@@ -64,6 +37,7 @@ char	*get_string(char *s, int *index, t_env *envp)
 	int		len;
 	char	*str;
 	char	*tmp;
+
 	start = *index;
 	len = get_lenght(s, index);
 	var = malloc(len + 1);
@@ -103,6 +77,41 @@ char	*expand(char *var, t_env *envp)
 		free(new);
 	}
 	return (str);
+}
+
+void	set_null_value(t_lexer	*tmp)
+{
+	char	*temp;
+
+	temp = tmp->str;
+	tmp->str = NULL;
+	free(temp);
+}
+
+void	expander_helper(t_lexer **list, t_lexer *tmp, char *var, t_env *envp)
+{
+	int		i;
+	char	*temp;
+	char	*before;
+	char	*after;
+	char	*string;
+
+	i = 0;
+	before = extract_before(tmp->str, &i);
+	var = extarct_expand(tmp->str, &i);
+	after = extarct_after(tmp->str, &i);
+	temp = var;
+	var = expand(var, envp);
+	free(temp);
+	if (!var)
+		set_null_value(tmp);
+	else
+	{
+		string = join_variables(&before, &var, &after, &(tmp->str));
+		normal_case_handler(string, list, tmp, envp);
+	}
+	free(before);
+	free(after);
 }
 
 //expand variables
