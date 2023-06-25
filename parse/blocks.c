@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:04 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 16:35:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:20:46 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_parser	*create_blocks(t_lexer *lexer_list, t_main *data)
 	parser_list = NULL;
 	while (tmp)
 	{
-		if (tmp->type == CMD || tmp->type == UNK)
+		if (tmp->type == CMD || tmp->type == UNK || tmp->type == VAR)
 		{
 			tmp = creat_blocks_helper(tmp, &parser_list, data);
 			if (tmp && tmp->id == DEL_HERDOC_NODE)

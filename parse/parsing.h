@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 16:37:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:08:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSING_H
 # include "../env/env.h"
 # include "../libs/libft/libft.h"
-
+ 
 # define SYNTAX_ERROR_EXIT_STATUS 258
 # define COMMAND_NOT_FOUND_EXIT_STATUS 127
 # define NO_PERMISSIONS_EXIT_STATUS 126

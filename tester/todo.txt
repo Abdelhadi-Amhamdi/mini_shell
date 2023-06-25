@@ -66,6 +66,8 @@
     - echo -n
     - export a="ls
     - 'ls"
+    - $a | $b sdas
+    - unk to cmd builtins
 
 
 		leaks:
@@ -75,7 +77,4 @@
 		- export $a
 
     - export a="ls -la"
-    - $a | $b sdas
     - MAkefile relink
-    - unk to cmd builtins
-    
