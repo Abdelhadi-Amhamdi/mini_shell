@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 11:36:41 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 09:47:42 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:00:57 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	*extract_before(char *cmd, int *i)
 	return (before);
 }
 
-//extract variable to expland
 char	*extarct_expand(char *cmd, int *i)
 {
 	int		start;
@@ -80,7 +79,6 @@ char	*extarct_expand(char *cmd, int *i)
 	return (to_expand);
 }
 
-//extract after command
 char	*extarct_after(char *cmd, int *i)
 {
 	int		start;

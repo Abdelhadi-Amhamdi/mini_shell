@@ -6,13 +6,12 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:50:24 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 00:45:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:00:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-//free 2D array
 void	ft_free(char **tabs)
 {
 	int	index;
@@ -29,7 +28,6 @@ void	ft_free(char **tabs)
 	free(tabs);
 }
 
-//remove a node
 void	del_node(t_lexer *node)
 {
 	if (!node)
@@ -43,7 +41,6 @@ void	del_node(t_lexer *node)
 	node = NULL;
 }
 
-//remove space before operatore
 void	remove_prev_space(t_lexer *tmp, t_lexer **list)
 {
 	t_lexer	*cur;
@@ -79,7 +76,6 @@ void	remove_next_space(t_lexer *tmp, t_lexer **list)
 	del_node(space);
 }
 
-//clean white space between operators
 void	clean_spaces(t_lexer **list)
 {
 	t_lexer	*tmp;

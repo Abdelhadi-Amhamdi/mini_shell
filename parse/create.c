@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:15:55 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 00:17:20 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:00:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	all_inside_is_sp(t_lexer *tmp)
 	return (1);
 }
 
-// loop over the list and set types
 void	set_type(t_lexer **list)
 {
 	t_lexer	*tmp;
@@ -54,7 +53,6 @@ void	set_type(t_lexer **list)
 	}
 }
 
-//extract str from line command
 char	*extract_str(char *str, int len)
 {
 	int		i;
@@ -73,7 +71,6 @@ char	*extract_str(char *str, int len)
 	return (s);
 }
 
-//create new token
 t_lexer	*create_token(char *str, int len, char **paths)
 {
 	t_lexer	*new;
@@ -94,7 +91,6 @@ t_lexer	*create_token(char *str, int len, char **paths)
 	return (new);
 }
 
-//add token to end of list
 void	add_token_to_end(t_lexer **head, t_lexer *new_token)
 {
 	t_lexer	*current_token;
