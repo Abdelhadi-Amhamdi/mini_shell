@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:52:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 00:11:53 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:45:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ int	ft_expand_wildcards(t_lexer **list)
 				return (p_error(AME, tmp, 1), _free_lexer(&new_list), 1);
 			last = get_last_token(new_list);
 			last->next = tmp->next;
-			if (tmp->prev)
-				tmp->prev->next = new_list;
-			else
-				*list = new_list;
+			re_link_list(tmp, new_list, list);
 			del_node(tmp);
 			tmp = last->next;
 		}

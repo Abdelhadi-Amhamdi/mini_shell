@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 00:48:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:41:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,34 +73,6 @@ void	destroy_main(t_main *main, int t)
 	}
 }
 
-int	expand_vars(t_tree *file, t_main *data)
-{
-	char		*tmp;
-	struct stat	file_stat;
-
-	if (file && file->type == VAR)
-	{
-		tmp = file->str;
-		file->str = expand(file->str, data->env);
-		if (!file->str)
-		{
-			file->id = -1;
-			return (free (tmp), 1);
-		}
-		else if (contain_spaces(file->str))
-			return (ft_p_error(AME, file, -1), free(tmp), 1);
-		else
-		{
-			if (stat(file->str, &file_stat) == 0)
-			{
-				if (S_ISDIR(file_stat.st_mode))
-					return (ft_p_error(ISD, file, -1), free(tmp), 1);
-			}
-		}
-	}
-	return (0);
-}
-
 void	_files(t_tree *root, int t, t_main *data)
 {
 	int	fd;
@@ -128,17 +100,11 @@ void	_files(t_tree *root, int t, t_main *data)
 	_files(root->right, t, data);
 }
 
-void test()
-{
-	system("leaks minishell");
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char	*cmd;
 	t_main	*main;
 
-	atexit(test);
 	main = init(envp, ac, av);
 	if (!main)
 		return (0);

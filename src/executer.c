@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 23:33:23 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:33:59 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 	else if (!ft_strncmp(cmd->str, "pwd", 3))
 		return (ft_pwd(*env, out));
 	else if (!ft_strncmp(cmd->str, "exit", 5))
-		ft_exit(cmd, data);
+		return (ft_exit(cmd, data));
 	return (0);
 }
 
@@ -67,7 +67,7 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 			_exec_unk(cmd, in, out, data);
 		else
 		{
-			if (!ft_strncmp(cmd->str, "./app", 6))
+			if (!ft_strncmp(cmd->str, "./minishell", 12))
 				g_exit_status = -1;
 		}
 		if (out == 1)

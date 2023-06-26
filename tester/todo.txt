@@ -69,6 +69,9 @@
     - $a | $b sdas
     - unk to cmd builtins
     - MAkefile relink
+    - tabs
+    - leak in wilcards
+    - echo hello""world
 
 
 		leaks:
@@ -78,6 +81,3 @@
 		- export $a
 
     - export a="ls -la"
-    - echo hello""world
-    - leak in wilcards
-    - tabs

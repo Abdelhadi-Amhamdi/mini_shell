@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:36:58 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 16:21:57 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 08:35:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*none_str(t_tree *node, t_main *data, char **paths)
 
 void	_exec_unk(t_tree *cmd, int in, int out, t_main *data)
 {
-	if (!ft_strncmp(cmd->str, "./app", 6))
+	if (!ft_strncmp(cmd->str, "./minishell", 12))
 		signal(SIGINT, sig_int_handler);
 	else
 		signal(SIGINT, SIG_DFL);
@@ -92,6 +92,7 @@ void	_exec_unk(t_tree *cmd, int in, int out, t_main *data)
 			ft_putstr_fd(cmd->str, 2);
 			ft_putendl_fd(": command not found", 2);
 		}
+		destroy_main(data, 1);
 		exit (errno);
 	}
 }
