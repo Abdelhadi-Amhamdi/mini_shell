@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 21:18:54 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 00:17:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:54:10 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-char	*join_variables(char **before, char **var, char **after, char **str)
+char	*join_variables(char **before, char **var, char **after)
 {
 	char	*temp;
 
@@ -22,7 +22,6 @@ char	*join_variables(char **before, char **var, char **after, char **str)
 	temp = *var;
 	*var = ft_strjoin(*var, *after);
 	free(temp);
-	free(*str);
 	return (*var);
 }
 
@@ -45,6 +44,7 @@ void	ft_addup_to_list(t_lexer *new, t_lexer **list, t_lexer *node)
 	t_lexer	*last;
 	t_lexer	*next;
 	t_lexer	*prev;
+	t_lexer	*tmp;
 
 	prev = node->prev;
 	next = node->next;
@@ -57,13 +57,10 @@ void	ft_addup_to_list(t_lexer *new, t_lexer **list, t_lexer *node)
 			next->prev = last;
 	}
 	else
-	{
-		prev->next = new;
-		new->prev = prev;
-		last->next = next;
-		if (next)
-			next->prev = last;
-	}
+		add_middle_node(new, prev, next, last);
+	tmp = node;
+	node = new;
+	del_node(tmp);
 }
 
 void	normal_case_handler(char *string, t_lexer **list, t_lexer *tmp,
@@ -71,134 +68,49 @@ void	normal_case_handler(char *string, t_lexer **list, t_lexer *tmp,
 {
 	char	**paths;
 	t_lexer	*new;
+	char	*temp;
 
-	paths = all_paths(envp);
 	if (contain_spaces(string) && tmp->id != DONT_REMOVESP)
 	{
+		paths = all_paths(envp);
+		temp = string;
 		new = tokenizer(string, paths);
 		set_type(&new);
 		ft_addup_to_list(new, list, tmp);
-		free(string);
+		free(temp);
+		ft_free(paths);
 	}
 	else
-		tmp->str = string;
-	ft_free(paths);
-}
-
-void	expander_helper(t_lexer **list, t_lexer *tmp, char *var,
-		t_env *envp)
-{
-	int		i;
-	char	*temp;
-	char	*before;
-	char	*after;
-	char	*string;
-
-	i = 0;
-	before = extract_before(tmp->str, &i);
-	var = extarct_expand(tmp->str, &i);
-	after = extarct_after(tmp->str, &i);
-	temp = var;
-	var = expand(var, envp, 1);
-	free(temp);
-	if (!var)
 	{
 		temp = tmp->str;
-		tmp->str = var;
+		tmp->str = string;
 		free(temp);
 	}
-	else
-	{
-		string = join_variables(&before, &var, &after, &(tmp->str));
-		normal_case_handler(string, list, tmp, envp);
-	}
-	free(before);
-	free(after);
 }
 
-//extarct before command
-char	*extract_before(char *cmd, int *i)
+int	get_lenght(char *s, int *index)
 {
-	int		start;
-	int		len;
-	int		index;
-	char	*before;
+	int	len;
 
 	len = 0;
-	start = *i;
-	while (cmd[*i] && (cmd[*i] == '\'' || cmd[*i] == '"'))
+	if (s[*index] == '$' && s[*index + 1] == '?')
 	{
-		*i = *i + 1;
-		len++;
+		*index = *index + 2;
+		return (2);
 	}
-	before = malloc(len + 1);
-	if (!before)
-		return (NULL);
-	index = 0;
-	while (cmd[start] && (cmd[start] == '\'' || cmd[start] == '"'))
-	{
-		before[index] = cmd[start];
-		index++;
-		start++;
-	}
-	before[index] = '\0';
-	return (before);
-}
-
-//extract variable to expland
-char	*extarct_expand(char *cmd, int *i)
-{
-	int		start;
-	int		len;
-	int		index;
-	char	*to_expand;
-
-	start = *i;
-	len = 0;
-	while (cmd[*i] && cmd[*i] != '\'' && cmd[*i] != '"')
-	{
-		*i = *i + 1;
-		len++;
-	}
-	to_expand = malloc(len + 1);
-	if (!to_expand)
-		return (NULL);
-	index = 0;
-	while (cmd[start] && cmd[start] != '\'' && cmd[start] != '"')
-	{
-		to_expand[index] = cmd[start];
-		index++;
-		start++;
-	}
-	to_expand[index] = '\0';
-	return (to_expand);
-}
-
-//extract after command
-char	*extarct_after(char *cmd, int *i)
-{
-	int		start;
-	char	*after;
-	int		index;
-	int		len;
-
-	index = 0;
-	len = 0;
-	start = *i;
-	while (cmd[*i])
+	if (s[*index] == '$' || s[*index] == '/' || s[*index] == '.'
+		|| s[*index] == 32 || s[*index] == '-' || s[*index] == '='
+		|| s[*index] == '+' || s[*index] == '#')
 	{
 		len++;
-		*i = *i + 1;
+		*index = *index + 1;
 	}
-	after = malloc(len + 1);
-	if (!after)
-		return (NULL);
-	while (cmd[start])
+	while (s[*index] && s[*index] != 32 && s[*index] != '/' && s[*index] != '.'
+		&& s[*index] != '$' && s[*index] != '=' && s[*index] != '-'
+		&& s[*index] != '+' && s[*index] != '#')
 	{
-		after[index] = cmd[start];
-		index++;
-		start++;
+		len++;
+		*index = *index + 1;
 	}
-	after[index] = '\0';
-	return (after);
+	return (len);
 }

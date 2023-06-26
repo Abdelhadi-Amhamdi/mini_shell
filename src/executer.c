@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:00:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:09:30 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 		g_exit_status = exec_builtin(cmd, &data->env, data, out);
 	else
 	{
-		cmd->id = fork();
+		cmd->id = _ft_fork();
+		if (cmd->id == -1)
+			return ;
 		if (!cmd->id)
 			_exec(cmd, in, out, data);
 		else
 			g_exit_status = -1;
 		wait_for_child(cmd);
 	}
-	ft_free(cmd->args);
 }
 
 int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
@@ -44,7 +45,7 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 	else if (!ft_strncmp(cmd->str, "pwd", 3))
 		return (ft_pwd(*env, out));
 	else if (!ft_strncmp(cmd->str, "exit", 5))
-		ft_exit(cmd, data->ast);
+		return (ft_exit(cmd, data));
 	return (0);
 }
 
@@ -59,19 +60,19 @@ void	exec_unknown(t_tree *cmd, int in, int out, t_main *data)
 		g_exit_status = exec_builtin(cmd, &data->env, data, 1);
 	else
 	{
-		cmd->id = fork();
+		cmd->id = _ft_fork();
+		if (cmd->id == -1)
+			return ;
 		if (!cmd->id)
 			_exec_unk(cmd, in, out, data);
 		else
 		{
-			if (!ft_strncmp(cmd->str, "./app", 6))
+			if (!ft_strncmp(cmd->str, "./minishell", 12))
 				g_exit_status = -1;
 		}
-		cmd->args = NULL;
 		if (out == 1)
 			wait_for_child(cmd);
 	}
-	ft_free(cmd->args);
 }
 
 void	executer_helper(t_tree *root, int in, int out, t_main *data)
@@ -83,11 +84,7 @@ void	executer_helper(t_tree *root, int in, int out, t_main *data)
 	else if (root->type == RDIR || root->type == APND)
 		rdir_helper(root, in, out, data);
 	else if (root->type == AND || root->type == OR)
-	{
-		if (out != STDOUT_FILENO)
-			out = STDOUT_FILENO;
-		run_connectors(root, in, out, data);
-	}
+		run_connectors(root, STDIN_FILENO, STDOUT_FILENO, data);
 	else if (root->type == PIPE)
 		run_pipeline(root, out, data);
 	else if (root->type != HEREDOC_FILE)
@@ -98,10 +95,10 @@ void	executer(t_tree *root, t_main *data)
 {
 	pid_t	pid;
 
-	_files(root, 1);
+	_files(root, 1, data);
 	executer_helper(root, STDIN_FILENO, STDOUT_FILENO, data);
 	pid = waitpid(-1, NULL, 0);
 	while (pid > 0)
 		pid = waitpid(-1, NULL, 0);
-	_files(root, 2);
+	_files(root, 2, data);
 }

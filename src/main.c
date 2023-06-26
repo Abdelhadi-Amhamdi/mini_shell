@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/24 11:07:56 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 11:51:35 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ void	destroy_ast_tree(t_tree *root)
 	destroy_ast_tree(root->left);
 	right = root->right;
 	if (root->cmd_args)
-		ft_free_lexer_list(&root->cmd_args);
+		_free_lexer(&root->cmd_args);
 	if (!root->is_op && root->path)
 		free(root->path);
+	root->path = NULL;
 	if (root->type == HEREDOC_FILE)
 		unlink(root->str);
-	root->path = NULL;
+	if (!root->is_op && root->args)
+		ft_free(root->args);
+	root->args = NULL;
 	free(root->str);
 	free(root);
 	root = NULL;
@@ -35,23 +38,25 @@ void	destroy_ast_tree(t_tree *root)
 	destroy_ast_tree(right);
 }
 
-void	destroy_pipes(t_pipes *list)
+void	destroy_env(t_env *env)
 {
-	t_pipes	*tmp;
-	t_pipes	*next;
+	t_env	*tmp;
+	t_env	*next;
 
-	tmp = list;
+	tmp = env;
 	while (tmp)
 	{
-		free(tmp->pipe);
-		tmp->pipe = NULL;
 		next = tmp->next;
-		free(tmp);
+		free(tmp->key);
+		tmp->key = NULL;
+		free(tmp->value);
+		tmp->value = NULL;
+		free (tmp);
 		tmp = next;
 	}
 }
 
-void	destroy_main(t_main *main)
+t_main	*destroy_main(t_main *main, int t)
 {
 	if (main->ast)
 		destroy_ast_tree(main->ast);
@@ -59,18 +64,28 @@ void	destroy_main(t_main *main)
 	if (main->pipes)
 		destroy_pipes(main->pipes);
 	main->pipes = NULL;
+	if (t == 1)
+	{
+		destroy_env(main->env);
+		main->env = NULL;
+		free(main);
+		main = NULL;
+	}
+	return (NULL);
 }
 
-void	_files(t_tree *root, int t)
+void	_files(t_tree *root, int t, t_main *data)
 {
 	int	fd;
 
 	if (!root)
 		return ;
 	fd = -1;
-	_files(root->left, t);
+	_files(root->left, t, data);
 	if ((root->type == RDIR || root->type == APND) && t == 1)
-	{
+	{	
+		if (expand_vars(root->right, data))
+			return ;
 		if (root->type == RDIR && root->str[0] == '>')
 			fd = open(root->right->str, O_CREAT | O_TRUNC | O_RDWR, 0644);
 		else if (root->type == RDIR && root->str[0] == '<')
@@ -78,15 +93,12 @@ void	_files(t_tree *root, int t)
 		else if (root->type == APND)
 			fd = open(root->right->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 		if (fd == -1)
-		{
-			printf("mini-sh: %s: No such file or directory\n", root->right->str);
-			g_exit_status = 1;
-		}
+			ft_p_error(NFD, root->right, 1);
 		root->right->id = fd;
 	}
 	if ((root->type == RDIR || root->type == APND) && t == 2)
 		close(root->right->id);
-	_files(root->right, t);
+	_files(root->right, t, data);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -108,11 +120,12 @@ int	main(int ac, char **av, char **envp)
 			if (main->ast)
 			{
 				executer(main->ast, main);
-				destroy_main(main);
+				destroy_main(main, 0);
 			}
 			add_history(cmd);
 		}
 		free(cmd);
 	}
+	main = destroy_main(main, 1);
 	exit (g_exit_status);
 }

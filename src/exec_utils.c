@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 22:17:37 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:12:21 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,39 +18,26 @@ char	*_path(t_tree *node, t_main *data)
 
 	paths = all_paths(data->env);
 	if (!node->str)
-		return (none_str(node));
+		return (none_str(node, data, paths));
 	if (!node->path && !node->is_builtin && node->type != W_SPACE && *node->str)
 	{
 		node->path = get_path(node->str, paths);
 		ft_free(paths);
 		if (!node->path)
-			return (node->str);
+			return (ft_strdup(node->str));
 		else
 			return (node->path);
 	}
 	if (node->path && !node->is_builtin)
 	{
 		if (!check_path_exist(node->path, paths))
-			return (ft_free(paths), node->path);
+			return (ft_free(paths), ft_strdup(node->path));
 		else
-			return (ft_free(paths), node->str);
+			return (ft_free(paths), ft_strdup(node->str));
 	}
 	else if (node->type == W_SPACE || !(*node->str))
-		return (ft_free(paths), node->str);
+		return (ft_free(paths), ft_strdup(node->str));
 	return (ft_free(paths), NULL);
-}
-
-char	*exit_status_expand(t_lexer *node)
-{
-	char	*value;
-
-	value = NULL;
-	if (!ft_strncmp(node->str + 1, "?", 2))
-		value = ft_itoa(g_exit_status);
-	if (value)
-		return (value);
-	else
-		return (ft_strdup("\0"));
 }
 
 void	copy_args_(t_lexer *list, char **tabs, int *i)
@@ -62,15 +49,41 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 	tmp = list;
 	while (tmp)
 	{
-		if (tmp->str && !ft_strncmp(tmp->str, "$?", 3))
-			tabs[index++] = ft_itoa(g_exit_status);
-		else if (tmp->str && tmp->str[0] == '$' && ft_isdigit(tmp->str[1]))
+		if (tmp->str && tmp->str[0] == '$' && ft_isdigit(tmp->str[1]))
 			tabs[index++] = ft_strdup(tmp->str + 2);
 		else if (tmp->str && (tmp->type != W_SPACE || tmp->id == -14))
 			tabs[index++] = ft_strdup(tmp->str);
 		tmp = tmp->next;
 	}
 	*i = index;
+}
+
+int	is_dir(char *str)
+{
+	struct stat	file_stat;
+
+	if (stat(str, &file_stat) == 0)
+	{
+		if (S_ISDIR(file_stat.st_mode))
+		{
+			ft_put_strerror(str, " : is a directory!");
+			if (str[0] == '.' || str[0] == '/')
+				g_exit_status = 126;
+			else
+				g_exit_status = 127;
+			return (1);
+		}
+		else if (S_ISREG(file_stat.st_mode))
+		{
+			if (!(file_stat.st_mode & S_IXUSR))
+			{
+				ft_put_strerror(str, " : command not found");
+				g_exit_status = 127;
+				return (1);
+			}
+		}
+	}
+	return (0);
 }
 
 char	**_args_tabs(t_tree *node, t_main *data)
@@ -87,13 +100,16 @@ char	**_args_tabs(t_tree *node, t_main *data)
 	tmp = node->cmd_args;
 	ft_expand_vars(&node->cmd_args, data->env, tmp);
 	tmp = node->cmd_args;
+	tmp = node->cmd_args;
 	size = _args_size(tmp);
-	cmd_args = malloc(sizeof(char *) * (size + 2));
+	cmd_args = malloc(sizeof(char *) * (size + 1 + (!node->is_builtin)));
 	if (!cmd_args)
 		return (NULL);
 	path = _path(node, data);
 	if (path)
-		cmd_args[index++] = ft_strdup(path);
+		cmd_args[index++] = path;
+	if (node->str && is_dir(node->str))
+		return (free(path), free (cmd_args), NULL);
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;
 	return (cmd_args);

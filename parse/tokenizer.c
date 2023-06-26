@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:27:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 23:20:40 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 08:43:33 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_word(t_lexer **list, char *cmd, char **paths)
 
 	i = 0;
 	while (cmd[i] && !is_operator(cmd[i]) && cmd[i] != '\'' && cmd[i] != '"'
-		&& cmd[i] != '$' && cmd[i] != 32 && cmd[i] != '(' && cmd[i] != ')')
+		&& cmd[i] != '$' && !is_space(cmd[i]) && cmd[i] != '(' && cmd[i] != ')')
 		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
@@ -37,13 +37,11 @@ char	*ft_word(t_lexer **list, char *cmd, char **paths)
 t_lexer	*tokenizer(char *cmd, char **paths)
 {
 	t_lexer	*list;
-	size_t	size ;
 
 	list = NULL;
-	while (*cmd && is_space(*cmd))
+	while (cmd && *cmd && is_space(*cmd))
 		cmd++;
-	size = ft_strlen(cmd);
-	while (*cmd != '\0' && size--)
+	while (cmd && *cmd != '\0')
 	{
 		if (is_space(*cmd))
 			cmd = ft_spaces(&list, cmd, paths);

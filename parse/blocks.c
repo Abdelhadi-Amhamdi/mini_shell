@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   blocks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:04 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/23 19:27:57 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 00:12:07 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,8 @@ void	heredoc_to_inrdir(t_parser **list, char *file_name)
 	add_node_to_list(list, new_item);
 }
 
-t_lexer	*handle_heredoc_case(t_lexer *arg, t_parser **parser_list, t_main *data)
+t_lexer	*next_arg(t_lexer *arg)
 {
-	char	*file_name;
-	t_lexer	*tmp;
-
-	if (arg->type == HEREDOC)
-	{
-		file_name = start_heredoc(arg, arg->next->is_builtin, data);
-		if (!file_name)
-		{
-			tmp = creat_lexer_node("NONE");
-			tmp->id = DEL_HERDOC_NODE;
-			return (tmp);
-		}
-		heredoc_to_inrdir(parser_list, file_name);
-		free (file_name);
-		arg = arg->next->next;
-	}
 	while (arg)
 	{
 		if (arg->is_oper)
@@ -57,6 +41,33 @@ t_lexer	*handle_heredoc_case(t_lexer *arg, t_parser **parser_list, t_main *data)
 		arg = arg->next;
 	}
 	return (arg);
+}
+
+t_lexer	*handle_heredoc_case(t_lexer *arg, t_parser **parser_list, t_main *data)
+{
+	char	*file_name;
+	t_lexer	*tmp;
+
+	file_name = NULL;
+	if (arg->type == HEREDOC)
+	{
+		if (file_name)
+			free(file_name);
+		while (arg && arg->type == HEREDOC)
+		{
+			file_name = start_heredoc(arg, arg->next->is_builtin, data);
+			if (!file_name)
+			{
+				tmp = creat_lexer_node("NONE");
+				tmp->id = DEL_HERDOC_NODE;
+				return (tmp);
+			}
+			arg = arg->next->next;
+		}
+		heredoc_to_inrdir(parser_list, file_name);
+		free (file_name);
+	}
+	return (next_arg(arg));
 }
 
 t_lexer	*creat_blocks_helper(t_lexer *tmp, t_parser **parser_list, t_main *data)
@@ -90,19 +101,16 @@ t_parser	*create_blocks(t_lexer *lexer_list, t_main *data)
 	parser_list = NULL;
 	while (tmp)
 	{
-		if (tmp->type == CMD || tmp->type == UNK)
+		if (tmp->type == CMD || tmp->type == UNK || tmp->type == VAR)
 		{
 			tmp = creat_blocks_helper(tmp, &parser_list, data);
 			if (tmp && tmp->id == DEL_HERDOC_NODE)
-			{
-				ft_free_parser_list(&parser_list, 1);
-				return (del_node(tmp), NULL);
-			}
+				return (del_node(tmp), _free_parser(&parser_list, 1), NULL);
 		}
 		else if (tmp->type == HEREDOC)
 		{
 			if (create_block_doc_helper(tmp, &parser_list, data))
-				return (ft_free_parser_list(&parser_list, 1), NULL);
+				return (_free_parser(&parser_list, 1), NULL);
 			tmp = tmp->next->next;
 			while (tmp && (tmp->type == W_SPACE || !(*tmp->str)))
 				tmp = tmp->next;

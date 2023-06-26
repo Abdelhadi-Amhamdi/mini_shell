@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 23:17:04 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:12:55 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
+
+void	ft_put_strerror(char *cmd, char *str)
+{
+	ft_putstr_fd("mini-sh: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(str, 2);
+}
 
 void	perror_sstatus(int status, char *cmd)
 {
@@ -22,7 +29,9 @@ void	perror_sstatus(int status, char *cmd)
 		if (status != 1 && status != ENOENT)
 			printf("mini-sh: %s: %s\n", cmd, strerror(status));
 		if (status == ENOENT)
+		{
 			g_exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
+		}
 		else if (status == EACCES)
 			g_exit_status = NO_PERMISSIONS_EXIT_STATUS;
 		else
@@ -60,4 +69,32 @@ t_main	*init(char **env, int ac, char **av)
 	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
 	return (data);
+}
+
+int	expand_vars(t_tree *file, t_main *data)
+{
+	char		*tmp;
+	struct stat	file_stat;
+
+	if (file && file->type == VAR)
+	{
+		tmp = file->str;
+		file->str = expand(file->str, data->env);
+		if (!file->str)
+		{
+			file->id = -1;
+			return (free (tmp), 1);
+		}
+		else if (contain_spaces(file->str))
+			return (ft_p_error(AME, file, -1), free(tmp), 1);
+		else
+		{
+			if (stat(file->str, &file_stat) == 0)
+			{
+				if (S_ISDIR(file_stat.st_mode))
+					return (ft_p_error(ISD, file, -1), free(tmp), 1);
+			}
+		}
+	}
+	return (0);
 }

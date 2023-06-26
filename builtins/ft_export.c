@@ -6,22 +6,11 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 22:18:50 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:42:45 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-
-int	is_exist(t_env *node, t_env *env)
-{
-	while (env)
-	{
-		if ((!ft_strncmp(node->key, env->key, ft_strlen(node->key))))
-			return (1);
-		env = env->next;
-	}
-	return (0);
-}
 
 t_env	*search_node(t_env *node, t_env *env)
 {
@@ -73,11 +62,29 @@ void	_appand_var(t_env *node, t_env *env)
 	}
 }
 
-int	ft_export(t_tree *cmd, t_env **env, int out)
+void	add_new_env_node(char *key, char *value, t_env **env)
 {
 	t_env	*node;
-	t_env	*cur;
 	char	*tmp;
+	t_env	*cur;
+
+	node = ft_new_node(key, value);
+	if (node->key[ft_strlen(node->key) - 1] == '+')
+		_appand_var(node, *env);
+	if (node && !is_exist(node, *env))
+		ft_add_back_env(env, node);
+	else if (node && is_exist(node, *env) && node->value)
+	{
+		cur = search_node(node, *env);
+		tmp = cur->value;
+		cur->value = ft_strdup(node->value);
+		free(tmp);
+		del_env_node(node);
+	}
+}
+
+int	ft_export(t_tree *cmd, t_env **env, int out)
+{
 	char	*key;
 	char	*value;
 	int		index;
@@ -92,32 +99,12 @@ int	ft_export(t_tree *cmd, t_env **env, int out)
 		formate_env_item(&key, &value, cmd->args[index]);
 		if (!key || check_key(key))
 		{
-			ft_putstr_fd("mini-sh: export: `", 2);
-			ft_putstr_fd(cmd->args[index], 2);
-			ft_putendl_fd("'not a valid identifier", 2);
-			exit_s = 1;
+			print_err(cmd->args[index], &exit_s);
+			free(key);
+			free(value);
 		}
 		else
-		{
-			node = ft_new_node(key, value);
-			if (node->key[ft_strlen(node->key) - 1] == '+')
-			{
-				_appand_var(node, *env);
-				cur = search_node(node, *env);
-				tmp = cur->value;
-				cur->value = ft_strdup(node->value);
-				free(tmp);
-				del_env_node(node);
-			}
-			else if (node && !is_exist(node, *env))
-				ft_add_back_env(env, node);
-			else if (node && is_exist(node, *env) && node->value)
-			{
-				cur = search_node(node, *env);
-				cur->value = ft_strdup(node->value);
-				del_env_node(node);
-			}
-		}
+			add_new_env_node(key, value, env);
 		index++;
 	}
 	return (exit_s);

@@ -63,3 +63,21 @@
     +- echo "$AAA.gfg    " | cat -e
     +- echo "$AAA    " | cat -e
     +- fix echo 'a'$HOME
+    - echo -n
+    - export a="ls
+    - 'ls"
+    - $a | $b sdas
+    - unk to cmd builtins
+    - MAkefile relink
+    - tabs
+    - leak in wilcards
+    - echo hello""world
+
+
+		leaks:
+
+		- export PATH=''
+		- export a="a b c"
+		- export $a
+
+    - export a="ls -la"
