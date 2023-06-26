@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 09:42:39 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:12:55 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
+
+void	ft_put_strerror(char *cmd, char *str)
+{
+	ft_putstr_fd("mini-sh: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(str, 2);
+}
 
 void	perror_sstatus(int status, char *cmd)
 {

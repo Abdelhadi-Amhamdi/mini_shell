@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 10:03:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:12:21 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,6 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 	*i = index;
 }
 
-void	ft_put_strerror(char *cmd, char *str)
-{
-	ft_putstr_fd("mini-sh: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putendl_fd(str, 2);
-}
-
 int	is_dir(char *str)
 {
 	struct stat	file_stat;
@@ -106,6 +99,7 @@ char	**_args_tabs(t_tree *node, t_main *data)
 		return (NULL);
 	tmp = node->cmd_args;
 	ft_expand_vars(&node->cmd_args, data->env, tmp);
+	tmp = node->cmd_args;
 	tmp = node->cmd_args;
 	size = _args_size(tmp);
 	cmd_args = malloc(sizeof(char *) * (size + 1 + (!node->is_builtin)));

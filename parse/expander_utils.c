@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 13:18:32 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 14:36:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:44:52 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,13 @@ void	expander_helper(t_lexer **list, t_lexer *tmp, char *var, t_env *envp)
 		set_null_value(tmp);
 	else
 	{
-		string = join_variables(&before, &var, &after, &(tmp->str));
+		string = join_variables(&before, &var, &after);
 		normal_case_handler(string, list, tmp, envp);
 	}
 	free(before);
 	free(after);
 }
 
-//expand variables
 void	ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp)
 {
 	char	*var;

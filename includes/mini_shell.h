@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 09:47:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:13:30 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,6 @@ int				*_ft_pipe(t_main *data);
 int				_ft_dup2(int new, int old);
 int				_ft_fork(void);
 int				expand_vars(t_tree *file, t_main *data);
+void			ft_put_strerror(char *cmd, char *str);
 
 #endif

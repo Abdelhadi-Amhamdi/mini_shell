@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+         #
+#    By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/25 22:57:11 by aamhamdi          #+#    #+#              #
-#    Updated: 2023/06/26 08:32:04 by aamhamdi         ###   ########.fr        #
+#    Updated: 2023/06/26 10:11:48 by aagouzou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,7 @@ srcs_path = src/
 env_path = env/
 
 CFLAGS = -Wall -Wextra -Werror
-CC = cc -g
-flags = # -Wuninitialized -fsanitize=address,undefined,integer -g
+CC = cc
 
 p_header = parse/parsing.h
 m_header = includes/mini_shell.h
@@ -32,8 +31,8 @@ e_header = env/env.h
 b_header = builtins/builtins.h
 
 libft = libft.a
-L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
-I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
+L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
 
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c \
 lexer_utils1.c lexer_utils2.c expander_utils.c tokenizer.c tokenizer_utils.c \
@@ -71,19 +70,19 @@ env_objs = $(addprefix $(build_path), $(env_obj))
 all: $(build_path) $(libft_path)$(libft) $(NAME)
 
 $(build_path)%.o : $(srcs_path)%.c $(m_header)
-	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
+	$(CC) $(CFLAGS) -c $< -o $@ $(I)
 
 $(build_path)%.o : $(parsing_path)%.c $(p_header)
-	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
+	$(CC) $(CFLAGS) -c $< -o $@ $(I)
 
 $(build_path)%.o : $(env_path)%.c $(e_header)
-	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
+	$(CC) $(CFLAGS) -c $< -o $@ $(I)
 
 $(build_path)%.o : $(b_path)%.c $(b_header)
-	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
+	$(CC) $(CFLAGS) -c $< -o $@ $(I)
 
 $(build_path)%.o : $(gnl_path)%.c $(g_header)
-	$(CC) -Wall -Wextra -Werror $(flags) -c $< -o $@ $(I)
+	$(CC) $(CFLAGS) -c $< -o $@ $(I)
 
 $(libft_path)$(libft):
 	make -s -C $(libft_path)
@@ -92,7 +91,7 @@ $(build_path):
 	mkdir $(build_path)
 	
 $(NAME) : $(objs) $(p_objs) $(env_objs) $(b_objs) $(g_objs)
-	$(CC) $(CFLAGS) $(flags) $(objs) $(p_objs)  $(env_objs) $(b_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
+	$(CC) $(CFLAGS) $(objs) $(p_objs)  $(env_objs) $(b_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
 
 clean:
 	rm -rf $(build_path)
