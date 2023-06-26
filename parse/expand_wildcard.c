@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:52:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 16:39:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:45:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_lexer	*create_list(char **tabs)
 	while (tabs[index])
 	{
 		new_node = create_token(tabs[index], ft_strlen(tabs[index]), NULL);
-		new_node->type = ARGS;
+		new_node->type = UNK;
 		new_node->path = NULL;
 		add_token_to_end(&list, new_node);
 		index++;
@@ -71,12 +71,12 @@ int	ft_expand_wildcards(t_lexer **list)
 			new_list = expand_wildcards_helper(tmp);
 			if (!new_list)
 				return (1);
-			if (tmp->prev && tmp->prev->type == RDIR \
-			&& _args_size(new_list) > 1)
+			if (tmp->prev && (tmp->prev->type == RDIR || tmp->prev->type \
+			== APND) && _args_size(new_list) > 1)
 				return (p_error(AME, tmp, 1), _free_lexer(&new_list), 1);
 			last = get_last_token(new_list);
 			last->next = tmp->next;
-			tmp->prev->next = new_list;
+			re_link_list(tmp, new_list, list);
 			del_node(tmp);
 			tmp = last->next;
 		}

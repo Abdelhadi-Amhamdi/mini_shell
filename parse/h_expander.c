@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   h_expander.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 11:36:41 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/24 11:41:00 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:47:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,12 @@ char	*extarct_after(char *cmd, int *i)
 	}
 	after[index] = '\0';
 	return (after);
+}
+
+void	re_link_list(t_lexer *tmp, t_lexer *new_list, t_lexer **list)
+{
+	if (tmp->prev)
+		tmp->prev->next = new_list;
+	else
+		*list = new_list;
 }

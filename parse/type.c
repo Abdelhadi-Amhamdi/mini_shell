@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 14:26:06 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:27:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_type	rest_of_types(t_lexer *node)
 		return (APND);
 	else if (node->is_oper && !compare(node, "<<"))
 		return (HEREDOC);
-	else if (is_all_space(node->str))
+	else if (is_all_space(node->str) && *node->str)
 		return (W_SPACE);
 	return (UNK);
 }

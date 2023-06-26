@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 09:54:56 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:09:42 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 
 # define DEL_HERDOC_NODE -11
 # define DONT_WAITPID -12
-# define HEREDOC_EXPAND -13
 # define PREINTABLE_SPACE -14
 # define DONT_REMOVESP -15
 # define DONT_EXPAND -16
@@ -192,7 +191,7 @@ void				heredoc_to_inrdir(t_parser **list, char *file_name);
 t_lexer				*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
 						t_lexer **args_list);
 // expander function
-int					ft_expander(t_lexer *list, t_env *env);
+int					ft_expander(t_lexer **list, t_env *env);
 char				*expand(char *var, t_env *envp);
 int					validate_cmd(char *cmd);
 void				ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp);
@@ -236,5 +235,7 @@ int					ft_last_char_search(char *str, char c);
 void				ft_p_error(char *str, t_tree *file, int status);
 void				set_null_value(t_lexer	*tmp);
 void				p_error(char *str, t_lexer *tmp, int status);
+void				re_link_list(t_lexer *tmp, \
+t_lexer *new_list, t_lexer **list);
 
 #endif

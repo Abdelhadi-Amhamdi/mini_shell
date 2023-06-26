@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 09:47:33 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:12:21 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,34 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 	*i = index;
 }
 
+int	is_dir(char *str)
+{
+	struct stat	file_stat;
+
+	if (stat(str, &file_stat) == 0)
+	{
+		if (S_ISDIR(file_stat.st_mode))
+		{
+			ft_put_strerror(str, " : is a directory!");
+			if (str[0] == '.' || str[0] == '/')
+				g_exit_status = 126;
+			else
+				g_exit_status = 127;
+			return (1);
+		}
+		else if (S_ISREG(file_stat.st_mode))
+		{
+			if (!(file_stat.st_mode & S_IXUSR))
+			{
+				ft_put_strerror(str, " : command not found");
+				g_exit_status = 127;
+				return (1);
+			}
+		}
+	}
+	return (0);
+}
+
 char	**_args_tabs(t_tree *node, t_main *data)
 {
 	char	**cmd_args;
@@ -74,12 +102,14 @@ char	**_args_tabs(t_tree *node, t_main *data)
 	tmp = node->cmd_args;
 	tmp = node->cmd_args;
 	size = _args_size(tmp);
-	cmd_args = malloc(sizeof(char *) * (size + 1 + !node->is_builtin));
+	cmd_args = malloc(sizeof(char *) * (size + 1 + (!node->is_builtin)));
 	if (!cmd_args)
 		return (NULL);
 	path = _path(node, data);
 	if (path)
 		cmd_args[index++] = path;
+	if (node->str && is_dir(node->str))
+		return (free(path), free (cmd_args), NULL);
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;
 	return (cmd_args);
@@ -107,13 +137,4 @@ char	**env_tabs(t_env *list)
 	}
 	env[index] = NULL;
 	return (env);
-}
-
-int	check_path_exist(char *path, char **paths)
-{
-	if (!paths)
-		return (1);
-	if (path_exist(path, paths))
-		return (0);
-	return (1);
 }

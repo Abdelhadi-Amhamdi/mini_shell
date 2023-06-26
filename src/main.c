@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 09:48:10 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:09:24 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,25 @@ void	destroy_ast_tree(t_tree *root)
 	destroy_ast_tree(right);
 }
 
-void	destroy_main(t_main *main)
+void	destroy_env(t_env *env)
+{
+	t_env	*tmp;
+	t_env	*next;
+
+	tmp = env;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->key);
+		tmp->key = NULL;
+		free(tmp->value);
+		tmp->value = NULL;
+		free (tmp);
+		tmp = next;
+	}
+}
+
+void	destroy_main(t_main *main, int t)
 {
 	if (main->ast)
 		destroy_ast_tree(main->ast);
@@ -46,34 +64,13 @@ void	destroy_main(t_main *main)
 	if (main->pipes)
 		destroy_pipes(main->pipes);
 	main->pipes = NULL;
-}
-
-int	expand_vars(t_tree *file, t_main *data)
-{
-	char		*tmp;
-	struct stat	file_stat;
-
-	if (file && file->type == VAR)
+	if (t == 1)
 	{
-		tmp = file->str;
-		file->str = expand(file->str, data->env);
-		if (!file->str)
-		{
-			file->id = -1;
-			return (free (tmp), 1);
-		}
-		else if (contain_spaces(file->str))
-			return (ft_p_error(AME, file, -1), free(tmp), 1);
-		else
-		{
-			if (stat(file->str, &file_stat) == 0)
-			{
-				if (S_ISDIR(file_stat.st_mode))
-					return (ft_p_error(ISD, file, -1), free(tmp), 1);
-			}
-		}
+		destroy_env(main->env);
+		main->env = NULL;
+		free(main);
+		main = NULL;
 	}
-	return (0);
 }
 
 void	_files(t_tree *root, int t, t_main *data)
@@ -122,11 +119,12 @@ int	main(int ac, char **av, char **envp)
 			if (main->ast)
 			{
 				executer(main->ast, main);
-				destroy_main(main);
+				destroy_main(main, 0);
 			}
 			add_history(cmd);
 		}
 		free(cmd);
 	}
+	destroy_main(main, 1);
 	exit (g_exit_status);
 }

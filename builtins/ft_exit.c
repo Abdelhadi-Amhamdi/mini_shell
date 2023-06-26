@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 23:45:34 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:34:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,35 +49,35 @@ int	check_args_num(char **args)
 	return (0);
 }
 
-void	__exit__(int status, t_tree *tree)
+void	__exit__(int status, t_main *data)
 {
-	destroy_ast_tree(tree);
+	destroy_main(data, 1);
 	exit(status);
 }
 
-void	ft_exit(t_tree *cmd_data, t_tree *tree)
+int	ft_exit(t_tree *cmd_data, t_main *main_data)
 {
 	char	*data;
 
 	if (!(*cmd_data->args))
 	{
 		ft_putendl_fd("exit", 1);
-		__exit__(0, tree);
+		__exit__(0, main_data);
 	}
 	data = cmd_data->args[0];
 	ft_putendl_fd("exit", 1);
-	if (check_args_num(cmd_data->args))
-	{
-		ft_putendl_fd("mini-sh: exit: too many arguments!", 2);
-		g_exit_status = 255;
-		__exit__(g_exit_status, tree);
-	}
 	if (parse_data(data))
 	{
 		ft_putendl_fd("mini-sh: exit: numeric argument required!", 2);
 		g_exit_status = 255;
-		__exit__(g_exit_status, tree);
+		__exit__(g_exit_status, main_data);
+	}
+	if (check_args_num(cmd_data->args))
+	{
+		ft_putendl_fd("mini-sh: exit: too many arguments!", 2);
+		return (1);
 	}
 	else
-		__exit__(g_exit_status = (ft_atoi(data) % 256), tree);
+		__exit__(g_exit_status = (ft_atoi(data) % 256), main_data);
+	return (0);
 }

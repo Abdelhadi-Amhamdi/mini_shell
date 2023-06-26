@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 18:52:43 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:13:30 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_pipes			*pipe_node_create(int **pipe);
 void			add_to_end(t_pipes **list, t_pipes *item);
 void			wait_for_last(t_tree *cmd_right);
 void			close_all_pipes(t_main *data, int fd1, int fd2);
+void			exec_pipe_unk(t_tree *cmd, t_pipe_data p_data, t_main *data);
 
 // executeur and exec_utils
 void			executer(t_tree *root, t_main *data);
@@ -113,7 +114,7 @@ t_lexer			*_create_doc(char *data, t_type type);
 
 // main
 void			wait_pids(t_tree *root);
-void			destroy_main(t_main *main);
+void			destroy_main(t_main *main, int t);
 void			destroy_pipes(t_pipes *list);
 void			destroy_ast_tree(t_tree *root);
 t_main			*init(char **env, int ac, char **av);
@@ -125,5 +126,7 @@ int				env_list_size(t_env *list);
 int				*_ft_pipe(t_main *data);
 int				_ft_dup2(int new, int old);
 int				_ft_fork(void);
+int				expand_vars(t_tree *file, t_main *data);
+void			ft_put_strerror(char *cmd, char *str);
 
 #endif

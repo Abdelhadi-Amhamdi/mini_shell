@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:21:48 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 16:20:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:55:56 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	re_tokenize(t_tree *cmd, t_main *data)
 
 	new_list = NULL;
 	new_list = lexer(cmd->str, data->env);
-	ft_expander(new_list, data->env);
+	ft_expander(&new_list, data->env);
 	free(cmd->str);
 	cmd->str = ft_strdup(new_list->str);
 	if (!cmd->cmd_args)

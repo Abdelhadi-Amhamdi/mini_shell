@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:47:30 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/22 16:50:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:41:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,13 @@ void	_add_doc_to_end(t_lexer **head, t_lexer *new_item)
 		current->next = new_item;
 		new_item->prev = current;
 	}
+}
+
+int	check_path_exist(char *path, char **paths)
+{
+	if (!paths)
+		return (1);
+	if (path_exist(path, paths))
+		return (0);
+	return (1);
 }
