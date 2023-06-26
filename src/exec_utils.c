@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 22:12:05 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:47:33 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	**_args_tabs(t_tree *node, t_main *data)
 		return (NULL);
 	tmp = node->cmd_args;
 	ft_expand_vars(&node->cmd_args, data->env, tmp);
+	tmp = node->cmd_args;
 	tmp = node->cmd_args;
 	size = _args_size(tmp);
 	cmd_args = malloc(sizeof(char *) * (size + 1 + !node->is_builtin));

@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 15:04:43 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:42:45 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,8 @@ void	add_new_env_node(char *key, char *value, t_env **env)
 
 	node = ft_new_node(key, value);
 	if (node->key[ft_strlen(node->key) - 1] == '+')
-	{
 		_appand_var(node, *env);
-		cur = search_node(node, *env);
-		tmp = cur->value;
-		cur->value = ft_strdup(node->value);
-		free(tmp);
-		del_env_node(node);
-	}
-	else if (node && !is_exist(node, *env))
+	if (node && !is_exist(node, *env))
 		ft_add_back_env(env, node);
 	else if (node && is_exist(node, *env) && node->value)
 	{

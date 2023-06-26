@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 16:37:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:54:56 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,13 +204,14 @@ void				expander_helper(t_lexer **list, t_lexer *tmp, char *var,
 						t_env *envp);
 int					contain_spaces(char *string);
 char				*ft_get_expand_val(char *var, t_env *envp);
-char				*join_variables(char **before, char **var, char **after,
-						char **str);
+char				*join_variables(char **before, char **var, char **after);
 void				normal_case_handler(char *string, t_lexer **list,
 						t_lexer *tmp, t_env *envp);
 void				ft_addup_to_list(t_lexer *new, t_lexer **list,
 						t_lexer *node);
 int					get_lenght(char *s, int *index);
+void				add_middle_node(t_lexer *new, t_lexer *prev, t_lexer *next,
+						t_lexer *last);
 // syntax analizer
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);

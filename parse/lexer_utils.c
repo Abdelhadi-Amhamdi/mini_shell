@@ -3,35 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 17:01:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 21:58:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:54:17 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../includes/mini_shell.h"
 
-void	print_token_list(t_lexer *head)
+void	add_middle_node(t_lexer *new, t_lexer *prev, t_lexer *next,
+		t_lexer *last)
 {
-	t_lexer	*cur;
-
-	cur = head;
-	while (cur != NULL)
-	{
-		printf("STR : [%s]\n", cur->str);
-		printf("IS_B: [%u]\n", cur->is_builtin);
-		printf("IS_O: [%s]\n", cur->is_oper ? "true" : "false");
-		printf("ID: [%d]\n", cur->id);
-		if (cur->type == 7)
-			printf("TYPE: VAR\n");
-		else
-			printf("TYPE: [%u]\n", cur->type);
-		printf("PATH: [%s]\n", cur->path);
-		cur = cur->next;
-		printf("------------------------------\n");
-	}
+	prev->next = new;
+	new->prev = prev;
+	last->next = next;
+	if (next)
+		next->prev = last;
 }
+
+// void	print_token_list(t_lexer *head)
+// {
+// 	t_lexer	*cur;
+
+// 	cur = head;
+// 	while (cur != NULL)
+// 	{
+// 		printf("STR : [%s]\n", cur->str);
+// 		printf("IS_B: [%u]\n", cur->is_builtin);
+// 		printf("IS_O: [%s]\n", cur->is_oper ? "true" : "false");
+// 		printf("ID: [%d]\n", cur->id);
+// 		if (cur->type == 7)
+// 			printf("TYPE: VAR\n");
+// 		else
+// 			printf("TYPE: [%u]\n", cur->type);
+// 		printf("PATH: [%s]\n", cur->path);
+// 		cur = cur->next;
+// 		printf("------------------------------\n");
+// 	}
+// }
 
 // void	printTreeHelper(t_tree *root, int depth)
 // {

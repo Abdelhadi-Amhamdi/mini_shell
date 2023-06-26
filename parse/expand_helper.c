@@ -6,13 +6,13 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 21:18:54 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 14:19:08 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:54:10 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-char	*join_variables(char **before, char **var, char **after, char **str)
+char	*join_variables(char **before, char **var, char **after)
 {
 	char	*temp;
 
@@ -22,7 +22,6 @@ char	*join_variables(char **before, char **var, char **after, char **str)
 	temp = *var;
 	*var = ft_strjoin(*var, *after);
 	free(temp);
-	free(*str);
 	return (*var);
 }
 
@@ -45,6 +44,7 @@ void	ft_addup_to_list(t_lexer *new, t_lexer **list, t_lexer *node)
 	t_lexer	*last;
 	t_lexer	*next;
 	t_lexer	*prev;
+	t_lexer	*tmp;
 
 	prev = node->prev;
 	next = node->next;
@@ -57,13 +57,10 @@ void	ft_addup_to_list(t_lexer *new, t_lexer **list, t_lexer *node)
 			next->prev = last;
 	}
 	else
-	{
-		prev->next = new;
-		new->prev = prev;
-		last->next = next;
-		if (next)
-			next->prev = last;
-	}
+		add_middle_node(new, prev, next, last);
+	tmp = node;
+	node = new;
+	del_node(tmp);
 }
 
 void	normal_case_handler(char *string, t_lexer **list, t_lexer *tmp,
@@ -71,18 +68,24 @@ void	normal_case_handler(char *string, t_lexer **list, t_lexer *tmp,
 {
 	char	**paths;
 	t_lexer	*new;
+	char	*temp;
 
-	paths = all_paths(envp);
 	if (contain_spaces(string) && tmp->id != DONT_REMOVESP)
 	{
+		paths = all_paths(envp);
+		temp = string;
 		new = tokenizer(string, paths);
 		set_type(&new);
 		ft_addup_to_list(new, list, tmp);
-		free(string);
+		free(temp);
+		ft_free(paths);
 	}
 	else
+	{
+		temp = tmp->str;
 		tmp->str = string;
-	ft_free(paths);
+		free(temp);
+	}
 }
 
 int	get_lenght(char *s, int *index)
@@ -97,14 +100,14 @@ int	get_lenght(char *s, int *index)
 	}
 	if (s[*index] == '$' || s[*index] == '/' || s[*index] == '.'
 		|| s[*index] == 32 || s[*index] == '-' || s[*index] == '='
-		|| s[*index] == '+')
+		|| s[*index] == '+' || s[*index] == '#')
 	{
 		len++;
 		*index = *index + 1;
 	}
 	while (s[*index] && s[*index] != 32 && s[*index] != '/' && s[*index] != '.'
 		&& s[*index] != '$' && s[*index] != '=' && s[*index] != '-'
-		&& s[*index] != '+')
+		&& s[*index] != '+' && s[*index] != '#')
 	{
 		len++;
 		*index = *index + 1;
