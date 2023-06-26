@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 12:03:21 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:12:04 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,6 @@ int					check_pth(t_lexer *pt);
 int					check_redir(t_lexer *rdir);
 int					syntax_analyzer(t_lexer *list);
 int					check_qoutes(t_lexer *list, char **paths);
-
 
 t_tree				*create_node(t_parser *item);
 t_tree				*create_token_node(t_parser *node, t_tree *left,
