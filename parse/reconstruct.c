@@ -6,13 +6,12 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 10:57:40 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:02:10 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-// get rid of quotes and check if the arg are empty
 void	ft_trim_quotes(t_lexer *node)
 {
 	t_lexer	*tmp;
@@ -41,7 +40,6 @@ void	check_del(t_lexer *tmp)
 		tmp->is_builtin = 1;
 }
 
-// check if the quotes are closed and get rid of them
 int	check_qoutes(t_lexer *list, char **paths)
 {
 	t_lexer	*tmp;
@@ -71,7 +69,6 @@ int	check_qoutes(t_lexer *list, char **paths)
 	return (0);
 }
 
-// check if the node need to be joined with the next node
 int	to_join(t_lexer *node)
 {
 	if (node && strchr(node->str, '$') && node->type == UNK)
@@ -82,7 +79,6 @@ int	to_join(t_lexer *node)
 	return (0);
 }
 
-// join args that no space or operator between them
 void	join_args(t_lexer **list, char **paths)
 {
 	t_lexer	*tmp;

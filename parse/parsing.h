@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 11:55:21 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:03:21 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ t_tree				*create_token_node(t_parser *node, t_tree *left,
 						t_tree *right);
 t_tree				*factor(t_parser **list);
 t_tree				*create_tree(t_parser **list);
+t_tree				*termx(t_parser **list);
 t_tree				*term(t_parser **list);
 t_tree				*factor(t_parser **list);
 void				printTreeHelper(t_tree *root, int depth);

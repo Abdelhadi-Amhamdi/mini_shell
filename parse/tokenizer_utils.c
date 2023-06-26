@@ -6,13 +6,12 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:37:49 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 21:38:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:02:29 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-//handle spaces case
 char	*ft_spaces(t_lexer **list, char *cmd, char **paths)
 {
 	t_lexer	*new;
@@ -26,7 +25,6 @@ char	*ft_spaces(t_lexer **list, char *cmd, char **paths)
 	return (&cmd[i]);
 }
 
-//handle oneoperator case
 char	*ft_oneoperator(t_lexer **list, char *cmd, char c, char **paths)
 {
 	int		i;
@@ -41,7 +39,6 @@ char	*ft_oneoperator(t_lexer **list, char *cmd, char c, char **paths)
 	return (&cmd[i]);
 }
 
-//handle parenthesses case
 char	*ft_parentheses(t_lexer **list, char *cmd, char **paths)
 {
 	t_lexer	*new;
@@ -53,7 +50,6 @@ char	*ft_parentheses(t_lexer **list, char *cmd, char **paths)
 	return (&cmd[i]);
 }
 
-//handle quotes case
 char	*ft_quotes(t_lexer **list, char *cmd, char c, char **paths)
 {
 	t_lexer	*new;
@@ -68,7 +64,6 @@ char	*ft_quotes(t_lexer **list, char *cmd, char c, char **paths)
 	return (&cmd[i]);
 }
 
-//handle variable case
 char	*ft_variable(t_lexer **list, char *cmd, char **paths)
 {
 	t_lexer	*new;
