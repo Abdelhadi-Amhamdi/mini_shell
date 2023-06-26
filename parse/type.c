@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 09:27:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:02:45 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ t_type	rest_of_types(t_lexer *node)
 	return (UNK);
 }
 
-// check the type of the given arg
 t_type	check_type(t_lexer *node, char *path)
 {
 	if (node && node->type == VAR && node->str[0] == '\'')

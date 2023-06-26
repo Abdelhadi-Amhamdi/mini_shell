@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:08:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 21:53:41 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 11:58:59 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,3 @@ int	ft_echo(t_tree *node, int out)
 		ft_putendl_fd("", out);
 	return (0);
 }
-// && *(node->args[i]) && *(node->args[i + 1])

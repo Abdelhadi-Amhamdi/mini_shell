@@ -6,13 +6,12 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 09:22:15 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:01:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-//get all paths
 char	**all_paths(t_env *env)
 {
 	char	*path;
@@ -61,7 +60,6 @@ void	will_expand(t_lexer **list)
 	}
 }
 
-// main lexer function
 t_lexer	*lexer(char *cmd, t_env *env)
 {
 	char	**paths;

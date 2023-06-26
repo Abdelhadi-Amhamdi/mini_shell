@@ -6,19 +6,17 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 14:27:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 08:43:33 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:02:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-//check is space
 int	is_space(char c)
 {
 	return (c == 32 || (c >= 9 && c <= 13));
 }
 
-//handle normal case
 char	*ft_word(t_lexer **list, char *cmd, char **paths)
 {
 	int		i;
@@ -33,7 +31,6 @@ char	*ft_word(t_lexer **list, char *cmd, char **paths)
 	return (&cmd[i]);
 }
 
-//split cmd into tokens
 t_lexer	*tokenizer(char *cmd, char **paths)
 {
 	t_lexer	*list;
