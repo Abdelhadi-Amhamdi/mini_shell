@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 10:09:42 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 11:55:21 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define LEFT_CHILD 1
 # define RIGHT_CHILD 2
 
-# define SYNTAX_ERROR_MSG "mini-sh : Syntax Error , parse error near"
+# define SYNTAX_ERROR_MSG "mini-sh : Syntax Error , parse error near "
 # define QUOTES_ERROR_MSG "Syntax Error , Quotes are not closed!"
 # define PARENTICIES_ERROR_MSG "Syntax Error , parentheses are not closed!"
 # define AME " : ambiguous redirect"
@@ -121,12 +121,10 @@ typedef struct main
 	t_pipes			*pipes;
 }					t_main;
 
-// main
 t_tree				*formater(char *cmd, t_main *data);
 int					ft_error(char *str);
 void				_free_lexer(t_lexer **list);
 
-// lexer functions
 t_lexer				*lexer(char *args, t_env *env);
 char				**all_paths(t_env *env);
 void				ft_free(char **tabs);
@@ -164,7 +162,7 @@ int					all_inside_is_sp(t_lexer *tmp);
 int					contain_only_qs(t_lexer *tmp);
 void				is_printable_sp(t_lexer *tmp);
 void				will_remove_sp(t_lexer *tmp);
-//tokenizer functions
+
 t_lexer				*tokenizer(char *cmd, char **paths);
 char				*ft_spaces(t_lexer **list, char *cmd, char **paths);
 char				*ft_oneoperator(t_lexer **list, char *cmd, char c,
@@ -173,7 +171,6 @@ char				*ft_parentheses(t_lexer **list, char *cmd, char **paths);
 char				*ft_quotes(t_lexer **list, char *cmd, char c, char **paths);
 char				*ft_variable(t_lexer **list, char *cmd, char **paths);
 
-// parser functions
 t_parser			*parser(t_lexer *list, t_main *data);
 void				print_parser_list(t_parser *list);
 t_parser			*create_blocks(t_lexer *lexer_list, t_main *data);
@@ -190,7 +187,7 @@ int					ft_check_next(t_lexer *node, char *file_name);
 void				heredoc_to_inrdir(t_parser **list, char *file_name);
 t_lexer				*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
 						t_lexer **args_list);
-// expander function
+
 int					ft_expander(t_lexer **list, t_env *env);
 char				*expand(char *var, t_env *envp);
 int					validate_cmd(char *cmd);
@@ -211,14 +208,14 @@ void				ft_addup_to_list(t_lexer *new, t_lexer **list,
 int					get_lenght(char *s, int *index);
 void				add_middle_node(t_lexer *new, t_lexer *prev, t_lexer *next,
 						t_lexer *last);
-// syntax analizer
+
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);
 int					check_redir(t_lexer *rdir);
 int					syntax_analyzer(t_lexer *list);
 int					check_qoutes(t_lexer *list, char **paths);
 
-// ast
+
 t_tree				*create_node(t_parser *item);
 t_tree				*create_token_node(t_parser *node, t_tree *left,
 						t_tree *right);

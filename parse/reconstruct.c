@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 22:00:24 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:57:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	join_args(t_lexer **list, char **paths)
 			free(str_tmp);
 			_rebuild_node(tmp, paths);
 			tmp->next = tmp->next->next;
+			if (tmp->next && tmp->next->next)
+				tmp->next->next->prev = tmp;
 			del_node(next_tmp);
 		}
 		else

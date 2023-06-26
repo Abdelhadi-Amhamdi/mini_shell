@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 10:13:30 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 11:53:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct wildcard_data
 
 # define HEREDOC_FILENAME "/tmp/heredoc_file"
 
-// pipes && pipes utils
 void			run_pipeline(t_tree *pipe_node, int out, t_main *data);
 void			run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data,
 					t_main *data);
@@ -59,7 +58,6 @@ void			wait_for_last(t_tree *cmd_right);
 void			close_all_pipes(t_main *data, int fd1, int fd2);
 void			exec_pipe_unk(t_tree *cmd, t_pipe_data p_data, t_main *data);
 
-// executeur and exec_utils
 void			executer(t_tree *root, t_main *data);
 void			executer_helper(t_tree *root, int in, int out, t_main *data);
 void			exec_unknown(t_tree *cmd, int in, int out, t_main *data);
@@ -78,18 +76,14 @@ char			*none_str(t_tree *node, t_main *data, char **paths);
 void			_exec_unk(t_tree *cmd, int in, int out, t_main *data);
 void			_exec(t_tree *cmd, int in, int out, t_main *data);
 
-// error handling
 void			perror_sstatus(int status, char *cmd);
 
-// redirections
 int				_get_rdir_file_fd(t_tree *node);
 t_lexer			*creat_lexer_node(char *data);
 void			rdir_helper(t_tree *root, int in, int out, t_main *data);
 
-// connectors
 void			run_connectors(t_tree *root, int in, int out, t_main *data);
 
-// wildcards
 char			*wildcard(char *condition);
 int				allow_hidden(char *file_name, char *cnd);
 int				is_match(char *str, char *cnd);
@@ -97,11 +91,9 @@ int				check_end(t_wildcard_data data, char *cnd);
 char			*ft_strjoin_entrys(char const *s1, char const *s2);
 t_wildcard_data	init_data(void);
 
-// signals
 void			sig_int_handler(int type);
 void			sigint_heredoc_handler(int type);
 
-// heredoc
 char			*start_heredoc(t_lexer *node,
 					t_boolean to_expand,
 					t_main *data);
@@ -112,15 +104,13 @@ char			*ft_read_line(int fd);
 void			_add_doc_to_end(t_lexer **head, t_lexer *new_item);
 t_lexer			*_create_doc(char *data, t_type type);
 
-// main
 void			wait_pids(t_tree *root);
-void			destroy_main(t_main *main, int t);
+t_main			*destroy_main(t_main *main, int t);
 void			destroy_pipes(t_pipes *list);
 void			destroy_ast_tree(t_tree *root);
 t_main			*init(char **env, int ac, char **av);
 void			wait_for_child(t_tree *cmd);
 
-// env
 int				env_list_size(t_env *list);
 
 int				*_ft_pipe(t_main *data);

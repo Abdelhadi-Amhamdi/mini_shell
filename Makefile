@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/25 22:57:11 by aamhamdi          #+#    #+#              #
-#    Updated: 2023/06/26 10:11:48 by aagouzou         ###   ########.fr        #
+#    Updated: 2023/06/26 11:54:40 by aamhamdi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ e_header = env/env.h
 b_header = builtins/builtins.h
 
 libft = libft.a
-L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
-I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
+L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
 
 p_src = lexer.c p_main.c parser.c parser_utils.c lexer_utils.c expander.c \
 lexer_utils1.c lexer_utils2.c expander_utils.c tokenizer.c tokenizer_utils.c \
