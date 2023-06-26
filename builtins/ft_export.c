@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 09:42:45 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/06/26 11:54:16 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	add_new_env_node(char *key, char *value, t_env **env)
 		free(tmp);
 		del_env_node(node);
 	}
+	else
+		del_env_node(node);
 }
 
 int	ft_export(t_tree *cmd, t_env **env, int out)
