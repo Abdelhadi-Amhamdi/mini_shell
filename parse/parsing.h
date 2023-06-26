@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 23:55:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:48:02 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,6 @@ typedef struct main
 	t_pipes			*pipes;
 }					t_main;
 
-
-
-
-
 // main
 t_tree				*formater(char *cmd, t_main *data);
 int					ft_error(char *str);
@@ -238,5 +234,7 @@ int					ft_last_char_search(char *str, char c);
 void				ft_p_error(char *str, t_tree *file, int status);
 void				set_null_value(t_lexer	*tmp);
 void				p_error(char *str, t_lexer *tmp, int status);
+void				re_link_list(t_lexer *tmp, \
+t_lexer *new_list, t_lexer **list);
 
 #endif

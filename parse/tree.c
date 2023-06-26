@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:43:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/19 16:54:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:15:41 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ t_tree	*term(t_parser **list)
 		right = factor(list);
 		res = create_token_node(op, res, right);
 	}
-	if (res && !res->left && res->is_op && (res->type == HEREDOC
-			|| res->type == APND || res->type == RDIR) && *list
+	if (res && !res->left && res->is_op && (res->type == APND \
+	|| res->type == RDIR) && *list
 		&& (*list)->type != CP)
-		res->left = term(list);
+			res->left = term(list);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:28:53 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 00:47:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:34:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	__exit__(int status, t_main *data)
 	exit(status);
 }
 
-void	ft_exit(t_tree *cmd_data, t_main *main_data)
+int	ft_exit(t_tree *cmd_data, t_main *main_data)
 {
 	char	*data;
 
@@ -66,18 +66,18 @@ void	ft_exit(t_tree *cmd_data, t_main *main_data)
 	}
 	data = cmd_data->args[0];
 	ft_putendl_fd("exit", 1);
-	if (check_args_num(cmd_data->args))
-	{
-		ft_putendl_fd("mini-sh: exit: too many arguments!", 2);
-		g_exit_status = 255;
-		__exit__(g_exit_status, main_data);
-	}
 	if (parse_data(data))
 	{
 		ft_putendl_fd("mini-sh: exit: numeric argument required!", 2);
 		g_exit_status = 255;
 		__exit__(g_exit_status, main_data);
 	}
+	if (check_args_num(cmd_data->args))
+	{
+		ft_putendl_fd("mini-sh: exit: too many arguments!", 2);
+		return (1);
+	}
 	else
 		__exit__(g_exit_status = (ft_atoi(data) % 256), main_data);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 00:55:03 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:40:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	**_args_tabs(t_tree *node, t_main *data)
 	if (path)
 		cmd_args[index++] = path;
 	if (node->str && is_dir(node->str))
-		return (NULL);
+		return (free(path), free (cmd_args), NULL);
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;
 	return (cmd_args);
@@ -137,13 +137,4 @@ char	**env_tabs(t_env *list)
 	}
 	env[index] = NULL;
 	return (env);
-}
-
-int	check_path_exist(char *path, char **paths)
-{
-	if (!paths)
-		return (1);
-	if (path_exist(path, paths))
-		return (0);
-	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 23:43:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:47:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_pipes			*pipe_node_create(int **pipe);
 void			add_to_end(t_pipes **list, t_pipes *item);
 void			wait_for_last(t_tree *cmd_right);
 void			close_all_pipes(t_main *data, int fd1, int fd2);
+void			exec_pipe_unk(t_tree *cmd, t_pipe_data p_data, t_main *data);
 
 // executeur and exec_utils
 void			executer(t_tree *root, t_main *data);
@@ -125,5 +126,6 @@ int				env_list_size(t_env *list);
 int				*_ft_pipe(t_main *data);
 int				_ft_dup2(int new, int old);
 int				_ft_fork(void);
+int				expand_vars(t_tree *file, t_main *data);
 
 #endif
