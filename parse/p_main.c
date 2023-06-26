@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 08:42:12 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:00:28 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ void	p_error(char *str, t_lexer *tmp, int status)
 
 int	ft_error(char *str)
 {
-	return (printf("%s `%s'!\n", SYNTAX_ERROR_MSG, str));
+	ft_putstr_fd("mini-sh: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd(SYNTAX_ERROR_MSG, 2);
+	return (1);
 }
 
 t_tree	*formater(char *cmd, t_main *data)

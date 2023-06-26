@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 09:40:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:03:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 	*i = index;
 }
 
+void	ft_put_strerror(char *cmd, char *str)
+{
+	ft_putstr_fd("mini-sh: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(str, 2);
+}
+
 int	is_dir(char *str)
 {
 	struct stat	file_stat;
@@ -66,9 +73,7 @@ int	is_dir(char *str)
 	{
 		if (S_ISDIR(file_stat.st_mode))
 		{
-			ft_putstr_fd("mini-sh: ", 2);
-			ft_putstr_fd(str, 2);
-			ft_putstr_fd(" : is a directory\n", 2);
+			ft_put_strerror(str, " : is a directory!");
 			if (str[0] == '.' || str[0] == '/')
 				g_exit_status = 126;
 			else
@@ -77,11 +82,12 @@ int	is_dir(char *str)
 		}
 		else if (S_ISREG(file_stat.st_mode))
 		{
-			ft_putstr_fd("mini-sh: ", 2);
-			ft_putstr_fd(str, 2);
-			ft_putstr_fd(" : command not found\n", 2);
-			g_exit_status = 127;
-			return (1);
+			if (!(file_stat.st_mode & S_IXUSR))
+			{
+				ft_put_strerror(str, " : command not found");
+				g_exit_status = 127;
+				return (1);
+			}
 		}
 	}
 	return (0);
