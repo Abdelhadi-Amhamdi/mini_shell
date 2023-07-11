@@ -108,7 +108,7 @@ char	**_args_tabs(t_tree *node, t_main *data)
 	path = _path(node, data);
 	if (path)
 		cmd_args[index++] = path;
-	if (node->str && is_dir(node->str))
+	if (node->str && node->type != CMD && is_dir(node->str))
 		return (free(path), free (cmd_args), NULL);
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;

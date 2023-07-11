@@ -92,7 +92,7 @@ void	_exec_unk(t_tree *cmd, int in, int out, t_main *data)
 			ft_putstr_fd(cmd->str, 2);
 			ft_putendl_fd(": command not found", 2);
 		}
-		destroy_main(data, 1);
+		destroy_main(data, 1);  //bus error on this line of code
 		exit (errno);
 	}
 }

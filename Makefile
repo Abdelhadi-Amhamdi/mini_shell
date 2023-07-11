@@ -21,8 +21,8 @@ b_path = builtins/
 srcs_path = src/
 env_path = env/
 
-CFLAGS = -Wall -Wextra -Werror
-CC = cc
+CFLAGS = -Wall -Wextra -Werror #-Wuninitialized -fsanitize=address,undefined,integer
+CC = cc -g
 
 p_header = parse/parsing.h
 m_header = includes/mini_shell.h
@@ -31,8 +31,8 @@ e_header = env/env.h
 b_header = builtins/builtins.h
 
 libft = libft.a
-L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
-I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
+L = -L/usr/local/Cellar/readline/8.2.1/lib
+I = -I/usr/local/Cellar/readline/8.2.1/include
 
 p_src = lexer.c p_main.c parser.c lexer_utils.c expander.c \
 lexer_utils1.c lexer_utils2.c expander_utils.c tokenizer.c tokenizer_utils.c \

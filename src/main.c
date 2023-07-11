@@ -47,9 +47,11 @@ void	destroy_env(t_env *env)
 	while (tmp)
 	{
 		next = tmp->next;
-		free(tmp->key);
+		if (tmp->key)
+			free(tmp->key);
 		tmp->key = NULL;
-		free(tmp->value);
+		if (tmp->value)
+			free(tmp->value);
 		tmp->value = NULL;
 		free (tmp);
 		tmp = next;
@@ -101,11 +103,16 @@ void	_files(t_tree *root, int t, t_main *data)
 	_files(root->right, t, data);
 }
 
+void test()
+{
+	system("leaks minishell");
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*cmd;
 	t_main	*main;
-
+	atexit(test);
 	main = init(envp, ac, av);
 	if (!main)
 		return (0);

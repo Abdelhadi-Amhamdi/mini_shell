@@ -32,7 +32,7 @@ int	check_pth(t_lexer *pt)
 		if (pt->prev && (pt->prev->type == CMD || pt->prev->type == OP))
 			return (ft_error(pt->str));
 	}
-	else if (pt->next && !pt->next->is_oper)
+	else if (!pt->prev || (pt->prev && pt->prev->is_oper))
 		return (ft_error(pt->str), 1);
 	return (0);
 }
