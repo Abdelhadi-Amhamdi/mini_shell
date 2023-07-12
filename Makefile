@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+         #
+#    By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/25 22:57:11 by aamhamdi          #+#    #+#              #
-#    Updated: 2023/07/12 09:19:45 by aamhamdi         ###   ########.fr        #
+#    Updated: 2023/07/12 13:34:06 by aagouzou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ e_header = env/env.h
 b_header = builtins/builtins.h
 
 libft = libft.a
-L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
-I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
+L = -L/Users/aagouzou/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aagouzou/.brew/Cellar/readline/8.2.1/include
 
 p_src = lexer.c p_main.c parser.c lexer_utils.c expander.c \
 lexer_utils1.c lexer_utils2.c expander_utils.c tokenizer.c tokenizer_utils.c \
@@ -89,7 +89,7 @@ $(libft_path)$(libft):
 
 $(build_path):
 	mkdir $(build_path)
-	
+
 $(NAME) : $(objs) $(p_objs) $(env_objs) $(b_objs) $(g_objs)
 	$(CC) $(CFLAGS) $(objs) $(p_objs)  $(env_objs) $(b_objs) $(g_objs) $(libft_path)$(libft) -o $@ -lreadline $(L)
 
