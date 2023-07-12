@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 20:52:16 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/11 08:48:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:21:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_lexer	*expand_wildcards_helper(t_lexer *tmp)
 	new_list = NULL;
 	data = wildcard(tmp->str);
 	if (!data || !*data)
-		return (NULL);
+		return (free(data), NULL);
 	tabs = ft_split(data, 32);
 	free(data);
 	if (!tabs)

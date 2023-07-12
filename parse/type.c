@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/12 09:18:36 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 15:52:55 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_type	check_type(t_lexer *node, char *path)
 	&& node->prev->type != HEREDOC && node->type != SQ)
 		return (VAR);
 	else if (ft_strchr(node->str, '*') && node->type != SQ && node->type != DQ \
-	&& (node->prev && node->prev->type != HEREDOC))
+	&& ((node->prev && node->prev->type != HEREDOC) || !node->prev))
 		return (WILDCARD);
 	else if (node->str[0] == '\'')
 		return (SQ);
