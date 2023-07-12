@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/11 09:12:49 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 10:03:03 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# define DNT_OPEN -17
 
 int				g_exit_status;
 

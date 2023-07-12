@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/12 09:08:18 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:50:56 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_error(char *str)
 	return (1);
 }
 
-
 void print_parser(t_parser *list)
 {
 	t_parser *tmp;
@@ -70,7 +69,6 @@ void print_parser(t_parser *list)
 		puts("");
 		tmp = tmp->next;
 	}
-	
 }
 
 t_tree	*formater(char *cmd, t_main *data)
@@ -90,11 +88,13 @@ t_tree	*formater(char *cmd, t_main *data)
 	if (ft_expander(&lexer_list, data->env))
 		return (_free_lexer(&lexer_list), NULL);
 	// print_lexer(lexer_list);
+	// puts("-----------------------------------");
 	parser_list = parser(lexer_list, data);
 	if (!parser_list)
 		return (_free_lexer(&lexer_list), NULL);
 	_free_lexer(&lexer_list);
 	// print_parser(parser_list);
+	// puts("-----------------------------------");
 	tmp = parser_list;
 	ast_tree = create_tree(&tmp);
 	_free_parser(&parser_list, 0);

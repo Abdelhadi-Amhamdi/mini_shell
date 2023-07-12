@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/11 09:22:04 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 13:17:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,12 @@ int	is_dir(char *str)
 		{
 			if (!(file_stat.st_mode & S_IXUSR))
 			{
-				ft_put_strerror(str, " : command not found");
-				g_exit_status = 127;
-				return (1);
+				if (ft_strncmp(str, "./", 2))
+				{
+					ft_put_strerror(str, " : command not found");
+					g_exit_status = 127;
+					return (1);
+				}
 			}
 		}
 	}

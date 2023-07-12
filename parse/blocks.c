@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:04 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 00:12:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:47:30 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ t_lexer	*handle_heredoc_case(t_lexer *arg, t_parser **parser_list, t_main *data)
 	file_name = NULL;
 	if (arg->type == HEREDOC)
 	{
-		if (file_name)
-			free(file_name);
 		while (arg && arg->type == HEREDOC)
 		{
 			file_name = start_heredoc(arg, arg->next->is_builtin, data);
@@ -64,7 +62,8 @@ t_lexer	*handle_heredoc_case(t_lexer *arg, t_parser **parser_list, t_main *data)
 			}
 			arg = arg->next->next;
 		}
-		heredoc_to_inrdir(parser_list, file_name);
+		if (ft_check_next(arg, file_name))
+			heredoc_to_inrdir(parser_list, file_name);
 		free (file_name);
 	}
 	return (next_arg(arg));

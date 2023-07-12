@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 07:28:40 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 10:20:31 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	rdir_helper(t_tree *root, int in, int out, t_main *data)
 
 	fd = _get_rdir_file_fd(root);
 	if (fd == -1)
+	{
+		ft_p_error(NFD, root->right, 1);
 		return ;
+	}
 	if (root->str[0] == '>')
 	{
 		if (out != 1)
@@ -86,6 +89,11 @@ void	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
 	int	fd;
 
 	fd = _get_rdir_file_fd(cmd);
+	if (fd == -1)
+	{
+		ft_p_error(NFD, cmd->right, 1);
+		return ;
+	}
 	if (p_data.side == LEFT_CHILD && cmd->str[0] == '<')
 	{
 		p_data.std_file = STDIN_FILENO;

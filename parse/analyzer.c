@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:25:59 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/11 09:37:32 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:46:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ int	check_pth(t_lexer *pt)
 	{
 		if (!pt->next || pt->next->type == UNK || pt->next->type == CP)
 			return (ft_error(pt->str));
-		if (pt->prev && (pt->prev->type == CMD || pt->prev->type == OP))
+		if (pt->prev && (!pt->prev->is_oper && pt->prev->type != OP))
 			return (ft_error(pt->str));
 	}
 	else
 	{
 		if (!pt->prev || (pt->prev && pt->prev->is_oper))
 			return (ft_error(pt->str), 1);
-		if (pt->next && !pt->next->is_oper)
+		if (pt->next && !pt->next->is_oper && pt->next->type != CP)
 			return (ft_error(pt->str), 1);
 	}
 	return (0);
