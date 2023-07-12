@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 20:36:58 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/11 08:37:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:16:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,8 @@ void	_exec(t_tree *cmd, int in, int out, t_main *data)
 	if (_ft_dup2(out, STDOUT_FILENO))
 		return ;
 	if (execve(cmd->args[0], cmd->args, env_tabs(data->env)) == -1)
+	{
+		destroy_main(data, 1);
 		exit (errno);
+	}
 }

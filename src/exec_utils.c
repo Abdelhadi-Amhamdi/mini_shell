@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/12 13:17:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:28:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,16 @@ int	is_dir(char *str)
 	{
 		if (S_ISDIR(file_stat.st_mode))
 		{
-			ft_put_strerror(str, " : is a directory!");
 			if (str[0] == '.' || str[0] == '/')
+			{
+				ft_put_strerror(str, " : is a directory!");
 				g_exit_status = 126;
+			}
 			else
+			{
+				ft_put_strerror(str, " : command not found");
 				g_exit_status = 127;
+			}
 			return (1);
 		}
 		else if (S_ISREG(file_stat.st_mode))
@@ -112,7 +117,7 @@ char	**_args_tabs(t_tree *node, t_main *data)
 	if (path)
 		cmd_args[index++] = path;
 	if (node->str && node->type != CMD && is_dir(node->str))
-		return (free (cmd_args), NULL);
+		return (free (cmd_args), free(path), NULL);
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;
 	return (cmd_args);
