@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 20:33:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/11 09:20:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:53:24 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ t_tree	*factor(t_parser **list)
 	return (res);
 }
 
-void print_tree_helper(t_tree *ast, int depth)
+void	print_tree_helper(t_tree *ast, int depth)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
+
 	if (!ast)
 		return ;
 	print_tree_helper(ast->right , depth + 3);
@@ -43,7 +44,7 @@ void print_tree_helper(t_tree *ast, int depth)
 	if (ast->cmd_args)
 	{
 		tmp = ast->cmd_args;
-		while(tmp)
+		while (tmp)
 		{
 			if (tmp->type != W_SPACE)
 				printf("    {%s}", tmp->str);
@@ -54,10 +55,8 @@ void print_tree_helper(t_tree *ast, int depth)
 	print_tree_helper(ast->left, depth + 3);
 }
 
-void printTree(t_tree *root)
+void	printTree(t_tree *root)
 {
 	if (root)
-	{
 		print_tree_helper(root, 0);
-	}
 }

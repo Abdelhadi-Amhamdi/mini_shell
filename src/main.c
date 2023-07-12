@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/12 09:08:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:48:34 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ void	_files(t_tree *root, int t, t_main *data)
 			fd = open(root->right->str, O_RDONLY, 0644);
 		else if (root->type == APND)
 			fd = open(root->right->str, O_CREAT | O_RDWR | O_APPEND, 0644);
-		if (fd == -1)
-			ft_p_error(NFD, root->right, 1);
 		root->right->id = fd;
 	}
 	if ((root->type == RDIR || root->type == APND) && t == 2)

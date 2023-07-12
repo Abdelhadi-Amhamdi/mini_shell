@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   blocks_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 16:56:17 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/23 19:28:03 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:49:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ int	ft_check_next(t_lexer *node, char *file_name)
 	tmp = node;
 	while (tmp && tmp->type == W_SPACE)
 		tmp = tmp->next;
-	if (tmp && (tmp->type == CMD || tmp->type == UNK))
+	if (tmp && (tmp->type == CMD \
+	|| tmp->type == UNK || (tmp->type == RDIR && tmp->str[0] == '<')))
+	{
+		unlink(file_name);
 		return (0);
-	unlink(file_name);
+	}
 	return (1);
 }
 

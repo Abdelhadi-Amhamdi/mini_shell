@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 11:54:16 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/12 09:32:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int	check_key(char *key)
 	int	i;
 
 	i = 0;
-	if (key && (!ft_isalpha(key[i]) && key[i] != '_' && key[i] != '\\'
+	if (!key || !*key)
+		return (1);
+	if ((!ft_isalpha(key[i]) && key[i] != '_' && key[i] != '\\'
 			&& key[ft_strlen(key) - 1] != '+'))
 		return (1);
 	i++;
