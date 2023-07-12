@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:47:30 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 09:41:17 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:05:11 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,18 @@ int	check_path_exist(char *path, char **paths)
 	if (path_exist(path, paths))
 		return (0);
 	return (1);
+}
+
+void	_is_dir(char *str)
+{
+	if (str[0] == '.' || str[0] == '/')
+	{
+		ft_put_strerror(str, " : is a directory!");
+		g_exit_status = 126;
+	}
+	else
+	{
+		ft_put_strerror(str, " : command not found");
+		g_exit_status = 127;
+	}
 }
