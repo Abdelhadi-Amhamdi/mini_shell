@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 12:12:04 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/12 09:00:22 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,5 +234,6 @@ void				set_null_value(t_lexer	*tmp);
 void				p_error(char *str, t_lexer *tmp, int status);
 void				re_link_list(t_lexer *tmp, \
 t_lexer *new_list, t_lexer **list);
+void print_lexer(t_lexer *list);
 
 #endif

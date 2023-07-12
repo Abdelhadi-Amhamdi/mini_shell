@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 20:33:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/17 20:34:48 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/11 09:20:25 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,35 @@ t_tree	*factor(t_parser **list)
 		(*list) = (*list)->next;
 	}
 	return (res);
+}
+
+void print_tree_helper(t_tree *ast, int depth)
+{
+	t_lexer *tmp;
+	if (!ast)
+		return ;
+	print_tree_helper(ast->right , depth + 3);
+	for (int i = 0; i <= depth; i++)
+		printf(" ");
+	printf("[%s]", ast->str);
+	if (ast->cmd_args)
+	{
+		tmp = ast->cmd_args;
+		while(tmp)
+		{
+			if (tmp->type != W_SPACE)
+				printf("    {%s}", tmp->str);
+			tmp = tmp->next;
+		}
+	}
+	puts("");
+	print_tree_helper(ast->left, depth + 3);
+}
+
+void printTree(t_tree *root)
+{
+	if (root)
+	{
+		print_tree_helper(root, 0);
+	}
 }

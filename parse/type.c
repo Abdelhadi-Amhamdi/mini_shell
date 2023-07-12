@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:16:43 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 12:02:45 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 09:18:36 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,16 @@ t_type	check_type(t_lexer *node, char *path)
 	&& node->str[0] != '\'' && node->prev \
 	&& node->prev->type != HEREDOC && node->type != SQ)
 		return (VAR);
-	else if (node->str[0] == '*' && node->type != SQ && node->type != DQ)
+	else if (ft_strchr(node->str, '*') && node->type != SQ && node->type != DQ \
+	&& (node->prev && node->prev->type != HEREDOC))
 		return (WILDCARD);
 	else if (node->str[0] == '\'')
 		return (SQ);
 	else if (node->str[0] == '"')
 		return (DQ);
-	else if (node->str[0] == '(')
+	else if (!ft_strncmp(node->str, "(", 2))
 		return (OP);
-	else if (node->str[0] == ')')
+	else if (!ft_strncmp(node->str, ")", 2))
 		return (CP);
 	return (rest_of_types(node));
 }
