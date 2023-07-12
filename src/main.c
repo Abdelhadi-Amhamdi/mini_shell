@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/12 16:09:46 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:59:21 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	_files(t_tree *root, int t, t_main *data)
 	fd = -1;
 	_files(root->left, t, data);
 	if ((root->type == RDIR || root->type == APND) && t == 1)
-	{	
+	{
 		if (expand_vars(root->right, data))
 			return ;
 		if (root->type == RDIR && root->str[0] == '>')
@@ -101,16 +101,11 @@ void	_files(t_tree *root, int t, t_main *data)
 	_files(root->right, t, data);
 }
 
-void test()
-{
-	system("leaks minishell");
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char	*cmd;
 	t_main	*main;
-	// atexit(test);
+
 	main = init(envp, ac, av);
 	if (!main)
 		return (0);
@@ -124,7 +119,6 @@ int	main(int ac, char **av, char **envp)
 			main->ast = formater(cmd, main);
 			if (main->ast)
 			{
-				// printTree(main->ast);
 				executer(main->ast, main);
 				destroy_main(main, 0);
 			}
