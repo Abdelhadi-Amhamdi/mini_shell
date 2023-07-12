@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:25:59 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/12 11:46:20 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:42:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_opeators(t_lexer *op)
 				&& op->next->type != RDIR && op->next->type != HEREDOC
 				&& op->next->type != APND)))
 		return (ft_error(op->str));
-	if (!op->prev || op->prev->type == OP)
+	if ((!op->prev && op->type != HEREDOC) || op->prev->type == OP)
 		return (ft_error(op->str));
 	return (0);
 }
@@ -44,8 +44,10 @@ int	check_pth(t_lexer *pt)
 
 int	check_redir(t_lexer *rdir)
 {
-	if (!rdir->next || (rdir->next->type != UNK && rdir->next->type \
-	!= FL && rdir->next->type != WILDCARD && rdir->next->type != VAR))
+	if (!rdir->next || rdir->next->type == PIPE || rdir->next->type \
+	== RDIR || rdir->next->type == APND || rdir->next->type == AND || \
+	rdir->next->type == OR || rdir->next->type == OP || rdir->next->type \
+	== CP || rdir->next->type == HEREDOC)
 		return (ft_error(rdir->str));
 	return (0);
 }

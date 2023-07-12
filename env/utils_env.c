@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 23:16:04 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 21:22:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,10 @@ void	set_important_vars(t_env **env)
 	if (node)
 		ft_add_back_env(env, node);
 	node = ft_new_node(ft_strdup("_"), ft_strdup("/usr/bin/env"));
+	if (node)
+		ft_add_back_env(env, node);
+	node = ft_new_node(ft_strdup("PATH"), \
+	ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
 	if (node)
 		ft_add_back_env(env, node);
 }
