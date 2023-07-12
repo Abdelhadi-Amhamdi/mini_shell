@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:52:10 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 10:24:47 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/12 09:08:18 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,28 @@ int	ft_error(char *str)
 	return (1);
 }
 
+
+void print_parser(t_parser *list)
+{
+	t_parser *tmp;
+	t_lexer *args;
+
+	tmp = list;
+	while (tmp)
+	{
+		printf("str :[%s]\n", tmp->str);
+		args = tmp->args_list;
+		while (args)
+		{
+			printf("[%s] - ", args->str);
+			args = args->next;
+		}
+		puts("");
+		tmp = tmp->next;
+	}
+	
+}
+
 t_tree	*formater(char *cmd, t_main *data)
 {
 	t_parser	*tmp;
@@ -67,10 +89,12 @@ t_tree	*formater(char *cmd, t_main *data)
 		return (NULL);
 	if (ft_expander(&lexer_list, data->env))
 		return (_free_lexer(&lexer_list), NULL);
+	// print_lexer(lexer_list);
 	parser_list = parser(lexer_list, data);
 	if (!parser_list)
 		return (_free_lexer(&lexer_list), NULL);
 	_free_lexer(&lexer_list);
+	// print_parser(parser_list);
 	tmp = parser_list;
 	ast_tree = create_tree(&tmp);
 	_free_parser(&parser_list, 0);

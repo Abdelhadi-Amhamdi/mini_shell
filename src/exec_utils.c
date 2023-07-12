@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 10:12:21 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/11 09:22:04 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ char	**_args_tabs(t_tree *node, t_main *data)
 	path = _path(node, data);
 	if (path)
 		cmd_args[index++] = path;
-	if (node->str && is_dir(node->str))
-		return (free(path), free (cmd_args), NULL);
+	if (node->str && node->type != CMD && is_dir(node->str))
+		return (free (cmd_args), NULL);
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;
 	return (cmd_args);

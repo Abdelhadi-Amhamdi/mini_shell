@@ -73,7 +73,7 @@ void	set_important_vars(t_env **env)
 {
 	t_env	*node;
 
-	node = ft_new_node(ft_strdup("PWD"), getcwd(NULL, 0));
+	node = ft_new_node(ft_strdup("PWD"), ft_strdup(getcwd(NULL, 0)));
 	if (node)
 		ft_add_back_env(env, node);
 	node = ft_new_node(ft_strdup("SHLVL"), ft_strdup("1"));

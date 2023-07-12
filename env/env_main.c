@@ -60,7 +60,7 @@ void	add_oldpwd(t_env **envp)
 	oldpwd = ft_search_env(*envp, "OLDPWD");
 	if (!oldpwd)
 	{
-		new = ft_new_node("OLDPWD", NULL);
+		new = ft_new_node(ft_strdup("OLDPWD"), NULL);
 		ft_add_back_env(envp, new);
 	}
 }

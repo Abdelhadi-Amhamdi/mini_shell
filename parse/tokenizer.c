@@ -36,7 +36,7 @@ t_lexer	*tokenizer(char *cmd, char **paths)
 	t_lexer	*list;
 
 	list = NULL;
-	while (cmd && *cmd && is_space(*cmd))
+	while (cmd && *cmd != '\0' && is_space(*cmd))
 		cmd++;
 	while (cmd && *cmd != '\0')
 	{
