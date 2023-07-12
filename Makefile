@@ -6,7 +6,7 @@
 #    By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/25 22:57:11 by aamhamdi          #+#    #+#              #
-#    Updated: 2023/07/12 18:07:42 by aamhamdi         ###   ########.fr        #
+#    Updated: 2023/07/12 18:22:04 by aamhamdi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ b_path = builtins/
 srcs_path = src/
 env_path = env/
 
-CFLAGS = -Wall -Wextra -Werror #-Wuninitialized -fsanitize=address,undefined,integer
-CC = cc -g
+CFLAGS = -Wall -Wextra -Werror
+CC = cc
 
 p_header = parse/parsing.h
 m_header = includes/mini_shell.h
