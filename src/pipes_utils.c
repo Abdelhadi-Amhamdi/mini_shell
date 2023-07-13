@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 10:28:01 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/13 09:33:34 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	wait_for_last(t_tree *cmd_right)
 		cmd = cmd_right->left;
 	if (!cmd)
 		g_exit_status = -1;
-	else if (cmd->type == CMD && cmd->id != DONT_WAITPID)
+	else if (cmd->type == CMD)
 	{
 		waitpid(cmd->id, &status, 0);
 		if (WIFEXITED(status))
