@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:17:22 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 22:21:36 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:55:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	run_pipeline(t_tree *pipe_node, int out, t_main *data)
 	t_pipe_data	p_data;
 
 	fds = _ft_pipe(data);
+	p_data.is_rdir = false;
 	if (!fds)
 		return ;
 	p_data.out = -1;

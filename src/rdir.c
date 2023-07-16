@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/12 10:20:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/15 20:25:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,26 @@ void	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
 	int	fd;
 
 	fd = _get_rdir_file_fd(cmd);
+	if (!p_data.is_rdir)
+	{
+		p_data.out = 1;
+		p_data.is_rdir = true;
+	}
 	if (fd == -1)
 	{
 		ft_p_error(NFD, cmd->right, 1);
 		return ;
 	}
-	if (p_data.side == LEFT_CHILD && cmd->str[0] == '<')
+	if (cmd->str[0] == '<' && p_data.side == LEFT_CHILD)
 	{
 		p_data.std_file = STDIN_FILENO;
 		p_data.out = p_data.used_end;
 		p_data.used_end = fd;
 	}
-	else if (p_data.side == RIGHT_CHILD && cmd->str[0] == '>')
+	else if (p_data.side == RIGHT_CHILD && cmd->str[0] \
+	== '>' && p_data.out == 1)
 		p_data.out = fd;
-	else
+	else if (p_data.out == 1)
 		p_data.used_end = fd;
 	if (fd == -1)
 		return ;
@@ -110,5 +116,8 @@ void	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
 		exec_pipe_cmd(cmd->left, p_data, data);
 	else if (cmd->left && !cmd->left->is_op)
 		exec_pipe_unk(cmd->left, p_data, data);
+	else if (cmd->left && (cmd->left->type == RDIR \
+	|| cmd->left->type == APND))
+		exec_rdir_pipes(p_data, cmd->left, data);
 	close(fd);
 }

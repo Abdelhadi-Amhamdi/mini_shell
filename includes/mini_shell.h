@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/13 09:55:29 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:22:52 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_pdata
 	int			out;
 	int			std_file;
 	int			side;
+	t_boolean	is_rdir;
 }				t_pipe_data;
 
 typedef struct wildcard_data

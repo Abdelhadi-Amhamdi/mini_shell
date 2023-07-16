@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:32:37 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/13 09:33:34 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:54:53 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,11 @@ void	wait_for_last(t_tree *cmd_right)
 	int		signal_num;
 
 	cmd = cmd_right;
-	if (cmd_right->type == RDIR || cmd_right->type == APND)
+	while (cmd_right->type == RDIR || cmd_right->type == APND)
+	{
 		cmd = cmd_right->left;
+		cmd_right = cmd_right->left;
+	}
 	if (!cmd)
 		g_exit_status = -1;
 	else if (cmd->type == CMD)

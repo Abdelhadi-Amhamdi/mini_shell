@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 15:33:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 12:02:10 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/15 15:17:20 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ int	check_qoutes(t_lexer *list, char **paths)
 		}
 		else if (tmp->type == HEREDOC)
 		{
-			tmp = tmp->next;
-			if (tmp && (tmp->str[0] == '"' || tmp->str[0] == '\''))
+			if (tmp->next && \
+			(tmp->next->str[0] == '"' || tmp->next->str[0] == '\''))
 			{
-				if (check_and_trim(tmp, NULL))
+				if (check_and_trim(tmp->next, NULL))
 					return (1);
-				tmp->is_builtin = 0;
+				tmp->next->is_builtin = 0;
 			}
-			else
-				check_del(tmp);
+			else if (tmp->next)
+				check_del(tmp->next);
 		}
 		tmp = tmp->next;
 	}
