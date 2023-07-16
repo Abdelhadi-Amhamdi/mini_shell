@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/12 16:14:24 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/13 09:33:26 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # define ISD " : is a directory"
 
 # define DEL_HERDOC_NODE -11
-# define DONT_WAITPID -12
 # define PREINTABLE_SPACE -14
 # define DONT_REMOVESP -15
 # define DONT_EXPAND -16

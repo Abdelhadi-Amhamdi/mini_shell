@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 11:54:36 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/15 15:39:37 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ t_env	*ft_unset(t_tree *node, t_env *env)
 	t_env	*cur;
 	t_env	*prev;
 
-	i = 0;
+	i = -1;
 	if (!node)
 		return (env);
-	while (node->args[i])
+	while (node->args[++i])
 	{
 		cur = env_search(node->args[i], env);
 		if (cur)
@@ -56,10 +56,14 @@ t_env	*ft_unset(t_tree *node, t_env *env)
 				env->prev = NULL;
 			}
 			else
+			{
 				prev->next = cur->next;
+				if (cur->next)
+					cur->next->prev = prev;
+			}
 			del_env_node(cur);
 		}
-		i++;
 	}
 	return (env);
 }
+		// i++;
