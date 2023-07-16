@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:25:59 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/12 18:42:09 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/16 14:32:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	check_redir(t_lexer *rdir)
 	== RDIR || rdir->next->type == APND || rdir->next->type == AND || \
 	rdir->next->type == OR || rdir->next->type == OP || rdir->next->type \
 	== CP || rdir->next->type == HEREDOC)
+		return (ft_error(rdir->str));
+	if (rdir->prev && rdir->prev->prev && rdir->prev->prev->type == HEREDOC && !rdir->prev->prev->prev)
 		return (ft_error(rdir->str));
 	return (0);
 }
