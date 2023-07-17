@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/26 10:12:55 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:27:31 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,19 @@ void	ft_put_strerror(char *cmd, char *str)
 	ft_putendl_fd(str, 2);
 }
 
-void	perror_sstatus(int status, char *cmd)
+void	perror_sstatus(int status, t_boolean is_built)
 {
 	status = WEXITSTATUS(status);
 	if (status && g_exit_status == -1)
 		g_exit_status = status;
 	else if (status && g_exit_status != -1)
 	{
-		if (status != 1 && status != ENOENT)
-			printf("mini-sh: %s: %s\n", cmd, strerror(status));
-		if (status == ENOENT)
-		{
+		if (status == ENOENT && !is_built)
 			g_exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
-		}
-		else if (status == EACCES)
+		else if (status == EACCES && !is_built)
 			g_exit_status = NO_PERMISSIONS_EXIT_STATUS;
 		else
-			g_exit_status = FAILURE_EXIT_STATUS;
+			g_exit_status = status;
 	}
 	else
 		g_exit_status = SUCCESS_EXIT_STATUS;

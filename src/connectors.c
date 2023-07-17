@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:04:02 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/15 18:56:07 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:27:58 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	wait_for_child(t_tree *cmd)
 
 	waitpid(cmd->id, &status, 0);
 	if (WIFEXITED(status))
-		perror_sstatus(status, cmd->str);
+		perror_sstatus(status, cmd->is_builtin);
 	else
 	{
 		signal_num = WTERMSIG(status);

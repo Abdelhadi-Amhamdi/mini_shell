@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/15 16:22:52 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:27:44 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,12 @@ char			*none_str(t_tree *node, t_main *data, char **paths);
 void			_exec_unk(t_tree *cmd, int in, int out, t_main *data);
 void			_exec(t_tree *cmd, int in, int out, t_main *data);
 
-void			perror_sstatus(int status, char *cmd);
+void			perror_sstatus(int status, t_boolean is_built);
 
 int				_get_rdir_file_fd(t_tree *node);
 t_lexer			*creat_lexer_node(char *data);
 void			rdir_helper(t_tree *root, int in, int out, t_main *data);
+void			exec__rdir_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data);
 
 void			run_connectors(t_tree *root, int in, int out, t_main *data);
 
@@ -121,5 +122,6 @@ int				_ft_dup2(int new, int old);
 int				_ft_fork(void);
 int				expand_vars(t_tree *file, t_main *data);
 void			ft_put_strerror(char *cmd, char *str);
+t_tree			*get_cmd_node(t_tree *cmd_right);
 
 #endif

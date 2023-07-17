@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/15 15:39:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:37:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ t_env	*ft_unset(t_tree *node, t_env *env)
 	t_env	*prev;
 
 	i = -1;
-	if (!node)
-		return (env);
-	while (node->args[++i])
+	while (node && node->args[++i])
 	{
 		cur = env_search(node->args[i], env);
 		if (cur)
@@ -56,14 +54,11 @@ t_env	*ft_unset(t_tree *node, t_env *env)
 				env->prev = NULL;
 			}
 			else
-			{
 				prev->next = cur->next;
-				if (cur->next)
-					cur->next->prev = prev;
-			}
+			if (cur->next && prev)
+				cur->next->prev = prev;
 			del_env_node(cur);
 		}
 	}
 	return (env);
 }
-		// i++;
