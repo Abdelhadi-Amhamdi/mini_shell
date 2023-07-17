@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/17 15:27:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:20:44 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int				check_path_exist(char *path, char **paths);
 void			expand_var_to_cmd(t_tree *cmd, t_main *data);
 void			_files(t_tree *root, int t, t_main *data);
 void			_is_dir(char *str);
-int				is_file_or_dir(char *str);
+int				is_file_or_dir(char *str, char *path);
 char			*none_str(t_tree *node, t_main *data, char **paths);
 void			_exec_unk(t_tree *cmd, int in, int out, t_main *data);
 void			_exec(t_tree *cmd, int in, int out, t_main *data);
