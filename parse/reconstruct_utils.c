@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 23:14:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/25 22:23:17 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:11:22 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	_rebuild_node(t_lexer *tmp, char **paths)
 		free(tmp->path);
 	tmp->path = get_path(tmp->str, paths);
 	tmp->type = check_type(tmp, tmp->path);
+	tmp->is_builtin = is_builtin(tmp->str);
 	if ((tmp->type == SQ && tmp->next->type == VAR) \
 	|| (tmp->type == VAR && tmp->next->type == SQ))
 		tmp->type = VAR;

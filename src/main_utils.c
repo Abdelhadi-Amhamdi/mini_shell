@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/17 15:39:17 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:26:50 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	expand_vars(t_tree *file, t_main *data)
 					return (ft_p_error(ISD, file, -1), free(tmp), 1);
 			}
 		}
+		free(tmp);
 	}
 	return (0);
 }

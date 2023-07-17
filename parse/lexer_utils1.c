@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 19:57:36 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/25 14:28:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:46:15 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*get_path(char *cmd, char **paths)
 	char	*full_path;
 	int		index;
 
+	if (cmd && (cmd[0] == '.' || cmd[0] == '/'))
+		return (NULL);
 	command = ft_strjoin("/", cmd);
 	index = 0;
 	if (!command || !paths)
