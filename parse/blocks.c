@@ -62,8 +62,7 @@ t_lexer	*handle_heredoc_case(t_lexer *arg, t_parser **parser_list, t_main *data)
 			}
 			arg = arg->next->next;
 		}
-		// if (ft_check_next(arg, file_name))
-			heredoc_to_inrdir(parser_list, file_name);
+		heredoc_to_inrdir(parser_list, file_name);
 		free (file_name);
 	}
 	return (next_arg(arg));

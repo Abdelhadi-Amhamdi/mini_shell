@@ -89,7 +89,7 @@ void	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
 	int	fd;
 
 	fd = _get_rdir_file_fd(cmd);
-	if (!p_data.is_rdir)
+	if (!p_data.is_rdir && cmd->str[0] == '>')
 	{
 		p_data.out = 1;
 		p_data.is_rdir = true;
@@ -105,10 +105,9 @@ void	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
 		p_data.out = p_data.used_end;
 		p_data.used_end = fd;
 	}
-	else if (p_data.side == RIGHT_CHILD && cmd->str[0] \
-	== '>' && p_data.out == 1)
+	else if (cmd->str[0] == '>' && p_data.out == 1)
 		p_data.out = fd;
-	else if (p_data.out == 1)
+	else if (cmd->str[0] == '<')
 		p_data.used_end = fd;
 	if (fd == -1)
 		return ;
