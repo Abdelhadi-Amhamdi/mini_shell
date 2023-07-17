@@ -6,7 +6,7 @@
 #    By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/25 22:57:11 by aamhamdi          #+#    #+#              #
-#    Updated: 2023/07/16 14:19:23 by aamhamdi         ###   ########.fr        #
+#    Updated: 2023/07/17 14:25:10 by aamhamdi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ e_header = env/env.h
 b_header = builtins/builtins.h
 
 libft = libft.a
-L = -L/usr/local/Cellar/readline/8.2.1/lib
-I = -I/usr/local/Cellar/readline/8.2.1/include
+L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
 
 p_src = lexer.c p_main.c parser.c lexer_utils.c expander.c \
 lexer_utils1.c lexer_utils2.c expander_utils.c tokenizer.c tokenizer_utils.c \
@@ -43,7 +43,7 @@ env_src = env_main.c utils_env.c
 
 src = main.c executer.c exec_utils.c  connectors.c heredoc.c rdir.c \
 pipes.c signals.c wildcards.c main_utils.c pipes_utils.c heredoc_utils.c \
-exec_utils1.c
+exec_utils1.c rdir_utils.c
 
 g_src = get_next_line.c get_next_line_utils.c
 

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:47:30 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/12 18:05:11 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:57:35 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,19 @@ void	_is_dir(char *str)
 		ft_put_strerror(str, " : command not found");
 		g_exit_status = 127;
 	}
+}
+
+t_tree	*get_cmd_node(t_tree *cmd_right)
+{
+	t_tree	*tmp;
+	t_tree	*cmd;
+
+	tmp = cmd_right;
+	cmd = tmp;
+	while (tmp && (tmp->type == RDIR || tmp->type == APND))
+	{
+		cmd = tmp->left;
+		tmp = tmp->left;
+	}
+	return (cmd);
 }

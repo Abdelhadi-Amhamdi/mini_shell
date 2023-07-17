@@ -6,12 +6,11 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/15 20:25:08 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:25:42 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
-#include <sys/wait.h>
 
 t_lexer	*creat_lexer_node(char *data)
 {
@@ -109,14 +108,6 @@ void	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
 		p_data.out = fd;
 	else if (cmd->str[0] == '<')
 		p_data.used_end = fd;
-	if (fd == -1)
-		return ;
-	if (cmd->left && cmd->left->type == CMD)
-		exec_pipe_cmd(cmd->left, p_data, data);
-	else if (cmd->left && !cmd->left->is_op)
-		exec_pipe_unk(cmd->left, p_data, data);
-	else if (cmd->left && (cmd->left->type == RDIR \
-	|| cmd->left->type == APND))
-		exec_rdir_pipes(p_data, cmd->left, data);
+	exec__rdir_cmd(cmd, p_data, data);
 	close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/16 14:40:25 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:26:54 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,33 +101,6 @@ void	_files(t_tree *root, int t, t_main *data)
 	_files(root->right, t, data);
 }
 
-void	printTreeHelper(t_tree *root, int depth)
-{
-	int		i;
-	t_lexer	*tmp;
-
-	if (!root)
-		return ;
-	printTreeHelper(root->right, depth + 2);
-	i = 0;
-	tmp = root->cmd_args;
-	while (i++ < depth)
-		printf("  ");
-	printf("[%s]", root->str);
-	while (tmp)
-	{
-		printf("{%s} -", tmp->str);
-		tmp = tmp->next;
-	}
-	puts("");
-	printTreeHelper(root->left, depth + 2);
-}
-
-void	printTree(t_tree *root)
-{
-	printTreeHelper(root, 0);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char	*cmd;
@@ -146,7 +119,6 @@ int	main(int ac, char **av, char **envp)
 			main->ast = formater(cmd, main);
 			if (main->ast)
 			{
-				printTree(main->ast);
 				executer(main->ast, main);
 				destroy_main(main, 0);
 			}

@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 16:56:17 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/16 15:17:02 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:47:19 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,24 @@ t_lexer	*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
 		t_lexer **args_list)
 {
 	t_lexer	*tmp;
-	t_lexer	*tmp1;
 
-	tmp1 = NULL;
-	if (arg->type != HEREDOC)
+	while (arg && (arg->type == RDIR || arg->type == APND))
 	{
 		add_node_to_list(parser_list, create_parser_node(arg, 1));
 		arg = arg->next;
 		add_node_to_list(parser_list, create_parser_node(arg, 1));
 		arg = arg->next;
 	}
-	else
+	if (arg && arg->type == HEREDOC)
 		arg = arg->next->next;
 	while (arg && arg->type == W_SPACE && arg->id != PREINTABLE_SPACE)
 		arg = arg->next;
-	if (arg && (arg->type == RDIR || arg->type == APND))
-	{
-		tmp1 = arg;
-		while (arg && (arg->type == W_SPACE || arg->type == FL || arg->type == RDIR || arg->type == APND))
-			arg = arg->next;
-	}
 	while (arg && !arg->is_oper && arg->type != CP && arg->type != OP)
 	{
 		tmp = ft_nodedup(arg);
 		add_token_to_end(args_list, tmp);
 		arg = arg->next;
 	}
-	if (tmp1)
-		return (tmp1);
 	return (arg);
 }
 
