@@ -30,20 +30,17 @@ t_lexer	*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
 		arg = arg->next->next;
 	while (arg && arg->type == W_SPACE && arg->id != PREINTABLE_SPACE)
 		arg = arg->next;
-	while (arg && (!arg->is_oper || arg->type == RDIR || arg->type == APND) && arg->type != CP && arg->type != OP)
+	if (arg && (arg->type == RDIR || arg->type == APND))
 	{
-		if (arg->type == RDIR)
-		{
-			tmp1 = arg;
-			while (arg && (arg->type == W_SPACE || arg->type == FL || arg->type == RDIR || arg->type == APND))
-				arg = arg->next;
-		}
-		if (arg)
-		{
-			tmp = ft_nodedup(arg);
-			add_token_to_end(args_list, tmp);
+		tmp1 = arg;
+		while (arg && (arg->type == W_SPACE || arg->type == FL || arg->type == RDIR || arg->type == APND))
 			arg = arg->next;
-		}
+	}
+	while (arg && !arg->is_oper && arg->type != CP && arg->type != OP)
+	{
+		tmp = ft_nodedup(arg);
+		add_token_to_end(args_list, tmp);
+		arg = arg->next;
 	}
 	if (tmp1)
 		return (tmp1);

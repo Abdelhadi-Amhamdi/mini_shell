@@ -103,10 +103,11 @@ t_tree	*term(t_parser **list)
 		(*list) = (*list)->next;
 		right = factor(list);
 		res = create_token_node(op, res, right);
+		if (!res->left)
+			break ;
 	}
-	if (res && !res->left && res->is_op && (res->type == APND \
-	|| res->type == RDIR) && *list
-		&& (*list)->type != CP)
-			res->left = term(list);
+	if (res && !res->left && res->is_op && (res->type == APND || res->type \
+	== RDIR) && *list && (*list)->type != CP)
+		res->left = term(list);
 	return (res);
 }

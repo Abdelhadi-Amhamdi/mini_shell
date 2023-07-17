@@ -49,8 +49,6 @@ int	check_redir(t_lexer *rdir)
 	rdir->next->type == OR || rdir->next->type == OP || rdir->next->type \
 	== CP || rdir->next->type == HEREDOC)
 		return (ft_error(rdir->str));
-	if (rdir->prev && rdir->prev->prev && rdir->prev->prev->type == HEREDOC && !rdir->prev->prev->prev)
-		return (ft_error(rdir->str));
 	return (0);
 }
 

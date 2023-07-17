@@ -58,7 +58,8 @@ char	*ft_quotes(t_lexer **list, char *cmd, char c, char **paths)
 	i = 1;
 	while (cmd[i] && cmd[i] != c)
 		i++;
-	i++;
+	if (cmd[i])
+		i++;
 	new = create_token(cmd, i, paths);
 	add_token_to_end(list, new);
 	return (&cmd[i]);

@@ -100,6 +100,7 @@ void	_files(t_tree *root, int t, t_main *data)
 		close(root->right->id);
 	_files(root->right, t, data);
 }
+
 void	printTreeHelper(t_tree *root, int depth)
 {
 	int		i;
