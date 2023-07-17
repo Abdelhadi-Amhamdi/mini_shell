@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/17 15:27:31 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:39:17 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ void	perror_sstatus(int status, t_boolean is_built)
 		if (status == ENOENT && !is_built)
 			g_exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
 		else if (status == EACCES && !is_built)
+		{
+			ft_putstr_fd("mini-sh: ", 2);
+			ft_putendl_fd(strerror(status), 2);
 			g_exit_status = NO_PERMISSIONS_EXIT_STATUS;
+		}
 		else
 			g_exit_status = status;
 	}
