@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/17 16:26:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:20:35 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_main	*init(char **env, int ac, char **av)
 	if (!data)
 		return (NULL);
 	data->env = get_env_vars(env);
+	data->cwd = getcwd(NULL, 0);
 	data->ast = NULL;
 	data->pipes = NULL;
 	signal(SIGINT, sig_int_handler);

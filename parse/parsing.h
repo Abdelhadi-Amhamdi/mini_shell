@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/13 09:33:26 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/19 18:25:10 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct main
 	t_tree			*ast;
 	t_env			*env;
 	t_pipes			*pipes;
+	char			*cwd;
 }					t_main;
 
 t_tree				*formater(char *cmd, t_main *data);

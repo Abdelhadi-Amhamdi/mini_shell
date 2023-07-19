@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:29:12 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/11 21:09:28 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:49:36 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	run_cmd(t_tree *cmd, int in, int out, t_main *data)
 int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 {
 	if (!ft_strncmp(cmd->str, "cd", 2))
-		return (ft_cd(*env, cmd));
+		return (ft_cd(*env, cmd, data));
 	else if (!ft_strncmp(cmd->str, "env", 3))
 		return (ft_env(*env, out));
 	else if (!ft_strncmp(cmd->str, "unset", 6))
@@ -43,7 +43,7 @@ int	exec_builtin(t_tree	*cmd, t_env	**env, t_main *data, int out)
 	else if (!ft_strncmp(cmd->str, "echo", 5))
 		return (ft_echo(cmd, out));
 	else if (!ft_strncmp(cmd->str, "pwd", 3))
-		return (ft_pwd(*env, out));
+		return (ft_pwd(*env, out, data));
 	else if (!ft_strncmp(cmd->str, "exit", 5))
 		return (ft_exit(cmd, data));
 	return (0);

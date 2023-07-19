@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/06/21 17:10:22 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/19 13:01:15 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	formate_env_item(char **key, char **val, char *item)
 	else
 	{
 		if (item[ft_strlen(item) - 1] == '+')
+		{
 			*key = NULL;
+		}
 		else
 			*key = ft_strdup(item);
 		*val = NULL;
@@ -55,12 +57,19 @@ void	formate_env_item(char **key, char **val, char *item)
 void	add_oldpwd(t_env **envp)
 {
 	t_env	*oldpwd;
+	t_env	*pwd;
 	t_env	*new;
 
 	oldpwd = ft_search_env(*envp, "OLDPWD");
+	pwd = ft_search_env(*envp, "PWD");
 	if (!oldpwd)
 	{
 		new = ft_new_node(ft_strdup("OLDPWD"), NULL);
+		ft_add_back_env(envp, new);
+	}
+	if(!pwd)
+	{
+		new = ft_new_node(ft_strdup("PWD"), getcwd(NULL,0));
 		ft_add_back_env(envp, new);
 	}
 }
@@ -99,6 +108,9 @@ t_env	*get_env_vars(char **envp)
 			ft_add_back_env(&env, node);
 		index++;
 	}
+	node = ft_new_node(ft_strdup("PWD1"), getcwd(NULL,0));
+		if (node)
+			ft_add_back_env(&env, node);
 	add_oldpwd(&env);
 	return (env);
 }
