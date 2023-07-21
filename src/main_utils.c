@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/17 16:26:50 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:35:16 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_main	*init(char **env, int ac, char **av)
 	data->env = get_env_vars(env);
 	data->ast = NULL;
 	data->pipes = NULL;
+	data->open = 0;
 	signal(SIGINT, sig_int_handler);
 	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
