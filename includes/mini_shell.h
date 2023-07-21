@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/17 15:27:44 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:41:40 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct wildcard_data
 void			run_pipeline(t_tree *pipe_node, int out, t_main *data);
 void			run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data,
 					t_main *data);
-void			exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data);
+int				exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data);
 void			exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data);
 void			exec_cmd(t_tree *node, t_main *data);
 t_pipes			*pipe_node_create(int **pipe);
@@ -74,7 +74,7 @@ int				check_path_exist(char *path, char **paths);
 void			expand_var_to_cmd(t_tree *cmd, t_main *data);
 void			_files(t_tree *root, int t, t_main *data);
 void			_is_dir(char *str);
-int				is_file_or_dir(char *str);
+int				is_file_or_dir(char *str, char *path);
 char			*none_str(t_tree *node, t_main *data, char **paths);
 void			_exec_unk(t_tree *cmd, int in, int out, t_main *data);
 void			_exec(t_tree *cmd, int in, int out, t_main *data);

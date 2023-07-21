@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/13 09:33:26 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/21 11:51:04 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ typedef struct main
 	t_tree			*ast;
 	t_env			*env;
 	t_pipes			*pipes;
+	int				open;
+	char			*cwd;
 }					t_main;
 
 t_tree				*formater(char *cmd, t_main *data);
@@ -130,20 +132,11 @@ void				ft_free(char **tabs);
 void				add_token_to_end(t_lexer **head, t_lexer *new_token);
 t_lexer				*create_token(char *str, int len, char **paths);
 void				print_token_list(t_lexer *head);
-char				**args_filter(char *str);
-char				*filter_args_helper(char *str);
-size_t				count_new_args_size(char *str);
-char				*check_args(char *str);
 t_type				check_type(t_lexer *lexer_item, char *path);
 int					is_var(t_lexer *node);
 int					is_builtin(char *cmd);
 char				*get_path(char *cmd, char **paths);
-int					check_op_prev(char *str, int i);
-int					check_op_next(char *str, int i);
-int					is_container(char c);
-int					is_special_char(char c);
 int					compare(t_lexer *item, char *oper);
-char				**ft_mini_split(const char *src, char c);
 t_lexer				*get_last_token(t_lexer *list);
 int					is_operator(char c);
 void				ft_trim_quotes(t_lexer *node);
@@ -171,7 +164,6 @@ char				*ft_quotes(t_lexer **list, char *cmd, char c, char **paths);
 char				*ft_variable(t_lexer **list, char *cmd, char **paths);
 
 t_parser			*parser(t_lexer *list, t_main *data);
-void				print_parser_list(t_parser *list);
 t_parser			*create_blocks(t_lexer *lexer_list, t_main *data);
 t_lexer				*ft_nodedup(t_lexer *node);
 void				add_node_to_list(t_parser **list, t_parser *item);
@@ -189,7 +181,6 @@ t_lexer				*handle_rdir_case(t_parser **parser_list, t_lexer *arg,
 
 int					ft_expander(t_lexer **list, t_env *env);
 char				*expand(char *var, t_env *envp);
-int					validate_cmd(char *cmd);
 void				ft_expand_vars(t_lexer **list, t_env *envp, t_lexer *tmp);
 int					ft_expand_wildcards(t_lexer **list);
 char				*extarct_expand(char *cmd, int *i);
@@ -222,8 +213,6 @@ t_tree				*create_tree(t_parser **list);
 t_tree				*termx(t_parser **list);
 t_tree				*term(t_parser **list);
 t_tree				*factor(t_parser **list);
-void				printTreeHelper(t_tree *root, int depth);
-void				printTree(t_tree *root);
 
 int					ft_char_search(char *str, char c);
 int					ft_last_char_search(char *str, char c);

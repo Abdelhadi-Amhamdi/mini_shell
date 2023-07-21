@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:31:26 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/12 18:06:55 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:20:27 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ void	copy_args_(t_lexer *list, char **tabs, int *i)
 	*i = index;
 }
 
-int	is_file_or_dir(char *str)
+int	is_file_or_dir(char *str, char *path)
 {
 	struct stat	file_stat;
 
-	if (stat(str, &file_stat) == 0)
+	if (!path && stat(str, &file_stat) == 0)
 	{
 		if (S_ISDIR(file_stat.st_mode))
 		{
@@ -107,7 +107,7 @@ char	**_args_tabs(t_tree *node, t_main *data)
 	path = _path(node, data);
 	if (path)
 		cmd_args[index++] = path;
-	if (node->str && node->type != CMD && is_file_or_dir(node->str))
+	if (node->str && node->type != CMD && is_file_or_dir(node->str, node->path))
 		return (free (cmd_args), free(path), NULL);
 	copy_args_(node->cmd_args, cmd_args, &index);
 	cmd_args[index] = NULL;

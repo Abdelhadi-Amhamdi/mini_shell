@@ -1,0 +1,5 @@
+export P=l
+export a=ls b=wc
+export a
+export a=
+HOME="a" && cd
