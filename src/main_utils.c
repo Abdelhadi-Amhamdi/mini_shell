@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/19 16:35:16 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/21 11:50:43 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_main	*init(char **env, int ac, char **av)
 	if (!data)
 		return (NULL);
 	data->env = get_env_vars(env);
+	data->cwd = getcwd(NULL, 0);
 	data->ast = NULL;
 	data->pipes = NULL;
 	data->open = 0;

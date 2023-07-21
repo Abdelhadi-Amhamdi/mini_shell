@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 13:19:06 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/06/26 11:49:33 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:35:09 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_exist(t_env *node, t_env *env)
 {
 	while (env)
 	{
-		if ((!ft_strncmp(node->key, env->key, (ft_strlen(node->key)))))
+		if ((!ft_strncmp(node->key, env->key, (ft_strlen(node->key) + 1))))
 			return (1);
 		env = env->next;
 	}

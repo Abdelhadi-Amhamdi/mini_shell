@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/12 09:32:40 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:39:56 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,31 +19,31 @@ t_env	*search_node(t_env *node, t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->key, node->key, ft_strlen(node->key)))
+		if (!ft_strncmp(tmp->key, node->key, ft_strlen(node->key) + 1))
 			return (tmp);
 		tmp = tmp->next;
 	}
-	return (tmp);
+	return (NULL);
 }
 
 int	check_key(char *key)
 {
 	int	i;
+	int	len;
 
 	i = 0;
 	if (!key || !*key)
 		return (1);
-	if ((!ft_isalpha(key[i]) && key[i] != '_' && key[i] != '\\'
-			&& key[ft_strlen(key) - 1] != '+'))
+	len = ft_strlen(key) - 1;
+	if (((!ft_isalpha(key[i]) && key[i] != '_' && key[i] != '\\')
+			|| (key[len] != '+' && !ft_isalnum(key[len]) && key[i] != '_'
+				&& key[len] != '\\')))
 		return (1);
 	i++;
-	while (key[i])
+	while (key[i] && key[i + 1])
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_' && key[i] != '\\')
-		{
-			if (key[ft_strlen(key) - 1] != '+')
-				return (1);
-		}
+			return (1);
 		i++;
 	}
 	return (0);
@@ -74,13 +74,18 @@ void	add_new_env_node(char *key, char *value, t_env **env)
 	if (node->key[ft_strlen(node->key) - 1] == '+')
 		_appand_var(node, *env);
 	if (node && !is_exist(node, *env))
+	{
 		ft_add_back_env(env, node);
+	}
 	else if (node && is_exist(node, *env) && node->value)
 	{
 		cur = search_node(node, *env);
-		tmp = cur->value;
-		cur->value = ft_strdup(node->value);
-		free(tmp);
+		if (cur)
+		{
+			tmp = cur->value;
+			cur->value = ft_strdup(node->value);
+			free(tmp);
+		}
 		del_env_node(node);
 	}
 	else
