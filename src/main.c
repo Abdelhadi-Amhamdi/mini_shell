@@ -88,7 +88,11 @@ void	_files(t_tree *root, int t, t_main *data)
 	if ((root->type == RDIR || root->type == APND) && t == 1 && !data->open)
 	{
 		if (expand_vars(root->right, data))
+		{
+			data->open = 2;
+			ft_p_error(AME, root->right, 1);
 			return ;
+		}
 		if (root->type == RDIR && root->str[0] == '>')
 			fd = open(root->right->str, O_CREAT | O_TRUNC | O_RDWR, 0644);
 		else if (root->type == RDIR && root->str[0] == '<')
@@ -140,7 +144,7 @@ int	main(int ac, char **av, char **envp)
 			main->ast = formater(cmd, main);
 			if (main->ast)
 			{
-				printTree(main->ast);
+				// printTree(main->ast);
 				executer(main->ast, main);
 				destroy_main(main, 0);
 			}

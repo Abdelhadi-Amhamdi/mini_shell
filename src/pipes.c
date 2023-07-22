@@ -131,10 +131,6 @@ void	run_pipeline(t_tree *pipe_node, int out, t_main *data)
 		close(out);
 	close(fds[PIPE_WRITE_END]);
 	close(fds[PIPE_READ_END]);
-	if (out == 1)
-	{
+	if (out == 1 && !data->open)
 		wait_for_last(pipe_node->right);
-		if (g_exit_status == -1)
-			g_exit_status = 0;
-	}
 }
