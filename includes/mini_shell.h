@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/19 16:41:40 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:01:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void			_exec(t_tree *cmd, int in, int out, t_main *data);
 
 void			perror_sstatus(int status, t_boolean is_built);
 
-int				_get_rdir_file_fd(t_tree *node);
+int				_get_rdir_file_fd(t_tree *node, int open);
 t_lexer			*creat_lexer_node(char *data);
 void			rdir_helper(t_tree *root, int in, int out, t_main *data);
 void			exec__rdir_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data);
