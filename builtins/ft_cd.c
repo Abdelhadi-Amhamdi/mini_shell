@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/22 10:47:19 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/22 11:17:05 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ int	ft_cd_helper(t_env *home, t_tree	*path, t_main *data)
 {
 	char	*ret;
 	char	*tmp;
+	t_env	*pwd;
+	t_env	*oldpwd;
 
+	pwd = ft_search_env(data->env, "PWD");
+	oldpwd = ft_search_env(data->env, "OLDPWD");
 	if (path->args[0][0] == '~' && home)
 		path->args[0] = update_path(&path->args[0][1], home->value);
 	if (chdir(path->args[0]) == -1)
@@ -66,9 +70,15 @@ int	ft_cd_helper(t_env *home, t_tree	*path, t_main *data)
 		ft_putendl_fd("cannot access parent directories: \
 		No such file or directory", 2);
 		tmp = data->cwd;
+		if(oldpwd)
+			oldpwd->value = ft_strdup(data->cwd);
 		data->cwd = ft_strjoin(data->cwd, "/..");
+		if(pwd)
+			pwd->value = ft_strdup(data->cwd);
 		free(tmp);
 	}
+	if (pwd && ret)
+		change_old_value(pwd);
 	return (0);
 }
 
@@ -95,7 +105,5 @@ int	ft_cd(t_env *env, t_tree *path, t_main *data)
 		if (ft_cd_helper(home, path, data) == 1)
 			return (1);
 	}
-	if (pwd)
-		change_old_value(pwd);
 	return (0);
 }
