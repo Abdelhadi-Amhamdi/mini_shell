@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/22 09:50:34 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:14:08 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	change_old_value(t_env *node)
 	free(new);
 }
 
-int	ft_cd_helper(char *home, t_tree	*path, t_main *data)
+int	ft_cd_helper(t_env *home, t_tree	*path, t_main *data)
 {
 	char	*ret;
 	char	*tmp;

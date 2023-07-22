@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:21:57 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/22 09:41:04 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:13:22 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_lexer	*lexer(char *cmd, t_env *env)
 	clean_spaces(&list);
 	set_tokens_ids(&list);
 	will_expand(&list);
-	check_variables(*list);
+	check_variables(list);
 	ft_free(paths);
 	return (list);
 }

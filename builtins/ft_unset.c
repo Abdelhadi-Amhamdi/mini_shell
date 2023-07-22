@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/22 10:06:25 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:14:42 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*env_search(char *arg, t_env *env)
 
 void	del_env_node(t_env *node)
 {
-	if(!node)
+	if (!node)
 		return ;
 	free(node->key);
 	free(node->value);
@@ -65,9 +65,7 @@ t_env	*ft_unset(t_tree *node, t_env *env)
 	while (node && node->args[++i])
 	{
 		if (!check_key(node->args[i]))
-		{
-			ft_unset_helper(node, env, &i)
-		}
+			ft_unset_helper(node, env, &i);
 		else
 			ft_putendl_fd("unset: not a valid identifier", 2);
 	}
