@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/22 10:14:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:35:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,22 @@ void	ft_unset_helper(t_tree *node, t_env *env, int *i)
 	}
 }
 
-t_env	*ft_unset(t_tree *node, t_env *env)
+int	ft_unset(t_tree *node, t_env *env)
 {
 	int	i;
+	int	status;
 
 	i = -1;
+	status = 0;
 	while (node && node->args[++i])
 	{
 		if (!check_key(node->args[i]))
 			ft_unset_helper(node, env, &i);
 		else
+		{
 			ft_putendl_fd("unset: not a valid identifier", 2);
+			status = 1;
+		}
 	}
-	return (env);
+	return (status);
 }

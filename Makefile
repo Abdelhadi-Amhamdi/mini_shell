@@ -6,7 +6,7 @@
 #    By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/25 22:57:11 by aamhamdi          #+#    #+#              #
-#    Updated: 2023/07/22 10:11:28 by aamhamdi         ###   ########.fr        #
+#    Updated: 2023/07/22 10:38:13 by aamhamdi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ b_path = builtins/
 srcs_path = src/
 env_path = env/
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 CC = cc -g
 
 L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib

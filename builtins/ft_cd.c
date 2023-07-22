@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/22 09:50:34 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:47:19 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	change_old_value(t_env *node)
 	free(new);
 }
 
-int	ft_cd_helper(char *home, t_tree	*path, t_main *data)
+int	ft_cd_helper(t_env *home, t_tree	*path, t_main *data)
 {
 	char	*ret;
 	char	*tmp;
@@ -62,8 +62,9 @@ int	ft_cd_helper(char *home, t_tree	*path, t_main *data)
 	}
 	else
 	{
-		ft_putendl_fd("cd: error retrieving current directory: getcwd: \
-		cannot access parent directories: No such file or directory", 2);
+		ft_putstr_fd("cd: error retrieving current directory: getcwd: ", 2);
+		ft_putendl_fd("cannot access parent directories: \
+		No such file or directory", 2);
 		tmp = data->cwd;
 		data->cwd = ft_strjoin(data->cwd, "/..");
 		free(tmp);
