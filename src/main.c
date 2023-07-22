@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/22 09:38:46 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:11:10 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_main	*destroy_main(t_main *main, int t)
 	if (main->pipes)
 		destroy_pipes(main->pipes);
 	main->pipes = NULL;
+	main->open = 0;
 	if (t == 1)
 	{
 		destroy_env(main->env);
@@ -85,7 +86,7 @@ void	_files(t_tree *root, int t, t_main *data)
 		return ;
 	fd = -1;
 	_files(root->left, t, data);
-	if ((root->type == RDIR || root->type == APND) && t == 1)
+	if ((root->type == RDIR || root->type == APND) && t == 1 && !data->open)
 	{
 		if (expand_vars(root->right, data))
 			return ;
@@ -96,8 +97,12 @@ void	_files(t_tree *root, int t, t_main *data)
 		else if (root->type == APND)
 			fd = open(root->right->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 		root->right->id = fd;
+		if (fd == -1)
+			data->open = 1;
 	}
-	if ((root->type == RDIR || root->type == APND) && t == 2)
+	else if (data->open && t == 1 && (root->type == RDIR || root->type == APND))
+		root->right->id = -2;
+	else if ((root->type == RDIR || root->type == APND) && t == 2)
 		close(root->right->id);
 	_files(root->right, t, data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:35:19 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/19 15:20:35 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 09:52:01 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	perror_sstatus(int status, t_boolean is_built)
 	{
 		if (status == ENOENT && !is_built)
 			g_exit_status = COMMAND_NOT_FOUND_EXIT_STATUS;
-		else if (status == EACCES && !is_built)
+		else if ((status == EACCES || status == ENOTDIR) && !is_built)
 		{
 			ft_putstr_fd("mini-sh: ", 2);
 			ft_putendl_fd(strerror(status), 2);
@@ -66,6 +66,7 @@ t_main	*init(char **env, int ac, char **av)
 	data->cwd = getcwd(NULL, 0);
 	data->ast = NULL;
 	data->pipes = NULL;
+	data->open = 0;
 	signal(SIGINT, sig_int_handler);
 	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
@@ -82,18 +83,18 @@ int	expand_vars(t_tree *file, t_main *data)
 		tmp = file->str;
 		file->str = expand(file->str, data->env);
 		if (!file->str)
-		{
-			file->id = -1;
-			return (free (tmp), 1);
-		}
+			return (ft_p_error(AME, file, 1), file->id = -1, \
+			free (tmp), data->open = 2);
 		else if (contain_spaces(file->str))
-			return (ft_p_error(AME, file, -1), free(tmp), 1);
+			return (ft_p_error(AME, file, 1), free(tmp), \
+			file->id = -1, data->open = 2);
 		else
 		{
 			if (stat(file->str, &file_stat) == 0)
 			{
 				if (S_ISDIR(file_stat.st_mode))
-					return (ft_p_error(ISD, file, -1), free(tmp), 1);
+					return (ft_p_error(ISD, file, 1), file->id = -1, \
+					free(tmp), data->open = 2);
 			}
 		}
 		free(tmp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:13:34 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/17 17:20:44 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:01:08 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct wildcard_data
 void			run_pipeline(t_tree *pipe_node, int out, t_main *data);
 void			run_pipe(t_tree *cmd, int *pipe, t_pipe_data p_data,
 					t_main *data);
-void			exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data);
+int				exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data);
 void			exec_pipe_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data);
 void			exec_cmd(t_tree *node, t_main *data);
 t_pipes			*pipe_node_create(int **pipe);
@@ -81,7 +81,7 @@ void			_exec(t_tree *cmd, int in, int out, t_main *data);
 
 void			perror_sstatus(int status, t_boolean is_built);
 
-int				_get_rdir_file_fd(t_tree *node);
+int				_get_rdir_file_fd(t_tree *node, int open);
 t_lexer			*creat_lexer_node(char *data);
 void			rdir_helper(t_tree *root, int in, int out, t_main *data);
 void			exec__rdir_cmd(t_tree *cmd, t_pipe_data p_data, t_main *data);

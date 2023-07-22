@@ -75,7 +75,7 @@ void	wait_for_last(t_tree *cmd_right)
 
 	cmd = get_cmd_node(cmd_right);
 	if (!cmd)
-		g_exit_status = -1;
+		g_exit_status = 0;
 	else if (cmd->type == CMD)
 	{
 		waitpid(cmd->id, &status, 0);

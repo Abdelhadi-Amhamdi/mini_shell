@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
 /*   Updated: 2023/07/22 11:17:05 by aagouzou         ###   ########.fr       */
@@ -66,8 +66,9 @@ int	ft_cd_helper(t_env *home, t_tree	*path, t_main *data)
 	}
 	else
 	{
-		ft_putendl_fd("cd: error retrieving current directory: getcwd: \
-		cannot access parent directories: No such file or directory", 2);
+		ft_putstr_fd("cd: error retrieving current directory: getcwd: ", 2);
+		ft_putendl_fd("cannot access parent directories: \
+		No such file or directory", 2);
 		tmp = data->cwd;
 		if(oldpwd)
 			oldpwd->value = ft_strdup(data->cwd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:23:56 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/21 11:52:36 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:12:09 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	check_key(char *key)
 				&& key[len] != '\\')))
 		return (1);
 	i++;
-	while (key[i + 1])
+	while (key[i] && key[i + 1])
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_' && key[i] != '\\')
 			return (1);
