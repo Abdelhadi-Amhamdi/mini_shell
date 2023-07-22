@@ -46,9 +46,10 @@ void	rdir_helper(t_tree *root, int in, int out, t_main *data)
 	int	fd;
 
 	fd = _get_rdir_file_fd(root);
-	if (fd == -1)
+	if (data->open)
 	{
-		ft_p_error(NFD, root->right, 1);
+		if (data->open == 1)
+			ft_p_error(NFD, root->right, 1);
 		return ;
 	}
 	if (root->str[0] == '>')
@@ -88,8 +89,10 @@ int	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
 	int	fd;
 
 	fd = _get_rdir_file_fd(cmd);
-	if (fd == -1 || data->open)
+	if (fd == -1 && data->open == 1)
 		return (ft_p_error(NFD, cmd->right, 1), 0);
+	else if (data->open == 2)
+		return (0);
 	if (!p_data.is_rdir && cmd->str[0] == '>')
 	{
 		p_data.out = 1;
