@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 11:44:05 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/19 18:26:26 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 09:10:24 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_cd(t_env *env, t_tree *path, t_main *data)
 	t_env	*oldpwd;
 	t_env	*pwd;
 	char	*ret;
+	char	*tmp;
 
 	home = ft_search_env(env, "HOME");
 	oldpwd = ft_search_env(env, "OLDPWD");
@@ -57,7 +58,10 @@ int	ft_cd(t_env *env, t_tree *path, t_main *data)
 	if (oldpwd)
 		change_old_value(oldpwd);
 	if (!path->args[0] && home)
-		chdir(home->value);
+	{
+		if (chdir(home->value) == -1)
+			return (perror("cd"), 1);
+	}
 	else if (!path->args[0] && !home)
 		return (ft_putendl_fd("mini-sh: cd: HOME not set", 2), 1);
 	else
@@ -68,12 +72,18 @@ int	ft_cd(t_env *env, t_tree *path, t_main *data)
 			return (perror("cd"), 1);
 		ret = getcwd(NULL, 0);
 		if (ret)
+		{
+			tmp = data->cwd;
 			data->cwd = ret;
+			free(tmp);
+		}
 		else
 		{
-			ft_putendl_fd("cd: error retrieving current directory: getcwd:\
+			ft_putendl_fd("cd: error retrieving current directory: getcwd: \
 			cannot access parent directories: No such file or directory", 2);
+			tmp = data->cwd;
 			data->cwd = ft_strjoin(data->cwd, "/..");
+			free(tmp);
 		}
 	}
 	if (pwd)

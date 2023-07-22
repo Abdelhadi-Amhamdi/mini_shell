@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:18:29 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/19 13:01:15 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 09:09:23 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void	add_oldpwd(t_env **envp)
 		new = ft_new_node(ft_strdup("OLDPWD"), NULL);
 		ft_add_back_env(envp, new);
 	}
-	if(!pwd)
+	if (!pwd)
 	{
-		new = ft_new_node(ft_strdup("PWD"), getcwd(NULL,0));
+		new = ft_new_node(ft_strdup("PWD"), getcwd(NULL, 0));
 		ft_add_back_env(envp, new);
 	}
 }
@@ -108,9 +108,6 @@ t_env	*get_env_vars(char **envp)
 			ft_add_back_env(&env, node);
 		index++;
 	}
-	node = ft_new_node(ft_strdup("PWD1"), getcwd(NULL,0));
-		if (node)
-			ft_add_back_env(&env, node);
 	add_oldpwd(&env);
 	return (env);
 }

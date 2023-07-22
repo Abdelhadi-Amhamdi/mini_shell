@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 13:25:44 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/19 18:26:02 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 09:10:54 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	ft_pwd(t_env *envp, int out, t_main *data)
 		free(path);
 	}
 	else if (errno == ENOENT)
+	{
 		ft_putendl_fd(data->cwd, out);
+	}
 	return (0);
 }

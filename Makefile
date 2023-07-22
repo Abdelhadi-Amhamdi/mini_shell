@@ -6,7 +6,7 @@
 #    By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/25 22:57:11 by aamhamdi          #+#    #+#              #
-#    Updated: 2023/07/17 16:52:51 by aagouzou         ###   ########.fr        #
+#    Updated: 2023/07/22 09:06:09 by aagouzou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ b_path = builtins/
 srcs_path = src/
 env_path = env/
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-Wuninitialized -fsanitize=address,undefined,integer -g
 CC = cc
 
 p_header = parse/parsing.h

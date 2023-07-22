@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:20:25 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/19 20:47:34 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/22 09:07:49 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ void				ft_addup_to_list(t_lexer *new, t_lexer **list,
 int					get_lenght(char *s, int *index);
 void				add_middle_node(t_lexer *new, t_lexer *prev, t_lexer *next,
 						t_lexer *last);
-
+void				check_variables(t_lexer	*list);
 int					check_opeators(t_lexer *op);
 int					check_pth(t_lexer *pt);
 int					check_redir(t_lexer *rdir);

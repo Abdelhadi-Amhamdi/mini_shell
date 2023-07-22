@@ -6,7 +6,7 @@
 /*   By: aagouzou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:47:42 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/20 20:06:19 by aagouzou         ###   ########.fr       */
+/*   Updated: 2023/07/21 16:57:52 by aagouzou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	ft_expander(t_lexer **list, t_env *env)
 
 	tmp = *list;
 	paths = all_paths(env);
+	check_variables(*list);
 	if (check_qoutes(*list, paths) || check_pths(*list))
 	{
 		g_exit_status = SYNTAX_ERROR_EXIT_STATUS;
