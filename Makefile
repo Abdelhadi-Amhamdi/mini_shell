@@ -6,7 +6,7 @@
 #    By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/25 22:57:11 by aamhamdi          #+#    #+#              #
-#    Updated: 2023/07/19 18:07:07 by aamhamdi         ###   ########.fr        #
+#    Updated: 2023/07/22 10:38:13 by aamhamdi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,8 @@ env_path = env/
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 CC = cc -g
 
-L = -L/usr/local/Cellar/readline/8.2.1/lib
-I = -I/usr/local/Cellar/readline/8.2.1/include
+L = -L/Users/aamhamdi/.brew/Cellar/readline/8.2.1/lib
+I = -I/Users/aamhamdi/.brew/Cellar/readline/8.2.1/include
 
 p_header = parse/parsing.h
 m_header = includes/mini_shell.h

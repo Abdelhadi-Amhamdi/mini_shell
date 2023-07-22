@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:47 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/19 17:11:13 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:09:19 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ t_lexer	*creat_lexer_node(char *data)
 	return (node);
 }
 
-int	_get_rdir_file_fd(t_tree *node)
+int	_get_rdir_file_fd(t_tree *node, int open)
 {
 	t_tree	*right;
 
 	if (node && node->right)
 	{
 		right = node->right;
+		if (right->id == -1 && open == 1)
+			ft_p_error(NFD, right, 1);
 		return (right->id);
 	}
 	return (-1);
@@ -45,13 +47,9 @@ void	rdir_helper(t_tree *root, int in, int out, t_main *data)
 {
 	int	fd;
 
-	fd = _get_rdir_file_fd(root);
-	if (data->open)
-	{
-		if (data->open == 1)
-			ft_p_error(NFD, root->right, 1);
+	fd = _get_rdir_file_fd(root, data->open);
+	if (fd == -1)
 		return ;
-	}
 	if (root->str[0] == '>')
 	{
 		if (out != 1)
@@ -88,10 +86,8 @@ int	exec_rdir_pipes(t_pipe_data p_data, t_tree *cmd, t_main *data)
 {
 	int	fd;
 
-	fd = _get_rdir_file_fd(cmd);
-	if (fd == -1 && data->open == 1)
-		return (ft_p_error(NFD, cmd->right, 1), 0);
-	else if (data->open == 2)
+	fd = _get_rdir_file_fd(cmd, data->open);
+	if (fd == -1)
 		return (0);
 	if (!p_data.is_rdir && cmd->str[0] == '>')
 	{
