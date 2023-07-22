@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:49:28 by aamhamdi          #+#    #+#             */
-/*   Updated: 2023/07/22 09:52:37 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:11:10 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ t_main	*destroy_main(t_main *main, int t)
 	{
 		destroy_env(main->env);
 		main->env = NULL;
+		free(main->cwd);
 		free(main);
 		main = NULL;
 	}

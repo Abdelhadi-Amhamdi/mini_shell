@@ -6,7 +6,7 @@
 /*   By: aamhamdi <aamhamdi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:54:35 by aagouzou          #+#    #+#             */
-/*   Updated: 2023/07/17 13:37:17 by aamhamdi         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:14:13 by aamhamdi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,39 @@ void	del_env_node(t_env *node)
 	free(node);
 }
 
-t_env	*ft_unset(t_tree *node, t_env *env)
+void	ft_unset_helper(t_tree *node, t_env *env, int *i)
 {
-	int		i;
 	t_env	*cur;
 	t_env	*prev;
+
+	cur = env_search(node->args[*i], env);
+	if (cur)
+	{
+		prev = cur->prev;
+		if (!prev)
+		{
+			env = cur->next;
+			env->prev = NULL;
+		}
+		else
+			prev->next = cur->next;
+		if (cur->next && prev)
+			cur->next->prev = prev;
+		del_env_node(cur);
+	}
+}
+
+t_env	*ft_unset(t_tree *node, t_env *env)
+{
+	int	i;
 
 	i = -1;
 	while (node && node->args[++i])
 	{
-		cur = env_search(node->args[i], env);
-		if (cur)
-		{
-			prev = cur->prev;
-			if (!prev)
-			{
-				env = cur->next;
-				env->prev = NULL;
-			}
-			else
-				prev->next = cur->next;
-			if (cur->next && prev)
-				cur->next->prev = prev;
-			del_env_node(cur);
-		}
+		if (!check_key(node->args[i]))
+			ft_unset_helper(node, env, &i);
+		else
+			ft_putendl_fd("unset: not a valid identifier", 2);
 	}
 	return (env);
 }
